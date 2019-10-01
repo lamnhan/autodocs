@@ -5,10 +5,14 @@
   "author": "Lam Nhan",
   "homepage": "https://lamnhan.com",
   "license": "MIT",
-  "main": "dist/src/index.js",
-  "typings": "dist/src/index.d.ts",
+  "main": "./src/public-api.js",
+  "typings": "./src/public-api.d.ts",
+  "bin": {
+    "autodocs": "./src/index.js"
+  },
   "files": [
-    "dist"
+    "src",
+    "!**/*.ts"
   ],
   "scripts": {
     "compile": "tsc -p .",
@@ -32,7 +36,10 @@
     "url": "https://github.com/lamnhan/autodocs/issues"
   },
   "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^3.0.2",
     "fs-extra": "^8.1.0",
+    "prettier": "^1.18.2",
     "typedoc": "^0.15.0"
   },
   "devDependencies": {
@@ -40,6 +47,7 @@
     "@types/fs-extra": "^8.0.0",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.7.5",
+    "@types/prettier": "^1.18.2",
     "chai": "^4.2.0",
     "coveralls": "^3.0.6",
     "gts": "^1.1.0",

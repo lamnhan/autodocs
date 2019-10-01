@@ -1,7 +1,9 @@
 node_modules/
 
 # dist
-dist/
+src/**/*.js
+src/**/*.map
+test/**/*.js
 
 # test
 .nyc_output/
