@@ -1,0 +1,51 @@
+{
+  "name": "@lamnhan/autodocs",
+  "version": "0.0.1",
+  "description": "Document generator for Typescript projects.",
+  "author": "Lam Nhan",
+  "homepage": "https://lamnhan.com",
+  "license": "MIT",
+  "main": "dist/src/index.js",
+  "typings": "dist/src/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "compile": "tsc -p .",
+    "lint": "gts check",
+    "fix": "gts fix",
+    "build": "npm run compile",
+    "docs": "typedoc src --out docs --mode file --readme none --excludeNotExported --excludePrivate --excludeProtected",
+    "test": "npm run compile && nyc --cache false mocha test/**/*.js",
+    "coverage": "nyc --cache false report --reporter=text-lcov | coveralls"
+  },
+  "keywords": [
+    "docs",
+    "typescript",
+    "typedoc"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lamnhan/autodocs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lamnhan/autodocs/issues"
+  },
+  "dependencies": {
+    "fs-extra": "^8.1.0",
+    "typedoc": "^0.15.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.3",
+    "@types/fs-extra": "^8.0.0",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.7.5",
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.6",
+    "gts": "^1.1.0",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3"
+  }
+}
