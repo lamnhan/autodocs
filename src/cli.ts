@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import * as commander from 'commander';
 
-export class CLIApp {
+export class CLI {
 
   constructor() {}
 
