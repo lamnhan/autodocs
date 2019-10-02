@@ -4,7 +4,8 @@
     "docs/": true,
     ".nyc_output/": true,
     "src/**/*.js": true,
-    "src/**/*.map": true,
-    "test/**/*.js": true
+    "test/**/*.js": true,
+    "**/*.d.ts": true,
+    "**/*.map": true
   }
 }

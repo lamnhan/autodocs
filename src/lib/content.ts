@@ -1,11 +1,36 @@
-import { EOL } from 'os';
+import { EOL as _EOL } from 'os';
 import { readFile } from 'fs-extra';
 import { format } from 'prettier';
 const matchAll = require('match-all');
 
+export interface TOCItem {
+  title: string;
+  anchor: string;
+  level?: number;
+}
+
+export interface ListItem {
+  title: string;
+  description: string;
+}
+
+export interface DetailListItem {
+  title: string;
+  description: string;
+  content?: string;
+  parts?: string[];
+}
+
 export class Content {
 
+  EOL = _EOL;
+  EOL2X = _EOL.repeat(2);
+
   constructor() {}
+  
+  eol(repeat = 1) {
+    return this.EOL.repeat(repeat);
+  }
 
   contentBetween(
     input: string,
@@ -50,13 +75,14 @@ export class Content {
     return format(content, { parser: 'markdown' });
   }
 
+  generateMDContent(content: string[]) {
+    return this.formatMDContent(content.join(this.EOL2X));
+  }
+
   generateMDTable(headers: string[], content: string[][]) {
-    const rows: string[] = [];
-    content.forEach(item => {
-      // escape '|'
-      item.map(x => x.replace(/\|/g, '\\|'));
-      // save row
-      rows.push(`| ${item.join(' | ')} |`);
+    const rows = content.map(cells => {
+      cells.map(x => (x || '').replace(/\|/g, '\\|')); // escape '|'
+      return `| ${cells.join(' | ')} |`;
     });
     return this.formatMDContent(
       [
@@ -64,8 +90,29 @@ export class Content {
         `| --- | --- | --- |`,
         ... rows,
       ]
-      .join(EOL),
+      .join(this.EOL),
     );
+  }
+
+  generateMDList(items: ListItem[]) {
+    const rows = items.map(({ title, description = '' }) =>
+      `- ${title}: ${description}`,
+    );
+    return this.formatMDContent(rows.join(this.EOL));
+  }
+
+  generateMDDetailList(items: DetailListItem[]) {
+    const rows = items.map(({ title, description, content = '', parts = [] }) =>
+      [ title, description, content, ...parts, '---', ].join(this.EOL2X)
+    );
+    return this.formatMDContent(rows.join(this.EOL2X));
+  }
+
+  generateMDTOC(items: TOCItem[]) {
+    const rows = items.map(({ title, anchor, level = 1 }) =>
+      `${'  '.repeat(level - 1)}- [${title}](#${anchor})`,
+    );
+    return this.formatMDContent(rows.join(this.EOL));
   }
 
 }

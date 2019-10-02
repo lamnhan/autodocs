@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { CLI } from './cli';
+import { CLI } from './cli/index';
 
 const cliApp = new CLI().getApp();
 
