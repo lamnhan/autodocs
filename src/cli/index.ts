@@ -5,7 +5,6 @@ import { Autodocs } from '../lib/main';
 import { DocsCommand } from './docs';
 
 export class CLI {
-
   private lib: Autodocs;
   private docsCommand: DocsCommand;
 
@@ -33,9 +32,10 @@ export class CLI {
     commander
       .command('*')
       .description('Any other command is not supported.')
-      .action((cmd: string) => console.error(chalk.red(`Unknown command '${cmd}'`)));
+      .action((cmd: string) =>
+        console.error(chalk.red(`Unknown command '${cmd}'`))
+      );
 
     return commander;
   }
-
 }

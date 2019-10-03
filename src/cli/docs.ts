@@ -1,7 +1,6 @@
 import { Autodocs } from '../lib/main';
 
 export class DocsCommand {
-
   private lib: Autodocs;
 
   constructor(lib: Autodocs) {
@@ -9,16 +8,17 @@ export class DocsCommand {
   }
 
   docs() {
-    const x = this.lib.getDocs('src/lib/types.ts').getInterface('Options');
-    console.log(x.renderFull());
+    const t1 = this.lib.getInterface('Options');
+    // const t2 = this.lib.getClass('Main');
+    console.log(t1.renderFull());
+    // console.log(t2.getMethodsData());
   }
 
   api() {
-    return this.lib.getSRCDocs().generateDocs('docs');
+    return this.lib.generateDocs('docs');
   }
 
   readme() {
     console.log('readme');
   }
-
 }

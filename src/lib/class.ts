@@ -1,30 +1,47 @@
-import { DeclarationReflection, ReflectionKind } from 'typedoc';
-
-import { Docs } from './docs';
+import { ReflectionKind, DeclarationReflection, Typedoc } from './typedoc';
+import { Content } from './content';
 
 export class Class {
+  private typedoc: Typedoc;
+  private content: Content;
 
-  private docs: Docs;
+  typedocClass: DeclarationReflection;
 
-  classDeclaration: DeclarationReflection;
+  constructor(typedoc: Typedoc, content: Content, name: string) {
+    this.typedoc = typedoc;
+    this.content = content;
+    // get the interface
+    this.typedocClass = this.typedoc.getDeclaration(name);
+  }
 
-  constructor(docs: Docs, name?: string) {
-    this.docs = docs;
-    this.classDeclaration = this.docs.typedoc.getDeclaration(name);
+  getClass() {
+    return this.typedocClass;
+  }
+
+  getClassData() {
+    return this.typedoc.parseDeclaration(this.typedocClass);
   }
 
   getProperties() {
-    return this.docs.typedoc.getDeclarationChildren(
-      this.classDeclaration,
-      ReflectionKind.Property,
+    return this.typedoc.getDeclarationChildren(
+      this.typedocClass,
+      ReflectionKind.Property
+    );
+  }
+
+  getPropertiesData() {
+    return this.getProperties().map(property =>
+      this.typedoc.parseDeclaration(property)
     );
   }
 
   getMethods() {
-    return this.docs.typedoc.getDeclarationChildren(
-      this.classDeclaration,
-      ReflectionKind.Method,
-    );
+    return this.typedoc
+      .getDeclarationChildren(this.typedocClass, ReflectionKind.Method)
+      .map(({ signatures = [] }) => signatures[0]);
   }
 
+  getMethodsData() {
+    return this.getMethods().map(method => this.typedoc.parseSignature(method));
+  }
 }

@@ -9,11 +9,16 @@ import {
 } from 'typedoc';
 import { Type, ReferenceType, Comment } from 'typedoc/dist/lib/models';
 
-export type SRCInput = string | string[];
+import { Project } from './project';
+
+export * from 'typedoc';
+export * from 'typedoc/dist/lib/models';
+
+export type SrcInput = string | string[];
 
 export interface TypeData {
   type: string;
-  typeLink?: string;
+  typeUrl?: string;
 }
 
 export interface ReflectionData {
@@ -35,13 +40,20 @@ export interface SignatureData extends ReflectionData, TypeData {
 }
 
 export class Typedoc {
+  private project: Project;
 
-  app: Application;
-  project: ProjectReflection;
+  typedocApp: Application;
+  typedocProject: ProjectReflection;
 
-  constructor(src: SRCInput = 'src', configs = {}) {
-    // init app
-    this.app = new Application({
+  constructor(project: Project) {
+    this.project = project;
+    // init typedoc
+    this.typedocApp = this.createApp();
+    this.typedocProject = this.createProject(this.typedocApp, 'src');
+  }
+
+  createApp(configs = {}) {
+    return new Application({
       // default
       mode: 'file',
       logger: 'none',
@@ -56,26 +68,31 @@ export class Typedoc {
       // custom
       ...configs,
     });
+  }
+
+  createProject(app: Application, src: SrcInput) {
     //  init project
-    const projectReflection = this.app.convert(
-      this.app.expandInputFiles(typeof src === 'string' ? [src] : src),
+    const projectReflection = app.convert(
+      app.expandInputFiles(typeof src === 'string' ? [src] : src)
     );
     if (!projectReflection) {
       throw new Error('Typedoc convert failed.');
     }
-    this.project = projectReflection;
+    return projectReflection;
   }
 
   generateDocs(out: string) {
-    return this.app.generateDocs(this.project, out);
-  }
-  
-  getReflections(kind?: ReflectionKind) {
-    return !!kind ? this.project.getChildrenByKind(kind) : this.project.children || [];
+    return this.typedocApp.generateDocs(this.typedocProject, out);
   }
 
-  getReflection(name?: string) {
-    const member = !!name ? this.project.getChildByName(name) : this.getReflections()[0];
+  getReflections(kind?: ReflectionKind) {
+    return !!kind
+      ? this.typedocProject.getChildrenByKind(kind)
+      : this.typedocProject.children || [];
+  }
+
+  getReflection(name: string) {
+    const member = this.typedocProject.getChildByName(name);
     if (!member) {
       throw new Error('No member found.');
     }
@@ -86,27 +103,58 @@ export class Typedoc {
     return this.getReflections(kind) as DeclarationReflection[];
   }
 
-  getDeclaration(name?: string) {
+  getDeclaration(name: string) {
     return this.getReflection(name) as DeclarationReflection;
   }
-  
-  getDeclarationChildren(declaration: DeclarationReflection, kind?: ReflectionKind) {
-    return !!kind ? declaration.getChildrenByKind(kind) : declaration.children || [];
+
+  getDeclarationChildren(
+    declaration: DeclarationReflection,
+    kind?: ReflectionKind
+  ) {
+    return !!kind
+      ? declaration.getChildrenByKind(kind)
+      : declaration.children || [];
   }
 
-  buildLink(name: string, kind: ReflectionKind) {
-    // TODO: build full link
+  getTypeUrl(name: string, kind: ReflectionKind) {
     name = name.toLowerCase();
-    // build link
-    let link = '';
+    // build url
+    let url = `globals.html#${name}`;
     if (kind === ReflectionKind.Interface) {
-      link = `interfaces/${name}.html`;
+      url = `interfaces/${name}.html`;
     } else if (kind === ReflectionKind.Class) {
-      link = `classes/${name}.html`;
-    } else {
-      link = `globals.html#${name}`;
+      url = `classes/${name}.html`;
     }
-    return link;
+    // result
+    const { url: webUrl } = this.project.getOptions();
+    return webUrl + '/' + url;
+  }
+
+  getReflectionLink(name: string, kind: ReflectionKind, parent?: Reflection) {
+    name = name.toLowerCase();
+    // interface/class props
+    if (
+      !!parent &&
+      (parent.kind === ReflectionKind.Interface ||
+        parent.kind === ReflectionKind.Class)
+    ) {
+      return this.getTypeUrl(parent.name, parent.kind) + '#' + name;
+    }
+    // class methods
+    else if (
+      !!parent && // the method
+      !!parent.parent && // the class
+      parent.kind === ReflectionKind.Method &&
+      parent.name === name
+    ) {
+      return (
+        this.getTypeUrl(parent.parent.name, parent.parent.kind) + '#' + name
+      );
+    }
+    // interface | class | globals
+    else {
+      return this.getTypeUrl(name, kind);
+    }
   }
 
   parseType(type?: Type) {
@@ -117,21 +165,21 @@ export class Typedoc {
       if (type.type === 'reference') {
         const { reflection } = type as ReferenceType;
         const { name, kind } = reflection as Reflection;
-        typeData.typeLink = this.buildLink(name, kind);
+        typeData.typeUrl = this.getTypeUrl(name, kind);
       }
     }
     return typeData;
   }
-  
+
   parseReflection(reflection: Reflection) {
-    const { name, kind, comment = {} } = reflection;
+    const { name, kind, comment = {}, parent } = reflection;
     const { shortText = '', text = '', returns = '' } = comment as Comment;
     return {
       name,
       shortText: shortText.replace(/(?:\r\n|\r|\n)/g, ' '),
       text,
       returns,
-      link: this.buildLink(name, kind),
+      link: this.getReflectionLink(name, kind, parent),
     } as ReflectionData;
   }
 
@@ -148,7 +196,9 @@ export class Typedoc {
   }
 
   parseParameter(parameter: ParameterReflection) {
-    return this.parseDeclaration(parameter as DeclarationReflection) as ParameterData;
+    return this.parseDeclaration(
+      parameter as DeclarationReflection
+    ) as ParameterData;
   }
 
   parseSignature(signature: SignatureReflection) {
@@ -158,10 +208,9 @@ export class Typedoc {
     const typeData = this.parseType(signature.type);
     // parameters
     const parameters: ParameterData[] = [];
-    (signature.parameters || []).forEach(
-      param => parameters.push(this.parseParameter(param)),
+    (signature.parameters || []).forEach(param =>
+      parameters.push(this.parseParameter(param))
     );
     return { ...reflectionData, ...typeData, parameters } as SignatureData;
   }
-
 }
