@@ -1,19 +1,19 @@
 import { EOL } from 'os';
-import { readFile, outputFile } from 'fs-extra';
+import { readFile, readFileSync, outputFile } from 'fs-extra';
 import { format as prettierFormater } from 'prettier';
 const matchAll = require('match-all');
 
-export interface Section {
-  [name: string]: string;
+export interface ContentBySections {
+  [sectionName: string]: string;
 }
 
 export type Block = BlockHeader | BlockText | BlockList | BlockTable;
 
 export interface Header {
+  id: string;
   level: number;
   title: string;
   link?: string;
-  anchor?: string;
 }
 export interface BlockHeader {
   type: 'header';
@@ -26,7 +26,7 @@ export interface BlockText {
   data: Text;
 }
 
-export type List = string[][];
+export type List = Array<[string, string]>;
 export interface BlockList {
   type: 'list';
   data: List;
@@ -47,6 +47,10 @@ export class Content {
     return readFile(path, 'utf-8');
   }
 
+  readFileSync(path: string) {
+    return readFileSync(path, 'utf-8');
+  }
+
   async writeFile(path: string, content: string) {
     return outputFile(path, content);
   }
@@ -55,45 +59,57 @@ export class Content {
     content: string,
     prefix: string,
     suffix: string,
-    includePrefix = true,
-    includeSuffix = true
+    includePrefix = false,
+    includeSuffix = false
   ) {
     let prefixIndex = content.indexOf(prefix);
     let suffixIndex = content.indexOf(suffix);
-    if (prefixIndex < 0 || suffixIndex < 0 || suffixIndex <= prefixIndex) {
+    // invalid
+    if (
+      prefixIndex < 0 ||
+      suffixIndex < 0 ||
+      suffixIndex <= prefixIndex
+    ) {
       return '';
-    } else {
-      if (!includePrefix) {
-        prefixIndex = prefixIndex + prefix.length;
-      }
-      if (includeSuffix) {
-        suffixIndex = suffixIndex + suffix.length;
-      }
-      return content.substring(prefixIndex, suffixIndex);
     }
+    // valid
+    if (!includePrefix) {
+      prefixIndex = prefixIndex + prefix.length;
+    }
+    if (includeSuffix) {
+      suffixIndex = suffixIndex + suffix.length;
+    }
+    return content.substring(prefixIndex, suffixIndex);
+  }
+
+  getSectionOpening(name: string) {
+    return `<!-- <section:${name}> -->`;
+  }
+
+  getSectionClosing(name: string) {
+    return `<!-- </section:${name}> -->`;
   }
 
   extractSections(content: string) {
-    const sections: Section = {};
+    const result: ContentBySections = {};
     const sectionNames = matchAll(
       content,
       /\<section\:([a-zA-Z0-9]+)\>/gi
     ).toArray();
     for (const name of sectionNames) {
-      sections[name] = this.contentBetween(
-        content,
-        `<!-- <section:${name}> -->`,
-        `<!-- </section:${name}> -->`
-      );
+      const opening = this.getSectionOpening(name);
+      const closing = this.getSectionClosing(name);
+      // save content
+      result[name] = this.contentBetween(content, opening, closing);
     }
-    return sections;
+    return result;
   }
 
   format(content: string) {
     return prettierFormater(content, { parser: 'markdown' });
   }
 
-  anchor(title: string) {
+  buildId(title: string) {
     return title
       .trim()
       .toLowerCase()
@@ -102,10 +118,10 @@ export class Content {
       .replace(/\-+$/, '');
   }
 
-  buildHeader(level: number, title: string, link?: string, anchor?: string) {
+  buildHeader(id: string, level: number, title: string, link?: string) {
     return {
       type: 'header',
-      data: { level, title, link, anchor },
+      data: { id, level, title, link },
     } as BlockHeader;
   }
 
@@ -126,9 +142,8 @@ export class Content {
     const rows: string[] = [];
     blocks.forEach(({ type, data }) => {
       if (type === 'header') {
-        const { title, level, anchor: headerAnchor } = data as Header;
-        const anchor = headerAnchor || this.anchor(title);
-        rows.push(`${'  '.repeat(level - 1)}- [${title}](#${anchor})`);
+        const { id, title, level } = data as Header;
+        rows.push(`${'  '.repeat(level - 1)}- [${title}](#${id})`);
       }
     });
     return this.format(rows.join(EOL));
@@ -159,10 +174,9 @@ export class Content {
     return content;
   }
 
-  renderHeader({ title, level, link, anchor: headerAnchor }: Header) {
-    const anchor = headerAnchor || this.anchor(title);
+  renderHeader({ id, title, level, link }: Header) {
     const h = 'h' + level;
-    const a = `a name="${anchor}"` + (!!link ? ` href="${link}"` : ``);
+    const a = `a name="${id}"` + (!!link ? ` href="${link}"` : ``);
     return this.format(`<${h}><${a}>${title}</a></${h}>`);
   }
 

@@ -8,14 +8,11 @@ export class DocsCommand {
   }
 
   docs() {
-    const t1 = this.lib.getInterface('Options');
-    // const t2 = this.lib.getClass('Main');
-    console.log(t1.renderFull());
-    // console.log(t2.getMethodsData());
+    this.lib.Renderer.render();
   }
 
   api() {
-    return this.lib.generateDocs('docs');
+    return this.lib.generateDocs();
   }
 
   readme() {

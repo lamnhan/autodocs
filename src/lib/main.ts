@@ -1,30 +1,53 @@
-import { Project } from './project';
-import { Content } from './content';
-import { Typedoc } from './typedoc';
+import { Options } from './types';
+import { Project } from './services/project';
+import { Typedoc } from './services/typedoc';
+import { Content } from './services/content';
+import { Parser } from './services/parser';
+import { Renderer } from './services/renderer';
 
-import { Interface } from './interface';
-import { Class } from './class';
+class Main {
+  private $Project: Project;
+  private $Typedoc: Typedoc;
+  private $Content: Content;
+  private $Parser: Parser;
+  private $Renderer: Renderer;
 
-export class Autodocs {
-  project: Project;
-  content: Content;
-  typedoc: Typedoc;
-
-  constructor() {
-    this.project = new Project();
-    this.content = new Content();
-    this.typedoc = new Typedoc(this.project);
+  constructor(options?: Options) {
+    this.$Project = new Project(options);
+    this.$Typedoc = new Typedoc(this.$Project);
+    this.$Content = new Content();
+    this.$Parser = new Parser(this.$Typedoc, this.$Content);
+    this.$Renderer = new Renderer(
+      this.$Content,
+      this.$Parser,
+      this.$Project.OPTIONS.files,
+    );
   }
 
-  generateDocs(out = 'docs') {
-    return this.typedoc.generateDocs(out);
+  get Project() {
+    return this.$Project;
   }
 
-  getInterface(name: string) {
-    return new Interface(this.typedoc, this.content, name);
+  get Typedoc() {
+    return this.$Typedoc;
   }
 
-  getClass(name: string) {
-    return new Class(this.typedoc, this.content, name);
+  get Content() {
+    return this.$Content;
+  }
+
+  get Parser() {
+    return this.$Parser;
+  }
+
+  get Renderer() {
+    return this.$Renderer;
+  }
+
+  generateDocs() {
+    const { out } = this.Project.OPTIONS;
+    return this.Typedoc.generateDocs(out as string);
   }
 }
+
+export { Main as Autodocs };
