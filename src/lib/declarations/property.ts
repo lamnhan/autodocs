@@ -1,4 +1,4 @@
-import { DeclarationReflection, Typedoc } from '../services/typedoc';
+import { Reflection, Typedoc } from '../services/typedoc';
 import { Content } from '../services/content';
 
 import { VariableData, Variable } from './variable';
@@ -10,9 +10,9 @@ export class Property extends Variable {
   constructor(
     $Typedoc: Typedoc,
     $Content: Content,
-    declaration: DeclarationReflection
+    reflection: Reflection
   ) {
-    super($Typedoc, $Content, declaration);
+    super($Typedoc, $Content, reflection);
   }
 
   getData() {

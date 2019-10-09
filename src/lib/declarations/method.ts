@@ -1,5 +1,5 @@
 import {
-  DeclarationReflection,
+  Reflection,
   Typedoc,
 } from '../services/typedoc';
 import { Content } from '../services/content';
@@ -13,9 +13,9 @@ export class Method extends Function {
   constructor(
     $Typedoc: Typedoc,
     $Content: Content,
-    declaration: DeclarationReflection,
+    reflection: Reflection,
   ) {
-    super($Typedoc, $Content, declaration);
+    super($Typedoc, $Content, reflection);
   }
 
   getData() {

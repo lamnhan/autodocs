@@ -12,9 +12,15 @@ export interface FileRenderingConfig {
   [section: string]: SectionRenderingConfig;
 }
 
-export type SectionRenderingConfig = BlockRenderingConfig[];
+export type SectionRenderingConfig = BlockRenderingConfig | BlockRenderingConfig[];
 
-export type BlockRenderingConfig = [string, string, string | string[]];
+export type BlockRenderingConfig = [string, string?, BlockRenderingOptions?];
+
+export interface BlockRenderingOptions {
+  level?: number;
+  id?: string;
+  html?: boolean;
+}
 
 interface RenderingData {
   [path: string]: FileRenderingData;
@@ -57,7 +63,7 @@ export class Renderer {
   render() {
     const contentByFiles = this.getRenderedContent();
     Object.keys(contentByFiles).forEach(path => {
-      console.log(path);
+      console.log('File: ', path);
       console.log(contentByFiles[path]);
     });
   }
@@ -97,10 +103,22 @@ export class Renderer {
 
   private getSectionRenderingData(sectionConfig: SectionRenderingConfig) {
     const sectionBlocks: Block[] = [];
+    // turn single into array
+    const sectionConfigs = (
+      sectionConfig[0] instanceof Array
+      ? sectionConfig
+      : [ sectionConfig ]
+    ) as BlockRenderingConfig[];
     // get section blocks
-    sectionConfig.forEach(blockConfig => {
-      const [ what, how, where ] = blockConfig;
-      const item = this.$Parser.get(what, where);
+    sectionConfigs.forEach(blockConfig => {
+      const [ source, how = 'self', options = {} ] = blockConfig;
+      const item = this.$Parser.get(
+        !source || source === '*'
+        ? undefined
+        : source.indexOf('@') !== -1
+        ? source.replace(/\@/g, 'src/').split('+')
+        : source
+      );
       const blocks = item.getRendering(how);
       sectionBlocks.push(...blocks);
     });

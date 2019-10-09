@@ -1,22 +1,22 @@
 import {
-  DeclarationReflection,
-  DeclarationData,
+  Reflection,
+  ReflectionData,
   Typedoc
 } from '../services/typedoc';
 import { Content } from '../services/content';
 
-import { Base } from './base';
+import { Declaration } from './declaration';
 
-export interface VariableData extends DeclarationData {}
+export interface VariableData extends ReflectionData {}
 
-export class Variable extends Base {
+export class Variable extends Declaration {
 
   constructor(
     $Typedoc: Typedoc,
     $Content: Content,
-    declaration: DeclarationReflection
+    reflection: Reflection
   ) {
-    super($Typedoc, $Content, declaration);
+    super($Typedoc, $Content, reflection);
   }
 
   getData() {

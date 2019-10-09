@@ -1,49 +1,52 @@
 import {
-  DeclarationReflection,
+  Reflection,
   ParameterReflection,
   ReflectionKind,
-  DeclarationData,
+  ReflectionData,
   Typedoc,
 } from '../services/typedoc';
 import { Block, Content } from '../services/content';
 
-export class Base {
+export class Declaration {
 
   private $Typedoc: Typedoc;
   private $Content: Content;
 
-  private declaration: DeclarationReflection;
+  private reflection: Reflection;
+  private kind: ReflectionKind;
   private id: string;
   private level = 2;
-  private data: DeclarationData;
+  private data: ReflectionData;
 
   constructor(
     $Typedoc: Typedoc,
     $Content: Content,
-    declaration: DeclarationReflection,
+    reflection: Reflection,
   ) {
     this.$Typedoc = $Typedoc;
     this.$Content = $Content;
-    this.declaration = declaration;
+    this.reflection = reflection;
+    // kind
+    this.kind = reflection.kind;
     // set default id
-    this.id = this.$Content.buildId(this.declaration.name);
+    this.id = this.$Content.buildId(this.reflection.name);
     // extract data
     this.data = this.extractData();
   }
 
   private extractData() {
-    let data = this.$Typedoc.extractDeclaration(this.declaration) as unknown;
-    const { kind } = this.declaration;
+    let data = this.$Typedoc.extractReflection(this.reflection) as unknown;
+    const { kind } = this.reflection;
     if (kind === ReflectionKind.CallSignature) {
       const {
         parameters: params = []
-      } = this.declaration as {
+      } = this.reflection as {
         parameters?: ParameterReflection[],
       };
-      const parameters = params.map(param => this.Typedoc.extractDeclaration(param));
+      const parameters = params.map(param => this.Typedoc.extractReflection(param));
       data = { ...data, parameters };
     }
-    return data as DeclarationData;
+    return data as ReflectionData;
   }
 
   get Typedoc() {
@@ -62,12 +65,12 @@ export class Base {
     return this.level;
   }
 
-  get DECLARATION() {
-    return this.declaration;
+  get REFLECTION() {
+    return this.reflection;
   }
   
   setId(id?: string) {
-    this.id = id || this.$Content.buildId(this.declaration.name);
+    this.id = id || this.$Content.buildId(this.reflection.name);
     return this;
   }
 
@@ -90,11 +93,16 @@ export class Base {
   }
 
   getRendering(mode: string) {
-    return this.convertSelf();
+    switch (mode) {
+      case 'self':
+      default:
+        return this.convertSelf();
+    }
   }
 
   convertSelf() {
-    const { name, kindString, shortText, text, link } = this.data;
+    const { name, shortText, text, link } = this.data;
+    const { kindString = 'Unknown' } = this.reflection;
     // blocks
     const head = this.$Content.buildHeader(this.id, this.level, name, link);
     const body = this.$Content.buildText([

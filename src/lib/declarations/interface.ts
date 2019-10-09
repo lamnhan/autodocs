@@ -1,77 +1,65 @@
 import {
-  DeclarationReflection,
+  Reflection,
   ReflectionKind,
-  KindString,
-  DeclarationData,
+  ReflectionData,
   Typedoc
 } from '../services/typedoc';
 import { Block, Content } from '../services/content';
 
-import { Base } from './base';
+import { Declaration } from './declaration';
 import { Property } from './property';
 
-export interface InterfaceData extends DeclarationData {}
+export interface InterfaceData extends ReflectionData {}
 
-export class Interface extends Base {
+export class Interface extends Declaration {
 
   constructor(
     $Typedoc: Typedoc,
     $Content: Content,
-    declaration: DeclarationReflection,
+    reflection: Reflection,
   ) {
-    super($Typedoc, $Content, declaration);
+    super($Typedoc, $Content, reflection);
   }
 
-  getChildren<Child>(kind: KindString) {
-    let children: unknown = [];
-    if (kind === 'Property') {
-      children = this.getProperties();
-    } else {
-      throw new Error('Not support kind of ' + kind);
-    }
-    // result
-    return children as Child[];
-  }
-
-  getChild<Child>(name: string) {
-    const declaration = this.Typedoc.getDeclaration(name, this.DECLARATION);
-    const kind = declaration.kindString;
-    // get child
-    let child: unknown;
-    if (kind === 'Property') {
-      child = new Property(this.Typedoc, this.Content, declaration).downLevel();
-    } else {
-      throw new Error('Not support kind of ' + kind);
-    }
-    // result
-    return child as Child;
-  }
-  
   getData() {
     return super.getData() as InterfaceData;
   }
 
-  getRendering(mode: string) {
-    if (mode === 'full') {
-      return this.convertFull();
-    } else if (mode === 'properties') {
-      return this.convertProperties();
-    } else {
-      return super.getRendering(mode);
-    }
-  }
-
   getProperties() {
     return this.Typedoc
-      .getDeclarations(ReflectionKind.Property, this.DECLARATION)
+      .getReflections(ReflectionKind.Property, this.REFLECTION)
       .map(item =>
         new Property(this.Typedoc, this.Content, item)
-          .downLevel()
           .setId(this.getChildId(item.name))
+          .downLevel()
       );
   }
 
+  getProperty(name: string) {
+    const property = this.REFLECTION.getChildByName(name);
+    if (!property) {
+      throw new Error('No property!');
+    }
+    return new Property(this.Typedoc, this.Content, property)
+      .setId(this.getChildId(property.name))
+      .downLevel()
+  }
+
+  getRendering(mode: string) {
+    switch (mode) {
+      case 'full':
+        return this.convertFull();
+      case 'properties':
+        return this.convertProperties();
+      default:
+        return super.getRendering(mode);
+    }
+  }
+
   convertProperties() {
+    const blocks: Block[] = [];
+    const interfaceName = this.REFLECTION.name;
+    // get data
     const summaryRows: string[][] = [];
     const detailBlocks: Block[] = [];
     this.getProperties().forEach(property => {
@@ -85,19 +73,22 @@ export class Interface extends Base {
       // detail
       detailBlocks.push(...property.convertSelf());
     });
-    const summaryBlock = this.Content.buildTable(
-      ['Name', 'Type', 'Description'],
-      summaryRows
-    );
-    const interfaceName = this.DECLARATION.name;
-    const summaryText = this.Content.buildText(`**${interfaceName} properties**`);
-    const detailText = this.Content.buildText(`**${interfaceName} property detail**`);
-    return [
-      summaryText,
-      summaryBlock,
-      detailText,
-      ...detailBlocks
-    ];
+    // summary blocks
+    if (!!summaryRows.length) {
+      const summaryText = this.Content.buildText(`**${interfaceName} properties**`);
+      const summaryBlock = this.Content.buildTable(
+        ['Name', 'Type', 'Description'],
+        summaryRows
+      );
+      blocks.push(summaryText, summaryBlock);
+    }
+    // detail blocks
+    if (!!detailBlocks.length) {
+      const detailText = this.Content.buildText(`**${interfaceName} property detail**`);
+      blocks.push(detailText, ...detailBlocks);
+    }
+    // result
+    return blocks;
   }
 
   convertFull() {

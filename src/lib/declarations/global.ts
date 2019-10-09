@@ -1,124 +1,239 @@
 import {
-  DeclarationReflection,
-  DeclarationData,
+  Reflection,
+  ReflectionData,
   ReflectionKind,
-  KindString,
   Typedoc
 } from '../services/typedoc';
-import { Content } from '../services/content';
+import { Block, Content } from '../services/content';
 
-import { Base } from './base';
+import { Declaration } from './declaration';
 import { Variable } from './variable';
 import { Function } from './function';
 import { Interface } from './interface';
 import { Class } from './class';
 
-export interface GlobalData extends DeclarationData {}
+export interface GlobalData extends ReflectionData {}
 
-export class Global extends Base {
+export class Global extends Declaration {
 
   constructor(
     $Typedoc: Typedoc,
     $Content: Content,
-    item: DeclarationReflection,
+    reflection: Reflection,
   ) {
-    super($Typedoc, $Content, item);
+    super($Typedoc, $Content, reflection);
   }
 
   getData() {
     return super.getData() as GlobalData;
   }
 
-  getChildren<Child>(kind: KindString) {
-    let children: unknown = [];
-    if (kind === 'Variable') {
-      children = this.getVariables();
-    } else if (kind === 'Function') {
-      children = this.getFunctions();
-    } else if (kind === 'Interface') {
-      children = this.getInterfaces();
-    } else if (kind === 'Class') {
-      children = this.getClasses();
-    } else {
-      throw new Error('Not support kind of ' + kind);
-    }
-    // result
-    return children as Child[];
-  }
-
-  getChild<Child>(name: string) {
-    const declaration = this.Typedoc.getDeclaration(name, this.DECLARATION);
-    const kind = declaration.kindString;
-    // get child
-    let child: unknown;
-    if (kind === 'Variable') {
-      child = new Variable(this.Typedoc, this.Content, declaration).downLevel();
-    } else if (kind === 'Function') {
-      const { signatures = [] } = declaration;
-      // tslint:disable-next-line: no-any
-      child = new Function(this.Typedoc, this.Content, signatures[0] as any).downLevel();
-    } else if (kind === 'Interface') {
-      child = new Interface(this.Typedoc, this.Content, declaration);
-    } else if (kind === 'Class') {
-      child = new Class(this.Typedoc, this.Content, declaration);
-    } else {
-      throw new Error('Not support kind of ' + kind);
-    }
-    // result
-    return child as Child;
-  }
-
   getVariables() {
     return this.Typedoc
-      .getDeclarations(ReflectionKind.Variable, this.DECLARATION)
+      .getReflections(ReflectionKind.Variable, this.REFLECTION)
       .map(item =>
         new Variable(this.Typedoc, this.Content, item)
         .downLevel()
       );
   }
 
-  convertVariables() {
-    return this
-      .getVariables()
-      .map(variable => variable.convertSelf());
+  getVariable(name: string) {
+    const _variable = this.REFLECTION.getChildByName(name);
+    if (!_variable) {
+      throw new Error('No variable!');
+    }
+    return new Variable(this.Typedoc, this.Content, _variable)
+      .downLevel()
   }
 
   getFunctions() {
     const functions: Function[] = [];
     // get all signatures
     this.Typedoc
-      .getDeclarations(ReflectionKind.Function, this.DECLARATION)
+      .getReflections(ReflectionKind.Function, this.REFLECTION)
       .forEach(item => item
         .getAllSignatures()
-        .forEach(signature => functions.push(
+        .forEach((signature, i) => functions.push(
           // tslint:disable-next-line: no-any
-          new Function(this.Typedoc, this.Content, signature as any).downLevel()
+          new Function(this.Typedoc, this.Content, signature as any)
+            .setId(this.getChildId(signature.name + ' ' + i))
+            .downLevel()
         ))
       );
     // result
     return functions;
   }
 
-  convertFunctions() {
-    return this
-      .getFunctions()
-      .map(_function => _function.convertSelf());
+  getFunction(name: string) {
+    const _function = this.REFLECTION.getChildByName(name);
+    if (!_function) {
+      throw new Error('No function!');
+    }
+    return new Function(this.Typedoc, this.Content, _function)
+      .downLevel()
   }
 
   getInterfaces() {
     return this.Typedoc
-      .getDeclarations(ReflectionKind.Interface, this.DECLARATION)
+      .getReflections(ReflectionKind.Interface, this.REFLECTION)
       .map(item =>
         new Interface(this.Typedoc, this.Content, item)
       );
   }
 
+  getInterface(name: string) {
+    const _interface = this.REFLECTION.getChildByName(name);
+    if (!_interface) {
+      throw new Error('No interface!');
+    }
+    return new Interface(this.Typedoc, this.Content, _interface);
+  }
+
   getClasses() {
     return this.Typedoc
-      .getDeclarations(ReflectionKind.Class, this.DECLARATION)
+      .getReflections(ReflectionKind.Class, this.REFLECTION)
       .map(item =>
         new Class(this.Typedoc, this.Content, item)
       );
+  }
+
+  getClass(name: string) {
+    const _class = this.REFLECTION.getChildByName(name);
+    if (!_class) {
+      throw new Error('No class!');
+    }
+    return new Class(this.Typedoc, this.Content, _class);
+  }
+
+  getRendering(mode: string) {
+    switch (mode) {
+      case 'full':
+        return this.convertFull();
+      case 'classes':
+        return this.convertClasses();
+      case 'interfaces':
+        return this.convertInterfaces();
+      case 'functions':
+        return this.convertFunctions();
+      case 'variables':
+        return this.convertVariables();
+      default:
+        return super.getRendering(mode);
+    }
+  }
+
+  convertVariables() {
+    const blocks: Block[] = [];
+    const interfaceName = this.REFLECTION.name;
+    // get data
+    const summaryRows: string[][] = [];
+    const detailBlocks: Block[] = [];
+    this.getVariables().forEach(variable => {
+      // summary
+      const { name, isOptional, type, typeLink, shortText } = variable.getData();
+      summaryRows.push([
+        `[${!isOptional ? `**${name}**` : name}](#${this.getChildId(name)})`,
+        !!typeLink ? `[\`${type}\`](${typeLink})` : `\`${type}\``,
+        shortText || '',
+      ]);
+      // detail
+      detailBlocks.push(...variable.convertSelf());
+    });
+    // summary blocks
+    if (!!summaryRows.length) {
+      const summaryText = this.Content.buildText(`**${interfaceName} properties**`);
+      const summaryBlock = this.Content.buildTable(
+        ['Name', 'Type', 'Description'],
+        summaryRows
+      );
+      blocks.push(summaryText, summaryBlock);
+    }
+    // detail blocks
+    if (!!detailBlocks.length) {
+      const detailText = this.Content.buildText(`**${interfaceName} property detail**`);
+      blocks.push(detailText, ...detailBlocks);
+    }
+    // result
+    return blocks;
+  }
+
+  convertFunctions() {
+    const blocks: Block[] = [];
+    const globalName = this.REFLECTION.name;
+    // get data
+    const summaryRows: string[][] = [];
+    const detailBlocks: Block[] = [];
+    this.getFunctions().forEach(_function => {
+      // summary
+      const { name, type, typeLink, shortText } = _function.getData();
+      summaryRows.push([
+        `[${name}](#${_function.ID})`,
+        !!typeLink ? `[\`${type}\`](${typeLink})` : `\`${type}\``,
+        shortText || ''
+      ]);
+      // detail
+      detailBlocks.push(..._function.convertSelf());
+    });
+    // summary blocks
+    if (!!summaryRows.length) {
+      const summaryText = this.Content.buildText(`**${globalName} functions**`);
+      const summaryBlock = this.Content.buildTable(
+        ['Function', 'Returns type', 'Description'],
+        summaryRows
+      );
+      blocks.push(summaryText, summaryBlock);
+    }
+    // detail blocks
+    if (!!detailBlocks.length) {
+      const detailText = this.Content.buildText(`**${globalName} function detail**`);
+      blocks.push(detailText, ...detailBlocks);
+    }
+    // result
+    return blocks;
+  }
+
+  convertInterfaces() {
+    const blocks: Block[] = [];
+    // get data
+    const summaryRows: string[][] = [];
+    this.getInterfaces().forEach(_interface => {
+      const { name, link, shortText } = _interface.getData();
+      summaryRows.push([`[${name}](${link})`, shortText || '']);
+    });
+    // summary block
+    if (!!summaryRows.length) {
+      const summaryBlock = this.Content.buildTable(
+        ['Interfaces', 'Description'],
+        summaryRows
+      );
+      blocks.push(summaryBlock);
+    }
+    // result
+    return blocks;
+  }
+  
+  convertClasses() {
+    const blocks: Block[] = [];
+    // get data
+    const summaryRows: string[][] = [];
+    this.getClasses().forEach(_class => {
+      const { name, link, shortText } = _class.getData();
+      summaryRows.push([`[${name}](${link})`, shortText || '']);
+    });
+    // summary block
+    if (!!summaryRows.length) {
+      const summaryBlock = this.Content.buildTable(
+        ['Classes', 'Description'],
+        summaryRows
+      );
+      blocks.push(summaryBlock);
+    }
+    // result
+    return blocks;
+  }
+  
+  convertFull() {
+    return [];
   }
 
 }

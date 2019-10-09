@@ -1,24 +1,24 @@
 import {
-  DeclarationReflection,
-  DeclarationData,
+  Reflection,
+  ReflectionData,
   Typedoc,
 } from '../services/typedoc';
 import { Block, Content } from '../services/content';
 
-import { Base } from './base';
+import { Declaration } from './declaration';
 
-export interface FunctionData extends DeclarationData {
-  parameters?: DeclarationData[];
+export interface FunctionData extends ReflectionData {
+  parameters?: ReflectionData[];
 }
 
-export class Function extends Base {
+export class Function extends Declaration {
 
   constructor(
     $Typedoc: Typedoc,
     $Content: Content,
-    declaration: DeclarationReflection,
+    reflection: Reflection,
   ) {
-    super($Typedoc, $Content, declaration);
+    super($Typedoc, $Content, reflection);
   }
 
   getData() {
@@ -29,24 +29,17 @@ export class Function extends Base {
     const blocks: Block[] = [];
     const {
       name,
-      kindString,
       type,
       typeLink,
-      shortText,
-      text,
       returns,
       link,
       parameters = [],
     } = this.getData();
     // self blocks
     const displayName = `${name}(${parameters.map(item => item.name).join(', ')})`;
-    blocks.push(
-      this.Content.buildHeader(this.ID, this.LEVEL, displayName, link),
-      this.Content.buildText([
-        shortText || `The \`name\` ${kindString.toLowerCase()}.`,
-        text || '',
-      ])
-    );
+    const head = this.Content.buildHeader(this.ID, this.LEVEL, displayName, link);
+    const [ , body ] = super.convertSelf();
+    blocks.push(head, body);
     // params
     if (!!parameters.length) {
       const parameterRows = parameters.map(parameter => {
@@ -59,7 +52,7 @@ export class Function extends Base {
       });
       blocks.push(
         this.Content.buildText(`**Parameters**`),
-        this.Content.buildTable(['Param', 'Returns type', 'Description'], parameterRows)
+        this.Content.buildTable(['Param', 'Type', 'Description'], parameterRows)
       );
     }
     // returns

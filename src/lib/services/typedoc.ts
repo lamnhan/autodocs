@@ -35,11 +35,9 @@ interface CommentData {
   returns?: string;
 }
 
-export interface DeclarationData
+export interface ReflectionData
 extends TypeData, FlagData, DefaultValueData, CommentData {
   name: string;
-  kind: ReflectionKind;
-  kindString: string;
   link: string;
 }
 
@@ -104,43 +102,39 @@ export class Typedoc {
     }
     return projectReflection;
   }
-  
-  getContainer(input?: string | string[]) {
-    const container = !input
-      // default project
-      ? this.typedocProject
-      : typeof input === 'string'
-      // class or interface
-      ? this.typedocProject.getChildByName(input)
-      // custom project
-      // TODO: do not create new project
-      : this.createProject(
-        this.createApp({
-          name: input.join(' ').replace(/\//g, '-')
-        }),
-        input,
-      );
-    if (!container) {
-      throw new Error('No container found.');
-    }
-    return container as ContainerReflection;
+
+  generateDocs(out: string) {
+    return this.typedocApp.generateDocs(this.typedocProject, out);
   }
 
-  getDeclarations(kind?: ReflectionKind, container?: ContainerReflection) {
-    const parent = container || this.typedocProject;
+  getReflections(kind?: ReflectionKind, container?: Reflection) {
+    const parent = container as ContainerReflection || this.typedocProject;
     return !!kind ? parent.getChildrenByKind(kind) : parent.children || [];
   }
 
-  getDeclaration(name: string, container?: ContainerReflection) {
-    const declaration = (container || this.typedocProject).getChildByName(name);
-    if (!declaration) {
-      throw new Error('No declaration found.');
+  getReflection(what?: string | string[]) {
+    const reflection = (
+      !what
+      // default project
+      ? this.typedocProject
+      : typeof what === 'string'
+      // class or interface
+      ? this.typedocProject.getChildByName(what)
+      // custom project
+      // TODO: do not create new project
+      : this.createProject(
+          this.createApp({ name: what.join(' ').replace(/(src\/)/g, '@') }),
+          what,
+        )
+    );
+    if (!reflection) {
+      throw new Error('No reflection found.');
     }
-    return declaration as DeclarationReflection;
+    return reflection;
   }
 
-  extractDeclaration(reflection: Reflection) {
-    const { name, kind, kindString } = reflection;
+  extractReflection(reflection: Reflection) {
+    const { name } = reflection;
     const link = this.getLink(reflection);
     const typeData = this.getType(reflection);
     const flagData = this.getFlags(reflection);
@@ -149,18 +143,12 @@ export class Typedoc {
     // result
     return {
       name,
-      kind,
-      kindString,
       link,
       ...typeData,
       ...flagData,
       ...defaultValueData,
       ...commentData,
-    } as DeclarationData;
-  }
-
-  generateDocs(out: string) {
-    return this.typedocApp.generateDocs(this.typedocProject, out);
+    } as ReflectionData;
   }
 
   private getTypeLink(name: string, kind: ReflectionKind) {
