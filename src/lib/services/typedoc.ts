@@ -117,12 +117,18 @@ export class Typedoc {
     return ReflectionKind[kindString];
   }
 
-  isReflectionKind(reflection: Reflection, kindString: keyof typeof ReflectionKind) {
+  isReflectionKind(
+    reflection: Reflection,
+    kindString: keyof typeof ReflectionKind
+  ) {
     const kind = this.getKindByString(kindString);
     return reflection.kind === kind;
   }
 
-  getReflections(kindString: keyof typeof ReflectionKind, container?: Reflection) {
+  getReflections(
+    kindString: keyof typeof ReflectionKind,
+    container?: Reflection
+  ) {
     const kind = this.getKindByString(kindString);
     const parent = (container as ContainerReflection) || this.typedocProject;
     return !!kind ? parent.getChildrenByKind(kind) : parent.children || [];

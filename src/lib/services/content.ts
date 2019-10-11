@@ -1,5 +1,5 @@
 import { EOL } from 'os';
-import { readFile, readFileSync, outputFile } from 'fs-extra';
+import { readFileSync, outputFileSync } from 'fs-extra';
 import { format as prettierFormater } from 'prettier';
 const matchAll = require('match-all');
 
@@ -43,16 +43,12 @@ const EOL2X = EOL.repeat(2);
 export class Content {
   constructor() {}
 
-  async readFile(path: string) {
-    return readFile(path, 'utf-8');
-  }
-
   readFileSync(path: string) {
     return readFileSync(path, 'utf-8');
   }
 
-  async writeFile(path: string, content: string) {
-    return outputFile(path, content);
+  writeFileSync(path: string, content: string) {
+    return outputFileSync(path, content);
   }
 
   contentBetween(
@@ -90,7 +86,7 @@ export class Content {
     const result: ContentBySections = {};
     const sectionNames = matchAll(
       content,
-      /\<section\:([a-zA-Z0-9]+)\>/gi
+      /\<section\:([a-zA-Z0-9_\-]+)\>/gi
     ).toArray();
     for (const name of sectionNames) {
       const opening = this.getSectionOpening(name);

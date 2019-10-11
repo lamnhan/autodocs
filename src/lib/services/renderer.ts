@@ -1,3 +1,4 @@
+import { Project } from './project';
 import { ContentBySections, Block, Content } from './content';
 import { Parser } from './parser';
 import { ConvertOptions, Converter } from './converter';
@@ -27,32 +28,30 @@ export interface RenderingData {
 export type SectionRenderingData = Block[];
 
 export interface BatchRenderResult {
-  [id: string]: RenderResult;
-}
-
-export interface RenderResult {
-  toc: string;
-  content: string;
+  [id: string]: string;
 }
 
 export class Renderer {
+  private $Project: Project;
   private $Content: Content;
   private $Parser: Parser;
   private $Converter: Converter;
 
   constructor(
+    $Project: Project,
     $Content: Content,
     $Parser: Parser,
-    $Converter: Converter,
+    $Converter: Converter
   ) {
+    this.$Project = $Project;
     this.$Content = $Content;
     this.$Parser = $Parser;
     this.$Converter = $Converter;
   }
-  
+
   batchRender(
     batchRendering: BatchRendering,
-    batchCurrentContent: {[id: string]: ContentBySections} = {}
+    batchCurrentContent: { [id: string]: ContentBySections } = {}
   ) {
     const batchResult: BatchRenderResult = {};
     Object.keys(batchRendering).forEach(id => {
@@ -64,38 +63,49 @@ export class Renderer {
   }
 
   render(rendering: Rendering, currentContent: ContentBySections = {}) {
+    const content = currentContent;
     // get rendering data
     const renderingData = this.getData(rendering);
-    // merge with current data
-    const blocksOrContentBySections = { ...currentContent, ...renderingData };
     // extract toc data & render section content
     const tocData: Block[] = [];
-    const contentData: string[] = [];
-    Object.keys(blocksOrContentBySections).forEach(sectionName => {
-      const sectionData = blocksOrContentBySections[sectionName];
+    Object.keys(renderingData).forEach(sectionName => {
+      const sectionBlocks = renderingData[sectionName];
       // toc data
-      if (sectionData instanceof Array) {
-        tocData.push(...sectionData);
-      }
+      tocData.push(...sectionBlocks);
       // content data
-      contentData.push(
+      content[sectionName] = this.$Content.renderContent(sectionBlocks);
+    });
+    // add head
+    if (!!content.head) {
+      content.head = this.renderHead();
+    }
+    // add toc
+    if (!!content.toc) {
+      content.toc = this.renderTOC(tocData);
+    }
+    // add license
+    if (!!content.license) {
+      content.license = this.renderLicense();
+    }
+    // sum-up content
+    const finalContent: string[] = [];
+    Object.keys(content).forEach(sectionName => {
+      const sectionContent = content[sectionName];
+      finalContent.push(
         this.$Content.getSectionOpening(sectionName),
-        (sectionData instanceof Array)
-          ? this.$Content.renderContent(sectionData)
-          : sectionData,
-        this.$Content.getSectionClosing(sectionName),
+        '<!-- Auto-generated content, please DO NOT edit directly. -->',
+        sectionContent,
+        this.$Content.getSectionClosing(sectionName)
       );
     });
-    // result
-    const toc = this.$Content.renderTOC(tocData);
-    const content = this.$Content.renderText(contentData);
-    return { toc, content } as RenderResult;
+    // render final content
+    return this.$Content.renderText(finalContent);
   }
 
   getBatchData(batchRendering: BatchRendering) {
     const batchData: BatchRenderingData = {};
-    Object.keys(batchRendering).forEach(id =>
-      batchData[id] = this.getData(batchRendering[id])
+    Object.keys(batchRendering).forEach(
+      id => (batchData[id] = this.getData(batchRendering[id]))
     );
     return batchData;
   }
@@ -107,19 +117,18 @@ export class Renderer {
       const sectionBlocks: Block[] = [];
       // turn single block rendering to multiple
       const sectionRendering = rendering[sectionName];
-      const blockRenderings = (
-        sectionRendering[0] instanceof Array
+      const blockRenderings = (sectionRendering[0] instanceof Array
         ? sectionRendering
-        : [sectionRendering]
-      ) as BlockRendering[];
+        : [sectionRendering]) as BlockRendering[];
       // get section blocks
       blockRenderings.forEach(blockRendering => {
         const [source, output = 'self', options = {}] = blockRendering;
-        const what = !source || source === '*'
-          ? undefined
-          : source.indexOf('@') !== -1
-          ? source.replace(/\@/g, 'src/').split('+')
-          : source;
+        const what =
+          !source || source === '*'
+            ? undefined
+            : source.indexOf('@') !== -1
+            ? source.replace(/\@/g, 'src/').split('+')
+            : source;
         const declaration = this.$Parser.parse(what);
         const blocks = this.$Converter.convert(declaration, output, options);
         // add all blocks as section blocks
@@ -132,4 +141,26 @@ export class Renderer {
     return data;
   }
 
+  private renderHead() {
+    const { name, description } = this.$Project.PACKAGE;
+    return this.$Content.renderText([`# ${name}`, description]);
+  }
+
+  private renderTOC(blocks: Block[]) {
+    const tocContent = this.$Content.renderTOC(blocks);
+    return this.$Content.renderText([`**Table of content**`, tocContent]);
+  }
+
+  private renderLicense() {
+    const {
+      name,
+      license,
+      repository: { url: repoUrl },
+    } = this.$Project.PACKAGE;
+    const licenseUrl = repoUrl.replace('.git', '') + '/blob/master/LICENSE';
+    return this.$Content.renderText([
+      '## License',
+      `**${name}** is released under the [${license}](${licenseUrl}) license.`,
+    ]);
+  }
 }

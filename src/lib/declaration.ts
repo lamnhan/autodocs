@@ -58,8 +58,9 @@ export class Declaration {
     this.typeLink = typeLink;
     this.isOptional = isOptional;
     this.defaultValue = defaultValue;
-    this.parameters = ((this.reflection as SignatureReflection).parameters || [])
-      .map(param => this.$Typedoc.extractReflection(param));
+    this.parameters = (
+      (this.reflection as SignatureReflection).parameters || []
+    ).map(param => this.$Typedoc.extractReflection(param));
   }
 
   get REFLECTION() {
@@ -123,6 +124,11 @@ export class Declaration {
     return this;
   }
 
+  setLevel(level: number) {
+    this.level = level;
+    return this;
+  }
+
   downLevel(by = 1) {
     this.level = this.level + by;
     return this;
@@ -138,7 +144,9 @@ export class Declaration {
   }
 
   hasVariablesOrProperties() {
-    return this.isKind('Global') || this.isKind('Interface') || this.isKind('Class');
+    return (
+      this.isKind('Global') || this.isKind('Interface') || this.isKind('Class')
+    );
   }
 
   hasFunctionsOrMethods() {
@@ -159,7 +167,9 @@ export class Declaration {
     }
     return this.$Typedoc
       .getReflections('VariableOrProperty', this.reflection)
-      .map(item => new Declaration(this.$Typedoc, this.$Content, item).downLevel());
+      .map(item =>
+        new Declaration(this.$Typedoc, this.$Content, item).downLevel()
+      );
   }
 
   getFunctionsOrMethods() {
@@ -201,5 +211,4 @@ export class Declaration {
       .getReflections('Class', this.reflection)
       .map(item => new Declaration(this.$Typedoc, this.$Content, item));
   }
-
 }

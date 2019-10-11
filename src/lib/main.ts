@@ -26,9 +26,10 @@ class Main {
     this.$Parser = new Parser(this.$Typedoc, this.$Content);
     this.$Converter = new Converter(this.$Project, this.$Content);
     this.$Renderer = new Renderer(
+      this.$Project,
       this.$Content,
       this.$Parser,
-      this.$Converter,
+      this.$Converter
     );
   }
 
@@ -71,7 +72,6 @@ class Main {
   render(rendering: Rendering, currentContent: ContentBySections = {}) {
     return this.$Renderer.render(rendering, currentContent);
   }
-
 }
 
 export { Main as Autodocs };
