@@ -36,12 +36,17 @@ interface CommentData {
 }
 
 export interface ReflectionData
-extends TypeData, FlagData, DefaultValueData, CommentData {
+  extends TypeData,
+    FlagData,
+    DefaultValueData,
+    CommentData {
   name: string;
   link: string;
 }
 
-export type IterationHandler<Item, Data> = (event: IterationEvent<Item, Data>) => void;
+export type IterationHandler<Item, Data> = (
+  event: IterationEvent<Item, Data>
+) => void;
 
 export type IterationFormatter<Data> = (data: Data) => Data;
 
@@ -60,12 +65,13 @@ export class Typedoc {
   constructor(
     $Project: Project,
     typedocApp?: Application,
-    typedocProject?: ProjectReflection,
+    typedocProject?: ProjectReflection
   ) {
     this.$Project = $Project;
     // init typedoc
     this.typedocApp = typedocApp || this.createApp();
-    this.typedocProject = typedocProject || this.createProject(this.typedocApp, ['src']);
+    this.typedocProject =
+      typedocProject || this.createProject(this.typedocApp, ['src']);
   }
 
   extend(src: string[], configs = {}) {
@@ -107,26 +113,34 @@ export class Typedoc {
     return this.typedocApp.generateDocs(this.typedocProject, out);
   }
 
-  getReflections(kind?: ReflectionKind, container?: Reflection) {
-    const parent = container as ContainerReflection || this.typedocProject;
+  getKindByString(kindString: keyof typeof ReflectionKind) {
+    return ReflectionKind[kindString];
+  }
+
+  isReflectionKind(reflection: Reflection, kindString: keyof typeof ReflectionKind) {
+    const kind = this.getKindByString(kindString);
+    return reflection.kind === kind;
+  }
+
+  getReflections(kindString: keyof typeof ReflectionKind, container?: Reflection) {
+    const kind = this.getKindByString(kindString);
+    const parent = (container as ContainerReflection) || this.typedocProject;
     return !!kind ? parent.getChildrenByKind(kind) : parent.children || [];
   }
 
   getReflection(what?: string | string[]) {
-    const reflection = (
-      !what
-      // default project
-      ? this.typedocProject
+    const reflection = !what
+      ? // default project
+        this.typedocProject
       : typeof what === 'string'
-      // class or interface
-      ? this.typedocProject.getChildByName(what)
-      // custom project
-      // TODO: do not create new project
-      : this.createProject(
+      ? // class or interface
+        this.typedocProject.getChildByName(what)
+      : // custom project
+        // TODO: do not create new project
+        this.createProject(
           this.createApp({ name: what.join(' ').replace(/(src\/)/g, '@') }),
-          what,
-        )
-    );
+          what
+        );
     if (!reflection) {
       throw new Error('No reflection found.');
     }
@@ -191,7 +205,9 @@ export class Typedoc {
       parent.name === name
     ) {
       return (
-        this.getTypeLink(parent.parent.name, parent.parent.kind) + '#' + fragment
+        this.getTypeLink(parent.parent.name, parent.parent.kind) +
+        '#' +
+        fragment
       );
     }
     // interface | class | globals
@@ -234,16 +250,19 @@ export class Typedoc {
 
   private getDefaultValue(reflection: Reflection) {
     const {
-      kind, defaultValue = '', children = [],
+      kind,
+      defaultValue = '',
+      children = [],
     } = reflection as DeclarationReflection;
     // get default value data
     const defaultValueData: DefaultValueData = { defaultValue: '' };
     if (kind === ReflectionKind.Property) {
       // object
       if (!!children.length) {
-        const value: {[name: string]: any} = {};
-        children.forEach(({ name, defaultValue }) =>
-          value[name] = this.parseDefaultValue(defaultValue),
+        const value: { [name: string]: any } = {};
+        children.forEach(
+          ({ name, defaultValue }) =>
+            (value[name] = this.parseDefaultValue(defaultValue))
         );
         defaultValueData.defaultValue = value;
       }
@@ -256,7 +275,6 @@ export class Typedoc {
     return defaultValueData;
   }
 
-  
   private getComment(reflection: Reflection) {
     const { comment } = reflection as DeclarationReflection;
     // get comment data
@@ -270,5 +288,4 @@ export class Typedoc {
     // result
     return commentData;
   }
-
 }

@@ -54,7 +54,8 @@ export class Project {
     } = this.package;
     // get options
     const options: Options = pathExistsSync(this.optionsPath)
-      ? readJsonSync(this.optionsPath) : pkgOptions;
+      ? readJsonSync(this.optionsPath)
+      : pkgOptions;
     // default github url
     if (!options.url) {
       const [, org, repo] = repoUrl

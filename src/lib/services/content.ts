@@ -65,11 +65,7 @@ export class Content {
     let prefixIndex = content.indexOf(prefix);
     let suffixIndex = content.indexOf(suffix);
     // invalid
-    if (
-      prefixIndex < 0 ||
-      suffixIndex < 0 ||
-      suffixIndex <= prefixIndex
-    ) {
+    if (prefixIndex < 0 || suffixIndex < 0 || suffixIndex <= prefixIndex) {
       return '';
     }
     // valid

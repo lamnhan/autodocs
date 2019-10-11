@@ -1,164 +1,135 @@
-import { resolve } from 'path';
-import { pathExistsSync } from 'fs-extra';
-
 import { ContentBySections, Block, Content } from './content';
 import { Parser } from './parser';
+import { ConvertOptions, Converter } from './converter';
 
-export interface RenderingConfig {
-  [path: string]: FileRenderingConfig;
+export interface BatchRendering {
+  [id: string]: Rendering;
 }
 
-export interface FileRenderingConfig {
-  [section: string]: SectionRenderingConfig;
+export interface Rendering {
+  [section: string]: SectionRendering;
 }
 
-export type SectionRenderingConfig = BlockRenderingConfig | BlockRenderingConfig[];
+export type SectionRendering =
+  | BlockRendering // single
+  | BlockRendering[]; // multiple
 
-export type BlockRenderingConfig = [string, string?, BlockRenderingOptions?];
+export type BlockRendering = [string, string?, ConvertOptions?];
 
-export interface BlockRenderingOptions {
-  level?: number;
-  id?: string;
-  html?: boolean;
+export interface BatchRenderingData {
+  [id: string]: RenderingData;
 }
 
-interface RenderingData {
-  [path: string]: FileRenderingData;
-};
+export interface RenderingData {
+  [section: string]: SectionRenderingData;
+}
 
-interface FileRenderingData {
-  [section: string]: Block[];
-};
+export type SectionRenderingData = Block[];
 
-interface FilesContent {
-  [path: string]: ContentBySections;
+export interface BatchRenderResult {
+  [id: string]: RenderResult;
+}
+
+export interface RenderResult {
+  toc: string;
+  content: string;
 }
 
 export class Renderer {
-
   private $Content: Content;
   private $Parser: Parser;
+  private $Converter: Converter;
 
-  private config: RenderingConfig = {};
-
-  private currentContent: FilesContent = {};
-  private renderingData: RenderingData = {};
-
-  constructor (
+  constructor(
     $Content: Content,
     $Parser: Parser,
-    config: RenderingConfig = {},
+    $Converter: Converter,
   ) {
     this.$Content = $Content;
     this.$Parser = $Parser;
-    this.config = config;
-    // load data
-    this.loadData();
+    this.$Converter = $Converter;
   }
-
-  extend(config: RenderingConfig) {
-    return new Renderer(this.$Content, this.$Parser, config);
-  }
-
-  render() {
-    const contentByFiles = this.getRenderedContent();
-    Object.keys(contentByFiles).forEach(path => {
-      console.log('File: ', path);
-      console.log(contentByFiles[path]);
+  
+  batchRender(
+    batchRendering: BatchRendering,
+    batchCurrentContent: {[id: string]: ContentBySections} = {}
+  ) {
+    const batchResult: BatchRenderResult = {};
+    Object.keys(batchRendering).forEach(id => {
+      const rendering = batchRendering[id];
+      const currentContent = batchCurrentContent[id] || {};
+      batchResult[id] = this.render(rendering, currentContent);
     });
+    return batchResult;
   }
 
-  private loadData() {
-    const currentContent: FilesContent = {};
-    const renderingData: RenderingData = {};
-    // get data
-    Object.keys(this.config).forEach(path => {
-      // current content
-      currentContent[path] = this.getFileCurrentContent(path);
-      // redering data
-      renderingData[path] = this.getFileRenderingData(this.config[path])
-    });
-    // result
-    this.currentContent = currentContent;
-    this.renderingData = renderingData;
-  }
-
-  private getFileCurrentContent(path: string) {
-    let result: ContentBySections = {};
-    const filePath = resolve(path);
-    if (!!pathExistsSync(filePath)) {
-      const content = this.$Content.readFileSync(filePath);
-      result = this.$Content.extractSections(content);
-    }
-    return result;
-  }
-
-  private getFileRenderingData(fileConfig: FileRenderingConfig) {
-    const result: FileRenderingData = {};
-    Object.keys(fileConfig).forEach(sectionName =>
-      result[sectionName] = this.getSectionRenderingData(fileConfig[sectionName])
-    );
-    return result;
-  }
-
-  private getSectionRenderingData(sectionConfig: SectionRenderingConfig) {
-    const sectionBlocks: Block[] = [];
-    // turn single into array
-    const sectionConfigs = (
-      sectionConfig[0] instanceof Array
-      ? sectionConfig
-      : [ sectionConfig ]
-    ) as BlockRenderingConfig[];
-    // get section blocks
-    sectionConfigs.forEach(blockConfig => {
-      const [ source, how = 'self', options = {} ] = blockConfig;
-      const item = this.$Parser.get(
-        !source || source === '*'
-        ? undefined
-        : source.indexOf('@') !== -1
-        ? source.replace(/\@/g, 'src/').split('+')
-        : source
+  render(rendering: Rendering, currentContent: ContentBySections = {}) {
+    // get rendering data
+    const renderingData = this.getData(rendering);
+    // merge with current data
+    const blocksOrContentBySections = { ...currentContent, ...renderingData };
+    // extract toc data & render section content
+    const tocData: Block[] = [];
+    const contentData: string[] = [];
+    Object.keys(blocksOrContentBySections).forEach(sectionName => {
+      const sectionData = blocksOrContentBySections[sectionName];
+      // toc data
+      if (sectionData instanceof Array) {
+        tocData.push(...sectionData);
+      }
+      // content data
+      contentData.push(
+        this.$Content.getSectionOpening(sectionName),
+        (sectionData instanceof Array)
+          ? this.$Content.renderContent(sectionData)
+          : sectionData,
+        this.$Content.getSectionClosing(sectionName),
       );
-      const blocks = item.getRendering(how);
-      sectionBlocks.push(...blocks);
     });
     // result
-    return sectionBlocks;
+    const toc = this.$Content.renderTOC(tocData);
+    const content = this.$Content.renderText(contentData);
+    return { toc, content } as RenderResult;
   }
 
-  private getRenderedContent() {
-    const result: {[path: string]: string} = {};
-    Object.keys(this.config).forEach(path => {
-      const contentBySections = this.getFileRenderedContentBySections(path);
-      // add opening & closing
-      const contentArr: string[] = [];
-      Object.keys(contentBySections).forEach(sectionName => {
-        const opening = this.$Content.getSectionOpening(sectionName);
-        const closing = this.$Content.getSectionClosing(sectionName);
-        const content = contentBySections[sectionName];
-        contentArr.push(opening, content, closing);
-      });
-      // result
-      result[path] = this.$Content.renderText(contentArr);
-    });
-    return result;
-  }
-
-  private getFileRenderedContentBySections(path: string) {
-    // current content
-    const currentFileContentBySections = this.currentContent[path] || {};
-    // render content
-    const fileRenderingData = this.renderingData[path] || {};
-    const fileContentBySections: ContentBySections = {};
-    Object.keys(fileRenderingData).forEach(sectionName =>
-      fileContentBySections[sectionName] = this.$Content.renderContent(
-        fileRenderingData[sectionName],
-      ),
+  getBatchData(batchRendering: BatchRendering) {
+    const batchData: BatchRenderingData = {};
+    Object.keys(batchRendering).forEach(id =>
+      batchData[id] = this.getData(batchRendering[id])
     );
-    return {
-      ...currentFileContentBySections,
-      ...fileContentBySections,
-    } as ContentBySections;
+    return batchData;
+  }
+
+  getData(rendering: Rendering) {
+    const data: RenderingData = {};
+    // get data for every section
+    Object.keys(rendering).forEach(sectionName => {
+      const sectionBlocks: Block[] = [];
+      // turn single block rendering to multiple
+      const sectionRendering = rendering[sectionName];
+      const blockRenderings = (
+        sectionRendering[0] instanceof Array
+        ? sectionRendering
+        : [sectionRendering]
+      ) as BlockRendering[];
+      // get section blocks
+      blockRenderings.forEach(blockRendering => {
+        const [source, output = 'self', options = {}] = blockRendering;
+        const what = !source || source === '*'
+          ? undefined
+          : source.indexOf('@') !== -1
+          ? source.replace(/\@/g, 'src/').split('+')
+          : source;
+        const declaration = this.$Parser.parse(what);
+        const blocks = this.$Converter.convert(declaration, output, options);
+        // add all blocks as section blocks
+        sectionBlocks.push(...blocks);
+      });
+      // render content
+      data[sectionName] = sectionBlocks;
+    });
+    // result
+    return data;
   }
 
 }

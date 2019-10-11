@@ -1,8 +1,8 @@
-import { RenderingConfig } from './services/renderer';
+import { BatchRendering } from './services/renderer';
 
 export interface Options {
   url?: string; // api reference url
   out?: string; // api reference folder
   noAttr?: boolean;
-  files?: RenderingConfig;
+  files?: BatchRendering;
 }
