@@ -23,49 +23,49 @@ export class Converter {
     options: ConvertOptions = {}
   ) {
     const { level, id } = options;
-    // override id
-    if (!!id) {
-      declaration.setId(id);
-    }
     // override level
     if (!!level) {
       declaration.setLevel(level);
     }
+    // override id
+    if (!!id) {
+      declaration.setId(id);
+    }
     // convert
     switch (output) {
-      case 'full':
-        return this.convertFull(declaration);
-      case 'summary_variables':
-      case 'summary_properties':
+      case 'SUMMARY_VARIABLES':
+      case 'SUMMARY_PROPERTIES':
         return this.convertVariablesOrPropertiesSummary(
           declaration.getVariablesOrProperties()
         );
-      case 'detail_variables':
-      case 'detail_properties':
+      case 'DETAIL_VARIABLES':
+      case 'DETAIL_PROPERTIES':
         return this.convertVariablesOrPropertiesDetail(
           declaration.getVariablesOrProperties()
         );
-      case 'full_variables':
-      case 'full_properties':
+      case 'FULL_VARIABLES':
+      case 'FULL_PROPERTIES':
         return this.convertVariablesOrPropertiesFull(declaration);
-      case 'summary_functions':
-      case 'summary_methods':
+      case 'SUMMARY_FUNCTIONS':
+      case 'SUMMARY_METHODS':
         return this.convertFunctionsOrMethodsSummary(
           declaration.getFunctionsOrMethods()
         );
-      case 'detail_functions':
-      case 'detail_methods':
+      case 'DETAIL_FUNCTIONS':
+      case 'DETAIL_METHODS':
         return this.convertFunctionsOrMethodsDetail(
           declaration.getFunctionsOrMethods()
         );
-      case 'full_functions':
-      case 'full_methods':
+      case 'FULL_FUNCTIONS':
+      case 'FULL_METHODS':
         return this.convertFunctionsOrMethodsFull(declaration);
-      case 'summary_interfaces':
+      case 'SUMMARY_INTERFACES':
         return this.convertInterfacesSummary(declaration.getInterfaces());
-      case 'summary_classes':
+      case 'SUMMARY_CLASSES':
         return this.convertClassesSummary(declaration.getClasses());
-      case 'self':
+      case 'FULL':
+        return this.convertFull(declaration);
+      case 'SELF':
       default:
         return this.convertSelf(declaration);
     }
@@ -73,7 +73,7 @@ export class Converter {
 
   private convertSelf(declaration: Declaration) {
     const blocks: Block[] = [];
-    const { kindString = 'Global' } = declaration.REFLECTION;
+    const kindText = (declaration.REFLECTION.kindString || 'Unknown').toLowerCase();
     const {
       LEVEL,
       ID,
@@ -88,24 +88,25 @@ export class Converter {
     } = declaration;
     // default blocks
     const body = this.$Content.buildText([
-      SHORT_TEXT || `The \`${NAME}\` ${kindString.toLowerCase()}.`,
+      SHORT_TEXT || `The \`${NAME}\` ${kindText}.`,
       TEXT || '',
     ]);
     // function or method
     if (declaration.isKind('CallSignature')) {
-      const displayName = `${NAME}(${PARAMETERS.map(item => item.name).join(
-        ', '
-      )})`;
+      const params = PARAMETERS
+        .map(({ name, isOptional }) => isOptional ? name + '?' : name)
+        .join(', ');
+      const displayName = `\`${NAME}(${params})\``;
       const head = this.$Content.buildHeader(ID, LEVEL, displayName, LINK);
       blocks.push(head, body);
       // params
       if (!!PARAMETERS.length) {
         const parameterRows = PARAMETERS.map(parameter => {
-          const { name, isOptional, type, typeLink, shortText } = parameter;
+          const { name, isOptional, type, typeLink, text } = parameter;
           return [
             !isOptional ? `**${name}**` : name,
             !!typeLink ? `[\`${type}\`](${typeLink})` : `\`${type}\``,
-            shortText || '',
+            text || '',
           ];
         });
         blocks.push(
@@ -127,9 +128,16 @@ export class Converter {
         ])
       );
     }
+    // variable or property
+    else if (declaration.isKind('Variable') || declaration.isKind('Property')) {
+      const displayName = `\`${NAME}\``;
+      const head = this.$Content.buildHeader(ID, LEVEL, displayName, LINK);
+      blocks.push(head, body);
+    }
     // any
     else {
-      const head = this.$Content.buildHeader(ID, LEVEL, NAME, LINK);
+      const displayName = `The \`${NAME}\` ${kindText}`;
+      const head = this.$Content.buildHeader(ID, LEVEL, displayName, LINK);
       blocks.push(head, body);
     }
     // result
@@ -159,8 +167,8 @@ export class Converter {
     // get data
     const summaryRows: string[][] = [];
     declarations.forEach(declaration => {
-      // summary
       const {
+        ID,
         NAME,
         LINK,
         IS_OPTIONAL,
@@ -168,7 +176,7 @@ export class Converter {
         TYPE_LINK,
         SHORT_TEXT,
       } = declaration;
-      const ref = standalone ? LINK : '#' + declaration.getChildId(NAME);
+      const ref = standalone ? LINK : '#' + ID;
       summaryRows.push([
         `[${!IS_OPTIONAL ? `**${NAME}**` : NAME}](${ref})`,
         !!TYPE_LINK ? `[\`${TYPE}\`](${TYPE_LINK})` : `\`${TYPE}\``,
@@ -202,6 +210,9 @@ export class Converter {
       : ['properties', 'property'];
     // children
     const children = declaration.getVariablesOrProperties();
+    if (!children.length) {
+      return [];
+    }
     // summary
     const summaryText = this.$Content.buildText(`**${parentName} ${t1}**`);
     const summaryBlocks = this.convertVariablesOrPropertiesSummary(
@@ -218,18 +229,29 @@ export class Converter {
   }
 
   private convertFunctionsOrMethodsSummary(
-    executables: Declaration[],
+    declarations: Declaration[],
     standalone = true
   ) {
     const blocks: Block[] = [];
     // get data
     const summaryRows: string[][] = [];
-    executables.forEach(executable => {
-      // summary
-      const { NAME, LINK, TYPE, TYPE_LINK, SHORT_TEXT } = executable;
-      const ref = standalone ? LINK : '#' + executable.ID;
+    declarations.forEach(declaration => {
+      const {
+        ID,
+        NAME,
+        LINK,
+        TYPE,
+        TYPE_LINK,
+        SHORT_TEXT,
+        PARAMETERS,
+      } = declaration;
+      const params = PARAMETERS
+        .map(({ name, isOptional }) => isOptional ? name + '?' : name)
+        .join(', ');
+      const displayName = `\`${NAME}(${params})\``;
+      const ref = standalone ? LINK : '#' + ID;
       summaryRows.push([
-        `[${NAME}](${ref})`,
+        `[${displayName}](${ref})`,
         !!TYPE_LINK ? `[\`${TYPE}\`](${TYPE_LINK})` : `\`${TYPE}\``,
         SHORT_TEXT || '',
       ]);
@@ -246,10 +268,10 @@ export class Converter {
     return blocks;
   }
 
-  private convertFunctionsOrMethodsDetail(executables: Declaration[]) {
+  private convertFunctionsOrMethodsDetail(declarations: Declaration[]) {
     const blocks: Block[] = [];
-    executables.forEach(executable =>
-      blocks.push(...this.convertSelf(executable))
+    declarations.forEach(declaration =>
+      blocks.push(...this.convertSelf(declaration))
     );
     return blocks;
   }
@@ -261,6 +283,9 @@ export class Converter {
       : ['methods', 'method'];
     // children
     const children = declaration.getFunctionsOrMethods();
+    if (!children.length) {
+      return [];
+    }
     // summary
     const summaryText = this.$Content.buildText(`**${parentName} ${t1}**`);
     const summaryBlocks = this.convertFunctionsOrMethodsSummary(

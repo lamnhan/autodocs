@@ -168,7 +168,9 @@ export class Declaration {
     return this.$Typedoc
       .getReflections('VariableOrProperty', this.reflection)
       .map(item =>
-        new Declaration(this.$Typedoc, this.$Content, item).downLevel()
+        new Declaration(this.$Typedoc, this.$Content, item)
+          .setId(this.getChildId(item.name))
+          .downLevel()
       );
   }
 
@@ -185,7 +187,7 @@ export class Declaration {
           result.push(
             // tslint:disable-next-line: no-any
             new Declaration(this.$Typedoc, this.$Content, signature as any)
-              .setId(this.getChildId(signature.name + ' ' + i))
+              .setId(this.getChildId(signature.name) + '-' + i)
               .downLevel()
           )
         )

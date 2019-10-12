@@ -1,6 +1,7 @@
 import { EOL } from 'os';
 import { readFileSync, outputFileSync } from 'fs-extra';
 import { format as prettierFormater } from 'prettier';
+import { ConverterOptions, Converter } from 'showdown';
 const matchAll = require('match-all');
 
 export interface ContentBySections {
@@ -97,6 +98,10 @@ export class Content {
     return result;
   }
 
+  md2Html(mdContent: string, options?: ConverterOptions) {
+    return new Converter(options).makeHtml(mdContent);
+  }
+
   format(content: string) {
     return prettierFormater(content, { parser: 'markdown' });
   }
@@ -169,7 +174,7 @@ export class Content {
   renderHeader({ id, title, level, link }: Header) {
     const h = 'h' + level;
     const a = `a name="${id}"` + (!!link ? ` href="${link}"` : ``);
-    return this.format(`<${h}><${a}>${title}</a></${h}>`);
+    return this.format(`<${h}><${a}>${this.md2Html(title)}</a></${h}>`);
   }
 
   renderText(text: Text) {
@@ -186,7 +191,7 @@ export class Content {
   renderTable([headers, ...rows]: Table) {
     const tableRows = rows.map(cells => {
       // process value
-      cells.map(x => (x || '').replace(/\|/g, '\\|'));
+      cells = cells.map(x => (x || '').replace(/\|/g, '\\|'));
       // build row
       return '| ' + cells.join(' | ') + ' |';
     });

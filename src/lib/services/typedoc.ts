@@ -121,8 +121,7 @@ export class Typedoc {
     reflection: Reflection,
     kindString: keyof typeof ReflectionKind
   ) {
-    const kind = this.getKindByString(kindString);
-    return reflection.kind === kind;
+    return reflection.kind === this.getKindByString(kindString);
   }
 
   getReflections(
@@ -181,15 +180,15 @@ export class Typedoc {
       link = `classes/${id}.html`;
     } else if (
       kind === ReflectionKind.Variable ||
-      kind === ReflectionKind.Function
+      kind === ReflectionKind.Function ||
+      kind === ReflectionKind.TypeAlias
     ) {
       link = `globals.html#${id}`;
     } else {
       link = 'globals.html';
     }
     // result
-    const { url } = this.$Project.OPTIONS;
-    return url + '/' + link;
+    return this.$Project.OPTIONS.url + '/' + link;
   }
 
   private getLink(reflection: Reflection) {
@@ -229,9 +228,9 @@ export class Typedoc {
     if (!!type) {
       typeData.type = type.toString();
       // build link
-      if (type.type === 'reference') {
-        const { reflection } = type as ReferenceType;
-        const { name, kind } = reflection as Reflection;
+      if (type.type === 'reference' && !!(type as ReferenceType).reflection) {
+        const { reflection: typeReflection } = type as ReferenceType;
+        const { name, kind } = typeReflection as Reflection;
         typeData.typeLink = this.getTypeLink(name, kind);
       }
     }
