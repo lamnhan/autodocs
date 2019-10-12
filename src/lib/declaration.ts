@@ -193,8 +193,9 @@ export class Declaration {
     return this.$Typedoc
       .getReflections('Interface', this.reflection)
       .map(item =>
-        new Declaration(this.$Typedoc, this.$Content, item)
-          .setLevel(this.level + 1)
+        new Declaration(this.$Typedoc, this.$Content, item).setLevel(
+          this.level + 1
+        )
       );
   }
 
@@ -205,8 +206,9 @@ export class Declaration {
     return this.$Typedoc
       .getReflections('Class', this.reflection)
       .map(item =>
-        new Declaration(this.$Typedoc, this.$Content, item)
-          .setLevel(this.level + 1)
+        new Declaration(this.$Typedoc, this.$Content, item).setLevel(
+          this.level + 1
+        )
       );
   }
 }

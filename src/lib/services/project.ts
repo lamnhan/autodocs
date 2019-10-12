@@ -1,7 +1,8 @@
 import { resolve } from 'path';
 import { pathExistsSync, readJsonSync } from 'fs-extra';
 
-import { Options } from '../types';
+import { Options, BuiltinTemplate } from '../types';
+import { Rendering } from './renderer';
 
 export interface PackageJson {
   name: string;
@@ -43,6 +44,17 @@ export class Project {
     return this.options;
   }
 
+  getTemplate(name: BuiltinTemplate) {
+    switch (name) {
+      case 'general':
+        return this.getGeneralTemplate();
+      case 'full':
+        return this.getFullTemplate();
+      default:
+        throw new Error('No template name ' + name);
+    }
+  }
+
   private getPackageJson() {
     return readJsonSync('package.json') as PackageJson;
   }
@@ -72,5 +84,66 @@ export class Project {
     options.files = options.files || {};
     // options
     return options;
+  }
+
+  private getGeneralTemplate() {
+    return {
+      head: true,
+      toc: true,
+      options: [
+        {
+          type: 'header',
+          data: {
+            id: 'options',
+            level: 2,
+            title: 'Options',
+          },
+        },
+        ['Options', 'SUMMARY_PROPERTIES'],
+      ],
+      main: ['Main', 'FULL', { title: 'Main service' }],
+      license: true,
+    } as Rendering;
+  }
+
+  private getFullTemplate() {
+    return {
+      head: true,
+      toc: true,
+      functions: [
+        {
+          type: 'header',
+          data: {
+            id: 'functions',
+            level: 2,
+            title: 'Functions',
+          },
+        },
+        ['*', 'FULL_FUNCTIONS'],
+      ],
+      interfaces: [
+        {
+          type: 'header',
+          data: {
+            id: 'interfaces',
+            level: 2,
+            title: 'Interfaces',
+          },
+        },
+        ['*', 'FULL_INTERFACES'],
+      ],
+      classes: [
+        {
+          type: 'header',
+          data: {
+            id: 'classes',
+            level: 2,
+            title: 'Classes',
+          },
+        },
+        ['*', 'FULL_CLASSES'],
+      ],
+      license: true,
+    } as Rendering;
   }
 }

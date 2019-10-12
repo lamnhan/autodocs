@@ -2,6 +2,7 @@ import chalk from 'chalk';
 import * as commander from 'commander';
 
 import { Autodocs } from '../lib/main';
+import { BatchRendering } from '../lib/services/renderer';
 
 export class CLI {
   private lib: Autodocs;
@@ -37,7 +38,14 @@ export class CLI {
   }
 
   generate() {
-    const { out, files: batchRendering = {} } = this.lib.Project.OPTIONS;
+    const { out, files = {} } = this.lib.Project.OPTIONS;
+    const batchRendering: BatchRendering = {};
+    // convert files to batch rendering
+    Object.keys(files).forEach(path => {
+      const value = files[path];
+      batchRendering[path] =
+        typeof value === 'string' ? this.lib.Project.getTemplate(value) : value;
+    });
     // render files
     const batchCurrentContent = this.lib.Loader.batchLoad(
       Object.keys(batchRendering)
