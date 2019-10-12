@@ -87,6 +87,10 @@ export class Renderer {
     if (!!content.license) {
       content.license = this.renderLicense();
     }
+    // add attr
+    if (!this.$Project.OPTIONS.noAttr) {
+      content.attr = this.renderAttr();
+    }
     // sum-up content
     const finalContent: string[] = [];
     Object.keys(content).forEach(sectionName => {
@@ -161,6 +165,13 @@ export class Renderer {
     return this.$Content.renderText([
       '## License',
       `**${name}** is released under the [${license}](${licenseUrl}) license.`,
+    ]);
+  }
+
+  private renderAttr() {
+    return this.$Content.renderText([
+      '---',
+      `⚡️ This document is generated automatically using [@lamnhan/autodocs](https://github.com/lamnhan/autodocs).`
     ]);
   }
 }

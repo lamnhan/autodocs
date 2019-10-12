@@ -129,16 +129,6 @@ export class Declaration {
     return this;
   }
 
-  downLevel(by = 1) {
-    this.level = this.level + by;
-    return this;
-  }
-
-  upLevel(by = 1) {
-    this.level = this.level - by;
-    return this;
-  }
-
   isKind(kindString: keyof typeof ReflectionKind) {
     return this.$Typedoc.isReflectionKind(this.reflection, kindString);
   }
@@ -170,7 +160,7 @@ export class Declaration {
       .map(item =>
         new Declaration(this.$Typedoc, this.$Content, item)
           .setId(this.getChildId(item.name))
-          .downLevel()
+          .setLevel(this.level + 1)
       );
   }
 
@@ -188,7 +178,7 @@ export class Declaration {
             // tslint:disable-next-line: no-any
             new Declaration(this.$Typedoc, this.$Content, signature as any)
               .setId(this.getChildId(signature.name) + '-' + i)
-              .downLevel()
+              .setLevel(this.level + 1)
           )
         )
       );
@@ -202,7 +192,10 @@ export class Declaration {
     }
     return this.$Typedoc
       .getReflections('Interface', this.reflection)
-      .map(item => new Declaration(this.$Typedoc, this.$Content, item));
+      .map(item =>
+        new Declaration(this.$Typedoc, this.$Content, item)
+          .setLevel(this.level + 1)
+      );
   }
 
   getClasses() {
@@ -211,6 +204,9 @@ export class Declaration {
     }
     return this.$Typedoc
       .getReflections('Class', this.reflection)
-      .map(item => new Declaration(this.$Typedoc, this.$Content, item));
+      .map(item =>
+        new Declaration(this.$Typedoc, this.$Content, item)
+          .setLevel(this.level + 1)
+      );
   }
 }
