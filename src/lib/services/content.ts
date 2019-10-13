@@ -98,6 +98,20 @@ export class Content {
     return result;
   }
 
+  extractHeadings(content: string) {
+    const headings: BlockHeader[] = [];
+    (content.match(/\n#{1}[^\n]*/g) || []).forEach(heading => {
+      const [ head, ...body ] = heading.replace(/(?:\r\n|\r|\n)/g, '').split(' ');
+      const level = head.length;
+      if (level < 7) {
+        const title = body.join(' ').replace(new RegExp(' ' + head, 'g'), '');
+        const id = this.buildId(title);
+        headings.push(this.buildHeader(id, level, title));
+      }
+    });
+    return headings;
+  }
+
   md2Html(mdContent: string, options?: ConverterOptions) {
     return new Converter(options).makeHtml(mdContent);
   }

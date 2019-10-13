@@ -38,6 +38,8 @@ export class Renderer {
   private $Parser: Parser;
   private $Converter: Converter;
 
+  private tocPlaceholder = '[TOC]';
+
   constructor(
     $Project: Project,
     $Content: Content,
@@ -75,28 +77,43 @@ export class Renderer {
       ...currentContent,
       ...renderingData,
     };
-    // render content
-    const content: string[] = [];
+    // extract toc & content data
+    const tocData: Block[] = [];
+    const contentData: string[] = [];
     Object.keys(data).forEach(sectionName => {
       const sectionData = data[sectionName];
       // opening
-      content.push(this.$Content.getSectionOpening(sectionName));
+      contentData.push(this.$Content.getSectionOpening(sectionName));
       // rendered content
       if (sectionData instanceof Array) {
-        content.push(
+        contentData.push(
           '<!-- AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY -->',
-          this.$Content.renderContent(sectionData)
+          sectionName === 'toc'
+            ? this.tocPlaceholder
+            : this.$Content.renderContent(sectionData)
         );
+        // save toc data
+        tocData.push(...sectionData);
       }
       // current content
       else {
-        content.push(sectionData);
+        contentData.push(sectionData);
+        // save toc data
+        const headings = this.$Content.extractHeadings(sectionData);
+        tocData.push(...headings);
       }
       // closing
-      content.push(this.$Content.getSectionClosing(sectionName));
+      contentData.push(this.$Content.getSectionClosing(sectionName));
     });
+    // render content
+    let content = this.$Content.renderText(contentData);
+    // add toc
+    if (!!data.toc) {
+      const toc = this.$Content.renderContent(this.getDataTOC(tocData));
+      content = content.replace(this.tocPlaceholder, toc);
+    }
     // result
-    return this.$Content.renderText(content);
+    return content;
   }
 
   getBatchData(batchRendering: BatchRendering) {
@@ -109,7 +126,6 @@ export class Renderer {
 
   getData(rendering: Rendering) {
     const data: RenderingData = {};
-    const tocData: Block[] = [];
     // get data for every section
     Object.keys(rendering).forEach(sectionName => {
       const sectionRendering = rendering[sectionName];
@@ -124,8 +140,8 @@ export class Renderer {
         else if (sectionName === 'license') {
           sectionBlocks = this.getDataLicense();
         }
-        // toc
-        else if (sectionName === 'toc') {
+        // toc, ...
+        else {
           sectionBlocks = [];
         }
       }
@@ -170,13 +186,7 @@ export class Renderer {
       }
       // save rendering data
       data[sectionName] = sectionBlocks;
-      // save toc data
-      tocData.push(...sectionBlocks);
     });
-    // add toc
-    if (!!data.toc) {
-      data.toc = this.getDataTOC(tocData);
-    }
     // add attr
     if (!this.$Project.OPTIONS.noAttr) {
       data.attr = this.getDataAttr();
