@@ -249,10 +249,6 @@ export class Typedoc {
     return flagData;
   }
 
-  private parseDefaultValue(value: any) {
-    return value;
-  }
-
   private getDefaultValue(reflection: Reflection) {
     const {
       kind,
@@ -261,14 +257,18 @@ export class Typedoc {
     } = reflection as DeclarationReflection;
     // get default value data
     const defaultValueData: DefaultValueData = { defaultValue: '' };
-    if (kind === ReflectionKind.Property) {
-      // object
+    if (
+      kind === ReflectionKind.Variable ||
+      kind === ReflectionKind.Property ||
+      kind === ReflectionKind.ObjectLiteral
+    ) {
+      // object literal
       if (!!children.length) {
         const value: { [name: string]: any } = {};
-        children.forEach(
-          ({ name, defaultValue }) =>
-            (value[name] = this.parseDefaultValue(defaultValue))
-        );
+        children.forEach(childReflection => {
+          const { defaultValue } = this.getDefaultValue(childReflection);
+          value[childReflection.name] = defaultValue;
+        });
         defaultValueData.defaultValue = value;
       }
       // any
@@ -278,6 +278,39 @@ export class Typedoc {
     }
     // result
     return defaultValueData;
+  }
+
+  private parseDefaultValue(value: any) {
+    value = value.trim();
+    // string
+    if (
+      value.slice(0, 1) === '"' &&
+      value.slice(-1) === '"'
+    ) {
+      value = (value as string).slice(1, -1);
+    }
+    // true
+    else if ((value + '').toLowerCase() === 'true') {
+      value = true;
+    }
+    // false
+    else if ((value + '').toLowerCase() === 'false') {
+      value = false;
+    }
+    // number
+    else if (!isNaN(value)) {
+      value = Number(value);
+    }
+    // array, ...
+    else {
+      try {
+        value = JSON.parse(value.replace(/\'/g, '"'));
+      } catch (e) {
+        /* invalid json, keep value as is */
+      }
+    }
+    // result
+    return value;
   }
 
   private getComment(reflection: Reflection) {
