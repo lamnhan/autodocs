@@ -3,6 +3,7 @@ import {
   SignatureReflection,
   ReflectionKind,
   ReflectionData,
+  DefaultValue,
   Typedoc,
 } from './services/typedoc';
 import { Content } from './services/content';
@@ -24,7 +25,7 @@ export class Declaration {
   private type: string;
   private typeLink: string;
   private isOptional: boolean;
-  private defaultValue: string | number | boolean | {} | [];
+  private defaultValue: DefaultValue;
   // call signature
   private parameters: ReflectionData[];
 

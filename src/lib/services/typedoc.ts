@@ -16,6 +16,8 @@ export * from 'typedoc/dist/lib/models';
 
 export type KindString = keyof typeof ReflectionKind;
 
+export type DefaultValue = string | number | boolean | {} | [];
+
 interface TypeData {
   type: string;
   typeLink?: string;
@@ -26,7 +28,7 @@ interface FlagData {
 }
 
 interface DefaultValueData {
-  defaultValue?: any;
+  defaultValue?: DefaultValue;
 }
 
 interface CommentData {
@@ -318,7 +320,7 @@ export class Typedoc {
       }
     }
     // result
-    return value;
+    return value as DefaultValue;
   }
 
   private getComment(reflection: Reflection) {

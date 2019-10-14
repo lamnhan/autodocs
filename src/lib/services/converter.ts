@@ -1,4 +1,5 @@
 import { Project } from './project';
+import { DefaultValue } from './typedoc';
 import { Block, Content } from './content';
 
 import { Declaration } from '../declaration';
@@ -78,12 +79,44 @@ export class Converter {
         return this.detailClasses(declaration.getClasses());
       case 'FULL_CLASSES':
         return this.fullClasses(declaration);
+      case 'VALUE':
+        return this.value(declaration);
       case 'FULL':
         return this.full(declaration, options);
       case 'SELF':
       default:
         return this.self(declaration, options);
     }
+  }
+
+  private value(declaration: Declaration) {
+    // converter
+    const convertValue = (value: DefaultValue) => {
+      if (value instanceof Array) {
+        const items: string[] = [];
+        value.forEach((item, i) =>
+          items.push(`**#${i + 1}**`, convertValue(item), '---')
+        );
+        return this.$Content.renderText(items);
+      } else if (value instanceof Object) {
+        return this.$Content.renderText([
+          `\`\`\`json`,
+          JSON.stringify(value, null, 2),
+          `\`\`\``
+        ]);
+      } else if (
+        typeof value === 'number' ||
+        typeof value === 'boolean'
+      ) {
+        return `\`${value}\``;
+      } else {
+        return value;
+      }
+    };
+    // result
+    const { DEFAULT_VALUE: value } = declaration;
+    const valueText = convertValue(value);
+    return this.$Content.buildText(valueText);
   }
 
   private self(declaration: Declaration, options: ConvertOptions = {}) {
