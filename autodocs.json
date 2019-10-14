@@ -1,0 +1,9 @@
+{
+  "files": {
+    "README2.md": {
+      "head": true,
+      "toc": true,
+      "license": true
+    }
+  }
+}

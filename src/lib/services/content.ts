@@ -51,9 +51,9 @@ export class Content {
     return outputFileSync(path, content);
   }
 
-  getSectionOpening(id: string, attrs: {[attr: string]: string} = {}) {
+  getSectionOpening(id: string, attrs: { [attr: string]: string } = {}) {
     let attrsStr = '';
-    Object.keys(attrs).forEach(key => attrsStr += ` ${key}="${attrs[key]}"`);
+    Object.keys(attrs).forEach(key => (attrsStr += ` ${key}="${attrs[key]}"`));
     return `<section id="${id}"${attrsStr}>`;
   }
 
@@ -78,7 +78,7 @@ export class Content {
   extractHeadings(content: string) {
     const headings: BlockHeader[] = [];
     (content.match(/\n#{1}[^\n]*/g) || []).forEach(heading => {
-      const [ head, ...body ] = heading.replace(/(?:\r\n|\r|\n)/g, '').split(' ');
+      const [head, ...body] = heading.replace(/(?:\r\n|\r|\n)/g, '').split(' ');
       const level = head.length;
       if (level < 7) {
         const title = body.join(' ').replace(new RegExp(' ' + head, 'g'), '');
@@ -170,9 +170,7 @@ export class Content {
 
   renderText(text: Text, single = false) {
     return this.format(
-      typeof text === 'string'
-        ? text
-        : text.join(single ? EOL : this.EOL2X)
+      typeof text === 'string' ? text : text.join(single ? EOL : this.EOL2X)
     );
   }
 

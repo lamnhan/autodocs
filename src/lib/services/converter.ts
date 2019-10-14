@@ -107,15 +107,19 @@ export class Converter {
           return this.$Content.renderText([
             `\`\`\`json`,
             JSON.stringify(value, null, 2),
-            `\`\`\``
+            `\`\`\``,
           ]);
         } else {
           const items: string[] = [];
-          const valueObj = value as {[key: string]: DefaultValue};
+          const valueObj = value as { [key: string]: DefaultValue };
           Object.keys(valueObj).forEach(key => {
             const item = valueObj[key];
             const valueText = convertValue(item);
-            items.push('<li>' + this.$Content.md2Html(`**\`${key}\`**: ` + valueText) + '</li>');
+            items.push(
+              '<li>' +
+                this.$Content.md2Html(`**\`${key}\`**: ` + valueText) +
+                '</li>'
+            );
           });
           return this.$Content.renderText(['<ul>', ...items, '</ul>'], true);
         }

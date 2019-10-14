@@ -296,10 +296,7 @@ export class Typedoc {
   private parseDefaultValue(value: any) {
     value = value.trim();
     // string
-    if (
-      value.slice(0, 1) === '"' &&
-      value.slice(-1) === '"'
-    ) {
+    if (value.slice(0, 1) === '"' && value.slice(-1) === '"') {
       value = (value as string).slice(1, -1);
     }
     // true

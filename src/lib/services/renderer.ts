@@ -84,10 +84,9 @@ export class Renderer {
       const sectionData = data[sectionName];
       // opening
       contentData.push(
-        this.$Content.getSectionOpening(
-          sectionName,
-          { title: 'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY' }
-        )
+        this.$Content.getSectionOpening(sectionName, {
+          title: 'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY',
+        })
       );
       // rendered content
       if (sectionData instanceof Array) {
@@ -165,7 +164,7 @@ export class Renderer {
           // declaration
           if (blockRendering instanceof Array) {
             const [source, output = 'SELF', options = {}] = blockRendering;
-            const [ whatDef, child ] = source.split('#');
+            const [whatDef, child] = source.split('#');
             const what =
               !whatDef || whatDef === '*'
                 ? undefined

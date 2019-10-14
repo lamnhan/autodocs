@@ -38,25 +38,6 @@ export class CLI {
   }
 
   generate() {
-//     const content = `
-// <section id="xxx-1" title="AUTO-GENERATED CONTENT, DO NOT EDIT">
-
-// ## XXX 1
-
-// Lorem ipsum dolat init!
-
-// </section>
-
-// <section id="xxx-2" title="AUTO-GENERATED CONTENT, DO NOT EDIT">
-
-// ## XXX 2
-
-// Lorem ipsum dolat init!
-
-// </section>
-//     `;
-//     console.log(this.lib.Content.extractSections(content));
-
     const { out, files = {} } = this.lib.Project.OPTIONS;
     const batchRendering: BatchRendering = {};
     // convert files to batch rendering
@@ -77,6 +58,6 @@ export class CLI {
       this.lib.Content.writeFileSync(path, batchResult[path])
     );
     // generate /docs
-    // this.lib.Typedoc.generateDocs(out as string);
+    this.lib.Typedoc.generateDocs(out as string);
   }
 }
