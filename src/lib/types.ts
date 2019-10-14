@@ -9,4 +9,4 @@ export interface Options {
   };
 }
 
-export type BuiltinTemplate = 'general' | 'full';
+export type BuiltinTemplate = 'mini' | 'full';

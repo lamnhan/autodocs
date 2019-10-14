@@ -2,7 +2,6 @@ import { EOL } from 'os';
 import { readFileSync, outputFileSync } from 'fs-extra';
 import { format as prettierFormater } from 'prettier';
 import { ConverterOptions, Converter } from 'showdown';
-const matchAll = require('match-all');
 
 export interface ContentBySections {
   [section: string]: string;
@@ -39,9 +38,9 @@ export interface BlockTable {
   data: Table;
 }
 
-const EOL2X = EOL.repeat(2);
-
 export class Content {
+  EOL2X = EOL.repeat(2);
+
   constructor() {}
 
   readFileSync(path: string) {
@@ -52,49 +51,27 @@ export class Content {
     return outputFileSync(path, content);
   }
 
-  contentBetween(
-    content: string,
-    prefix: string,
-    suffix: string,
-    includePrefix = false,
-    includeSuffix = false
-  ) {
-    let prefixIndex = content.indexOf(prefix);
-    let suffixIndex = content.indexOf(suffix);
-    // invalid
-    if (prefixIndex < 0 || suffixIndex < 0 || suffixIndex <= prefixIndex) {
-      return '';
-    }
-    // valid
-    if (!includePrefix) {
-      prefixIndex = prefixIndex + prefix.length;
-    }
-    if (includeSuffix) {
-      suffixIndex = suffixIndex + suffix.length;
-    }
-    return content.substring(prefixIndex, suffixIndex);
+  getSectionOpening(id: string, attrs: {[attr: string]: string} = {}) {
+    let attrsStr = '';
+    Object.keys(attrs).forEach(key => attrsStr += ` ${key}="${attrs[key]}"`);
+    return `<section id="${id}"${attrsStr}>`;
   }
 
-  getSectionOpening(name: string) {
-    return `<!-- <section:${name}> -->`;
-  }
-
-  getSectionClosing(name: string) {
-    return `<!-- </section:${name}> -->`;
+  getSectionClosing() {
+    return '</section>';
   }
 
   extractSections(content: string) {
     const result: ContentBySections = {};
-    const sectionNames = matchAll(
-      content,
-      /\<section\:([a-zA-Z0-9_\-]+)\>/gi
-    ).toArray();
-    for (const name of sectionNames) {
-      const opening = this.getSectionOpening(name);
-      const closing = this.getSectionClosing(name);
-      // save content
-      result[name] = this.contentBetween(content, opening, closing);
-    }
+    const matched = content.match(/<section[^>]*>([\s\S]*?)<\/section>/g);
+    (matched || []).forEach(item => {
+      const id = (/<section id="(.*?)"/.exec(item) || []).pop();
+      if (!!id) {
+        result[id] = this.format(
+          item.replace(/<section [^\n]*/g, '').replace('</section>', '')
+        );
+      }
+    });
     return result;
   }
 
@@ -162,7 +139,7 @@ export class Content {
 
   renderContent(blocks: Block[]) {
     const result = blocks.map(block => this.renderBlock(block));
-    return this.format(result.join(EOL2X));
+    return this.format(result.join(this.EOL2X));
   }
 
   renderBlock({ type, data }: Block) {
@@ -195,7 +172,7 @@ export class Content {
     return this.format(
       typeof text === 'string'
         ? text
-        : text.join(single ? EOL : EOL2X)
+        : text.join(single ? EOL : this.EOL2X)
     );
   }
 

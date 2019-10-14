@@ -83,11 +83,15 @@ export class Renderer {
     Object.keys(data).forEach(sectionName => {
       const sectionData = data[sectionName];
       // opening
-      contentData.push(this.$Content.getSectionOpening(sectionName));
+      contentData.push(
+        this.$Content.getSectionOpening(
+          sectionName,
+          { title: 'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY' }
+        )
+      );
       // rendered content
       if (sectionData instanceof Array) {
         contentData.push(
-          '<!-- AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY -->',
           sectionName === 'toc'
             ? this.tocPlaceholder
             : this.$Content.renderContent(sectionData)
@@ -103,7 +107,7 @@ export class Renderer {
         tocData.push(...headings);
       }
       // closing
-      contentData.push(this.$Content.getSectionClosing(sectionName));
+      contentData.push(this.$Content.getSectionClosing());
     });
     // render content
     let content = this.$Content.renderText(contentData);

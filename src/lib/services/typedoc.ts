@@ -318,7 +318,7 @@ export class Typedoc {
     else {
       try {
         const valueJson = value
-          .replace(/\ .:/g, `"$&":`) // wrap '"' around object props
+          .replace(/\ .:/g, '"$&":') // wrap '"' around object props
           .replace(/(" )|(:")/g, '"') // cleanup object props wrapping
           .replace(/\'/g, '"'); // replace string single quote with double quote
         value = JSON.parse(valueJson);

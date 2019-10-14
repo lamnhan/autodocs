@@ -46,8 +46,8 @@ export class Project {
 
   getTemplate(name: BuiltinTemplate) {
     switch (name) {
-      case 'general':
-        return this.getGeneralTemplate();
+      case 'mini':
+        return this.getMiniTemplate();
       case 'full':
         return this.getFullTemplate();
       default:
@@ -86,7 +86,7 @@ export class Project {
     return options;
   }
 
-  private getGeneralTemplate() {
+  private getMiniTemplate() {
     return {
       head: true,
       toc: true,
@@ -94,7 +94,7 @@ export class Project {
         ['Options', 'SELF', { title: 'Options' }],
         ['Options', 'SUMMARY_PROPERTIES'],
       ],
-      main: ['Main', 'FULL', { title: 'Main service' }],
+      main: ['Main', 'FULL', { title: 'Main class' }],
       license: true,
     } as Rendering;
   }
@@ -103,6 +103,17 @@ export class Project {
     return {
       head: true,
       toc: true,
+      interfaces: [
+        {
+          type: 'header',
+          data: {
+            id: 'interfaces',
+            level: 2,
+            title: 'Interfaces',
+          },
+        },
+        ['*', 'SUMMARY_INTERFACES'],
+      ],
       functions: [
         {
           type: 'header',
@@ -113,17 +124,6 @@ export class Project {
           },
         },
         ['*', 'FULL_FUNCTIONS'],
-      ],
-      interfaces: [
-        {
-          type: 'header',
-          data: {
-            id: 'interfaces',
-            level: 2,
-            title: 'Interfaces',
-          },
-        },
-        ['*', 'FULL_INTERFACES'],
       ],
       classes: [
         {
