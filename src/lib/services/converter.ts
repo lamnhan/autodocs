@@ -2,7 +2,7 @@ import { Project } from './project';
 import { DefaultValue } from './typedoc';
 import { Block, Content } from './content';
 
-import { Declaration } from '../declaration';
+import { Declaration } from '../components/declaration';
 
 interface DeclarationOptions {
   id?: string;

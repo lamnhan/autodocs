@@ -7,7 +7,7 @@ import { Parser } from './services/parser';
 import { ConvertOptions, Converter } from './services/converter';
 import { Rendering, Renderer } from './services/renderer';
 
-import { Declaration } from './declaration';
+import { Declaration } from './components/declaration';
 
 class Main {
   private $Project: Project;

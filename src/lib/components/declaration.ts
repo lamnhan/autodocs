@@ -5,8 +5,8 @@ import {
   ReflectionData,
   DefaultValue,
   Typedoc,
-} from './services/typedoc';
-import { Content } from './services/content';
+} from '../services/typedoc';
+import { Content } from '../services/content';
 
 export class Declaration {
   private $Typedoc: Typedoc;

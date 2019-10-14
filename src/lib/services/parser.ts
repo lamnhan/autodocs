@@ -1,7 +1,7 @@
 import { Reflection, DeclarationReflection, Typedoc } from './typedoc';
 import { Content } from './content';
 
-import { Declaration } from '../declaration';
+import { Declaration } from '../components/declaration';
 
 export class Parser {
   private $Typedoc: Typedoc;
