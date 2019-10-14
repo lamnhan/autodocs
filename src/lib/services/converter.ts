@@ -81,6 +81,8 @@ export class Converter {
         return this.fullClasses(declaration);
       case 'VALUE':
         return this.value(declaration);
+      case 'VALUE_RAW':
+        return this.value(declaration, true);
       case 'FULL':
         return this.full(declaration, options);
       case 'SELF':
@@ -89,25 +91,38 @@ export class Converter {
     }
   }
 
-  private value(declaration: Declaration) {
+  private value(declaration: Declaration, rawObject = false) {
+    const { DEFAULT_VALUE } = declaration;
     // converter
     const convertValue = (value: DefaultValue) => {
       if (value instanceof Array) {
         const items: string[] = [];
-        value.forEach((item, i) => {
+        value.forEach(item => {
           const valueText = convertValue(item);
-          items.push(`**#${i + 1}**`, valueText, '---')
+          items.push('<li>' + this.$Content.md2Html(valueText) + '</li>');
         });
-        return this.$Content.renderText(items);
+        return this.$Content.renderText(['<ol>', ...items, '</ol>'], true);
       } else if (value instanceof Object) {
-        return this.$Content.renderText([
-          `\`\`\`json`,
-          JSON.stringify(value, null, 2),
-          `\`\`\``
-        ]);
+        if (rawObject) {
+          return this.$Content.renderText([
+            `\`\`\`json`,
+            JSON.stringify(value, null, 2),
+            `\`\`\``
+          ]);
+        } else {
+          const items: string[] = [];
+          const valueObj = value as {[key: string]: DefaultValue};
+          Object.keys(valueObj).forEach(key => {
+            const item = valueObj[key];
+            const valueText = convertValue(item);
+            items.push('<li>' + this.$Content.md2Html(`**\`${key}\`**: ` + valueText) + '</li>');
+          });
+          return this.$Content.renderText(['<ul>', ...items, '</ul>'], true);
+        }
       } else if (
         typeof value === 'number' ||
-        typeof value === 'boolean'
+        typeof value === 'boolean' ||
+        typeof value === 'undefined'
       ) {
         return `\`${value}\``;
       } else {
@@ -115,11 +130,8 @@ export class Converter {
       }
     };
     // result
-    const { DEFAULT_VALUE: value } = declaration;
-    const valueText = convertValue(value);
-    return [
-      this.$Content.buildText(valueText)
-    ];
+    const valueText = convertValue(DEFAULT_VALUE);
+    return [this.$Content.buildText(valueText)];
   }
 
   private self(declaration: Declaration, options: ConvertOptions = {}) {

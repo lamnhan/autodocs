@@ -145,7 +145,10 @@ export class Typedoc {
       : // custom project
         // TODO: do not create new project
         this.createProject(
-          this.createApp({ name: what.join(' ').replace(/(src\/)/g, '@') }),
+          this.createApp({
+            name: what.join(' ').replace(/(src\/)/g, '@'),
+            excludeExternal: true,
+          }),
           what
         );
     if (!reflection) {

@@ -191,8 +191,12 @@ export class Content {
     return this.format(`<${h}><${a}>${this.md2Html(title)}</a></${h}>`);
   }
 
-  renderText(text: Text) {
-    return this.format(typeof text === 'string' ? text : text.join(EOL2X));
+  renderText(text: Text, single = false) {
+    return this.format(
+      typeof text === 'string'
+        ? text
+        : text.join(single ? EOL : EOL2X)
+    );
   }
 
   renderList(list: List) {
