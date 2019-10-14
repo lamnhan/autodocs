@@ -314,7 +314,11 @@ export class Typedoc {
     // array, ...
     else {
       try {
-        value = JSON.parse(value.replace(/\'/g, '"'));
+        const valueJson = value
+          .replace(/\ .:/g, `"$&":`) // wrap '"' around object props
+          .replace(/(" )|(:")/g, '"') // cleanup object props wrapping
+          .replace(/\'/g, '"'); // replace string single quote with double quote
+        value = JSON.parse(valueJson);
       } catch (e) {
         /* invalid json, keep value as is */
       }

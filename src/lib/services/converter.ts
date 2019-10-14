@@ -94,9 +94,10 @@ export class Converter {
     const convertValue = (value: DefaultValue) => {
       if (value instanceof Array) {
         const items: string[] = [];
-        value.forEach((item, i) =>
-          items.push(`**#${i + 1}**`, convertValue(item), '---')
-        );
+        value.forEach((item, i) => {
+          const valueText = convertValue(item);
+          items.push(`**#${i + 1}**`, valueText, '---')
+        });
         return this.$Content.renderText(items);
       } else if (value instanceof Object) {
         return this.$Content.renderText([
@@ -116,7 +117,9 @@ export class Converter {
     // result
     const { DEFAULT_VALUE: value } = declaration;
     const valueText = convertValue(value);
-    return this.$Content.buildText(valueText);
+    return [
+      this.$Content.buildText(valueText)
+    ];
   }
 
   private self(declaration: Declaration, options: ConvertOptions = {}) {
