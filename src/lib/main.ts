@@ -61,8 +61,8 @@ class Main {
     return this.$Renderer;
   }
 
-  parse(what?: string | string[]) {
-    return this.$Parser.parse(what);
+  parse(what?: string | string[], child?: string) {
+    return this.$Parser.parse(what, child);
   }
 
   convert(declaration: Declaration, output: string, options?: ConvertOptions) {

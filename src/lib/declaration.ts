@@ -151,6 +151,13 @@ export class Declaration {
     return this.isKind('Global');
   }
 
+  getChild(name: string) {
+    const reflection = this.$Typedoc.getChildReflection(this.reflection, name);
+    return new Declaration(this.$Typedoc, this.$Content, reflection)
+      .setId(this.getChildId(reflection.name))
+      .setLevel(this.level + 1);
+  }
+
   getVariablesOrProperties() {
     if (!this.hasVariablesOrProperties()) {
       throw new Error('No variables or properties.');

@@ -3,11 +3,17 @@ import { Block, Content } from './content';
 
 import { Declaration } from '../declaration';
 
-export interface ConvertOptions {
-  level?: number;
+interface DeclarationOptions {
   id?: string;
-  title?: string;
+  level?: number;
 }
+
+interface HeaderOptions {
+  title?: string;
+  link?: string;
+}
+
+export interface ConvertOptions extends DeclarationOptions, HeaderOptions {}
 
 export class Converter {
   private $Project: Project;
@@ -23,7 +29,7 @@ export class Converter {
     output: string,
     options: ConvertOptions = {}
   ) {
-    const { level, id, title: customTitle } = options;
+    const { level, id } = options;
     // override level
     if (!!level) {
       declaration.setLevel(level);
@@ -73,14 +79,15 @@ export class Converter {
       case 'FULL_CLASSES':
         return this.fullClasses(declaration);
       case 'FULL':
-        return this.full(declaration, customTitle);
+        return this.full(declaration, options);
       case 'SELF':
       default:
-        return this.self(declaration, customTitle);
+        return this.self(declaration, options);
     }
   }
 
-  private self(declaration: Declaration, customTitle?: string) {
+  private self(declaration: Declaration, options: ConvertOptions = {}) {
+    const { title: customTitle, link: customLink } = options;
     const blocks: Block[] = [];
     const kindText = (
       declaration.REFLECTION.kindString || 'Unknown'
@@ -108,7 +115,8 @@ export class Converter {
         isOptional ? name + '?' : name
       ).join(', ');
       const title = customTitle || `\`${NAME}(${params})\``;
-      blocks.push(this.$Content.buildHeader(ID, LEVEL, title, LINK), body);
+      const link = customLink || LINK;
+      blocks.push(this.$Content.buildHeader(ID, LEVEL, title, link), body);
       // params
       if (!!PARAMETERS.length) {
         const parameterRows = PARAMETERS.map(parameter => {
@@ -141,20 +149,22 @@ export class Converter {
     // variable or property
     else if (declaration.isKind('Variable') || declaration.isKind('Property')) {
       const title = customTitle || `\`${NAME}\``;
-      blocks.push(this.$Content.buildHeader(ID, LEVEL, title, LINK), body);
+      const link = customLink || LINK;
+      blocks.push(this.$Content.buildHeader(ID, LEVEL, title, link), body);
     }
     // any
     else {
       const title = customTitle || `The \`${NAME}\` ${kindText}`;
-      blocks.push(this.$Content.buildHeader(ID, LEVEL, title, LINK), body);
+      const link = customLink || LINK;
+      blocks.push(this.$Content.buildHeader(ID, LEVEL, title, link), body);
     }
     // result
     return blocks;
   }
 
-  private full(declaration: Declaration, customTitle?: string) {
+  private full(declaration: Declaration, options: ConvertOptions = {}) {
     // self
-    const self = this.self(declaration, customTitle);
+    const self = this.self(declaration, options);
     // variables or properties
     const variablesOrPropertiesFull = declaration.hasVariablesOrProperties()
       ? this.fullVariablesOrProperties(declaration)

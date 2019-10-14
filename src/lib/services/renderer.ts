@@ -161,13 +161,14 @@ export class Renderer {
           // declaration
           if (blockRendering instanceof Array) {
             const [source, output = 'SELF', options = {}] = blockRendering;
+            const [ whatDef, child ] = source.split('#');
             const what =
-              !source || source === '*'
+              !whatDef || whatDef === '*'
                 ? undefined
-                : source.indexOf('@') !== -1
-                ? source.replace(/\@/g, 'src/').split('+')
-                : source;
-            const declaration = this.$Parser.parse(what);
+                : whatDef.indexOf('@') !== -1
+                ? whatDef.replace(/\@/g, 'src/').split('+')
+                : whatDef;
+            const declaration = this.$Parser.parse(what, child);
             const blocks = this.$Converter.convert(
               declaration,
               output,

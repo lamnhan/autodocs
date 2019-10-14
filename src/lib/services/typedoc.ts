@@ -152,6 +152,14 @@ export class Typedoc {
     return reflection;
   }
 
+  getChildReflection(container: Reflection, name: string) {
+    const reflection = container.getChildByName(name);
+    if (!reflection) {
+      throw new Error('No child.');
+    }
+    return reflection;
+  }
+
   extractReflection(reflection: Reflection) {
     const { name } = reflection;
     const link = this.getLink(reflection);

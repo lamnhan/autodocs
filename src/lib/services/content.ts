@@ -5,7 +5,7 @@ import { ConverterOptions, Converter } from 'showdown';
 const matchAll = require('match-all');
 
 export interface ContentBySections {
-  [sectionName: string]: string;
+  [section: string]: string;
 }
 
 export type Block = BlockHeader | BlockText | BlockList | BlockTable;

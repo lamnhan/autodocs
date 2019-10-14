@@ -1,4 +1,4 @@
-import { DeclarationReflection, Typedoc } from './typedoc';
+import { Reflection, DeclarationReflection, Typedoc } from './typedoc';
 import { Content } from './content';
 
 import { Declaration } from '../declaration';
@@ -12,14 +12,17 @@ export class Parser {
     this.$Content = $Content;
   }
 
-  parse(what?: string | string[]) {
+  parse(what?: string | string[], child?: string) {
+    // container
     const anyReflection = this.$Typedoc.getReflection(what);
     const functionOrMethod = ((anyReflection as DeclarationReflection)
       .signatures || [])[0];
-    return new Declaration(
-      this.$Typedoc,
-      this.$Content,
-      functionOrMethod || anyReflection
-    );
+    let reflection = (functionOrMethod || anyReflection) as Reflection;
+    // or a child
+    if (!!child) {
+      reflection = this.$Typedoc.getChildReflection(reflection, child);
+    }
+    // parse result
+    return new Declaration(this.$Typedoc, this.$Content, reflection);
   }
 }

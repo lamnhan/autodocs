@@ -91,14 +91,7 @@ export class Project {
       head: true,
       toc: true,
       options: [
-        {
-          type: 'header',
-          data: {
-            id: 'options',
-            level: 2,
-            title: 'Options',
-          },
-        },
+        ['Options', 'SELF', { title: 'Options' }],
         ['Options', 'SUMMARY_PROPERTIES'],
       ],
       main: ['Main', 'FULL', { title: 'Main service' }],
