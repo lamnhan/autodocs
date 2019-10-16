@@ -33,30 +33,51 @@ export class Main {
     );
   }
 
+  /**
+   * Get the Project service
+   */
   get Project() {
     return this.$Project;
   }
 
+  /**
+   * Get the Typedoc service
+   */
   get Typedoc() {
     return this.$Typedoc;
   }
 
+  /**
+   * Get the Content service
+   */
   get Content() {
     return this.$Content;
   }
 
+  /**
+   * Get the Loader service
+   */
   get Loader() {
     return this.$Loader;
   }
 
+  /**
+   * Get the Parser service
+   */
   get Parser() {
     return this.$Parser;
   }
 
+  /**
+   * Get the Converter service
+   */
   get Converter() {
     return this.$Converter;
   }
 
+  /**
+   * Get the Renderer service
+   */
   get Renderer() {
     return this.$Renderer;
   }
@@ -106,7 +127,7 @@ export class Main {
       Object.keys(batchRendering)
     );
     // result
-    return this.$Renderer.batchRender(
+    return this.$Renderer.renderBatch(
       batchRendering,
       batchCurrentContent
     );

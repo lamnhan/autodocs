@@ -17,6 +17,7 @@
 **Table of content**
 
 - [Introduction](#introduction)
+- [What the benefits?](#what-the-benefits)
 - [Getting started](#getting-started)
   - [The CLI](#the-cli)
     - [Install globally](#install-globally)
@@ -29,13 +30,6 @@
   - [The library](#the-library)
 - [Options](#options)
 - [Main service](#main)
-  - [The `Content` accessor](#main-content)
-  - [The `Converter` accessor](#main-converter)
-  - [The `Loader` accessor](#main-loader)
-  - [The `Parser` accessor](#main-parser)
-  - [The `Project` accessor](#main-project)
-  - [The `Renderer` accessor](#main-renderer)
-  - [The `Typedoc` accessor](#main-typedoc)
   - [`convert(declaration, output, options?)`](#main-convert-0)
   - [`generateDocs()`](#main-generatedocs-0)
   - [`output(path, rendering)`](#main-output-0)
@@ -43,20 +37,7 @@
   - [`parse(what?, child?)`](#main-parse-0)
   - [`render(rendering, currentContent?)`](#main-render-0)
   - [`renderLocal()`](#main-renderlocal-0)
-- [Declaration component](#declaration)
-  - [The `DEFAULT_VALUE` accessor](#declaration-default_value)
-  - [The `ID` accessor](#declaration-id)
-  - [The `IS_OPTIONAL` accessor](#declaration-is_optional)
-  - [The `LEVEL` accessor](#declaration-level)
-  - [The `LINK` accessor](#declaration-link)
-  - [The `NAME` accessor](#declaration-name)
-  - [The `PARAMETERS` accessor](#declaration-parameters)
-  - [The `REFLECTION` accessor](#declaration-reflection)
-  - [The `RETURNS` accessor](#declaration-returns)
-  - [The `SHORT_TEXT` accessor](#declaration-short_text)
-  - [The `TEXT` accessor](#declaration-text)
-  - [The `TYPE` accessor](#declaration-type)
-  - [The `TYPE_LINK` accessor](#declaration-type_link)
+- [Declaration](#declaration)
   - [`getChild(name)`](#declaration-getchild-0)
   - [`getChildId(childName)`](#declaration-getchildid-0)
   - [`getClasses()`](#declaration-getclasses-0)
@@ -71,8 +52,14 @@
   - [`setId(id)`](#declaration-setid-0)
   - [`setLevel(level)`](#declaration-setlevel-0)
 - [The `Parser`](#parser)
+  - [`parse(what?, child?)`](#parser-parse-0)
 - [The `Converter`](#converter)
+  - [`convert(declaration, output, options?)`](#converter-convert-0)
 - [The `Renderer`](#renderer)
+  - [`getData(rendering)`](#renderer-getdata-0)
+  - [`getDataBatch(batchRendering)`](#renderer-getdatabatch-0)
+  - [`render(rendering, currentContent?)`](#renderer-render-0)
+  - [`renderBatch(batchRendering, batchCurrentContent?)`](#renderer-renderbatch-0)
 - [Detail API Reference](https://lamnhan.com/autodocs)
 
 
@@ -115,6 +102,16 @@ Run `autodocs generate` will output:
 
 > NOTE: **@lamnhan/autodocs** uses [Typedoc](https://typedoc.org) to generate the detail documentation.
 > [The CLI](#the-cli) is only used to generate simpler additional document files, such as `README.md`.
+
+</section>
+
+<section id="benefit">
+
+## What the benefits?
+
+- Easy to config & single cli command
+- Save time & avoid mistakes
+- Improve the code quality with inline JSdoc
 
 </section>
 
@@ -283,7 +280,7 @@ A rendering input provide instructions for [the Parser](#parser) and [the Conver
   - Child elements: put a `#` between the parent and the child name, example: `Options#prop1`, `Main#method1`, ...
   - Collection of elements: the list of paths, `@` for `./src/` and separated by `+`, example: `@file1.ts+@lib/filex.ts`
 - The **HOW** (optional, default to `SELF`): tells [the Converter](#converter) how we want to extract the information from the parsing result.
-- The **options** (optional): custom converter options, see [ConverterOptions](https://lamnhan.github.io/interfaces/converteroptions.html).
+- The **options** (optional): custom converter options, see [ConverterOptions](https://lamnhan.com/autodocs/interfaces/converteroptions.html).
 
 See [the Parser](#parser) for parsing detail and [the Converter](#converter) for converting detail.
 
@@ -303,19 +300,19 @@ Currently supported 2 templates:
 
 - `mini` template, included these sections:
 
-  - **head**
-  - **toc**
+  - **head**: package name & description
+  - **toc**: table of content
   - **options**: summary properties of `Options` interface
   - **main**: full `Main` class info
-  - **license**
+  - **license**: license informatiion
 
 - `full` template, included these sections:
-  - **head**
-  - **toc**
+  - **head**: package name & description
+  - **toc**: table of content
   - **functions**: full list of all functions
   - **interfaces**: summary list of all interfaces
   - **classes**: full list of all classes
-  - **license**
+  - **license**: license informatiion
 
 #### Custom sections
 
@@ -334,8 +331,8 @@ Any markdown content goes here!
 **IMPORTANT**: If the content has these structures, you must escape them to avoid conflicts:
 
 - `<\section id="xxx">...</\section>` (HTML sections with an id)
-- `\# A heading` (Markdown headings)
-- `<\h1>A heading</\h1>` (HTML headings)
+- `\# A heading` (Markdown headings, but **not intended** to be headings)
+- `<\h1>A heading</\h1>` (HTML headings, but **not intended** to be headings)
 
 ### The library
 
@@ -375,12 +372,12 @@ Options can be provided in 3 ways:
 - Under the **@lamnhan/autodocs** property of `package.json` file
 - By the `options` param when init new [`autodocs(options?)`](https://lamnhan.com/autodocs/global.html#autodocs) instance.
 
-| Name                                                                  | Type      | Description                                                                                                                       |
-| --------------------------------------------------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| [files](https://lamnhan.com/autodocs/interfaces/options.html#files)   | `object`  | List of documents to be generated; **key** is the path to the document, **value** is a template name or a rendering configuration |
-| [noAttr](https://lamnhan.com/autodocs/interfaces/options.html#noattr) | `boolean` | Ignore generator footer attribution                                                                                               |
-| [out](https://lamnhan.com/autodocs/interfaces/options.html#out)       | `string`  | Custom API reference output folder, default to `docs/`                                                                            |
-| [url](https://lamnhan.com/autodocs/interfaces/options.html#url)       | `string`  | Custom API reference url, default to the Github Pages repo url                                                                    |
+| Name                                                                  | Type      | Description                                                                                                                                                             |
+| --------------------------------------------------------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [files](https://lamnhan.com/autodocs/interfaces/options.html#files)   | `object`  | <p>List of documents to be generated<br><strong>key</strong> is the path to the document and <strong>value</strong> is a template name or a rendering configuration</p> |
+| [noAttr](https://lamnhan.com/autodocs/interfaces/options.html#noattr) | `boolean` | <p>Ignore generator footer attribution</p>                                                                                                                              |
+| [out](https://lamnhan.com/autodocs/interfaces/options.html#out)       | `string`  | <p>Custom API reference output folder, default to <code>docs/</code></p>                                                                                                |
+| [url](https://lamnhan.com/autodocs/interfaces/options.html#url)       | `string`  | <p>Custom API reference url, default to the Github Pages repo url</p>                                                                                                   |
 
 </section>
 
@@ -392,59 +389,15 @@ Options can be provided in 3 ways:
 
 **Main properties summary**
 
-| Name                             | Type                                                               | Description |
-| -------------------------------- | ------------------------------------------------------------------ | ----------- |
-| [**Content**](#main-content)     | [`Content`](https://lamnhan.com/autodocs/classes/content.html)     |             |
-| [**Converter**](#main-converter) | [`Converter`](https://lamnhan.com/autodocs/classes/converter.html) |             |
-| [**Loader**](#main-loader)       | [`Loader`](https://lamnhan.com/autodocs/classes/loader.html)       |             |
-| [**Parser**](#main-parser)       | [`Parser`](https://lamnhan.com/autodocs/classes/parser.html)       |             |
-| [**Project**](#main-project)     | [`Project`](https://lamnhan.com/autodocs/classes/project.html)     |             |
-| [**Renderer**](#main-renderer)   | [`Renderer`](https://lamnhan.com/autodocs/classes/renderer.html)   |             |
-| [**Typedoc**](#main-typedoc)     | [`Typedoc`](https://lamnhan.com/autodocs/classes/typedoc.html)     |             |
-
-**Main properties detail**
-
-<h3><a name="main-content" href="https://lamnhan.com/autodocs/classes/main.html#content"><p>The <code>Content</code> accessor</p></a></h3>
-
-**The `Content` accessor.**
-
----
-
-<h3><a name="main-converter" href="https://lamnhan.com/autodocs/classes/main.html#converter"><p>The <code>Converter</code> accessor</p></a></h3>
-
-**The `Converter` accessor.**
-
----
-
-<h3><a name="main-loader" href="https://lamnhan.com/autodocs/classes/main.html#loader"><p>The <code>Loader</code> accessor</p></a></h3>
-
-**The `Loader` accessor.**
-
----
-
-<h3><a name="main-parser" href="https://lamnhan.com/autodocs/classes/main.html#parser"><p>The <code>Parser</code> accessor</p></a></h3>
-
-**The `Parser` accessor.**
-
----
-
-<h3><a name="main-project" href="https://lamnhan.com/autodocs/classes/main.html#project"><p>The <code>Project</code> accessor</p></a></h3>
-
-**The `Project` accessor.**
-
----
-
-<h3><a name="main-renderer" href="https://lamnhan.com/autodocs/classes/main.html#renderer"><p>The <code>Renderer</code> accessor</p></a></h3>
-
-**The `Renderer` accessor.**
-
----
-
-<h3><a name="main-typedoc" href="https://lamnhan.com/autodocs/classes/main.html#typedoc"><p>The <code>Typedoc</code> accessor</p></a></h3>
-
-**The `Typedoc` accessor.**
-
----
+| Name                         | Type                                                               | Description                      |
+| ---------------------------- | ------------------------------------------------------------------ | -------------------------------- |
+| [Content](#main-content)     | [`Content`](https://lamnhan.com/autodocs/classes/content.html)     | <p>Get the Content service</p>   |
+| [Converter](#main-converter) | [`Converter`](https://lamnhan.com/autodocs/classes/converter.html) | <p>Get the Converter service</p> |
+| [Loader](#main-loader)       | [`Loader`](https://lamnhan.com/autodocs/classes/loader.html)       | <p>Get the Loader service</p>    |
+| [Parser](#main-parser)       | [`Parser`](https://lamnhan.com/autodocs/classes/parser.html)       | <p>Get the Parser service</p>    |
+| [Project](#main-project)     | [`Project`](https://lamnhan.com/autodocs/classes/project.html)     | <p>Get the Project service</p>   |
+| [Renderer](#main-renderer)   | [`Renderer`](https://lamnhan.com/autodocs/classes/renderer.html)   | <p>Get the Renderer service</p>  |
+| [Typedoc](#main-typedoc)     | [`Typedoc`](https://lamnhan.com/autodocs/classes/typedoc.html)     | <p>Get the Typedoc service</p>   |
 
 **Main methods summary**
 
@@ -569,107 +522,27 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 <section id="declaration" title="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
-<h2><a name="declaration" href="https://lamnhan.com/autodocs/classes/declaration.html"><p>Declaration component</p></a></h2>
+<h2><a name="declaration" href="https://lamnhan.com/autodocs/classes/declaration.html"><p>Declaration</p></a></h2>
 
 **The `Declaration` class.**
 
 **Declaration properties summary**
 
-| Name                                            | Type                                                | Description |
-| ----------------------------------------------- | --------------------------------------------------- | ----------- |
-| [**DEFAULT_VALUE**](#declaration-default_value) | `string \| number \| false \| true \| __type \| []` |             |
-| [**ID**](#declaration-id)                       | `string`                                            |             |
-| [**IS_OPTIONAL**](#declaration-is_optional)     | `boolean`                                           |             |
-| [**LEVEL**](#declaration-level)                 | `number`                                            |             |
-| [**LINK**](#declaration-link)                   | `string`                                            |             |
-| [**NAME**](#declaration-name)                   | `string`                                            |             |
-| [**PARAMETERS**](#declaration-parameters)       | `ReflectionData[]`                                  |             |
-| [**REFLECTION**](#declaration-reflection)       | `Reflection`                                        |             |
-| [**RETURNS**](#declaration-returns)             | `string`                                            |             |
-| [**SHORT_TEXT**](#declaration-short_text)       | `string`                                            |             |
-| [**TEXT**](#declaration-text)                   | `string`                                            |             |
-| [**TYPE**](#declaration-type)                   | `string`                                            |             |
-| [**TYPE_LINK**](#declaration-type_link)         | `string`                                            |             |
-
-**Declaration properties detail**
-
-<h3><a name="declaration-default_value" href="https://lamnhan.com/autodocs/classes/declaration.html#default_value"><p>The <code>DEFAULT_VALUE</code> accessor</p></a></h3>
-
-**The `DEFAULT_VALUE` accessor.**
-
----
-
-<h3><a name="declaration-id" href="https://lamnhan.com/autodocs/classes/declaration.html#id"><p>The <code>ID</code> accessor</p></a></h3>
-
-**The `ID` accessor.**
-
----
-
-<h3><a name="declaration-is_optional" href="https://lamnhan.com/autodocs/classes/declaration.html#is_optional"><p>The <code>IS_OPTIONAL</code> accessor</p></a></h3>
-
-**The `IS_OPTIONAL` accessor.**
-
----
-
-<h3><a name="declaration-level" href="https://lamnhan.com/autodocs/classes/declaration.html#level"><p>The <code>LEVEL</code> accessor</p></a></h3>
-
-**The `LEVEL` accessor.**
-
----
-
-<h3><a name="declaration-link" href="https://lamnhan.com/autodocs/classes/declaration.html#link"><p>The <code>LINK</code> accessor</p></a></h3>
-
-**The `LINK` accessor.**
-
----
-
-<h3><a name="declaration-name" href="https://lamnhan.com/autodocs/classes/declaration.html#name"><p>The <code>NAME</code> accessor</p></a></h3>
-
-**The `NAME` accessor.**
-
----
-
-<h3><a name="declaration-parameters" href="https://lamnhan.com/autodocs/classes/declaration.html#parameters"><p>The <code>PARAMETERS</code> accessor</p></a></h3>
-
-**The `PARAMETERS` accessor.**
-
----
-
-<h3><a name="declaration-reflection" href="https://lamnhan.com/autodocs/classes/declaration.html#reflection"><p>The <code>REFLECTION</code> accessor</p></a></h3>
-
-**The `REFLECTION` accessor.**
-
----
-
-<h3><a name="declaration-returns" href="https://lamnhan.com/autodocs/classes/declaration.html#returns"><p>The <code>RETURNS</code> accessor</p></a></h3>
-
-**The `RETURNS` accessor.**
-
----
-
-<h3><a name="declaration-short_text" href="https://lamnhan.com/autodocs/classes/declaration.html#short_text"><p>The <code>SHORT_TEXT</code> accessor</p></a></h3>
-
-**The `SHORT_TEXT` accessor.**
-
----
-
-<h3><a name="declaration-text" href="https://lamnhan.com/autodocs/classes/declaration.html#text"><p>The <code>TEXT</code> accessor</p></a></h3>
-
-**The `TEXT` accessor.**
-
----
-
-<h3><a name="declaration-type" href="https://lamnhan.com/autodocs/classes/declaration.html#type"><p>The <code>TYPE</code> accessor</p></a></h3>
-
-**The `TYPE` accessor.**
-
----
-
-<h3><a name="declaration-type_link" href="https://lamnhan.com/autodocs/classes/declaration.html#type_link"><p>The <code>TYPE_LINK</code> accessor</p></a></h3>
-
-**The `TYPE_LINK` accessor.**
-
----
+| Name                                        | Type               | Description |
+| ------------------------------------------- | ------------------ | ----------- |
+| [DEFAULT_VALUE](#declaration-default_value) | `any`              |             |
+| [ID](#declaration-id)                       | `string`           |             |
+| [IS_OPTIONAL](#declaration-is_optional)     | `boolean`          |             |
+| [LEVEL](#declaration-level)                 | `number`           |             |
+| [LINK](#declaration-link)                   | `string`           |             |
+| [NAME](#declaration-name)                   | `string`           |             |
+| [PARAMETERS](#declaration-parameters)       | `ReflectionData[]` |             |
+| [REFLECTION](#declaration-reflection)       | `Reflection`       |             |
+| [RETURNS](#declaration-returns)             | `string`           |             |
+| [SHORT_TEXT](#declaration-short_text)       | `string`           |             |
+| [TEXT](#declaration-text)                   | `string`           |             |
+| [TYPE](#declaration-type)                   | `string`           |             |
+| [TYPE_LINK](#declaration-type_link)         | `string`           |             |
 
 **Declaration methods summary**
 
@@ -859,6 +732,31 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 **The `Parser` turns source code into [Declaration](#declaration)**
 
+**Parser methods summary**
+
+| Function                                | Returns type                                                           | Description |
+| --------------------------------------- | ---------------------------------------------------------------------- | ----------- |
+| [parse(what?, child?)](#parser-parse-0) | [`Declaration`](https://lamnhan.com/autodocs/classes/declaration.html) |             |
+
+**Parser methods detail**
+
+<h3><a name="parser-parse-0" href="https://lamnhan.com/autodocs/classes/parser.html#parse"><p><code>parse(what?, child?)</code></p></a></h3>
+
+**The `parse` call signature.**
+
+**Parameters**
+
+| Param | Type                 | Description |
+| ----- | -------------------- | ----------- |
+| what  | `string \| string[]` |             |
+| child | `string`             |             |
+
+**Returns**
+
+[`Declaration`](https://lamnhan.com/autodocs/classes/declaration.html)
+
+---
+
 </section>
 
 <section id="converter" title="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
@@ -869,28 +767,52 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 Any kind of [Declaration](#declaration) supports certain output:
 
-- **FULL**: any declaration
-- **SELF**: any declaration
-- **VALUE**: `Variable` or `Property`
-- **VALUE_RAW**: `Variable` or `Property`
-- **SUMMARY_VARIABLES**: `Collection`
-- **DETAIL_VARIABLES**: `Collection`
-- **FULL_VARIABLES**: `Collection`
-- **SUMMARY_FUNCTIONS**: `Collection`
-- **DETAIL_FUNCTIONS**: `Collection`
-- **FULL_FUNCTIONS**: `Collection`
-- **SUMMARY_INTERFACES**: `Collection`
-- **DETAIL_INTERFACES**: `Collection`
-- **FULL_INTERFACES**: `Collection`
-- **SUMMARY_CLASSES**: `Collection`
-- **DETAIL_CLASSES**: `Collection`
-- **FULL_CLASSES**: `Collection`
-- **SUMMARY_PROPERTIES**: `Interface` and `Class`
-- **DETAIL_PROPERTIES**: `Interface` and `Class`
-- **FULL_PROPERTIES**: `Interface` and `Class`
-- **SUMMARY_METHODS**: `Class`
-- **DETAIL_METHODS**: `Class`
-- **FULL_METHODS**: `Class`
+- **FULL**: for any declaration
+- **SELF**: for any declaration
+- **VALUE**: for `Variable` or `Property`
+- **VALUE_RAW** (object only): for `Variable` or `Property`
+- **SUMMARY_VARIABLES**: for `Collection`
+- **FULL_VARIABLES**: for `Collection`
+- **SUMMARY_FUNCTIONS**: for `Collection`
+- **DETAIL_FUNCTIONS**: for `Collection`
+- **FULL_FUNCTIONS**: for `Collection`
+- **SUMMARY_INTERFACES**: for `Collection`
+- **DETAIL_INTERFACES**: for `Collection`
+- **FULL_INTERFACES**: for `Collection`
+- **SUMMARY_CLASSES**: for `Collection`
+- **DETAIL_CLASSES**: for `Collection`
+- **FULL_CLASSES**: for `Collection`
+- **SUMMARY_PROPERTIES**: for `Interface` and `Class`
+- **FULL_PROPERTIES**: for `Interface` and `Class`
+- **SUMMARY_METHODS**: for `Class`
+- **DETAIL_METHODS**: for `Class`
+- **FULL_METHODS**: for `Class`
+
+**Converter methods summary**
+
+| Function                                                       | Returns type                                              | Description |
+| -------------------------------------------------------------- | --------------------------------------------------------- | ----------- |
+| [convert(declaration, output, options?)](#converter-convert-0) | `(BlockHeader \| BlockText \| BlockList \| BlockTable)[]` |             |
+
+**Converter methods detail**
+
+<h3><a name="converter-convert-0" href="https://lamnhan.com/autodocs/classes/converter.html#convert"><p><code>convert(declaration, output, options?)</code></p></a></h3>
+
+**The `convert` call signature.**
+
+**Parameters**
+
+| Param           | Type                                                                            | Description |
+| --------------- | ------------------------------------------------------------------------------- | ----------- |
+| **declaration** | [`Declaration`](https://lamnhan.com/autodocs/classes/declaration.html)          |             |
+| **output**      | `string`                                                                        |             |
+| options         | [`ConvertOptions`](https://lamnhan.com/autodocs/interfaces/convertoptions.html) |             |
+
+**Returns**
+
+`(BlockHeader | BlockText | BlockList | BlockTable)[]`
+
+---
 
 </section>
 
@@ -898,7 +820,90 @@ Any kind of [Declaration](#declaration) supports certain output:
 
 <h2><a name="renderer" href="https://lamnhan.com/autodocs/classes/renderer.html"><p>The <code>Renderer</code></p></a></h2>
 
-**The `Renderer` class.**
+**The Renderer turns a rendering input into the final content**
+
+Builtin sections:
+
+- `head`: Package name & description
+- `toc`: Table of content
+- `license`: License information
+
+**Renderer methods summary**
+
+| Function                                                                     | Returns type                                                                            | Description |
+| ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ----------- |
+| [getData(rendering)](#renderer-getdata-0)                                    | [`RenderingData`](https://lamnhan.com/autodocs/interfaces/renderingdata.html)           |             |
+| [getDataBatch(batchRendering)](#renderer-getdatabatch-0)                     | [`BatchRenderingData`](https://lamnhan.com/autodocs/interfaces/batchrenderingdata.html) |             |
+| [render(rendering, currentContent?)](#renderer-render-0)                     | `string`                                                                                |             |
+| [renderBatch(batchRendering, batchCurrentContent?)](#renderer-renderbatch-0) | [`BatchRenderResult`](https://lamnhan.com/autodocs/interfaces/batchrenderresult.html)   |             |
+
+**Renderer methods detail**
+
+<h3><a name="renderer-getdata-0" href="https://lamnhan.com/autodocs/classes/renderer.html#getdata"><p><code>getData(rendering)</code></p></a></h3>
+
+**The `getData` call signature.**
+
+**Parameters**
+
+| Param         | Type                                                                  | Description |
+| ------------- | --------------------------------------------------------------------- | ----------- |
+| **rendering** | [`Rendering`](https://lamnhan.com/autodocs/interfaces/rendering.html) |             |
+
+**Returns**
+
+[`RenderingData`](https://lamnhan.com/autodocs/interfaces/renderingdata.html)
+
+---
+
+<h3><a name="renderer-getdatabatch-0" href="https://lamnhan.com/autodocs/classes/renderer.html#getdatabatch"><p><code>getDataBatch(batchRendering)</code></p></a></h3>
+
+**The `getDataBatch` call signature.**
+
+**Parameters**
+
+| Param              | Type                                                                            | Description |
+| ------------------ | ------------------------------------------------------------------------------- | ----------- |
+| **batchRendering** | [`BatchRendering`](https://lamnhan.com/autodocs/interfaces/batchrendering.html) |             |
+
+**Returns**
+
+[`BatchRenderingData`](https://lamnhan.com/autodocs/interfaces/batchrenderingdata.html)
+
+---
+
+<h3><a name="renderer-render-0" href="https://lamnhan.com/autodocs/classes/renderer.html#render"><p><code>render(rendering, currentContent?)</code></p></a></h3>
+
+**The `render` call signature.**
+
+**Parameters**
+
+| Param          | Type                                                                                  | Description |
+| -------------- | ------------------------------------------------------------------------------------- | ----------- |
+| **rendering**  | [`Rendering`](https://lamnhan.com/autodocs/interfaces/rendering.html)                 |             |
+| currentContent | [`ContentBySections`](https://lamnhan.com/autodocs/interfaces/contentbysections.html) |             |
+
+**Returns**
+
+`string`
+
+---
+
+<h3><a name="renderer-renderbatch-0" href="https://lamnhan.com/autodocs/classes/renderer.html#renderbatch"><p><code>renderBatch(batchRendering, batchCurrentContent?)</code></p></a></h3>
+
+**The `renderBatch` call signature.**
+
+**Parameters**
+
+| Param               | Type                                                                            | Description |
+| ------------------- | ------------------------------------------------------------------------------- | ----------- |
+| **batchRendering**  | [`BatchRendering`](https://lamnhan.com/autodocs/interfaces/batchrendering.html) |             |
+| batchCurrentContent | `object`                                                                        |             |
+
+**Returns**
+
+[`BatchRenderResult`](https://lamnhan.com/autodocs/interfaces/batchrenderresult.html)
+
+---
 
 </section>
 

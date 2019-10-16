@@ -9,10 +9,10 @@
         ["Options", "SUMMARY_PROPERTIES"]
       ],
       "main": ["Main", "FULL", { "title": "Main service" }],
-      "declaration": ["Declaration", "FULL", { "title": "Declaration component" }],
-      "parser": ["Parser", "SELF", { "title": "The `Parser`" }],
-      "converter": ["Converter", "SELF", { "title": "The `Converter`" }],
-      "renderer": ["Renderer", "SELF", { "title": "The `Renderer`" }],
+      "declaration": ["Declaration", "FULL", { "title": "Declaration" }],
+      "parser": ["Parser", "FULL", { "title": "The `Parser`" }],
+      "converter": ["Converter", "FULL", { "title": "The `Converter`" }],
+      "renderer": ["Renderer", "FULL", { "title": "The `Renderer`" }],
       "license": true
     }
   }

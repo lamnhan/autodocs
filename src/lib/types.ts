@@ -24,7 +24,9 @@ export interface Options {
    */
   noAttr?: boolean;
   /**
-   * List of documents to be generated; __key__ is the path to the document, __value__ is a template name or a rendering configuration
+   * List of documents to be generated
+   *
+   * __key__ is the path to the document and __value__ is a template name or a rendering configuration
    */
   files?: {
     [path: string]: BuiltinTemplate | Rendering;

@@ -21,28 +21,26 @@ export interface ConvertOptions extends DeclarationOptions, HeaderOptions {}
  * 
  * Any kind of [Declaration](#declaration) supports certain output:
  *
- * - __FULL__: any declaration
- * - __SELF__: any declaration
- * - __VALUE__: `Variable` or `Property`
- * - __VALUE_RAW__: `Variable` or `Property`
- * - __SUMMARY_VARIABLES__: `Collection`
- * - __DETAIL_VARIABLES__: `Collection`
- * - __FULL_VARIABLES__: `Collection`
- * - __SUMMARY_FUNCTIONS__: `Collection`
- * - __DETAIL_FUNCTIONS__: `Collection`
- * - __FULL_FUNCTIONS__: `Collection`
- * - __SUMMARY_INTERFACES__: `Collection`
- * - __DETAIL_INTERFACES__: `Collection`
- * - __FULL_INTERFACES__: `Collection`
- * - __SUMMARY_CLASSES__: `Collection`
- * - __DETAIL_CLASSES__: `Collection`
- * - __FULL_CLASSES__: `Collection`
- * - __SUMMARY_PROPERTIES__: `Interface` and `Class`
- * - __DETAIL_PROPERTIES__: `Interface` and `Class`
- * - __FULL_PROPERTIES__: `Interface` and `Class`
- * - __SUMMARY_METHODS__: `Class`
- * - __DETAIL_METHODS__: `Class`
- * - __FULL_METHODS__: `Class`
+ * - __FULL__: for any declaration
+ * - __SELF__: for any declaration
+ * - __VALUE__: for `Variable` or `Property`
+ * - __VALUE_RAW__ (object only): for `Variable` or `Property`
+ * - __SUMMARY_VARIABLES__: for `Collection`
+ * - __FULL_VARIABLES__: for `Collection`
+ * - __SUMMARY_FUNCTIONS__: for `Collection`
+ * - __DETAIL_FUNCTIONS__: for `Collection`
+ * - __FULL_FUNCTIONS__: for `Collection`
+ * - __SUMMARY_INTERFACES__: for `Collection`
+ * - __DETAIL_INTERFACES__: for `Collection`
+ * - __FULL_INTERFACES__: for `Collection`
+ * - __SUMMARY_CLASSES__: for `Collection`
+ * - __DETAIL_CLASSES__: for `Collection`
+ * - __FULL_CLASSES__: for `Collection`
+ * - __SUMMARY_PROPERTIES__: for `Interface` and `Class`
+ * - __FULL_PROPERTIES__: for `Interface` and `Class`
+ * - __SUMMARY_METHODS__: for `Class`
+ * - __DETAIL_METHODS__: for `Class`
+ * - __FULL_METHODS__: for `Class`
  */
 export class Converter {
   private $Project: Project;
@@ -72,11 +70,6 @@ export class Converter {
       case 'SUMMARY_VARIABLES':
       case 'SUMMARY_PROPERTIES':
         return this.summaryVariablesOrProperties(
-          declaration.getVariablesOrProperties()
-        );
-      case 'DETAIL_VARIABLES':
-      case 'DETAIL_PROPERTIES':
-        return this.detailVariablesOrProperties(
           declaration.getVariablesOrProperties()
         );
       case 'FULL_VARIABLES':
@@ -199,13 +192,14 @@ export class Converter {
       blocks.push(this.$Content.blockHeader(title, LEVEL, ID, link), body);
       // params
       if (!!PARAMETERS.length) {
-        const parameterRows = PARAMETERS.map(parameter => {
+        const parameterRows: string[][] = [];
+        PARAMETERS.forEach(parameter => {
           const { name, isOptional, type, typeLink, text } = parameter;
-          return [
+          parameterRows.push([
             !isOptional ? `**${name}**` : name,
             !!typeLink ? `[\`${type}\`](${typeLink})` : `\`${type}\``,
             text || '',
-          ];
+          ]);
         });
         blocks.push(
           this.$Content.blockText(`**Parameters**`),
@@ -227,7 +221,11 @@ export class Converter {
       );
     }
     // variable or property
-    else if (declaration.isKind('Variable') || declaration.isKind('Property')) {
+    else if (
+      declaration.isKind('Variable') ||
+      declaration.isKind('Property') ||
+      declaration.isKind('Accessor')
+    ) {
       const title = customTitle || `\`${NAME}\``;
       const link = customLink || LINK;
       blocks.push(this.$Content.blockHeader(title, LEVEL, ID, link), body);
@@ -280,6 +278,7 @@ export class Converter {
     const summaryRows: string[][] = [];
     declarations.forEach(declaration => {
       const {
+        REFLECTION,
         ID,
         NAME,
         LINK,
@@ -287,13 +286,18 @@ export class Converter {
         TYPE,
         TYPE_LINK,
         SHORT_TEXT,
+        TEXT,
       } = declaration;
-      const displayName = !IS_OPTIONAL ? `**${NAME}**` : NAME;
+      const displayName = (
+        !!REFLECTION.parent && REFLECTION.parent.kindString === 'Interface'
+        ? (!IS_OPTIONAL ? `**${NAME}**` : NAME) // interface parent
+        : NAME // collection or class
+      );
       const ref = standalone ? LINK : '#' + ID;
       summaryRows.push([
         `[${displayName}](${ref})`,
         !!TYPE_LINK ? `[\`${TYPE}\`](${TYPE_LINK})` : `\`${TYPE}\``,
-        SHORT_TEXT || '',
+        this.$Content.md2Html((SHORT_TEXT || '') + (!!TEXT ? '<br>' + TEXT : '')),
       ]);
     });
     // summary blocks
@@ -305,14 +309,6 @@ export class Converter {
       blocks.push(summaryBlock);
     }
     // result
-    return blocks;
-  }
-
-  private detailVariablesOrProperties(declarations: Declaration[]) {
-    const blocks: Block[] = [];
-    declarations.forEach(declaration =>
-      blocks.push(...this.self(declaration), this.$Content.blockText('---'))
-    );
     return blocks;
   }
 
@@ -329,14 +325,10 @@ export class Converter {
       `**${parentName} ${childKind} summary**`
     );
     const summaryBlocks = this.summaryVariablesOrProperties(children, false);
-    // detail
-    const detailText = this.$Content.blockText(
-      `**${parentName} ${childKind} detail**`
-    );
-    const detailBlocks = this.detailVariablesOrProperties(children);
     // result
-    return [summaryText, ...summaryBlocks, detailText, ...detailBlocks];
+    return [summaryText, ...summaryBlocks];
   }
+
 
   private summaryFunctionsOrMethods(
     declarations: Declaration[],

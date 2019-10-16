@@ -16,7 +16,7 @@ export * from 'typedoc/dist/lib/models';
 
 export type KindString = keyof typeof ReflectionKind;
 
-export type DefaultValue = string | number | boolean | {} | [];
+export type DefaultValue = any;
 
 interface TypeData {
   type: string;
@@ -96,7 +96,6 @@ export class Typedoc {
       excludeNotExported: true,
       excludePrivate: true,
       excludeProtected: true,
-      readme: 'none',
       // custom
       ...configs,
     });

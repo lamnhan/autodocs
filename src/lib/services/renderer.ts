@@ -34,6 +34,15 @@ export interface BatchRenderResult {
   [id: string]: string;
 }
 
+/**
+ * The Renderer turns a rendering input into the final content
+ * 
+ * Builtin sections:
+ * 
+ * - `head`: Package name & description
+ * - `toc`: Table of content
+ * - `license`: License information
+ */
 export class Renderer {
   private $Project: Project;
   private $Content: Content;
@@ -52,21 +61,6 @@ export class Renderer {
     this.$Content = $Content;
     this.$Parser = $Parser;
     this.$Converter = $Converter;
-  }
-
-  batchRender(
-    batchRendering: BatchRendering,
-    batchCurrentContent: {
-      [id: string]: ContentBySections;
-    } = {}
-  ) {
-    const batchResult: BatchRenderResult = {};
-    Object.keys(batchRendering).forEach(id => {
-      const rendering = batchRendering[id];
-      const currentContent = batchCurrentContent[id] || {};
-      batchResult[id] = this.render(rendering, currentContent);
-    });
-    return batchResult;
   }
 
   render(rendering: Rendering, currentContent: ContentBySections = {}) {
@@ -132,12 +126,19 @@ export class Renderer {
     return content;
   }
 
-  getBatchData(batchRendering: BatchRendering) {
-    const batchData: BatchRenderingData = {};
-    Object.keys(batchRendering).forEach(
-      id => (batchData[id] = this.getData(batchRendering[id]))
-    );
-    return batchData;
+  renderBatch(
+    batchRendering: BatchRendering,
+    batchCurrentContent: {
+      [id: string]: ContentBySections;
+    } = {}
+  ) {
+    const batchResult: BatchRenderResult = {};
+    Object.keys(batchRendering).forEach(id => {
+      const rendering = batchRendering[id];
+      const currentContent = batchCurrentContent[id] || {};
+      batchResult[id] = this.render(rendering, currentContent);
+    });
+    return batchResult;
   }
 
   getData(rendering: Rendering) {
@@ -210,6 +211,14 @@ export class Renderer {
     }
     // result
     return data;
+  }
+
+  getDataBatch(batchRendering: BatchRendering) {
+    const batchData: BatchRenderingData = {};
+    Object.keys(batchRendering).forEach(
+      id => (batchData[id] = this.getData(batchRendering[id]))
+    );
+    return batchData;
   }
 
   private getDataHead() {
