@@ -10,9 +10,9 @@ export interface ContentBySections {
 export type Block = BlockHeader | BlockText | BlockList | BlockTable;
 
 export interface Header {
-  id: string;
-  level: number;
   title: string;
+  level: number;
+  id?: string;
   link?: string;
 }
 export interface BlockHeader {
@@ -51,39 +51,49 @@ export class Content {
     return outputFileSync(path, content);
   }
 
-  getSectionOpening(id: string, attrs: { [attr: string]: string } = {}) {
+  buildId(title: string) {
+    return title
+      .trim()
+      .toLowerCase()
+      .replace(/[^\w\- ]+/g, ' ')
+      .replace(/\s+/g, '-')
+      .replace(/\-+$/, '');
+  }
+
+  sectionOpening(id: string, attrs: { [attr: string]: string } = {}) {
     let attrsStr = '';
     Object.keys(attrs).forEach(key => (attrsStr += ` ${key}="${attrs[key]}"`));
     return `<section id="${id}"${attrsStr}>`;
   }
 
-  getSectionClosing() {
+  sectionClosing() {
     return '</section>';
   }
 
   extractSections(content: string) {
-    const result: ContentBySections = {};
-    const matched = content.match(/<section[^>]*>([\s\S]*?)<\/section>/g);
-    (matched || []).forEach(item => {
+    const sections: ContentBySections = {};
+    (content.match(/<section[^>]*>([\s\S]*?)<\/section>/g) || [])
+    .forEach(item => {
       const id = (/<section id="(.*?)"/.exec(item) || []).pop();
       if (!!id) {
-        result[id] = this.format(
+        sections[id] = this.format(
           item.replace(/<section [^\n]*/g, '').replace('</section>', '')
         );
       }
     });
-    return result;
+    return sections;
   }
 
   extractHeadings(content: string) {
     const headings: BlockHeader[] = [];
-    (content.match(/\n#{1}[^\n]*/g) || []).forEach(heading => {
+    (content.match(/\n#{1}[^\n]*/g) || [])
+    .forEach(heading => {
       const [head, ...body] = heading.replace(/(?:\r\n|\r|\n)/g, '').split(' ');
       const level = head.length;
       if (level < 7) {
         const title = body.join(' ').replace(new RegExp(' ' + head, 'g'), '');
         const id = this.buildId(title);
-        headings.push(this.buildHeader(id, level, title));
+        headings.push(this.blockHeader(title, level, id));
       }
     });
     return headings;
@@ -97,41 +107,34 @@ export class Content {
     return prettierFormater(content, { parser: 'markdown' });
   }
 
-  buildId(title: string) {
-    return title
-      .trim()
-      .toLowerCase()
-      .replace(/[^\w\- ]+/g, ' ')
-      .replace(/\s+/g, '-')
-      .replace(/\-+$/, '');
-  }
-
-  buildHeader(id: string, level: number, title: string, link?: string) {
+  blockHeader(title: string, level: number, id?: string, link?: string) {
     return {
       type: 'header',
-      data: { id, level, title, link },
+      data: { title, level, id, link },
     } as BlockHeader;
   }
 
-  buildText(text: Text) {
+  blockText(text: Text) {
     return { type: 'text', data: text } as BlockText;
   }
 
-  buildList(list: List) {
+  blockList(list: List) {
     return { type: 'list', data: list } as BlockList;
   }
 
-  buildTable(headers: string[], rows: string[][]) {
+  blockTable(headers: string[], rows: string[][]) {
     rows.unshift(headers); // add headers
     return { type: 'table', data: rows } as BlockTable;
   }
 
-  renderTOC(blocks: Block[]) {
+  renderTOC(blocks: Block[], offset = 2) {
     const rows: string[] = [];
     blocks.forEach(({ type, data }) => {
       if (type === 'header') {
-        const { id, title, level } = data as Header;
-        rows.push(`${'  '.repeat(level - 1)}- [${title}](#${id})`);
+        const { title, level, id, link } = data as Header;
+        rows.push(
+          `${'    '.repeat(level - offset)}- [${title}](${!!id ? '#' + id : link})`
+        );
       }
     });
     return this.format(rows.join(EOL));

@@ -94,7 +94,7 @@ export class Project {
         ['Options', 'SELF', { title: 'Options' }],
         ['Options', 'SUMMARY_PROPERTIES'],
       ],
-      main: ['Main', 'FULL', { title: 'Main class' }],
+      main: ['Main', 'FULL', { title: 'Main service' }],
       license: true,
     } as Rendering;
   }

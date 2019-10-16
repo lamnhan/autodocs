@@ -38,26 +38,9 @@ export class CLI {
   }
 
   generate() {
-    const { out, files = {} } = this.lib.Project.OPTIONS;
-    const batchRendering: BatchRendering = {};
-    // convert files to batch rendering
-    Object.keys(files).forEach(path => {
-      const value = files[path];
-      batchRendering[path] =
-        typeof value === 'string' ? this.lib.Project.getTemplate(value) : value;
-    });
-    // render files
-    const batchCurrentContent = this.lib.Loader.batchLoad(
-      Object.keys(batchRendering)
-    );
-    const batchResult = this.lib.Renderer.batchRender(
-      batchRendering,
-      batchCurrentContent
-    );
-    Object.keys(batchResult).forEach(path =>
-      this.lib.Content.writeFileSync(path, batchResult[path])
-    );
+    // generate files
+    this.lib.outputLocal();
     // generate /docs
-    this.lib.Typedoc.generateDocs(out as string);
+    this.lib.generateDocs();
   }
 }

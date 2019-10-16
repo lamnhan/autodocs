@@ -135,7 +135,7 @@ export class Converter {
     };
     // result
     const valueText = convertValue(DEFAULT_VALUE);
-    return [this.$Content.buildText(valueText)];
+    return [this.$Content.blockText(valueText)];
   }
 
   private self(declaration: Declaration, options: ConvertOptions = {}) {
@@ -157,8 +157,8 @@ export class Converter {
       PARAMETERS,
     } = declaration;
     // default blocks
-    const body = this.$Content.buildText([
-      SHORT_TEXT || `The \`${NAME}\` ${kindText}.`,
+    const body = this.$Content.blockText([
+      '**' + (SHORT_TEXT || `The \`${NAME}\` ${kindText}.`) + '**',
       TEXT || '',
     ]);
     // function or method
@@ -168,7 +168,7 @@ export class Converter {
       ).join(', ');
       const title = customTitle || `\`${NAME}(${params})\``;
       const link = customLink || LINK;
-      blocks.push(this.$Content.buildHeader(ID, LEVEL, title, link), body);
+      blocks.push(this.$Content.blockHeader(title, LEVEL, ID, link), body);
       // params
       if (!!PARAMETERS.length) {
         const parameterRows = PARAMETERS.map(parameter => {
@@ -180,8 +180,8 @@ export class Converter {
           ];
         });
         blocks.push(
-          this.$Content.buildText(`**Parameters**`),
-          this.$Content.buildTable(
+          this.$Content.blockText(`**Parameters**`),
+          this.$Content.blockTable(
             ['Param', 'Type', 'Description'],
             parameterRows
           )
@@ -192,7 +192,7 @@ export class Converter {
         ? `[\`${TYPE}\`](${TYPE_LINK})`
         : `\`${TYPE}\``;
       blocks.push(
-        this.$Content.buildText([
+        this.$Content.blockText([
           `**Returns**`,
           `${displayType}${!RETURNS ? '' : ' - ' + RETURNS}`,
         ])
@@ -202,13 +202,13 @@ export class Converter {
     else if (declaration.isKind('Variable') || declaration.isKind('Property')) {
       const title = customTitle || `\`${NAME}\``;
       const link = customLink || LINK;
-      blocks.push(this.$Content.buildHeader(ID, LEVEL, title, link), body);
+      blocks.push(this.$Content.blockHeader(title, LEVEL, ID, link), body);
     }
     // any
     else {
       const title = customTitle || `The \`${NAME}\` ${kindText}`;
       const link = customLink || LINK;
-      blocks.push(this.$Content.buildHeader(ID, LEVEL, title, link), body);
+      blocks.push(this.$Content.blockHeader(title, LEVEL, ID, link), body);
     }
     // result
     return blocks;
@@ -270,7 +270,7 @@ export class Converter {
     });
     // summary blocks
     if (!!summaryRows.length) {
-      const summaryBlock = this.$Content.buildTable(
+      const summaryBlock = this.$Content.blockTable(
         ['Name', 'Type', 'Description'],
         summaryRows
       );
@@ -283,7 +283,7 @@ export class Converter {
   private detailVariablesOrProperties(declarations: Declaration[]) {
     const blocks: Block[] = [];
     declarations.forEach(declaration =>
-      blocks.push(...this.self(declaration), this.$Content.buildText('---'))
+      blocks.push(...this.self(declaration), this.$Content.blockText('---'))
     );
     return blocks;
   }
@@ -297,13 +297,13 @@ export class Converter {
       return [];
     }
     // summary
-    const summaryText = this.$Content.buildText(
-      `**${parentName} ${childKind}**`
+    const summaryText = this.$Content.blockText(
+      `**${parentName} ${childKind} summary**`
     );
     const summaryBlocks = this.summaryVariablesOrProperties(children, false);
     // detail
-    const detailText = this.$Content.buildText(
-      `**${parentName} detail ${childKind}**`
+    const detailText = this.$Content.blockText(
+      `**${parentName} ${childKind} detail**`
     );
     const detailBlocks = this.detailVariablesOrProperties(children);
     // result
@@ -340,7 +340,7 @@ export class Converter {
     });
     // summary blocks
     if (!!summaryRows.length) {
-      const summaryBlock = this.$Content.buildTable(
+      const summaryBlock = this.$Content.blockTable(
         ['Function', 'Returns type', 'Description'],
         summaryRows
       );
@@ -353,7 +353,7 @@ export class Converter {
   private detailFunctionsOrMethods(declarations: Declaration[]) {
     const blocks: Block[] = [];
     declarations.forEach(declaration =>
-      blocks.push(...this.self(declaration), this.$Content.buildText('---'))
+      blocks.push(...this.self(declaration), this.$Content.blockText('---'))
     );
     return blocks;
   }
@@ -367,13 +367,13 @@ export class Converter {
       return [];
     }
     // summary
-    const summaryText = this.$Content.buildText(
-      `**${parentName} ${childKind}**`
+    const summaryText = this.$Content.blockText(
+      `**${parentName} ${childKind} summary**`
     );
     const summaryBlocks = this.summaryFunctionsOrMethods(children, false);
     // detail
-    const detailText = this.$Content.buildText(
-      `**${parentName} detail ${childKind}**`
+    const detailText = this.$Content.blockText(
+      `**${parentName} ${childKind} detail**`
     );
     const detailBlocks = this.detailFunctionsOrMethods(children);
     // result
@@ -391,7 +391,7 @@ export class Converter {
     });
     // summary block
     if (!!summaryRows.length) {
-      const summaryBlock = this.$Content.buildTable(
+      const summaryBlock = this.$Content.blockTable(
         ['Interfaces', 'Description'],
         summaryRows
       );
@@ -432,7 +432,7 @@ export class Converter {
     });
     // summary block
     if (!!summaryRows.length) {
-      const summaryBlock = this.$Content.buildTable(
+      const summaryBlock = this.$Content.blockTable(
         ['Classes', 'Description'],
         summaryRows
       );

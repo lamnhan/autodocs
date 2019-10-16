@@ -1,3 +1,5 @@
+import { EOL } from 'os';
+
 import { Project } from './project';
 import { ContentBySections, Block, Content } from './content';
 import { Parser } from './parser';
@@ -82,37 +84,48 @@ export class Renderer {
     const contentData: string[] = [];
     Object.keys(data).forEach(sectionName => {
       const sectionData = data[sectionName];
-      // opening
-      contentData.push(
-        this.$Content.getSectionOpening(sectionName, {
-          title: 'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY',
-        })
-      );
       // rendered content
       if (sectionData instanceof Array) {
         contentData.push(
+          // opening
+          this.$Content.sectionOpening(sectionName, {
+            title: 'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY',
+          }),
+          // content
           sectionName === 'toc'
             ? this.tocPlaceholder
-            : this.$Content.renderContent(sectionData)
+            : this.$Content.renderContent(sectionData),
+          // closing
+          this.$Content.sectionClosing()
         );
-        // save toc data
+        // toc data
         tocData.push(...sectionData);
       }
       // current content
       else {
-        contentData.push(sectionData);
-        // save toc data
-        const headings = this.$Content.extractHeadings(sectionData);
-        tocData.push(...headings);
+        contentData.push(
+          // opening
+          this.$Content.sectionOpening(sectionName),
+          // content
+          sectionData,
+          // closing
+          this.$Content.sectionClosing()
+        );
+        // toc data
+        tocData.push(...this.$Content.extractHeadings(EOL + sectionData));
       }
-      // closing
-      contentData.push(this.$Content.getSectionClosing());
     });
     // render content
     let content = this.$Content.renderText(contentData);
     // add toc
     if (!!data.toc) {
-      const toc = this.$Content.renderContent(this.getDataTOC(tocData));
+      const { url } = this.$Project.OPTIONS;
+      const toc = this.$Content.renderContent(
+        this.getDataTOC([
+          ...tocData,
+          this.$Content.blockHeader('Detail API Reference', 2, undefined, url),
+        ])
+      );
       content = content.replace(this.tocPlaceholder, toc);
     }
     // result
@@ -201,7 +214,7 @@ export class Renderer {
 
   private getDataHead() {
     const { name, description } = this.$Project.PACKAGE;
-    return [this.$Content.buildText([`# ${name}`, description])];
+    return [this.$Content.blockText([`# ${name}`, `**${description}**`])];
   }
 
   private getDataLicense() {
@@ -212,7 +225,7 @@ export class Renderer {
     } = this.$Project.PACKAGE;
     const licenseUrl = repoUrl.replace('.git', '') + '/blob/master/LICENSE';
     return [
-      this.$Content.buildText([
+      this.$Content.blockText([
         '## License',
         `**${name}** is released under the [${license}](${licenseUrl}) license.`,
       ]),
@@ -221,7 +234,7 @@ export class Renderer {
 
   private getDataAttr() {
     return [
-      this.$Content.buildText([
+      this.$Content.blockText([
         '---',
         `⚡️ This document is generated automatically using [@lamnhan/autodocs](https://github.com/lamnhan/autodocs).`,
       ]),
@@ -230,6 +243,6 @@ export class Renderer {
 
   private getDataTOC(blocks: Block[]) {
     const tocContent = this.$Content.renderTOC(blocks);
-    return [this.$Content.buildText([`**Table of content**`, tocContent])];
+    return [this.$Content.blockText([`**Table of content**`, tocContent])];
   }
 }
