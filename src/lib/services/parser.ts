@@ -3,6 +3,9 @@ import { Content } from './content';
 
 import { Declaration } from '../components/declaration';
 
+/**
+ * The `Parser` turns source code into [Declaration](#declaration)
+ */
 export class Parser {
   private $Typedoc: Typedoc;
   private $Content: Content;
@@ -13,11 +16,21 @@ export class Parser {
   }
 
   parse(what?: string | string[], child?: string) {
-    // container
-    const anyReflection = this.$Typedoc.getReflection(what);
-    const functionOrMethod = ((anyReflection as DeclarationReflection)
+    // any container
+    let reflection = this.$Typedoc.getReflection(what);
+    // call signature
+    const callable = ((reflection as DeclarationReflection)
       .signatures || [])[0];
-    let reflection = (functionOrMethod || anyReflection) as Reflection;
+    if (!!callable) {
+      reflection = callable;
+    }
+    // accessor
+    else {
+      const getter = (reflection as DeclarationReflection).getSignature;
+      if (!!getter) {
+        (reflection as DeclarationReflection).type = getter.type;
+      }
+    }
     // or a child
     if (!!child) {
       reflection = this.$Typedoc.getChildReflection(reflection, child);

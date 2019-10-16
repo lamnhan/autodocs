@@ -1,13 +1,14 @@
 import { Rendering } from './services/renderer';
 
 /**
- * The library options
+ * Custom generator options
  * 
  * Options can be provided in 3 ways:
  *
  * - The `autodocs.json` file
  * - Under the __@lamnhan/autodocs__ property of `package.json` file
- * - By the `options` param when init new [`autodocs(options?)`](https://lamnhan.github.io/global.html#autodocs) instance.
+ * - By the `options` param when init new [`autodocs(options?)`](https://lamnhan.com/autodocs/global.html#autodocs) instance.
+ *
  */
 export interface Options {
   /**

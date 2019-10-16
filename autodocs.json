@@ -1,4 +1,5 @@
 {
+  "url": "https://lamnhan.com/autodocs",
   "files": {
     "README.md": {
       "head": true,
@@ -8,22 +9,10 @@
         ["Options", "SUMMARY_PROPERTIES"]
       ],
       "main": ["Main", "FULL", { "title": "Main service" }],
-      "declaration": [
-        ["Declaration", "SELF", { "title": "Declaration component" }],
-        ["Declaration", "SUMMARY_PROPERTIES"]
-      ],
-      "parser": [
-        ["Parser", "SELF", { "title": "The `Parser`" }],
-        ["Parser", "SUMMARY_PROPERTIES"]
-      ],
-      "converter": [
-        ["Converter", "SELF", { "title": "The `Converter`" }],
-        ["Converter", "SUMMARY_PROPERTIES"]
-      ],
-      "renderer": [
-        ["Renderer", "SELF", { "title": "The `Renderer`" }],
-        ["Renderer", "SUMMARY_PROPERTIES"]
-      ],
+      "declaration": ["Declaration", "FULL", { "title": "Declaration component" }],
+      "parser": ["Parser", "SELF", { "title": "The `Parser`" }],
+      "converter": ["Converter", "SELF", { "title": "The `Converter`" }],
+      "renderer": ["Renderer", "SELF", { "title": "The `Renderer`" }],
       "license": true
     }
   }

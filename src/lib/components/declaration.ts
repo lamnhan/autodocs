@@ -163,9 +163,17 @@ export class Declaration {
     if (!this.hasVariablesOrProperties()) {
       throw new Error('No variables or properties.');
     }
-    return this.$Typedoc
-      .getReflections('VariableOrProperty', this.reflection)
-      .map(item =>
+    const variablesOrProperties = this.$Typedoc
+      .getReflections('VariableOrProperty', this.reflection);
+    const accessors = this.$Typedoc
+      .getReflections('Accessor', this.reflection)
+      .map(accessor => {
+        if (accessor.getSignature) {
+          accessor.type = accessor.getSignature.type;
+        }
+        return accessor;
+      });
+    return ([ ...variablesOrProperties, ...accessors ]).map(item =>
         new Declaration(this.$Typedoc, this.$Content, item)
           .setId(this.getChildId(item.name))
           .setLevel(this.level + 1)

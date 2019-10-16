@@ -16,6 +16,34 @@ interface HeaderOptions {
 
 export interface ConvertOptions extends DeclarationOptions, HeaderOptions {}
 
+/**
+ * The `Converter` turns [Declaration](#declaration) into content blocks
+ * 
+ * Any kind of [Declaration](#declaration) supports certain output:
+ *
+ * - __FULL__: any declaration
+ * - __SELF__: any declaration
+ * - __VALUE__: `Variable` or `Property`
+ * - __VALUE_RAW__: `Variable` or `Property`
+ * - __SUMMARY_VARIABLES__: `Collection`
+ * - __DETAIL_VARIABLES__: `Collection`
+ * - __FULL_VARIABLES__: `Collection`
+ * - __SUMMARY_FUNCTIONS__: `Collection`
+ * - __DETAIL_FUNCTIONS__: `Collection`
+ * - __FULL_FUNCTIONS__: `Collection`
+ * - __SUMMARY_INTERFACES__: `Collection`
+ * - __DETAIL_INTERFACES__: `Collection`
+ * - __FULL_INTERFACES__: `Collection`
+ * - __SUMMARY_CLASSES__: `Collection`
+ * - __DETAIL_CLASSES__: `Collection`
+ * - __FULL_CLASSES__: `Collection`
+ * - __SUMMARY_PROPERTIES__: `Interface` and `Class`
+ * - __DETAIL_PROPERTIES__: `Interface` and `Class`
+ * - __FULL_PROPERTIES__: `Interface` and `Class`
+ * - __SUMMARY_METHODS__: `Class`
+ * - __DETAIL_METHODS__: `Class`
+ * - __FULL_METHODS__: `Class`
+ */
 export class Converter {
   private $Project: Project;
   private $Content: Content;
