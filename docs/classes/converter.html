@@ -76,21 +76,19 @@
 						<li><strong>VALUE</strong>: for <code>Variable</code> or <code>Property</code></li>
 						<li><strong>VALUE_RAW</strong> (object only): for <code>Variable</code> or <code>Property</code></li>
 						<li><strong>SUMMARY_VARIABLES</strong>: for <code>Collection</code></li>
-						<li><strong>FULL_VARIABLES</strong>: for <code>Collection</code></li>
+						<li><strong>SUMMARY_PROPERTIES</strong>: for <code>Interface</code> and <code>Class</code></li>
 						<li><strong>SUMMARY_FUNCTIONS</strong>: for <code>Collection</code></li>
 						<li><strong>DETAIL_FUNCTIONS</strong>: for <code>Collection</code></li>
 						<li><strong>FULL_FUNCTIONS</strong>: for <code>Collection</code></li>
+						<li><strong>SUMMARY_METHODS</strong>: for <code>Class</code></li>
+						<li><strong>DETAIL_METHODS</strong>: for <code>Class</code></li>
+						<li><strong>FULL_METHODS</strong>: for <code>Class</code></li>
 						<li><strong>SUMMARY_INTERFACES</strong>: for <code>Collection</code></li>
 						<li><strong>DETAIL_INTERFACES</strong>: for <code>Collection</code></li>
 						<li><strong>FULL_INTERFACES</strong>: for <code>Collection</code></li>
 						<li><strong>SUMMARY_CLASSES</strong>: for <code>Collection</code></li>
 						<li><strong>DETAIL_CLASSES</strong>: for <code>Collection</code></li>
 						<li><strong>FULL_CLASSES</strong>: for <code>Collection</code></li>
-						<li><strong>SUMMARY_PROPERTIES</strong>: for <code>Interface</code> and <code>Class</code></li>
-						<li><strong>FULL_PROPERTIES</strong>: for <code>Interface</code> and <code>Class</code></li>
-						<li><strong>SUMMARY_METHODS</strong>: for <code>Class</code></li>
-						<li><strong>DETAIL_METHODS</strong>: for <code>Class</code></li>
-						<li><strong>FULL_METHODS</strong>: for <code>Class</code></li>
 					</ul>
 				</div>
 			</section>
@@ -133,7 +131,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/8601ec2/src/lib/services/converter.ts#L47">lib/services/converter.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/b760fb6/src/lib/services/converter.ts#L45">lib/services/converter.ts:45</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -156,13 +154,13 @@
 					<a name="convert" class="tsd-anchor"></a>
 					<h3>convert</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">convert<span class="tsd-signature-symbol">(</span>declaration<span class="tsd-signature-symbol">: </span><a href="declaration.html" class="tsd-signature-type">Declaration</a>, output<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/convertoptions.html" class="tsd-signature-type">ConvertOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><a href="../interfaces/blockheader.html" class="tsd-signature-type">BlockHeader</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/blocktext.html" class="tsd-signature-type">BlockText</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/blocklist.html" class="tsd-signature-type">BlockList</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/blocktable.html" class="tsd-signature-type">BlockTable</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">convert<span class="tsd-signature-symbol">(</span>declaration<span class="tsd-signature-symbol">: </span><a href="declaration.html" class="tsd-signature-type">Declaration</a>, output<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/convertoptions.html" class="tsd-signature-type">ConvertOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><a href="../interfaces/headingblock.html" class="tsd-signature-type">HeadingBlock</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/textblock.html" class="tsd-signature-type">TextBlock</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/listblock.html" class="tsd-signature-type">ListBlock</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/tableblock.html" class="tsd-signature-type">TableBlock</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/8601ec2/src/lib/services/converter.ts#L54">lib/services/converter.ts:54</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/b760fb6/src/lib/services/converter.ts#L52">lib/services/converter.ts:52</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -177,7 +175,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/convertoptions.html" class="tsd-signature-type">ConvertOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><a href="../interfaces/blockheader.html" class="tsd-signature-type">BlockHeader</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/blocktext.html" class="tsd-signature-type">BlockText</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/blocklist.html" class="tsd-signature-type">BlockList</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/blocktable.html" class="tsd-signature-type">BlockTable</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><a href="../interfaces/headingblock.html" class="tsd-signature-type">HeadingBlock</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/textblock.html" class="tsd-signature-type">TextBlock</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/listblock.html" class="tsd-signature-type">ListBlock</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/tableblock.html" class="tsd-signature-type">TableBlock</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -245,25 +243,19 @@
 						<a href="../interfaces/batchrenderingdata.html" class="tsd-kind-icon">Batch<wbr>Rendering<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="../interfaces/blockheader.html" class="tsd-kind-icon">Block<wbr>Header</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/blocklist.html" class="tsd-kind-icon">Block<wbr>List</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/blocktable.html" class="tsd-kind-icon">Block<wbr>Table</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/blocktext.html" class="tsd-kind-icon">Block<wbr>Text</a>
-					</li>
-					<li class=" tsd-kind-interface">
 						<a href="../interfaces/contentbysections.html" class="tsd-kind-icon">Content<wbr>BySections</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/convertoptions.html" class="tsd-kind-icon">Convert<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="../interfaces/header.html" class="tsd-kind-icon">Header</a>
+						<a href="../interfaces/heading.html" class="tsd-kind-icon">Heading</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/headingblock.html" class="tsd-kind-icon">Heading<wbr>Block</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/listblock.html" class="tsd-kind-icon">List<wbr>Block</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/options.html" class="tsd-kind-icon">Options</a>
@@ -279,6 +271,12 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/renderingdata.html" class="tsd-kind-icon">Rendering<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/tableblock.html" class="tsd-kind-icon">Table<wbr>Block</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/textblock.html" class="tsd-kind-icon">Text<wbr>Block</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="../index.html#block" class="tsd-kind-icon">Block</a>

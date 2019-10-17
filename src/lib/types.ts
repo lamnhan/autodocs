@@ -7,16 +7,16 @@ import { Rendering } from './services/renderer';
  *
  * - The `autodocs.json` file
  * - Under the __@lamnhan/autodocs__ property of `package.json` file
- * - By the `options` param when init new [`autodocs(options?)`](https://lamnhan.com/autodocs/global.html#autodocs) instance.
+ * - By the `options` param when init new [`autodocs(options?)`](https://lamnhan.com/autodocs/index.html#autodocs) instance.
  *
  */
 export interface Options {
   /**
-   * Custom Typedoc output folder, default to `docs/`
+   * Custom [Typedoc](https://typedoc.org) output folder, default to `docs/`
    */
   out?: string;
   /**
-   * Custom Typedoc readme
+   * Custom [Typedoc](https://typedoc.org) readme
    */
   readme?: string;
   /**

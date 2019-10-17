@@ -117,7 +117,7 @@ export class Renderer {
       const toc = this.$Content.renderContent(
         this.getDataTOC([
           ...tocData,
-          this.$Content.blockHeader('Detail API Reference', 2, undefined, url),
+          this.$Content.blockHeading('Detail API Reference', 2, undefined, url),
         ])
       );
       content = content.replace(this.tocPlaceholder, toc);

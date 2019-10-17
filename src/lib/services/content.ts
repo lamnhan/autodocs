@@ -7,33 +7,33 @@ export interface ContentBySections {
   [section: string]: string;
 }
 
-export type Block = BlockHeader | BlockText | BlockList | BlockTable;
+export type Block = HeadingBlock | TextBlock | ListBlock | TableBlock;
 
-export interface Header {
+export interface Heading {
   title: string;
   level: number;
   id?: string;
   link?: string;
 }
-export interface BlockHeader {
+export interface HeadingBlock {
   type: 'header';
-  data: Header;
+  data: Heading;
 }
 
 export type Text = string | string[];
-export interface BlockText {
+export interface TextBlock {
   type: 'text';
   data: Text;
 }
 
 export type List = Array<[string, string]>;
-export interface BlockList {
+export interface ListBlock {
   type: 'list';
   data: List;
 }
 
 export type Table = string[][];
-export interface BlockTable {
+export interface TableBlock {
   type: 'table';
   data: Table;
 }
@@ -85,7 +85,7 @@ export class Content {
   }
 
   extractHeadings(content: string) {
-    const headings: BlockHeader[] = [];
+    const headings: HeadingBlock[] = [];
     (content.match(/\n#{1}[^\n]*/g) || [])
     .forEach(heading => {
       const [head, ...body] = heading.replace(/(?:\r\n|\r|\n)/g, '').split(' ');
@@ -93,7 +93,7 @@ export class Content {
       if (level < 7) {
         const title = body.join(' ').replace(new RegExp(' ' + head, 'g'), '');
         const id = this.buildId(title);
-        headings.push(this.blockHeader(title, level, id));
+        headings.push(this.blockHeading(title, level, id));
       }
     });
     return headings;
@@ -107,31 +107,31 @@ export class Content {
     return prettierFormater(content, { parser: 'markdown' });
   }
 
-  blockHeader(title: string, level: number, id?: string, link?: string) {
+  blockHeading(title: string, level: number, id?: string, link?: string) {
     return {
       type: 'header',
       data: { title, level, id, link },
-    } as BlockHeader;
+    } as HeadingBlock;
   }
 
   blockText(text: Text) {
-    return { type: 'text', data: text } as BlockText;
+    return { type: 'text', data: text } as TextBlock;
   }
 
   blockList(list: List) {
-    return { type: 'list', data: list } as BlockList;
+    return { type: 'list', data: list } as ListBlock;
   }
 
   blockTable(headers: string[], rows: string[][]) {
     rows.unshift(headers); // add headers
-    return { type: 'table', data: rows } as BlockTable;
+    return { type: 'table', data: rows } as TableBlock;
   }
 
   renderTOC(blocks: Block[], offset = 2) {
     const rows: string[] = [];
     blocks.forEach(({ type, data }) => {
       if (type === 'header') {
-        const { title, level, id, link } = data as Header;
+        const { title, level, id, link } = data as Heading;
         rows.push(
           `${'    '.repeat(level - offset)}- [${title}](${!!id ? '#' + id : link})`
         );
@@ -149,7 +149,7 @@ export class Content {
     let content = '';
     switch (type) {
       case 'header':
-        content = this.renderHeader(data as Header);
+        content = this.renderHeading(data as Heading);
         break;
       case 'list':
         content = this.renderList(data as List);
@@ -165,7 +165,7 @@ export class Content {
     return content;
   }
 
-  renderHeader({ id, title, level, link }: Header) {
+  renderHeading({ id, title, level, link }: Heading) {
     const h = 'h' + level;
     const a = `a name="${id}"` + (!!link ? ` href="${link}"` : ``);
     return this.format(`<${h}><${a}>${this.md2Html(title)}</a></${h}>`);

@@ -9,6 +9,9 @@ import { Rendering, BatchRendering, Renderer } from './services/renderer';
 
 import { Declaration } from './components/declaration';
 
+/**
+ * The Main service
+ */
 export class Main {
   private $Project: Project;
   private $Typedoc: Typedoc;
@@ -94,7 +97,7 @@ export class Main {
   /**
    * Convert a declaration into content blocks.
    * @param declaration - The declaration
-   * @param output - Expected output
+   * @param output - Expected [output](#converter)
    * @param options - Custom convertion options
    */
   convert(declaration: Declaration, output: string, options?: ConvertOptions) {

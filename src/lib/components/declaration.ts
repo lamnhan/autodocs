@@ -6,7 +6,7 @@ import {
   DefaultValue,
   Typedoc,
 } from '../services/typedoc';
-import { Content } from '../services/content';
+import { ContentBySections, Content } from '../services/content';
 
 export class Declaration {
   private $Typedoc: Typedoc;
@@ -28,6 +28,8 @@ export class Declaration {
   private defaultValue: DefaultValue;
   // call signature
   private parameters: ReflectionData[];
+  // custom
+  private sections: ContentBySections;
 
   constructor($Typedoc: Typedoc, $Content: Content, reflection: Reflection) {
     this.$Typedoc = $Typedoc;
@@ -53,7 +55,7 @@ export class Declaration {
     this.name = name;
     this.link = link;
     this.shortText = shortText;
-    this.text = text;
+    this.text = text.split('<section id="').shift() || '';
     this.returns = returns;
     this.type = type;
     this.typeLink = typeLink;
@@ -62,6 +64,7 @@ export class Declaration {
     this.parameters = (
       (this.reflection as SignatureReflection).parameters || []
     ).map(param => this.$Typedoc.extractReflection(param));
+    this.sections = this.$Content.extractSections(text);
   }
 
   get REFLECTION() {
@@ -116,7 +119,11 @@ export class Declaration {
     return this.parameters;
   }
 
-  getChildId(childName: string) {
+  get SECTIONS() {
+    return this.sections;
+  }
+
+  childId(childName: string) {
     return this.$Content.buildId(this.id + ' ' + childName);
   }
 
@@ -128,6 +135,10 @@ export class Declaration {
   setLevel(level: number) {
     this.level = level;
     return this;
+  }
+
+  getSection(id: string) {
+    return this.sections[id] || '';
   }
 
   isKind(kindString: keyof typeof ReflectionKind) {
@@ -155,11 +166,11 @@ export class Declaration {
   getChild(name: string) {
     const reflection = this.$Typedoc.getChildReflection(this.reflection, name);
     return new Declaration(this.$Typedoc, this.$Content, reflection)
-      .setId(this.getChildId(reflection.name))
+      .setId(this.childId(reflection.name))
       .setLevel(this.level + 1);
   }
 
-  getVariablesOrProperties() {
+  getVariablesOrProperties(offset = 1) {
     if (!this.hasVariablesOrProperties()) {
       throw new Error('No variables or properties.');
     }
@@ -175,12 +186,12 @@ export class Declaration {
       });
     return ([ ...variablesOrProperties, ...accessors ]).map(item =>
         new Declaration(this.$Typedoc, this.$Content, item)
-          .setId(this.getChildId(item.name))
-          .setLevel(this.level + 1)
+          .setId(this.childId(item.name))
+          .setLevel(this.level + offset)
       );
   }
 
-  getFunctionsOrMethods() {
+  getFunctionsOrMethods(offset = 1) {
     if (!this.hasFunctionsOrMethods()) {
       throw new Error('No functions or methods.');
     }
@@ -193,8 +204,8 @@ export class Declaration {
           result.push(
             // tslint:disable-next-line: no-any
             new Declaration(this.$Typedoc, this.$Content, signature as any)
-              .setId(this.getChildId(signature.name) + '-' + i)
-              .setLevel(this.level + 1)
+              .setId(this.childId(signature.name) + '-' + i)
+              .setLevel(this.level + offset)
           )
         )
       );
@@ -202,7 +213,7 @@ export class Declaration {
     return result;
   }
 
-  getInterfaces() {
+  getInterfaces(offset = 1) {
     if (!this.hasInterfaces()) {
       throw new Error('No interfaces.');
     }
@@ -210,12 +221,12 @@ export class Declaration {
       .getReflections('Interface', this.reflection)
       .map(item =>
         new Declaration(this.$Typedoc, this.$Content, item).setLevel(
-          this.level + 1
+          this.level + offset
         )
       );
   }
 
-  getClasses() {
+  getClasses(offset = 1) {
     if (!this.hasClasses()) {
       throw new Error('No classes.');
     }
@@ -223,7 +234,7 @@ export class Declaration {
       .getReflections('Class', this.reflection)
       .map(item =>
         new Declaration(this.$Typedoc, this.$Content, item).setLevel(
-          this.level + 1
+          this.level + offset
         )
       );
   }
