@@ -2,7 +2,6 @@ import chalk from 'chalk';
 import * as commander from 'commander';
 
 import { Autodocs } from '../lib/main';
-import { BatchRendering } from '../lib/services/renderer';
 
 export class CLI {
   private lib: Autodocs;
@@ -11,6 +10,9 @@ export class CLI {
     this.lib = new Autodocs();
   }
 
+  /**
+   * @ignore
+   */
   getApp() {
     commander
       .version(require('../../package.json').version, '-v, --version')

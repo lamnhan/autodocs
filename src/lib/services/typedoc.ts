@@ -84,6 +84,7 @@ export class Typedoc {
 
   createApp(configs = {}) {
     const { name: packageName } = this.$Project.PACKAGE;
+    const { readme } = this.$Project.OPTIONS;
     return new Application({
       // default
       name: `${packageName} API Reference`,
@@ -96,6 +97,7 @@ export class Typedoc {
       excludeNotExported: true,
       excludePrivate: true,
       excludeProtected: true,
+      readme,
       // custom
       ...configs,
     });
@@ -183,6 +185,8 @@ export class Typedoc {
   }
 
   private getTypeLink(name: string, kind: ReflectionKind) {
+    const { readme } = this.$Project.OPTIONS;
+    const home = !!readme && readme === 'none' ? 'index': 'globals';
     const id = name.toLowerCase();
     // build link
     let link = '';
@@ -195,9 +199,9 @@ export class Typedoc {
       kind === ReflectionKind.Function ||
       kind === ReflectionKind.TypeAlias
     ) {
-      link = `globals.html#${id}`;
+      link = `${home}.html#${id}`;
     } else {
-      link = 'globals.html';
+      link = `${home}.html`;
     }
     // result
     return this.$Project.OPTIONS.url + '/' + link;
@@ -332,7 +336,7 @@ export class Typedoc {
     const commentData: CommentData = {};
     if (!!comment) {
       const { shortText = '', text = '', returns = '' } = comment;
-      commentData.shortText = shortText.replace(/(?:\r\n|\r|\n)/g, ' ');
+      commentData.shortText = shortText.replace(/(?:\r\n|\r|\n)/g, '  ');
       commentData.text = text;
       commentData.returns = returns;
     }

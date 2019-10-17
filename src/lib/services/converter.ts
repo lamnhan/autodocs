@@ -192,14 +192,13 @@ export class Converter {
       blocks.push(this.$Content.blockHeader(title, LEVEL, ID, link), body);
       // params
       if (!!PARAMETERS.length) {
-        const parameterRows: string[][] = [];
-        PARAMETERS.forEach(parameter => {
+        const parameterRows = PARAMETERS.map(parameter => {
           const { name, isOptional, type, typeLink, text } = parameter;
-          parameterRows.push([
+          return [
             !isOptional ? `**${name}**` : name,
             !!typeLink ? `[\`${type}\`](${typeLink})` : `\`${type}\``,
-            text || '',
-          ]);
+            (text || '').replace(/(?:\r\n|\r|\n)/g, ''),
+          ];
         });
         blocks.push(
           this.$Content.blockText(`**Parameters**`),
@@ -297,7 +296,7 @@ export class Converter {
       summaryRows.push([
         `[${displayName}](${ref})`,
         !!TYPE_LINK ? `[\`${TYPE}\`](${TYPE_LINK})` : `\`${TYPE}\``,
-        this.$Content.md2Html((SHORT_TEXT || '') + (!!TEXT ? '<br>' + TEXT : '')),
+        this.$Content.md2Html((SHORT_TEXT || '') + (!!TEXT ? '  ' + TEXT : '')),
       ]);
     });
     // summary blocks
@@ -322,9 +321,9 @@ export class Converter {
     }
     // summary
     const summaryText = this.$Content.blockText(
-      `**${parentName} ${childKind} summary**`
+      `<u>${parentName} ${childKind} summary</u>`
     );
-    const summaryBlocks = this.summaryVariablesOrProperties(children, false);
+    const summaryBlocks = this.summaryVariablesOrProperties(children);
     // result
     return [summaryText, ...summaryBlocks];
   }
@@ -388,12 +387,12 @@ export class Converter {
     }
     // summary
     const summaryText = this.$Content.blockText(
-      `**${parentName} ${childKind} summary**`
+      `<u>${parentName} ${childKind} summary</u>`
     );
     const summaryBlocks = this.summaryFunctionsOrMethods(children, false);
     // detail
     const detailText = this.$Content.blockText(
-      `**${parentName} ${childKind} detail**`
+      `<u>${parentName} ${childKind} detail</u>`
     );
     const detailBlocks = this.detailFunctionsOrMethods(children);
     // result

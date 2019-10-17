@@ -12,25 +12,27 @@ import { Rendering } from './services/renderer';
  */
 export interface Options {
   /**
-   * Custom API reference output folder, default to `docs/`
+   * Custom Typedoc output folder, default to `docs/`
    */
   out?: string;
+  /**
+   * Custom Typedoc readme
+   */
+  readme?: string;
   /**
    * Custom API reference url, default to the Github Pages repo url
    */
   url?: string;
   /**
-   * Ignore generator footer attribution
-   */
-  noAttr?: boolean;
-  /**
-   * List of documents to be generated
-   *
-   * __key__ is the path to the document and __value__ is a template name or a rendering configuration
+   * List of documents to be generated: __key__ is the path to the document and __value__ is a template name or a rendering input
    */
   files?: {
     [path: string]: BuiltinTemplate | Rendering;
   };
+  /**
+   * Ignore generator footer attribution
+   */
+  noAttr?: boolean;
 }
 
 export type BuiltinTemplate = 'mini' | 'full';
