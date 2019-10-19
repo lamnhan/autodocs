@@ -218,7 +218,7 @@ export class Converter {
       NAME,
       LINK,
       TYPE,
-      TYPE_LINK,
+      DISPLAY_TYPE,
       SHORT_TEXT,
       TEXT,
       RETURNS,
@@ -240,10 +240,10 @@ export class Converter {
       // params
       if (!!PARAMETERS.length) {
         const parameterRows = PARAMETERS.map(parameter => {
-          const { name, isOptional, type, typeLink, text } = parameter;
+          const { name, isOptional, displayType, text } = parameter;
           return [
             !isOptional ? `**${name}**` : name,
-            !!typeLink ? `[\`${type}\`](${typeLink})` : `\`${type}\``,
+            displayType,
             (text || '').replace(/(?:\r\n|\r|\n)/g, ''),
           ];
         });
@@ -256,13 +256,10 @@ export class Converter {
         );
       }
       // returns
-      const displayType = !!TYPE_LINK
-        ? `[\`${TYPE}\`](${TYPE_LINK})`
-        : `\`${TYPE}\``;
       blocks.push(
         this.$Content.blockText([
           `**Returns**`,
-          `${displayType}${!RETURNS ? '' : ' - ' + RETURNS}`,
+          `${DISPLAY_TYPE}${!RETURNS ? '' : ' - ' + RETURNS}`,
         ])
       );
     }
@@ -382,8 +379,7 @@ export class Converter {
           NAME,
           LINK,
           IS_OPTIONAL,
-          TYPE,
-          TYPE_LINK,
+          DISPLAY_TYPE,
           SHORT_TEXT,
         } = child;
         const displayName = (
@@ -396,7 +392,7 @@ export class Converter {
         if (mode === 'summary' || mode === 'full') {
           summaryRows.push([
             `[${displayName}](${ref})`,
-            !!TYPE_LINK ? `[\`${TYPE}\`](${TYPE_LINK})` : `\`${TYPE}\``,
+            DISPLAY_TYPE,
             SHORT_TEXT,
           ]);
         }
@@ -460,8 +456,7 @@ export class Converter {
           ID,
           NAME,
           LINK,
-          TYPE,
-          TYPE_LINK,
+          DISPLAY_TYPE,
           SHORT_TEXT,
           PARAMETERS,
         } = child;
@@ -474,7 +469,7 @@ export class Converter {
         if (mode === 'summary' || mode === 'full') {
           summaryRows.push([
             `[${displayName}](${ref})`,
-            !!TYPE_LINK ? `[\`${TYPE}\`](${TYPE_LINK})` : `\`${TYPE}\``,
+            DISPLAY_TYPE,
             SHORT_TEXT || '',
           ]);
         }

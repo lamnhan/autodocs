@@ -26,7 +26,7 @@ export class Declaration {
   private returns: string;
   // declaration
   private type: string;
-  private typeLink: string;
+  private displayType: string;
   private isOptional: boolean;
   private defaultValue: DefaultValue;
   // call signature
@@ -51,7 +51,7 @@ export class Declaration {
       text = '',
       returns = '',
       type = '',
-      typeLink = '',
+      displayType = '',
       isOptional = false,
       defaultValue = '',
     } = this.$Typedoc.extractReflection(this.reflection);
@@ -62,7 +62,7 @@ export class Declaration {
     this.text = text.split('<section id="').shift() || '';
     this.returns = returns;
     this.type = type;
-    this.typeLink = typeLink;
+    this.displayType = displayType;
     this.isOptional = isOptional;
     this.defaultValue = defaultValue;
     this.parameters = (
@@ -108,8 +108,8 @@ export class Declaration {
     return this.type;
   }
 
-  get TYPE_LINK() {
-    return this.typeLink;
+  get DISPLAY_TYPE() {
+    return this.displayType;
   }
 
   get IS_OPTIONAL() {

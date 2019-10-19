@@ -20,7 +20,7 @@ export type DefaultValue = any;
 
 interface TypeData {
   type: string;
-  typeLink?: string;
+  displayType: string;
 }
 
 interface FlagData {
@@ -240,14 +240,18 @@ export class Typedoc {
   private getType(reflection: Reflection) {
     const { type } = reflection as DeclarationReflection;
     // get type data
-    const typeData = { type: 'none' } as TypeData;
+    const typeData = { type: 'none', displayType: 'none' } as TypeData;
     if (!!type) {
-      typeData.type = type.toString();
-      // build link
+      // default type
+      const typeString = type.toString();
+      typeData.type = typeString;
+      typeData.displayType = `\`${typeString}\``;
+      // ref
       if (type.type === 'reference' && !!(type as ReferenceType).reflection) {
         const { reflection: typeReflection } = type as ReferenceType;
         const { name, kind } = typeReflection as Reflection;
-        typeData.typeLink = this.getTypeLink(name, kind);
+        const link = this.getTypeLink(name, kind);
+        typeData.displayType = `<a href="${link}" target="_blank"><code>${name}</code></a>`;
       }
     }
     // result
