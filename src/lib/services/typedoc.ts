@@ -186,7 +186,7 @@ export class Typedoc {
 
   private getTypeLink(name: string, kind: ReflectionKind) {
     const { readme } = this.$Project.OPTIONS;
-    const home = !!readme && readme === 'none' ? 'index': 'globals';
+    const home = !!readme && readme === 'none' ? 'index' : 'globals';
     const id = name.toLowerCase();
     // build link
     let link = '';

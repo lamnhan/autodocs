@@ -69,7 +69,9 @@ export class Declaration {
       (this.reflection as SignatureReflection).parameters || []
     ).map(param => this.$Typedoc.extractReflection(param));
     this.sections = this.$Content.extractSections(text);
-    this.fullText = text.replace(/<section [^\n]*/g, '').replace('</section>', '');
+    this.fullText = text
+      .replace(/<section [^\n]*/g, '')
+      .replace('</section>', '');
   }
 
   get REFLECTION() {
@@ -179,8 +181,10 @@ export class Declaration {
     if (!this.hasVariablesOrProperties()) {
       throw new Error('No variables or properties.');
     }
-    const variablesOrProperties = this.$Typedoc
-      .getReflections('VariableOrProperty', this.reflection);
+    const variablesOrProperties = this.$Typedoc.getReflections(
+      'VariableOrProperty',
+      this.reflection
+    );
     const accessors = this.$Typedoc
       .getReflections('Accessor', this.reflection)
       .map(accessor => {
@@ -189,11 +193,11 @@ export class Declaration {
         }
         return accessor;
       });
-    return ([ ...variablesOrProperties, ...accessors ]).map(item =>
-        new Declaration(this.$Typedoc, this.$Content, item)
-          .setId(this.getChildId(item.name))
-          .setLevel(this.level + offset)
-      );
+    return [...variablesOrProperties, ...accessors].map(item =>
+      new Declaration(this.$Typedoc, this.$Content, item)
+        .setId(this.getChildId(item.name))
+        .setLevel(this.level + offset)
+    );
   }
 
   getFunctionsOrMethods(offset = 1) {

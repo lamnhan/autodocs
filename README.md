@@ -388,19 +388,20 @@ Any markdown content goes here!
 
 Options can be provided in 3 ways:
 
-- The `autodocs.json` file
 - Under the **@lamnhan/autodocs** property of `package.json` file
+- The `autodocs.config.js` file for more advanced config
 - By the `options` param when init new [`autodocs(options?)`](https://lamnhan.com/autodocs/index.html#autodocs) instance.
 
 <h3><a name="options-properties"><p>Options properties</p></a></h3>
 
-| Name                                                                  | Type                 | Description                                                                                                                  |
-| --------------------------------------------------------------------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| [files](https://lamnhan.com/autodocs/interfaces/options.html#files)   | <code>object</code>  | List of documents to be generated: **key** is the path to the document and **value** is a template name or a rendering input |
-| [noAttr](https://lamnhan.com/autodocs/interfaces/options.html#noattr) | <code>boolean</code> | Ignore generator footer attribution                                                                                          |
-| [out](https://lamnhan.com/autodocs/interfaces/options.html#out)       | <code>string</code>  | Custom [Typedoc](https://typedoc.org) output folder, default to `docs/`                                                      |
-| [readme](https://lamnhan.com/autodocs/interfaces/options.html#readme) | <code>string</code>  | Custom [Typedoc](https://typedoc.org) readme                                                                                 |
-| [url](https://lamnhan.com/autodocs/interfaces/options.html#url)       | <code>string</code>  | Custom API reference url, default to the Github Pages repo url                                                               |
+| Name                                                                      | Type                                                                                                                  | Description                                                                                                                  |
+| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| [converts](https://lamnhan.com/autodocs/interfaces/options.html#converts) | <code><a href="https://lamnhan.com/autodocs/interfaces/customconverts.html" target="_blank">CustomConverts</a></code> | Custom converts                                                                                                              |
+| [files](https://lamnhan.com/autodocs/interfaces/options.html#files)       | <code>object</code>                                                                                                   | List of documents to be generated: **key** is the path to the document and **value** is a template name or a rendering input |
+| [noAttr](https://lamnhan.com/autodocs/interfaces/options.html#noattr)     | <code>boolean</code>                                                                                                  | Ignore generator footer attribution                                                                                          |
+| [out](https://lamnhan.com/autodocs/interfaces/options.html#out)           | <code>string</code>                                                                                                   | Custom [Typedoc](https://typedoc.org) output folder, default to `docs/`                                                      |
+| [readme](https://lamnhan.com/autodocs/interfaces/options.html#readme)     | <code>string</code>                                                                                                   | Custom [Typedoc](https://typedoc.org) readme                                                                                 |
+| [url](https://lamnhan.com/autodocs/interfaces/options.html#url)           | <code>string</code>                                                                                                   | Custom API reference url, default to the Github Pages repo url                                                               |
 
 </section>
 

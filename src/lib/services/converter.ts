@@ -1,3 +1,4 @@
+import { CustomConverts } from '../types';
 import { Project } from './project';
 import { DefaultValue } from './typedoc';
 import { Block, Content } from './content';
@@ -23,16 +24,18 @@ export interface ConvertingOptions {
   local?: boolean;
 }
 
-export interface ConvertOptions extends
-DeclarationOptions,
-HeadingOptions,
-ValueOptions,
-ConvertingOptions
-{}
+export interface ConvertOptions
+  extends DeclarationOptions,
+    HeadingOptions,
+    ValueOptions,
+    ConvertingOptions {
+  // tslint:disable-next-line: no-any
+  [key: string]: any;
+}
 
 /**
  * The `Converter` turns [Declaration](#declaration) into content blocks
- * 
+ *
  * ### Converter output
  *
  * A [Declaration](#declaration) supports certain output depended on its kind:
@@ -61,7 +64,7 @@ ConvertingOptions
  * | __SUMMARY_CLASSES__ | `Collection` | Summary table of classes |
  * | __DETAIL_CLASSES__ | `Collection` | Detail list of classes |
  * | __FULL_CLASSES__ | `Collection` | Summary table & detail list of classes |
- * 
+ *
  */
 export class Converter {
   private $Project: Project;
@@ -86,12 +89,8 @@ export class Converter {
     if (!!id) {
       declaration.setId(id);
     }
-    // section
-    if (output.indexOf('SECTION:') !== -1) {
-      const sectionId = output.replace('SECTION:', '');
-      return this.getSection(declaration, sectionId);
-    }
     // convert
+    output = output || 'SELF';
     switch (output) {
       // full
       case 'FULL':
@@ -135,8 +134,20 @@ export class Converter {
         return this.getClasses(declaration, 'full', options);
       // self
       case 'SELF':
-      default:
         return this.getSelf(declaration, options);
+      // custom
+      default:
+        // get section
+        if (output.indexOf('SECTION:') !== -1) {
+          return this.getSection(declaration, output.replace('SECTION:', ''));
+        }
+        // custom convertion
+        const { converts = {} } = this.$Project.OPTIONS;
+        const customConvert = converts[output];
+        if (!customConvert) {
+          throw new Error('No output: ' + output);
+        }
+        return customConvert(declaration, options, this.$Content) || [];
     }
   }
 
@@ -151,52 +162,36 @@ export class Converter {
     // variables or properties
     if (declaration.hasVariablesOrProperties()) {
       result.push(
-        ...this.getVariablesOrProperties(
-          declaration,
-          'summary',
-          {
-            heading: true,
-          }
-        )
+        ...this.getVariablesOrProperties(declaration, 'summary', {
+          heading: true,
+        })
       );
     }
     // functions or methods
     if (declaration.hasFunctionsOrMethods()) {
       result.push(
-        ...this.getFunctionsOrMethods(
-          declaration,
-          'full',
-          {
-            heading: true,
-            local: true,
-          }
-        )
+        ...this.getFunctionsOrMethods(declaration, 'full', {
+          heading: true,
+          local: true,
+        })
       );
     }
     // interfaces
     if (declaration.hasInterfaces()) {
       result.push(
-        ...this.getInterfaces(
-          declaration,
-          'full',
-          {
-            heading: true,
-            local: true,
-          }
-        )
+        ...this.getInterfaces(declaration, 'full', {
+          heading: true,
+          local: true,
+        })
       );
     }
     // classes
     if (declaration.hasClasses()) {
       result.push(
-        ...this.getClasses(
-          declaration,
-          'full',
-          {
-            heading: true,
-            local: true,
-          }
-        )
+        ...this.getClasses(declaration, 'full', {
+          heading: true,
+          local: true,
+        })
       );
     }
     // result
@@ -283,19 +278,13 @@ export class Converter {
     return blocks;
   }
 
-  private getSection(
-    declaration: Declaration,
-    sectionId: string
-  ) {
-    const {[sectionId]: sectionContent = ''} = declaration.SECTIONS;
+  private getSection(declaration: Declaration, sectionId: string) {
+    const { [sectionId]: sectionContent = '' } = declaration.SECTIONS;
     const content = this.$Content.blockText(sectionContent);
-    return [content];
+    return [content] as Block[];
   }
 
-  private getValue(
-    declaration: Declaration,
-    valueOptions: ValueOptions = {}
-  ) {
+  private getValue(declaration: Declaration, valueOptions: ValueOptions = {}) {
     const { raw: rawObject } = valueOptions;
     const { DEFAULT_VALUE } = declaration;
     // converter
@@ -346,7 +335,7 @@ export class Converter {
   private getVariablesOrProperties(
     declaration: Declaration,
     mode: 'summary' | 'detail' | 'full',
-    convertingOptions: ConvertingOptions = {},
+    convertingOptions: ConvertingOptions = {}
   ) {
     const { heading: withHeading, local: localLinking } = convertingOptions;
     // get children
@@ -356,16 +345,14 @@ export class Converter {
     if (!!children.length) {
       // heading
       if (withHeading) {
-        const headingTitle = (
-          declaration.NAME + ' ' +
-          (
-            declaration.isKind('Global')
-            ? 'variables'
-            : 'properties'
-          )
-        );
+        const headingTitle =
+          declaration.NAME +
+          ' ' +
+          (declaration.isKind('Global') ? 'variables' : 'properties');
         const heading = this.$Content.blockHeading(
-          headingTitle, 3, this.$Content.buildId(headingTitle),
+          headingTitle,
+          3,
+          this.$Content.buildId(headingTitle)
         );
         result.push(heading);
       }
@@ -382,11 +369,12 @@ export class Converter {
           DISPLAY_TYPE,
           SHORT_TEXT,
         } = child;
-        const displayName = (
+        const displayName =
           !!REFLECTION.parent && REFLECTION.parent.kindString === 'Interface'
-          ? (!IS_OPTIONAL ? `**${NAME}**` : NAME) // interface parent
-          : NAME // collection or class
-        );
+            ? !IS_OPTIONAL
+              ? `**${NAME}**`
+              : NAME // interface parent
+            : NAME; // collection or class
         const ref = !!localLinking ? '#' + ID : LINK;
         //
         if (mode === 'summary' || mode === 'full') {
@@ -407,10 +395,7 @@ export class Converter {
       // summary table
       if (!!summaryRows.length) {
         result.push(
-          this.$Content.blockTable(
-            ['Name', 'Type', 'Description'],
-            summaryRows
-          )
+          this.$Content.blockTable(['Name', 'Type', 'Description'], summaryRows)
         );
       }
       // detail
@@ -425,7 +410,7 @@ export class Converter {
   private getFunctionsOrMethods(
     declaration: Declaration,
     mode: 'summary' | 'detail' | 'full',
-    convertingOptions: ConvertingOptions = {},
+    convertingOptions: ConvertingOptions = {}
   ) {
     const { heading: withHeading, local: localLinking } = convertingOptions;
     // get children
@@ -435,31 +420,22 @@ export class Converter {
     if (!!children.length) {
       // heading
       if (withHeading) {
-        const headingTitle = (
-          declaration.NAME + ' ' +
-          (
-            declaration.isKind('Global')
-            ? 'functions'
-            : 'methods'
-          )
-        );
+        const headingTitle =
+          declaration.NAME +
+          ' ' +
+          (declaration.isKind('Global') ? 'functions' : 'methods');
         const heading = this.$Content.blockHeading(
-          headingTitle, 3, this.$Content.buildId(headingTitle),
+          headingTitle,
+          3,
+          this.$Content.buildId(headingTitle)
         );
         result.push(heading);
       }
-      // 
+      //
       const summaryRows: string[][] = [];
       const detailBlocks: Block[] = [];
       children.forEach(child => {
-        const {
-          ID,
-          NAME,
-          LINK,
-          DISPLAY_TYPE,
-          SHORT_TEXT,
-          PARAMETERS,
-        } = child;
+        const { ID, NAME, LINK, DISPLAY_TYPE, SHORT_TEXT, PARAMETERS } = child;
         const params = PARAMETERS.map(({ name, isOptional }) =>
           isOptional ? name + '?' : name
         ).join(', ');
@@ -502,7 +478,7 @@ export class Converter {
   private getInterfaces(
     declaration: Declaration,
     mode: 'summary' | 'detail' | 'full',
-    convertingOptions: ConvertingOptions = {},
+    convertingOptions: ConvertingOptions = {}
   ) {
     const { heading: withHeading, local: localLinking } = convertingOptions;
     // get children
@@ -514,11 +490,13 @@ export class Converter {
       if (withHeading) {
         const headingTitle = declaration.NAME + ' interfaces';
         const heading = this.$Content.blockHeading(
-          headingTitle, 3, this.$Content.buildId(headingTitle),
+          headingTitle,
+          3,
+          this.$Content.buildId(headingTitle)
         );
         result.push(heading);
       }
-      // 
+      //
       const summaryRows: string[][] = [];
       const detailBlocks: Block[] = [];
       children.forEach(child => {
@@ -536,10 +514,7 @@ export class Converter {
       // summary
       if (!!summaryRows.length) {
         result.push(
-          this.$Content.blockTable(
-            ['Interface', 'Description'],
-            summaryRows
-          )
+          this.$Content.blockTable(['Interface', 'Description'], summaryRows)
         );
       }
       // detail
@@ -554,7 +529,7 @@ export class Converter {
   private getClasses(
     declaration: Declaration,
     mode: 'summary' | 'detail' | 'full',
-    convertingOptions: ConvertingOptions = {},
+    convertingOptions: ConvertingOptions = {}
   ) {
     const { heading: withHeading, local: localLinking } = convertingOptions;
     // get children
@@ -566,11 +541,13 @@ export class Converter {
       if (withHeading) {
         const headingTitle = declaration.NAME + ' classes';
         const heading = this.$Content.blockHeading(
-          headingTitle, 3, this.$Content.buildId(headingTitle),
+          headingTitle,
+          3,
+          this.$Content.buildId(headingTitle)
         );
         result.push(heading);
       }
-      // 
+      //
       const summaryRows: string[][] = [];
       const detailBlocks: Block[] = [];
       children.forEach(child => {
@@ -588,10 +565,7 @@ export class Converter {
       // summary
       if (!!summaryRows.length) {
         result.push(
-          this.$Content.blockTable(
-            ['Class', 'Description'],
-            summaryRows
-          )
+          this.$Content.blockTable(['Class', 'Description'], summaryRows)
         );
       }
       // detail
@@ -602,5 +576,4 @@ export class Converter {
     // result
     return result;
   }
-
 }

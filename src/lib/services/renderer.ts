@@ -36,9 +36,9 @@ export interface BatchRenderResult {
 
 /**
  * The Renderer turns a rendering input into the final content
- * 
+ *
  * Builtin sections:
- * 
+ *
  * - `head`: Package name & description
  * - `toc`: Table of content
  * - `license`: License information

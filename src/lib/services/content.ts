@@ -72,22 +72,22 @@ export class Content {
 
   extractSections(content: string) {
     const sections: ContentBySections = {};
-    (content.match(/<section[^>]*>([\s\S]*?)<\/section>/g) || [])
-    .forEach(item => {
-      const id = (/<section id="(.*?)"/.exec(item) || []).pop();
-      if (!!id) {
-        sections[id] = this.format(
-          item.replace(/<section [^\n]*/g, '').replace('</section>', '')
-        );
+    (content.match(/<section[^>]*>([\s\S]*?)<\/section>/g) || []).forEach(
+      item => {
+        const id = (/<section id="(.*?)"/.exec(item) || []).pop();
+        if (!!id) {
+          sections[id] = this.format(
+            item.replace(/<section [^\n]*/g, '').replace('</section>', '')
+          );
+        }
       }
-    });
+    );
     return sections;
   }
 
   extractHeadings(content: string) {
     const headings: HeadingBlock[] = [];
-    (content.match(/\n#{1}[^\n]*/g) || [])
-    .forEach(heading => {
+    (content.match(/\n#{1}[^\n]*/g) || []).forEach(heading => {
       const [head, ...body] = heading.replace(/(?:\r\n|\r|\n)/g, '').split(' ');
       const level = head.length;
       if (level < 7) {
@@ -133,7 +133,9 @@ export class Content {
       if (type === 'header') {
         const { title, level, id, link } = data as Heading;
         rows.push(
-          `${'    '.repeat(level - offset)}- [${title}](${!!id ? '#' + id : link})`
+          `${'    '.repeat(level - offset)}- [${title}](${
+            !!id ? '#' + id : link
+          })`
         );
       }
     });

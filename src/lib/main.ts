@@ -130,10 +130,7 @@ export class Main {
       Object.keys(batchRendering)
     );
     // result
-    return this.$Renderer.renderBatch(
-      batchRendering,
-      batchCurrentContent
-    );
+    return this.$Renderer.renderBatch(batchRendering, batchCurrentContent);
   }
 
   /**
@@ -159,7 +156,7 @@ export class Main {
 
   /**
    * Generate the API reference using Typedoc.
-   * 
+   *
    * The default folder is __/docs__. You can change the output folder by providing the `out` property of [Options](#options).
    */
   generateDocs() {

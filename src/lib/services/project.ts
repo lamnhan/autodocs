@@ -20,7 +20,7 @@ export interface PackageJson {
 }
 
 export class Project {
-  private optionsPath = resolve('autodocs.json');
+  private optionsPath = resolve('autodocs.config.js');
 
   private package: PackageJson;
   private options: Options;
@@ -66,7 +66,7 @@ export class Project {
     } = this.package;
     // get options
     const options: Options = pathExistsSync(this.optionsPath)
-      ? readJsonSync(this.optionsPath)
+      ? require(this.optionsPath)
       : pkgOptions;
     // default github url
     if (!options.url) {
@@ -76,14 +76,14 @@ export class Project {
         .split('/');
       options.url = `https://${org}.github.io/${repo}`;
     }
-    // default out
-    options.out = options.out || 'docs';
-    // default noAttr
-    options.noAttr = options.noAttr || false;
-    // default files
-    options.files = options.files || {};
     // options
-    return options;
+    return {
+      out: 'docs',
+      noAttr: false,
+      files: {},
+      converts: {},
+      ...options,
+    } as Options;
   }
 
   private getMiniTemplate() {

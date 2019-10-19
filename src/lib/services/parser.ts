@@ -19,8 +19,8 @@ export class Parser {
     // any container
     let reflection = this.$Typedoc.getReflection(what);
     // call signature
-    const callable = ((reflection as DeclarationReflection)
-      .signatures || [])[0];
+    const callable = ((reflection as DeclarationReflection).signatures ||
+      [])[0];
     if (!!callable) {
       reflection = callable;
     }
