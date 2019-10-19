@@ -243,7 +243,7 @@ export class Converter {
           const { name, isOptional, displayType, text } = parameter;
           return [
             !isOptional ? `**${name}**` : name,
-            displayType,
+            `<code>${displayType}</code>`,
             (text || '').replace(/(?:\r\n|\r|\n)/g, ''),
           ];
         });

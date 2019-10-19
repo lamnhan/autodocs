@@ -7,7 +7,7 @@ import {
   ProjectReflection,
   DeclarationReflection,
 } from 'typedoc';
-import { ReferenceType } from 'typedoc/dist/lib/models';
+import { ReferenceType, ArrayType, UnionType } from 'typedoc/dist/lib/models';
 
 import { Project } from './project';
 
@@ -245,13 +245,28 @@ export class Typedoc {
       // default type
       const typeString = type.toString();
       typeData.type = typeString;
-      typeData.displayType = `\`${typeString}\``;
+      typeData.displayType = typeString;
       // ref
       if (type.type === 'reference' && !!(type as ReferenceType).reflection) {
         const { reflection: typeReflection } = type as ReferenceType;
         const { name, kind } = typeReflection as Reflection;
         const link = this.getTypeLink(name, kind);
-        typeData.displayType = `<a href="${link}" target="_blank"><code>${name}</code></a>`;
+        typeData.displayType = `<a href="${link}" target="_blank">${name}</a>`;
+      }
+      // array
+      else if (type.type === 'array') {
+        const { elementType } = type as ArrayType;
+        const { displayType } = this.getType({ type: elementType } as any);
+        typeData.displayType = displayType + '[]';
+      }
+      // union
+      else if (type.type === 'union') {
+        const { types } = type as UnionType;
+        const displayTypes = types.map(itemType => {
+          const { displayType } = this.getType({ type: itemType } as any);
+          return displayType;
+        });
+        typeData.displayType = displayTypes.join(' | ');
       }
     }
     // result
