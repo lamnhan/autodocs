@@ -90,10 +90,7 @@ export class Project {
     return {
       head: true,
       toc: true,
-      options: [
-        ['Options', 'SELF', { title: 'Options' }],
-        ['Options', 'SUMMARY_PROPERTIES'],
-      ],
+      options: ['Options', 'FULL', { title: 'Options' }],
       main: ['Main', 'FULL', { title: 'Main service' }],
       license: true,
     } as Rendering;

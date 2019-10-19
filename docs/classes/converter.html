@@ -69,27 +69,129 @@
 					<div class="lead">
 						<p>The <code>Converter</code> turns <a href="#declaration">Declaration</a> into content blocks</p>
 					</div>
-					<p>Any kind of <a href="#declaration">Declaration</a> supports certain output:</p>
-					<ul>
-						<li><strong>FULL</strong>: for any declaration</li>
-						<li><strong>SELF</strong>: for any declaration</li>
-						<li><strong>VALUE</strong>: for <code>Variable</code> or <code>Property</code></li>
-						<li><strong>VALUE_RAW</strong> (object only): for <code>Variable</code> or <code>Property</code></li>
-						<li><strong>SUMMARY_VARIABLES</strong>: for <code>Collection</code></li>
-						<li><strong>SUMMARY_PROPERTIES</strong>: for <code>Interface</code> and <code>Class</code></li>
-						<li><strong>SUMMARY_FUNCTIONS</strong>: for <code>Collection</code></li>
-						<li><strong>DETAIL_FUNCTIONS</strong>: for <code>Collection</code></li>
-						<li><strong>FULL_FUNCTIONS</strong>: for <code>Collection</code></li>
-						<li><strong>SUMMARY_METHODS</strong>: for <code>Class</code></li>
-						<li><strong>DETAIL_METHODS</strong>: for <code>Class</code></li>
-						<li><strong>FULL_METHODS</strong>: for <code>Class</code></li>
-						<li><strong>SUMMARY_INTERFACES</strong>: for <code>Collection</code></li>
-						<li><strong>DETAIL_INTERFACES</strong>: for <code>Collection</code></li>
-						<li><strong>FULL_INTERFACES</strong>: for <code>Collection</code></li>
-						<li><strong>SUMMARY_CLASSES</strong>: for <code>Collection</code></li>
-						<li><strong>DETAIL_CLASSES</strong>: for <code>Collection</code></li>
-						<li><strong>FULL_CLASSES</strong>: for <code>Collection</code></li>
-					</ul>
+					<a href="#converter-output" id="converter-output" style="color: inherit; text-decoration: none;">
+						<h3>Converter output</h3>
+					</a>
+					<p>A <a href="#declaration">Declaration</a> supports certain output depended on its kind:</p>
+					<table>
+						<thead>
+							<tr>
+								<th>Output</th>
+								<th>Kinds</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+								<td><strong>FULL</strong></td>
+								<td>any</td>
+								<td>All content</td>
+							</tr>
+							<tr>
+								<td><strong>SELF</strong></td>
+								<td>any</td>
+								<td>Title, description, content WITHOUT local sections, parameters &amp; returns (for function)</td>
+							</tr>
+							<tr>
+								<td><strong>SECTION:<SECTION_ID></strong></td>
+								<td>any</td>
+								<td>A local section</td>
+							</tr>
+							<tr>
+								<td><strong>VALUE</strong></td>
+								<td><code>Variable</code>, <code>Property</code></td>
+								<td>Default value</td>
+							</tr>
+							<tr>
+								<td><strong>SUMMARY_VARIABLES</strong></td>
+								<td><code>Collection</code></td>
+								<td>Summary table of variables</td>
+							</tr>
+							<tr>
+								<td><strong>DETAIL_VARIABLES</strong></td>
+								<td><code>Collection</code></td>
+								<td>Detail list of variables</td>
+							</tr>
+							<tr>
+								<td><strong>FULL_VARIABLES</strong></td>
+								<td><code>Collection</code></td>
+								<td>Summary table &amp; detail list of variables</td>
+							</tr>
+							<tr>
+								<td><strong>SUMMARY_FUNCTIONS</strong></td>
+								<td><code>Collection</code></td>
+								<td>Summary table of functions</td>
+							</tr>
+							<tr>
+								<td><strong>DETAIL_FUNCTIONS</strong></td>
+								<td><code>Collection</code></td>
+								<td>Detail list of functions</td>
+							</tr>
+							<tr>
+								<td><strong>FULL_FUNCTIONS</strong></td>
+								<td><code>Collection</code></td>
+								<td>Summary table &amp; detail list of functions</td>
+							</tr>
+							<tr>
+								<td><strong>SUMMARY_PROPERTIES</strong></td>
+								<td><code>Interface</code>, <code>Class</code></td>
+								<td>Summary table of properties</td>
+							</tr>
+							<tr>
+								<td><strong>DETAIL_PROPERTIES</strong></td>
+								<td><code>Interface</code>, <code>Class</code></td>
+								<td>Detail list of properties</td>
+							</tr>
+							<tr>
+								<td><strong>FULL_PROPERTIES</strong></td>
+								<td><code>Interface</code>, <code>Class</code></td>
+								<td>Summary table &amp; detail list of properties</td>
+							</tr>
+							<tr>
+								<td><strong>SUMMARY_METHODS</strong></td>
+								<td><code>Class</code></td>
+								<td>Summary table of methods</td>
+							</tr>
+							<tr>
+								<td><strong>DETAIL_METHODS</strong></td>
+								<td><code>Class</code></td>
+								<td>Detail list of methods</td>
+							</tr>
+							<tr>
+								<td><strong>FULL_METHODS</strong></td>
+								<td><code>Class</code></td>
+								<td>Summary table &amp; detail list of methods</td>
+							</tr>
+							<tr>
+								<td><strong>SUMMARY_INTERFACES</strong></td>
+								<td><code>Collection</code></td>
+								<td>Summary table of interfaces</td>
+							</tr>
+							<tr>
+								<td><strong>DETAIL_INTERFACES</strong></td>
+								<td><code>Collection</code></td>
+								<td>Detail list of interfaces</td>
+							</tr>
+							<tr>
+								<td><strong>FULL_INTERFACES</strong></td>
+								<td><code>Collection</code></td>
+								<td>Summary table &amp; detail list of interfaces</td>
+							</tr>
+							<tr>
+								<td><strong>SUMMARY_CLASSES</strong></td>
+								<td><code>Collection</code></td>
+								<td>Summary table of classes</td>
+							</tr>
+							<tr>
+								<td><strong>DETAIL_CLASSES</strong></td>
+								<td><code>Collection</code></td>
+								<td>Detail list of classes</td>
+							</tr>
+							<tr>
+								<td><strong>FULL_CLASSES</strong></td>
+								<td><code>Collection</code></td>
+								<td>Summary table &amp; detail list of classes</td>
+							</tr>
+					</tbody></table>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -131,7 +233,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/b760fb6/src/lib/services/converter.ts#L45">lib/services/converter.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/8536b55/src/lib/services/converter.ts#L68">lib/services/converter.ts:68</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -160,7 +262,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/b760fb6/src/lib/services/converter.ts#L52">lib/services/converter.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/8536b55/src/lib/services/converter.ts#L75">lib/services/converter.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -191,12 +293,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class">
-						<a href="cli.html" class="tsd-kind-icon">CLI</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="content.html" class="tsd-kind-icon">Content</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
@@ -212,114 +308,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="declaration.html" class="tsd-kind-icon">Declaration</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="loader.html" class="tsd-kind-icon">Loader</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="main.html" class="tsd-kind-icon">Main</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="parser.html" class="tsd-kind-icon">Parser</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="project.html" class="tsd-kind-icon">Project</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="renderer.html" class="tsd-kind-icon">Renderer</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="typedoc.html" class="tsd-kind-icon">Typedoc</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/batchrenderresult.html" class="tsd-kind-icon">Batch<wbr>Render<wbr>Result</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/batchrendering.html" class="tsd-kind-icon">Batch<wbr>Rendering</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/batchrenderingdata.html" class="tsd-kind-icon">Batch<wbr>Rendering<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/contentbysections.html" class="tsd-kind-icon">Content<wbr>BySections</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/convertoptions.html" class="tsd-kind-icon">Convert<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/heading.html" class="tsd-kind-icon">Heading</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/headingblock.html" class="tsd-kind-icon">Heading<wbr>Block</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/listblock.html" class="tsd-kind-icon">List<wbr>Block</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/options.html" class="tsd-kind-icon">Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/packagejson.html" class="tsd-kind-icon">Package<wbr>Json</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/reflectiondata.html" class="tsd-kind-icon">Reflection<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/rendering.html" class="tsd-kind-icon">Rendering</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/renderingdata.html" class="tsd-kind-icon">Rendering<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/tableblock.html" class="tsd-kind-icon">Table<wbr>Block</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/textblock.html" class="tsd-kind-icon">Text<wbr>Block</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../index.html#block" class="tsd-kind-icon">Block</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../index.html#blockrendering" class="tsd-kind-icon">Block<wbr>Rendering</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../index.html#builtintemplate" class="tsd-kind-icon">Builtin<wbr>Template</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../index.html#declarationrendering" class="tsd-kind-icon">Declaration<wbr>Rendering</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../index.html#defaultvalue" class="tsd-kind-icon">Default<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="../index.html#iterationformatter" class="tsd-kind-icon">Iteration<wbr>Formatter</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="../index.html#iterationhandler" class="tsd-kind-icon">Iteration<wbr>Handler</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../index.html#kindstring" class="tsd-kind-icon">Kind<wbr>String</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../index.html#list" class="tsd-kind-icon">List</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../index.html#sectionrendering" class="tsd-kind-icon">Section<wbr>Rendering</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../index.html#sectionrenderingdata" class="tsd-kind-icon">Section<wbr>Rendering<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../index.html#table" class="tsd-kind-icon">Table</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="../index.html#text" class="tsd-kind-icon">Text</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../index.html#autodocs" class="tsd-kind-icon">autodocs</a>
-					</li>
 				</ul>
 			</nav>
 		</div>

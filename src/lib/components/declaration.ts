@@ -8,6 +8,9 @@ import {
 } from '../services/typedoc';
 import { ContentBySections, Content } from '../services/content';
 
+/**
+ * A Declaration is an object the holds information of a source code element.
+ */
 export class Declaration {
   private $Typedoc: Typedoc;
   private $Content: Content;
@@ -29,6 +32,7 @@ export class Declaration {
   // call signature
   private parameters: ReflectionData[];
   // custom
+  private fullText: string;
   private sections: ContentBySections;
 
   constructor($Typedoc: Typedoc, $Content: Content, reflection: Reflection) {
@@ -65,6 +69,7 @@ export class Declaration {
       (this.reflection as SignatureReflection).parameters || []
     ).map(param => this.$Typedoc.extractReflection(param));
     this.sections = this.$Content.extractSections(text);
+    this.fullText = text.replace(/<section [^\n]*/g, '').replace('</section>', '');
   }
 
   get REFLECTION() {
@@ -123,8 +128,8 @@ export class Declaration {
     return this.sections;
   }
 
-  childId(childName: string) {
-    return this.$Content.buildId(this.id + ' ' + childName);
+  get FULL_TEXT() {
+    return this.fullText;
   }
 
   setId(id: string) {
@@ -135,10 +140,6 @@ export class Declaration {
   setLevel(level: number) {
     this.level = level;
     return this;
-  }
-
-  getSection(id: string) {
-    return this.sections[id] || '';
   }
 
   isKind(kindString: keyof typeof ReflectionKind) {
@@ -163,10 +164,14 @@ export class Declaration {
     return this.isKind('Global');
   }
 
+  getChildId(childName: string) {
+    return this.$Content.buildId(this.id + ' ' + childName);
+  }
+
   getChild(name: string) {
     const reflection = this.$Typedoc.getChildReflection(this.reflection, name);
     return new Declaration(this.$Typedoc, this.$Content, reflection)
-      .setId(this.childId(reflection.name))
+      .setId(this.getChildId(reflection.name))
       .setLevel(this.level + 1);
   }
 
@@ -186,7 +191,7 @@ export class Declaration {
       });
     return ([ ...variablesOrProperties, ...accessors ]).map(item =>
         new Declaration(this.$Typedoc, this.$Content, item)
-          .setId(this.childId(item.name))
+          .setId(this.getChildId(item.name))
           .setLevel(this.level + offset)
       );
   }
@@ -204,7 +209,7 @@ export class Declaration {
           result.push(
             // tslint:disable-next-line: no-any
             new Declaration(this.$Typedoc, this.$Content, signature as any)
-              .setId(this.childId(signature.name) + '-' + i)
+              .setId(this.getChildId(signature.name) + '-' + i)
               .setLevel(this.level + offset)
           )
         )

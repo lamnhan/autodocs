@@ -4,41 +4,64 @@ import { Block, Content } from './content';
 
 import { Declaration } from '../components/declaration';
 
-interface DeclarationOptions {
+export interface DeclarationOptions {
   id?: string;
   level?: number;
 }
 
-interface HeaderOptions {
+export interface HeadingOptions {
   title?: string;
   link?: string;
 }
 
-export interface ConvertOptions extends DeclarationOptions, HeaderOptions {}
+export interface ValueOptions {
+  raw?: boolean;
+}
+
+export interface ConvertingOptions {
+  heading?: boolean;
+  local?: boolean;
+}
+
+export interface ConvertOptions extends
+DeclarationOptions,
+HeadingOptions,
+ValueOptions,
+ConvertingOptions
+{}
 
 /**
  * The `Converter` turns [Declaration](#declaration) into content blocks
  * 
- * Any kind of [Declaration](#declaration) supports certain output:
+ * ### Converter output
  *
- * - __FULL__: for any declaration
- * - __SELF__: for any declaration
- * - __VALUE__: for `Variable` or `Property`
- * - __VALUE_RAW__ (object only): for `Variable` or `Property`
- * - __SUMMARY_VARIABLES__: for `Collection`
- * - __SUMMARY_PROPERTIES__: for `Interface` and `Class`
- * - __SUMMARY_FUNCTIONS__: for `Collection`
- * - __DETAIL_FUNCTIONS__: for `Collection`
- * - __FULL_FUNCTIONS__: for `Collection`
- * - __SUMMARY_METHODS__: for `Class`
- * - __DETAIL_METHODS__: for `Class`
- * - __FULL_METHODS__: for `Class`
- * - __SUMMARY_INTERFACES__: for `Collection`
- * - __DETAIL_INTERFACES__: for `Collection`
- * - __FULL_INTERFACES__: for `Collection`
- * - __SUMMARY_CLASSES__: for `Collection`
- * - __DETAIL_CLASSES__: for `Collection`
- * - __FULL_CLASSES__: for `Collection`
+ * A [Declaration](#declaration) supports certain output depended on its kind:
+ *
+ * | Output | Kinds | Description |
+ * | --- | --- | ---|
+ * | __FULL__ | any | All content |
+ * | __SELF__ | any | Title, description, content WITHOUT local sections, parameters & returns (for function) |
+ * | __SECTION:<SECTION_ID>__ | any | A local section |
+ * | __VALUE__ | `Variable`, `Property` | Default value |
+ * | __SUMMARY_VARIABLES__ | `Collection` | Summary table of variables |
+ * | __DETAIL_VARIABLES__ | `Collection` | Detail list of variables |
+ * | __FULL_VARIABLES__ | `Collection` | Summary table & detail list of variables |
+ * | __SUMMARY_FUNCTIONS__ | `Collection` | Summary table of functions |
+ * | __DETAIL_FUNCTIONS__ | `Collection` | Detail list of functions |
+ * | __FULL_FUNCTIONS__ | `Collection` | Summary table & detail list of functions |
+ * | __SUMMARY_PROPERTIES__ | `Interface`, `Class` | Summary table of properties |
+ * | __DETAIL_PROPERTIES__ | `Interface`, `Class` | Detail list of properties |
+ * | __FULL_PROPERTIES__ | `Interface`, `Class` | Summary table & detail list of properties |
+ * | __SUMMARY_METHODS__ | `Class` | Summary table of methods |
+ * | __DETAIL_METHODS__ | `Class` | Detail list of methods |
+ * | __FULL_METHODS__ | `Class` | Summary table & detail list of methods |
+ * | __SUMMARY_INTERFACES__ | `Collection` | Summary table of interfaces |
+ * | __DETAIL_INTERFACES__ | `Collection` | Detail list of interfaces |
+ * | __FULL_INTERFACES__ | `Collection` | Summary table & detail list of interfaces |
+ * | __SUMMARY_CLASSES__ | `Collection` | Summary table of classes |
+ * | __DETAIL_CLASSES__ | `Collection` | Detail list of classes |
+ * | __FULL_CLASSES__ | `Collection` | Summary table & detail list of classes |
+ * 
  */
 export class Converter {
   private $Project: Project;
@@ -63,109 +86,128 @@ export class Converter {
     if (!!id) {
       declaration.setId(id);
     }
-    // get section
-    if (output.indexOf('SELF:') !== -1) {
-      const sectionId = output.replace('SELF:', '');
-      return this.content(declaration, sectionId);
+    // section
+    if (output.indexOf('SECTION:') !== -1) {
+      const sectionId = output.replace('SECTION:', '');
+      return this.getSection(declaration, sectionId);
     }
     // convert
     switch (output) {
+      // full
+      case 'FULL':
+        return this.getFull(declaration, options);
+      // value
+      case 'VALUE':
+        return this.getValue(declaration, options);
+      // variables & properties
       case 'SUMMARY_VARIABLES':
       case 'SUMMARY_PROPERTIES':
-        return this.summaryVariablesOrProperties(declaration);
+        return this.getVariablesOrProperties(declaration, 'summary', options);
+      case 'DETAIL_VARIABLES':
+      case 'DETAIL_PROPERTIES':
+        return this.getVariablesOrProperties(declaration, 'detail', options);
+      case 'FULL_VARIABLES':
+      case 'FULL_PROPERTIES':
+        return this.getVariablesOrProperties(declaration, 'full', options);
+      // functions & methods
       case 'SUMMARY_FUNCTIONS':
       case 'SUMMARY_METHODS':
-        return this.summaryFunctionsOrMethods(
-          declaration.getFunctionsOrMethods()
-        );
+        return this.getFunctionsOrMethods(declaration, 'summary', options);
       case 'DETAIL_FUNCTIONS':
       case 'DETAIL_METHODS':
-        return this.detailFunctionsOrMethods(
-          declaration.getFunctionsOrMethods()
-        );
+        return this.getFunctionsOrMethods(declaration, 'detail', options);
       case 'FULL_FUNCTIONS':
       case 'FULL_METHODS':
-        return this.fullFunctionsOrMethods(declaration);
+        return this.getFunctionsOrMethods(declaration, 'full', options);
+      // interfaces
       case 'SUMMARY_INTERFACES':
-        return this.summaryInterfaces(declaration.getInterfaces());
+        return this.getInterfaces(declaration, 'summary', options);
       case 'DETAIL_INTERFACES':
-        return this.detailInterfaces(declaration.getInterfaces());
+        return this.getInterfaces(declaration, 'detail', options);
       case 'FULL_INTERFACES':
-        return this.fullInterfaces(declaration);
+        return this.getInterfaces(declaration, 'full', options);
+      // classes
       case 'SUMMARY_CLASSES':
-        return this.summaryClasses(declaration.getClasses());
+        return this.getClasses(declaration, 'summary', options);
       case 'DETAIL_CLASSES':
-        return this.detailClasses(declaration.getClasses());
+        return this.getClasses(declaration, 'detail', options);
       case 'FULL_CLASSES':
-        return this.fullClasses(declaration);
-      case 'FULL':
-        return this.full(declaration, options);
-      case 'VALUE':
-        return this.value(declaration);
-      case 'VALUE_RAW':
-        return this.value(declaration, true);
+        return this.getClasses(declaration, 'full', options);
+      // self
       case 'SELF':
       default:
-        return this.self(declaration, options);
+        return this.getSelf(declaration, options);
     }
   }
 
-  private content(declaration: Declaration, sectionId: string) {
-    const sectionContent = this.$Content.blockText(
-      declaration.getSection(sectionId)
-    );
-    return [sectionContent];
-  }
-
-  private value(declaration: Declaration, rawObject = false) {
-    const { DEFAULT_VALUE } = declaration;
-    // converter
-    const convertValue = (value: DefaultValue) => {
-      if (value instanceof Array) {
-        const items: string[] = [];
-        value.forEach(item => {
-          const valueText = convertValue(item);
-          items.push('<li>' + this.$Content.md2Html(valueText) + '</li>');
-        });
-        return this.$Content.renderText(['<ol>', ...items, '</ol>'], true);
-      } else if (value instanceof Object) {
-        if (rawObject) {
-          return this.$Content.renderText([
-            `\`\`\`json`,
-            JSON.stringify(value, null, 2),
-            `\`\`\``,
-          ]);
-        } else {
-          const items: string[] = [];
-          const valueObj = value as { [key: string]: DefaultValue };
-          Object.keys(valueObj).forEach(key => {
-            const item = valueObj[key];
-            const valueText = convertValue(item);
-            items.push(
-              '<li>' +
-                this.$Content.md2Html(`**\`${key}\`**: ` + valueText) +
-                '</li>'
-            );
-          });
-          return this.$Content.renderText(['<ul>', ...items, '</ul>'], true);
-        }
-      } else if (
-        typeof value === 'number' ||
-        typeof value === 'boolean' ||
-        typeof value === 'undefined'
-      ) {
-        return `\`${value}\``;
-      } else {
-        return value;
-      }
-    };
+  private getFull(
+    declaration: Declaration,
+    headingOptions: HeadingOptions = {}
+  ) {
+    const result: Block[] = [];
+    // self
+    const self = this.getSelf(declaration, headingOptions);
+    result.push(...self);
+    // variables or properties
+    if (declaration.hasVariablesOrProperties()) {
+      result.push(
+        ...this.getVariablesOrProperties(
+          declaration,
+          'summary',
+          {
+            heading: true,
+          }
+        )
+      );
+    }
+    // functions or methods
+    if (declaration.hasFunctionsOrMethods()) {
+      result.push(
+        ...this.getFunctionsOrMethods(
+          declaration,
+          'full',
+          {
+            heading: true,
+            local: true,
+          }
+        )
+      );
+    }
+    // interfaces
+    if (declaration.hasInterfaces()) {
+      result.push(
+        ...this.getInterfaces(
+          declaration,
+          'full',
+          {
+            heading: true,
+            local: true,
+          }
+        )
+      );
+    }
+    // classes
+    if (declaration.hasClasses()) {
+      result.push(
+        ...this.getClasses(
+          declaration,
+          'full',
+          {
+            heading: true,
+            local: true,
+          }
+        )
+      );
+    }
     // result
-    const valueText = convertValue(DEFAULT_VALUE);
-    return [this.$Content.blockText(valueText)];
+    return result;
   }
 
-  private self(declaration: Declaration, options: ConvertOptions = {}) {
-    const { title: customTitle, link: customLink } = options;
+  private getSelf(
+    declaration: Declaration,
+    headingOptions: HeadingOptions = {}
+  ) {
+    const { title: customTitle, link: customLink } = headingOptions;
     const blocks: Block[] = [];
     const kindText = (
       declaration.REFLECTION.kindString || 'Unknown'
@@ -185,7 +227,7 @@ export class Converter {
     // default blocks
     const body = this.$Content.blockText([
       '**' + (SHORT_TEXT || `The \`${NAME}\` ${kindText}.`) + '**',
-      TEXT || '',
+      TEXT,
     ]);
     // function or method
     if (declaration.isKind('CallSignature')) {
@@ -244,58 +286,95 @@ export class Converter {
     return blocks;
   }
 
-  private full(declaration: Declaration, options: ConvertOptions = {}) {
-    // self
-    const self = this.self(declaration, options);
-    // variables or properties
-    const variablesOrPropertiesFull = declaration.hasVariablesOrProperties()
-      ? this.summaryVariablesOrProperties(declaration)
-      : [];
-    // functions or methods
-    const functionsOrMethodsFull = declaration.hasFunctionsOrMethods()
-      ? this.fullFunctionsOrMethods(declaration)
-      : [];
-    // interfaces
-    const interfacesFull = declaration.hasInterfaces()
-      ? this.fullInterfaces(declaration)
-      : [];
-    // classes
-    const classesFull = declaration.hasClasses()
-      ? this.fullClasses(declaration)
-      : [];
-    // all blocks
-    return [
-      ...self,
-      ...variablesOrPropertiesFull,
-      ...functionsOrMethodsFull,
-      ...interfacesFull,
-      ...classesFull,
-    ];
+  private getSection(
+    declaration: Declaration,
+    sectionId: string
+  ) {
+    const {[sectionId]: sectionContent = ''} = declaration.SECTIONS;
+    const content = this.$Content.blockText(sectionContent);
+    return [content];
   }
 
-  private summaryVariablesOrProperties(
+  private getValue(
     declaration: Declaration,
-    standalone = true
+    valueOptions: ValueOptions = {}
   ) {
-    let blocks: Block[] = [];
+    const { raw: rawObject } = valueOptions;
+    const { DEFAULT_VALUE } = declaration;
+    // converter
+    const convertValue = (value: DefaultValue) => {
+      if (value instanceof Array) {
+        const items: string[] = [];
+        value.forEach(item => {
+          const valueText = convertValue(item);
+          items.push('<li>' + this.$Content.md2Html(valueText) + '</li>');
+        });
+        return this.$Content.renderText(['<ol>', ...items, '</ol>'], true);
+      } else if (value instanceof Object) {
+        if (rawObject) {
+          return this.$Content.renderText([
+            `\`\`\`json`,
+            JSON.stringify(value, null, 2),
+            `\`\`\``,
+          ]);
+        } else {
+          const items: string[] = [];
+          const valueObj = value as { [key: string]: DefaultValue };
+          Object.keys(valueObj).forEach(key => {
+            const item = valueObj[key];
+            const valueText = convertValue(item);
+            items.push(
+              '<li>' +
+                this.$Content.md2Html(`**\`${key}\`**: ` + valueText) +
+                '</li>'
+            );
+          });
+          return this.$Content.renderText(['<ul>', ...items, '</ul>'], true);
+        }
+      } else if (
+        typeof value === 'number' ||
+        typeof value === 'boolean' ||
+        typeof value === 'undefined'
+      ) {
+        return `\`${value}\``;
+      } else {
+        return value;
+      }
+    };
+    // result
+    const valueText = convertValue(DEFAULT_VALUE);
+    return [this.$Content.blockText(valueText)];
+  }
+
+  private getVariablesOrProperties(
+    declaration: Declaration,
+    mode: 'summary' | 'detail' | 'full',
+    convertingOptions: ConvertingOptions = {},
+  ) {
+    const { heading: withHeading, local: localLinking } = convertingOptions;
     // get children
-    const children = declaration.getVariablesOrProperties(2);
+    const children = declaration.getVariablesOrProperties(withHeading ? 2 : 1);
     // build blocks
+    const result: Block[] = [];
     if (!!children.length) {
       // heading
-      const headingTitle = (
-        declaration.NAME + ' ' +
-        (
-          declaration.isKind('Global')
-          ? 'variables'
-          : 'properties'
-        )
-      );
-      const heading = this.$Content.blockHeading(
-        headingTitle, 3, this.$Content.buildId(headingTitle),
-      );
-      // listing
+      if (withHeading) {
+        const headingTitle = (
+          declaration.NAME + ' ' +
+          (
+            declaration.isKind('Global')
+            ? 'variables'
+            : 'properties'
+          )
+        );
+        const heading = this.$Content.blockHeading(
+          headingTitle, 3, this.$Content.buildId(headingTitle),
+        );
+        result.push(heading);
+      }
+      //
       const summaryRows: string[][] = [];
+      const detailBlocks: Block[] = [];
       children.forEach(child => {
         const {
           REFLECTION,
@@ -306,187 +385,227 @@ export class Converter {
           TYPE,
           TYPE_LINK,
           SHORT_TEXT,
-          TEXT,
         } = child;
         const displayName = (
           !!REFLECTION.parent && REFLECTION.parent.kindString === 'Interface'
           ? (!IS_OPTIONAL ? `**${NAME}**` : NAME) // interface parent
           : NAME // collection or class
         );
-        const ref = standalone ? LINK : '#' + ID;
-        summaryRows.push([
-          `[${displayName}](${ref})`,
-          !!TYPE_LINK ? `[\`${TYPE}\`](${TYPE_LINK})` : `\`${TYPE}\``,
-          this.$Content.md2Html((SHORT_TEXT || '') + (!!TEXT ? '  ' + TEXT : '')),
-        ]);
+        const ref = !!localLinking ? '#' + ID : LINK;
+        //
+        if (mode === 'summary' || mode === 'full') {
+          summaryRows.push([
+            `[${displayName}](${ref})`,
+            !!TYPE_LINK ? `[\`${TYPE}\`](${TYPE_LINK})` : `\`${TYPE}\``,
+            SHORT_TEXT,
+          ]);
+        }
+        //
+        if (mode === 'detail' || mode === 'full') {
+          detailBlocks.push(
+            ...this.getSelf(child),
+            this.$Content.blockText('---')
+          );
+        }
       });
       // summary table
-      const summaryTable = this.$Content.blockTable(
-        ['Name', 'Type', 'Description'],
-        summaryRows
-      );
-      // save data
-      blocks = [ heading, summaryTable ];
+      if (!!summaryRows.length) {
+        result.push(
+          this.$Content.blockTable(
+            ['Name', 'Type', 'Description'],
+            summaryRows
+          )
+        );
+      }
+      // detail
+      if (!!detailBlocks.length) {
+        result.push(...detailBlocks);
+      }
     }
     // result
-    return blocks;
+    return result;
   }
 
-  private summaryFunctionsOrMethods(
-    declarations: Declaration[],
-    standalone = true
+  private getFunctionsOrMethods(
+    declaration: Declaration,
+    mode: 'summary' | 'detail' | 'full',
+    convertingOptions: ConvertingOptions = {},
   ) {
-    const blocks: Block[] = [];
-    // get data
-    const summaryRows: string[][] = [];
-    declarations.forEach(declaration => {
-      const {
-        ID,
-        NAME,
-        LINK,
-        TYPE,
-        TYPE_LINK,
-        SHORT_TEXT,
-        PARAMETERS,
-      } = declaration;
-      const params = PARAMETERS.map(({ name, isOptional }) =>
-        isOptional ? name + '?' : name
-      ).join(', ');
-      const displayName = `${NAME}(${params})`;
-      const ref = standalone ? LINK : '#' + ID;
-      summaryRows.push([
-        `[${displayName}](${ref})`,
-        !!TYPE_LINK ? `[\`${TYPE}\`](${TYPE_LINK})` : `\`${TYPE}\``,
-        SHORT_TEXT || '',
-      ]);
-    });
-    // summary blocks
-    if (!!summaryRows.length) {
-      const summaryBlock = this.$Content.blockTable(
-        ['Function', 'Returns type', 'Description'],
-        summaryRows
-      );
-      blocks.push(summaryBlock);
+    const { heading: withHeading, local: localLinking } = convertingOptions;
+    // get children
+    const children = declaration.getFunctionsOrMethods(withHeading ? 2 : 1);
+    // build blocks
+    const result: Block[] = [];
+    if (!!children.length) {
+      // heading
+      if (withHeading) {
+        const headingTitle = (
+          declaration.NAME + ' ' +
+          (
+            declaration.isKind('Global')
+            ? 'functions'
+            : 'methods'
+          )
+        );
+        const heading = this.$Content.blockHeading(
+          headingTitle, 3, this.$Content.buildId(headingTitle),
+        );
+        result.push(heading);
+      }
+      // 
+      const summaryRows: string[][] = [];
+      const detailBlocks: Block[] = [];
+      children.forEach(child => {
+        const {
+          ID,
+          NAME,
+          LINK,
+          TYPE,
+          TYPE_LINK,
+          SHORT_TEXT,
+          PARAMETERS,
+        } = child;
+        const params = PARAMETERS.map(({ name, isOptional }) =>
+          isOptional ? name + '?' : name
+        ).join(', ');
+        const displayName = `${NAME}(${params})`;
+        const ref = localLinking ? '#' + ID : LINK;
+        //
+        if (mode === 'summary' || mode === 'full') {
+          summaryRows.push([
+            `[${displayName}](${ref})`,
+            !!TYPE_LINK ? `[\`${TYPE}\`](${TYPE_LINK})` : `\`${TYPE}\``,
+            SHORT_TEXT || '',
+          ]);
+        }
+        //
+        if (mode === 'detail' || mode === 'full') {
+          detailBlocks.push(
+            ...this.getSelf(child),
+            this.$Content.blockText('---')
+          );
+        }
+      });
+      // summary
+      if (!!summaryRows.length) {
+        result.push(
+          this.$Content.blockTable(
+            ['Function', 'Returns type', 'Description'],
+            summaryRows
+          )
+        );
+      }
+      // detail
+      if (!!detailBlocks.length) {
+        result.push(...detailBlocks);
+      }
     }
     // result
-    return blocks;
+    return result;
   }
 
-  private detailFunctionsOrMethods(declarations: Declaration[]) {
-    const blocks: Block[] = [];
-    declarations.forEach(declaration =>
-      blocks.push(...this.self(declaration), this.$Content.blockText('---'))
-    );
-    return blocks;
-  }
-
-  private fullFunctionsOrMethods(declaration: Declaration) {
-    const parentName = declaration.NAME;
-    const childKind = declaration.isKind('Global') ? 'functions' : 'methods';
-    // children
-    const children = declaration.getFunctionsOrMethods(2);
-    if (!children.length) {
-      return [];
-    }
-    // heading
-    const headingTitle = (
-      declaration.NAME + ' ' +
-      (
-        declaration.isKind('Global')
-        ? 'functions'
-        : 'methods'
-      )
-    );
-    const heading = this.$Content.blockHeading(
-      headingTitle, 3, this.$Content.buildId(headingTitle),
-    );
-    // summary
-    const summaryBlocks = this.summaryFunctionsOrMethods(children, false);
-    // detail
-    const detailBlocks = this.detailFunctionsOrMethods(children);
-    // result
-    return [heading, ...summaryBlocks, ...detailBlocks];
-  }
-
-  private summaryInterfaces(interfaces: Declaration[], standalone = true) {
-    const blocks: Block[] = [];
-    // get data
-    const summaryRows: string[][] = [];
-    interfaces.forEach(_interface => {
-      const { ID, NAME, LINK, SHORT_TEXT } = _interface;
-      const ref = standalone ? LINK : '#' + ID;
-      summaryRows.push([`[${NAME}](${ref})`, SHORT_TEXT || '']);
-    });
-    // summary block
-    if (!!summaryRows.length) {
-      const summaryBlock = this.$Content.blockTable(
-        ['Interfaces', 'Description'],
-        summaryRows
-      );
-      blocks.push(summaryBlock);
+  private getInterfaces(
+    declaration: Declaration,
+    mode: 'summary' | 'detail' | 'full',
+    convertingOptions: ConvertingOptions = {},
+  ) {
+    const { heading: withHeading, local: localLinking } = convertingOptions;
+    // get children
+    const children = declaration.getInterfaces(withHeading ? 2 : 1);
+    // build blocks
+    const result: Block[] = [];
+    if (!!children.length) {
+      // heading
+      if (withHeading) {
+        const headingTitle = declaration.NAME + ' interfaces';
+        const heading = this.$Content.blockHeading(
+          headingTitle, 3, this.$Content.buildId(headingTitle),
+        );
+        result.push(heading);
+      }
+      // 
+      const summaryRows: string[][] = [];
+      const detailBlocks: Block[] = [];
+      children.forEach(child => {
+        const { ID, NAME, LINK, SHORT_TEXT } = child;
+        const ref = localLinking ? '#' + ID : LINK;
+        //
+        if (mode === 'summary' || mode === 'full') {
+          summaryRows.push([`[${NAME}](${ref})`, SHORT_TEXT || '']);
+        }
+        //
+        if (mode === 'detail' || mode === 'full') {
+          detailBlocks.push(...this.getFull(child));
+        }
+      });
+      // summary
+      if (!!summaryRows.length) {
+        result.push(
+          this.$Content.blockTable(
+            ['Interface', 'Description'],
+            summaryRows
+          )
+        );
+      }
+      // detail
+      if (!!detailBlocks.length) {
+        result.push(...detailBlocks);
+      }
     }
     // result
-    return blocks;
+    return result;
   }
 
-  private detailInterfaces(declarations: Declaration[]) {
-    const blocks: Block[] = [];
-    declarations.forEach(_interface => blocks.push(...this.full(_interface)));
-    return blocks;
-  }
-
-  private fullInterfaces(declaration: Declaration) {
-    // children
-    const children = declaration.getInterfaces();
-    if (!children.length) {
-      return [];
+  private getClasses(
+    declaration: Declaration,
+    mode: 'summary' | 'detail' | 'full',
+    convertingOptions: ConvertingOptions = {},
+  ) {
+    const { heading: withHeading, local: localLinking } = convertingOptions;
+    // get children
+    const children = declaration.getClasses(withHeading ? 2 : 1);
+    // build blocks
+    const result: Block[] = [];
+    if (!!children.length) {
+      // heading
+      if (withHeading) {
+        const headingTitle = declaration.NAME + ' classes';
+        const heading = this.$Content.blockHeading(
+          headingTitle, 3, this.$Content.buildId(headingTitle),
+        );
+        result.push(heading);
+      }
+      // 
+      const summaryRows: string[][] = [];
+      const detailBlocks: Block[] = [];
+      children.forEach(child => {
+        const { ID, NAME, LINK, SHORT_TEXT } = child;
+        const ref = localLinking ? '#' + ID : LINK;
+        //
+        if (mode === 'summary' || mode === 'full') {
+          summaryRows.push([`[${NAME}](${ref})`, SHORT_TEXT || '']);
+        }
+        //
+        if (mode === 'detail' || mode === 'full') {
+          detailBlocks.push(...this.getFull(child));
+        }
+      });
+      // summary
+      if (!!summaryRows.length) {
+        result.push(
+          this.$Content.blockTable(
+            ['Class', 'Description'],
+            summaryRows
+          )
+        );
+      }
+      // detail
+      if (!!detailBlocks.length) {
+        result.push(...detailBlocks);
+      }
     }
-    // summary
-    const summaryBlocks = this.summaryInterfaces(children, false);
-    // detail
-    const detailBlocks = this.detailInterfaces(children);
     // result
-    return [...summaryBlocks, ...detailBlocks];
+    return result;
   }
 
-  private summaryClasses(classes: Declaration[], standalone = true) {
-    const blocks: Block[] = [];
-    // get data
-    const summaryRows: string[][] = [];
-    classes.forEach(_class => {
-      const { ID, NAME, LINK, SHORT_TEXT } = _class;
-      const ref = standalone ? LINK : '#' + ID;
-      summaryRows.push([`[${NAME}](${ref})`, SHORT_TEXT || '']);
-    });
-    // summary block
-    if (!!summaryRows.length) {
-      const summaryBlock = this.$Content.blockTable(
-        ['Classes', 'Description'],
-        summaryRows
-      );
-      blocks.push(summaryBlock);
-    }
-    // result
-    return blocks;
-  }
-
-  private detailClasses(declarations: Declaration[]) {
-    const blocks: Block[] = [];
-    declarations.forEach(_class => blocks.push(...this.full(_class)));
-    return blocks;
-  }
-
-  private fullClasses(declaration: Declaration) {
-    // children
-    const children = declaration.getClasses();
-    if (!children.length) {
-      return [];
-    }
-    // summary
-    const summaryBlocks = this.summaryClasses(children, false);
-    // detail
-    const detailBlocks = this.detailClasses(children);
-    // result
-    return [...summaryBlocks, ...detailBlocks];
-  }
 }

@@ -7,7 +7,7 @@
       "toc": true,
       "options": [
         ["Options", "SELF", { "title": "Options" }],
-        ["Options", "SUMMARY_PROPERTIES"]
+        ["Options", "SUMMARY_PROPERTIES", { "heading": true }]
       ],
       "main": ["Main", "FULL", { "title": "Main service" }],
       "declaration": ["Declaration", "FULL", { "title": "Declaration" }],

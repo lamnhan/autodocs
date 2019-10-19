@@ -42,12 +42,11 @@
 - [Declaration](#declaration)
   - [Declaration properties](#declaration-properties)
   - [Declaration methods](#declaration-methods)
-    - [`childId(childName)`](#declaration-childid-0)
     - [`getChild(name)`](#declaration-getchild-0)
+    - [`getChildId(childName)`](#declaration-getchildid-0)
     - [`getClasses(offset?)`](#declaration-getclasses-0)
     - [`getFunctionsOrMethods(offset?)`](#declaration-getfunctionsormethods-0)
     - [`getInterfaces(offset?)`](#declaration-getinterfaces-0)
-    - [`getSection(id)`](#declaration-getsection-0)
     - [`getVariablesOrProperties(offset?)`](#declaration-getvariablesorproperties-0)
     - [`hasClasses()`](#declaration-hasclasses-0)
     - [`hasFunctionsOrMethods()`](#declaration-hasfunctionsormethods-0)
@@ -395,13 +394,13 @@ Options can be provided in 3 ways:
 
 <h3><a name="options-properties"><p>Options properties</p></a></h3>
 
-| Name                                                                  | Type      | Description                                                                                                                                                   |
-| --------------------------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [files](https://lamnhan.com/autodocs/interfaces/options.html#files)   | `object`  | <p>List of documents to be generated: <strong>key</strong> is the path to the document and <strong>value</strong> is a template name or a rendering input</p> |
-| [noAttr](https://lamnhan.com/autodocs/interfaces/options.html#noattr) | `boolean` | <p>Ignore generator footer attribution</p>                                                                                                                    |
-| [out](https://lamnhan.com/autodocs/interfaces/options.html#out)       | `string`  | <p>Custom <a href="https://typedoc.org">Typedoc</a> output folder, default to <code>docs/</code></p>                                                          |
-| [readme](https://lamnhan.com/autodocs/interfaces/options.html#readme) | `string`  | <p>Custom <a href="https://typedoc.org">Typedoc</a> readme</p>                                                                                                |
-| [url](https://lamnhan.com/autodocs/interfaces/options.html#url)       | `string`  | <p>Custom API reference url, default to the Github Pages repo url</p>                                                                                         |
+| Name                                                                  | Type      | Description                                                                                                                  |
+| --------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| [files](https://lamnhan.com/autodocs/interfaces/options.html#files)   | `object`  | List of documents to be generated: **key** is the path to the document and **value** is a template name or a rendering input |
+| [noAttr](https://lamnhan.com/autodocs/interfaces/options.html#noattr) | `boolean` | Ignore generator footer attribution                                                                                          |
+| [out](https://lamnhan.com/autodocs/interfaces/options.html#out)       | `string`  | Custom [Typedoc](https://typedoc.org) output folder, default to `docs/`                                                      |
+| [readme](https://lamnhan.com/autodocs/interfaces/options.html#readme) | `string`  | Custom [Typedoc](https://typedoc.org) readme                                                                                 |
+| [url](https://lamnhan.com/autodocs/interfaces/options.html#url)       | `string`  | Custom API reference url, default to the Github Pages repo url                                                               |
 
 </section>
 
@@ -413,15 +412,15 @@ Options can be provided in 3 ways:
 
 <h3><a name="main-properties"><p>Main properties</p></a></h3>
 
-| Name                                                                  | Type                                                               | Description                      |
-| --------------------------------------------------------------------- | ------------------------------------------------------------------ | -------------------------------- |
-| [Content](https://lamnhan.com/autodocs/classes/main.html#content)     | [`Content`](https://lamnhan.com/autodocs/classes/content.html)     | <p>Get the Content service</p>   |
-| [Converter](https://lamnhan.com/autodocs/classes/main.html#converter) | [`Converter`](https://lamnhan.com/autodocs/classes/converter.html) | <p>Get the Converter service</p> |
-| [Loader](https://lamnhan.com/autodocs/classes/main.html#loader)       | [`Loader`](https://lamnhan.com/autodocs/classes/loader.html)       | <p>Get the Loader service</p>    |
-| [Parser](https://lamnhan.com/autodocs/classes/main.html#parser)       | [`Parser`](https://lamnhan.com/autodocs/classes/parser.html)       | <p>Get the Parser service</p>    |
-| [Project](https://lamnhan.com/autodocs/classes/main.html#project)     | [`Project`](https://lamnhan.com/autodocs/classes/project.html)     | <p>Get the Project service</p>   |
-| [Renderer](https://lamnhan.com/autodocs/classes/main.html#renderer)   | [`Renderer`](https://lamnhan.com/autodocs/classes/renderer.html)   | <p>Get the Renderer service</p>  |
-| [Typedoc](https://lamnhan.com/autodocs/classes/main.html#typedoc)     | [`Typedoc`](https://lamnhan.com/autodocs/classes/typedoc.html)     | <p>Get the Typedoc service</p>   |
+| Name                                                                  | Type                                                               | Description               |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------ | ------------------------- |
+| [Content](https://lamnhan.com/autodocs/classes/main.html#content)     | [`Content`](https://lamnhan.com/autodocs/classes/content.html)     | Get the Content service   |
+| [Converter](https://lamnhan.com/autodocs/classes/main.html#converter) | [`Converter`](https://lamnhan.com/autodocs/classes/converter.html) | Get the Converter service |
+| [Loader](https://lamnhan.com/autodocs/classes/main.html#loader)       | [`Loader`](https://lamnhan.com/autodocs/classes/loader.html)       | Get the Loader service    |
+| [Parser](https://lamnhan.com/autodocs/classes/main.html#parser)       | [`Parser`](https://lamnhan.com/autodocs/classes/parser.html)       | Get the Parser service    |
+| [Project](https://lamnhan.com/autodocs/classes/main.html#project)     | [`Project`](https://lamnhan.com/autodocs/classes/project.html)     | Get the Project service   |
+| [Renderer](https://lamnhan.com/autodocs/classes/main.html#renderer)   | [`Renderer`](https://lamnhan.com/autodocs/classes/renderer.html)   | Get the Renderer service  |
+| [Typedoc](https://lamnhan.com/autodocs/classes/main.html#typedoc)     | [`Typedoc`](https://lamnhan.com/autodocs/classes/typedoc.html)     | Get the Typedoc service   |
 
 <h3><a name="main-methods"><p>Main methods</p></a></h3>
 
@@ -542,13 +541,14 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 <h2><a name="declaration" href="https://lamnhan.com/autodocs/classes/declaration.html"><p>Declaration</p></a></h2>
 
-**The `Declaration` class.**
+**A Declaration is an object the holds information of a source code element.**
 
 <h3><a name="declaration-properties"><p>Declaration properties</p></a></h3>
 
 | Name                                                                                 | Type                                                                                  | Description |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | ----------- |
 | [DEFAULT_VALUE](https://lamnhan.com/autodocs/classes/declaration.html#default_value) | `any`                                                                                 |             |
+| [FULL_TEXT](https://lamnhan.com/autodocs/classes/declaration.html#full_text)         | `string`                                                                              |             |
 | [ID](https://lamnhan.com/autodocs/classes/declaration.html#id)                       | `string`                                                                              |             |
 | [IS_OPTIONAL](https://lamnhan.com/autodocs/classes/declaration.html#is_optional)     | `boolean`                                                                             |             |
 | [LEVEL](https://lamnhan.com/autodocs/classes/declaration.html#level)                 | `number`                                                                              |             |
@@ -567,12 +567,11 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 | Function                                                                     | Returns type                                                           | Description |
 | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ----------- |
-| [childId(childName)](#declaration-childid-0)                                 | `string`                                                               |             |
 | [getChild(name)](#declaration-getchild-0)                                    | [`Declaration`](https://lamnhan.com/autodocs/classes/declaration.html) |             |
+| [getChildId(childName)](#declaration-getchildid-0)                           | `string`                                                               |             |
 | [getClasses(offset?)](#declaration-getclasses-0)                             | `Declaration[]`                                                        |             |
 | [getFunctionsOrMethods(offset?)](#declaration-getfunctionsormethods-0)       | `Declaration[]`                                                        |             |
 | [getInterfaces(offset?)](#declaration-getinterfaces-0)                       | `Declaration[]`                                                        |             |
-| [getSection(id)](#declaration-getsection-0)                                  | `string`                                                               |             |
 | [getVariablesOrProperties(offset?)](#declaration-getvariablesorproperties-0) | `Declaration[]`                                                        |             |
 | [hasClasses()](#declaration-hasclasses-0)                                    | `boolean`                                                              |             |
 | [hasFunctionsOrMethods()](#declaration-hasfunctionsormethods-0)              | `boolean`                                                              |             |
@@ -581,22 +580,6 @@ The default folder is **/docs**. You can change the output folder by providing t
 | [isKind(kindString)](#declaration-iskind-0)                                  | `boolean`                                                              |             |
 | [setId(id)](#declaration-setid-0)                                            | `this`                                                                 |             |
 | [setLevel(level)](#declaration-setlevel-0)                                   | `this`                                                                 |             |
-
-<h4><a name="declaration-childid-0" href="https://lamnhan.com/autodocs/classes/declaration.html#childid"><p><code>childId(childName)</code></p></a></h4>
-
-**The `childId` call signature.**
-
-**Parameters**
-
-| Param         | Type     | Description |
-| ------------- | -------- | ----------- |
-| **childName** | `string` |             |
-
-**Returns**
-
-`string`
-
----
 
 <h4><a name="declaration-getchild-0" href="https://lamnhan.com/autodocs/classes/declaration.html#getchild"><p><code>getChild(name)</code></p></a></h4>
 
@@ -611,6 +594,22 @@ The default folder is **/docs**. You can change the output folder by providing t
 **Returns**
 
 [`Declaration`](https://lamnhan.com/autodocs/classes/declaration.html)
+
+---
+
+<h4><a name="declaration-getchildid-0" href="https://lamnhan.com/autodocs/classes/declaration.html#getchildid"><p><code>getChildId(childName)</code></p></a></h4>
+
+**The `getChildId` call signature.**
+
+**Parameters**
+
+| Param         | Type     | Description |
+| ------------- | -------- | ----------- |
+| **childName** | `string` |             |
+
+**Returns**
+
+`string`
 
 ---
 
@@ -659,22 +658,6 @@ The default folder is **/docs**. You can change the output folder by providing t
 **Returns**
 
 `Declaration[]`
-
----
-
-<h4><a name="declaration-getsection-0" href="https://lamnhan.com/autodocs/classes/declaration.html#getsection"><p><code>getSection(id)</code></p></a></h4>
-
-**The `getSection` call signature.**
-
-**Parameters**
-
-| Param  | Type     | Description |
-| ------ | -------- | ----------- |
-| **id** | `string` |             |
-
-**Returns**
-
-`string`
 
 ---
 
@@ -821,26 +804,34 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 **The `Converter` turns [Declaration](#declaration) into content blocks**
 
-Any kind of [Declaration](#declaration) supports certain output:
+### Converter output
 
-- **FULL**: for any declaration
-- **SELF**: for any declaration
-- **VALUE**: for `Variable` or `Property`
-- **VALUE_RAW** (object only): for `Variable` or `Property`
-- **SUMMARY_VARIABLES**: for `Collection`
-- **SUMMARY_PROPERTIES**: for `Interface` and `Class`
-- **SUMMARY_FUNCTIONS**: for `Collection`
-- **DETAIL_FUNCTIONS**: for `Collection`
-- **FULL_FUNCTIONS**: for `Collection`
-- **SUMMARY_METHODS**: for `Class`
-- **DETAIL_METHODS**: for `Class`
-- **FULL_METHODS**: for `Class`
-- **SUMMARY_INTERFACES**: for `Collection`
-- **DETAIL_INTERFACES**: for `Collection`
-- **FULL_INTERFACES**: for `Collection`
-- **SUMMARY_CLASSES**: for `Collection`
-- **DETAIL_CLASSES**: for `Collection`
-- **FULL_CLASSES**: for `Collection`
+A [Declaration](#declaration) supports certain output depended on its kind:
+
+| Output                   | Kinds                  | Description                                                                             |
+| ------------------------ | ---------------------- | --------------------------------------------------------------------------------------- |
+| **FULL**                 | any                    | All content                                                                             |
+| **SELF**                 | any                    | Title, description, content WITHOUT local sections, parameters & returns (for function) |
+| **SECTION:<SECTION_ID>** | any                    | A local section                                                                         |
+| **VALUE**                | `Variable`, `Property` | Default value                                                                           |
+| **SUMMARY_VARIABLES**    | `Collection`           | Summary table of variables                                                              |
+| **DETAIL_VARIABLES**     | `Collection`           | Detail list of variables                                                                |
+| **FULL_VARIABLES**       | `Collection`           | Summary table & detail list of variables                                                |
+| **SUMMARY_FUNCTIONS**    | `Collection`           | Summary table of functions                                                              |
+| **DETAIL_FUNCTIONS**     | `Collection`           | Detail list of functions                                                                |
+| **FULL_FUNCTIONS**       | `Collection`           | Summary table & detail list of functions                                                |
+| **SUMMARY_PROPERTIES**   | `Interface`, `Class`   | Summary table of properties                                                             |
+| **DETAIL_PROPERTIES**    | `Interface`, `Class`   | Detail list of properties                                                               |
+| **FULL_PROPERTIES**      | `Interface`, `Class`   | Summary table & detail list of properties                                               |
+| **SUMMARY_METHODS**      | `Class`                | Summary table of methods                                                                |
+| **DETAIL_METHODS**       | `Class`                | Detail list of methods                                                                  |
+| **FULL_METHODS**         | `Class`                | Summary table & detail list of methods                                                  |
+| **SUMMARY_INTERFACES**   | `Collection`           | Summary table of interfaces                                                             |
+| **DETAIL_INTERFACES**    | `Collection`           | Detail list of interfaces                                                               |
+| **FULL_INTERFACES**      | `Collection`           | Summary table & detail list of interfaces                                               |
+| **SUMMARY_CLASSES**      | `Collection`           | Summary table of classes                                                                |
+| **DETAIL_CLASSES**       | `Collection`           | Detail list of classes                                                                  |
+| **FULL_CLASSES**         | `Collection`           | Summary table & detail list of classes                                                  |
 
 <h3><a name="converter-methods"><p>Converter methods</p></a></h3>
 
