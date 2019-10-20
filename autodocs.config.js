@@ -4,7 +4,7 @@ module.exports = {
   files: {
     'README.md': {
       head: true,
-      toc: true,
+      tocx: true,
       options: [
         ['Options', 'SELF', { title: 'Options' }],
         ['Options', 'SUMMARY_PROPERTIES', { heading: true }]

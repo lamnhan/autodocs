@@ -112,13 +112,11 @@ export class Renderer {
     // render content
     let content = this.$Content.renderText(contentData);
     // add toc
-    if (!!data.toc) {
-      const { url } = this.$Project.OPTIONS;
+    if (!!data.toc || !!data.tocx) {
       const toc = this.$Content.renderContent(
-        this.getDataTOC([
-          ...tocData,
-          this.$Content.blockHeading('Detail API Reference', 2, undefined, url),
-        ])
+        !!data.tocx
+        ? this.getDataTOCX(tocData)
+        : this.getDataTOC(tocData)
       );
       content = content.replace(this.tocPlaceholder, toc);
     }
@@ -253,5 +251,11 @@ export class Renderer {
   private getDataTOC(blocks: Block[]) {
     const tocContent = this.$Content.renderTOC(blocks);
     return [this.$Content.blockText([`**Table of content**`, tocContent])];
+  }
+
+  private getDataTOCX(blocks: Block[]) {
+    const { url } = this.$Project.OPTIONS;
+    blocks.push(this.$Content.blockHeading('Detail API Reference', 2, undefined, url));
+    return this.getDataTOC(blocks);
   }
 }
