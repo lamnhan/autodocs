@@ -87,13 +87,29 @@ export class Content {
 
   extractHeadings(content: string) {
     const headings: HeadingBlock[] = [];
-    (content.match(/\n#{1}[^\n]*/g) || []).forEach(heading => {
-      const [head, ...body] = heading.replace(/(?:\r\n|\r|\n)/g, '').split(' ');
-      const level = head.length;
-      if (level < 7) {
-        const title = body.join(' ').replace(new RegExp(' ' + head, 'g'), '');
-        const id = this.buildId(title);
-        headings.push(this.blockHeading(title, level, id));
+    (content.match(/(\n#{1}[^\n]*)|(<h[^>]*>([\s\S]*?)<\/h[^>]*>)/g) || [])
+    .forEach(heading => {
+      // html
+      if (heading.charAt(0) === '<') {
+        const level = Number(heading.charAt(2));
+        if (!isNaN(level) && level < 7) {
+          const title = (/<h[^>]*>([\s\S]*?)<\/h[^>]*>/.exec(heading) || []).pop();
+          if (!!title) {
+            const id = (/<a[^>]* name="(.*?)">/.exec(heading) || []).pop()
+              || this.buildId(title);
+            headings.push(this.blockHeading(title, level, id));
+          }
+        }
+      }
+      // md
+      else {
+        const [head, ...body] = heading.replace(/(?:\r\n|\r|\n)/g, '').split(' ');
+        const level = head.length;
+        if (level < 7) {
+          const title = body.join(' ').replace(new RegExp(' ' + head, 'g'), '');
+          const id = this.buildId(title);
+          headings.push(this.blockHeading(title, level, id));
+        }
       }
     });
     return headings;
