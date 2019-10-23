@@ -12,7 +12,7 @@
 
 </section>
 
-<section id="toc" title="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
+<section id="toc">
 
 **Table of content**
 
@@ -69,7 +69,6 @@
     - [`renderBatch(batchRendering, batchCurrentContent?)`](#renderer-renderbatch-0)
 - [Detail API Reference](https://lamnhan.com/autodocs)
 
-
 </section>
 
 <section id="introduction">
@@ -79,6 +78,8 @@
 Documentation is a crucial part of every great open-source projects. But making the docs is such a Pain-In-The-Brain process.
 
 Since [Typescript](https://www.typescriptlang.org) is an self documenting language, we can leverage its power to extract the source code information. This library is based on [Typedoc](https://typedoc.org), one of the best tool for generating Typescript documentation.
+
+### What is it?
 
 **@lamnhan/autodocs** is a tool for generating source code documentation automatically. It consists of 3 main services:
 
@@ -110,20 +111,12 @@ Run `autodocs generate` will output:
 > NOTE: **@lamnhan/autodocs** uses [Typedoc](https://typedoc.org) to generate the detail documentation.
 > [The CLI](#the-cli) is only used to generate simpler additional document files, such as `README.md`.
 
-</section>
-
-<section id="benefit">
-
-## What the benefits?
+### What the benefits?
 
 - Easy to config & a single cli command (`autodocs generate`)
 - Avoid reference mistakes and code duplications
 - Improve source code quality with [TSdoc](https://github.com/microsoft/tsdoc)
 - Save time and avoid brain damage
-
-</section>
-
-<section id="workflow">
 
 ## The workflow
 
@@ -321,7 +314,7 @@ A rendering input provide instructions for [the Parser](#parser) and [the Conver
 
 - The **WHAT**: tells [the Parser](#parser) to parse what source code element:
   - Top level elements: provide the name of the element, example: `PI`, `Options`, ...
-  - Child elements: put a `#` between the parent and the child name, example: `Options#prop1`, `Main#method1`, ...
+  - Child elements: put a `.` between the parent and the child name, example: `Options.prop1`, `Main.method1`, ...
   - Collection of elements: the list of paths, `@` for `./src/` and separated by `+`, example: `@file1.ts+@lib/filex.ts`
 - The **HOW** (optional, default to `SELF`): tells [the Converter](#converter) how we want to extract the information from the parsing result.
 - The **options** (optional): custom converter options, see [ConverterOptions](https://lamnhan.com/autodocs/interfaces/converteroptions.html).
@@ -382,7 +375,7 @@ Any markdown content goes here!
 
 <section id="options" title="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
-<h2><a name="options" href="https://lamnhan.com/autodocs/interfaces/options.html"><p>Options</p></a></h2>
+<h2><a name="options" href="https://lamnhan.github.io/autodocs/interfaces/options.html"><p>Options</p></a></h2>
 
 **Custom generator options**
 
@@ -390,70 +383,70 @@ Options can be provided in 3 ways:
 
 - Under the **@lamnhan/autodocs** property of `package.json` file
 - The `autodocs.config.js` file for more advanced config
-- By the `options` param when init new [`autodocs(options?)`](https://lamnhan.com/autodocs/index.html#autodocs) instance.
+- By the `options` param when init new <a autodocs="autodocs" href="https://lamnhan.github.io/autodocs/index.html">`autodocs(options?)`</a> instance.
 
 <h3><a name="options-properties"><p>Options properties</p></a></h3>
 
-| Name                                                                      | Type                                                                                                                  | Description                                                                                                                  |
-| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| [converts](https://lamnhan.com/autodocs/interfaces/options.html#converts) | <code><a href="https://lamnhan.com/autodocs/interfaces/customconverts.html" target="_blank">CustomConverts</a></code> | Custom converts                                                                                                              |
-| [files](https://lamnhan.com/autodocs/interfaces/options.html#files)       | <code>object</code>                                                                                                   | List of documents to be generated: **key** is the path to the document and **value** is a template name or a rendering input |
-| [noAttr](https://lamnhan.com/autodocs/interfaces/options.html#noattr)     | <code>boolean</code>                                                                                                  | Ignore generator footer attribution                                                                                          |
-| [out](https://lamnhan.com/autodocs/interfaces/options.html#out)           | <code>string</code>                                                                                                   | Custom [Typedoc](https://typedoc.org) output folder, default to `docs/`                                                      |
-| [readme](https://lamnhan.com/autodocs/interfaces/options.html#readme)     | <code>string</code>                                                                                                   | Custom [Typedoc](https://typedoc.org) readme                                                                                 |
-| [url](https://lamnhan.com/autodocs/interfaces/options.html#url)           | <code>string</code>                                                                                                   | Custom API reference url, default to the Github Pages repo url                                                               |
+| Name                                                                                    | Type                                                                                                                                | Description                                                                                                                  |
+| --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| [apiGenerator](https://lamnhan.github.io/autodocs/interfaces/options.html#apigenerator) | <code>"typedoc" \| "none"</code>                                                                                                    | Detail API generator                                                                                                         |
+| [apiUrl](https://lamnhan.github.io/autodocs/interfaces/options.html#apiurl)             | <code>string</code>                                                                                                                 | Custom API reference url, default to the Github Pages repo url                                                               |
+| [converts](https://lamnhan.github.io/autodocs/interfaces/options.html#converts)         | <code><a href="https://lamnhan.github.io/autodocs/interfaces/additionalconverts.html" target="_blank">AdditionalConverts</a></code> | Additional converts                                                                                                          |
+| [files](https://lamnhan.github.io/autodocs/interfaces/options.html#files)               | <code>object</code>                                                                                                                 | List of documents to be generated: **key** is the path to the document and **value** is a template name or a rendering input |
+| [noAttr](https://lamnhan.github.io/autodocs/interfaces/options.html#noattr)             | <code>boolean</code>                                                                                                                | No generator footer attribution                                                                                              |
+| [typedoc](https://lamnhan.github.io/autodocs/interfaces/options.html#typedoc)           | <code><a href="https://lamnhan.github.io/autodocs/interfaces/typedocconfigs.html" target="_blank">TypedocConfigs</a></code>         | Custom [Typedoc](https://typedoc.org) config                                                                                 |
 
 </section>
 
 <section id="main" title="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
-<h2><a name="main" href="https://lamnhan.com/autodocs/classes/main.html"><p>Main service</p></a></h2>
+<h2><a name="main" href="https://lamnhan.github.io/autodocs/classes/main.html"><p>Main service</p></a></h2>
 
 **The Main service**
 
 <h3><a name="main-properties"><p>Main properties</p></a></h3>
 
-| Name                                                                  | Type                                                                                                     | Description               |
-| --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------- |
-| [Content](https://lamnhan.com/autodocs/classes/main.html#content)     | <code><a href="https://lamnhan.com/autodocs/classes/content.html" target="_blank">Content</a></code>     | Get the Content service   |
-| [Converter](https://lamnhan.com/autodocs/classes/main.html#converter) | <code><a href="https://lamnhan.com/autodocs/classes/converter.html" target="_blank">Converter</a></code> | Get the Converter service |
-| [Loader](https://lamnhan.com/autodocs/classes/main.html#loader)       | <code><a href="https://lamnhan.com/autodocs/classes/loader.html" target="_blank">Loader</a></code>       | Get the Loader service    |
-| [Parser](https://lamnhan.com/autodocs/classes/main.html#parser)       | <code><a href="https://lamnhan.com/autodocs/classes/parser.html" target="_blank">Parser</a></code>       | Get the Parser service    |
-| [Project](https://lamnhan.com/autodocs/classes/main.html#project)     | <code><a href="https://lamnhan.com/autodocs/classes/project.html" target="_blank">Project</a></code>     | Get the Project service   |
-| [Renderer](https://lamnhan.com/autodocs/classes/main.html#renderer)   | <code><a href="https://lamnhan.com/autodocs/classes/renderer.html" target="_blank">Renderer</a></code>   | Get the Renderer service  |
-| [Typedoc](https://lamnhan.com/autodocs/classes/main.html#typedoc)     | <code><a href="https://lamnhan.com/autodocs/classes/typedoc.html" target="_blank">Typedoc</a></code>     | Get the Typedoc service   |
+| Name                                                                        | Type                                                                                                           | Description               |
+| --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| [Content](https://lamnhan.github.io/autodocs/classes/main.html#content)     | <code><a href="https://lamnhan.github.io/autodocs/classes/content.html" target="_blank">Content</a></code>     | Get the Content service   |
+| [Converter](https://lamnhan.github.io/autodocs/classes/main.html#converter) | <code><a href="https://lamnhan.github.io/autodocs/classes/converter.html" target="_blank">Converter</a></code> | Get the Converter service |
+| [Loader](https://lamnhan.github.io/autodocs/classes/main.html#loader)       | <code><a href="https://lamnhan.github.io/autodocs/classes/loader.html" target="_blank">Loader</a></code>       | Get the Loader service    |
+| [Parser](https://lamnhan.github.io/autodocs/classes/main.html#parser)       | <code><a href="https://lamnhan.github.io/autodocs/classes/parser.html" target="_blank">Parser</a></code>       | Get the Parser service    |
+| [Project](https://lamnhan.github.io/autodocs/classes/main.html#project)     | <code><a href="https://lamnhan.github.io/autodocs/classes/project.html" target="_blank">Project</a></code>     | Get the Project service   |
+| [Renderer](https://lamnhan.github.io/autodocs/classes/main.html#renderer)   | <code><a href="https://lamnhan.github.io/autodocs/classes/renderer.html" target="_blank">Renderer</a></code>   | Get the Renderer service  |
+| [Typedoc](https://lamnhan.github.io/autodocs/classes/main.html#typedoc)     | <code><a href="https://lamnhan.github.io/autodocs/classes/typedoc.html" target="_blank">Typedoc</a></code>     | Get the Typedoc service   |
 
 <h3><a name="main-methods"><p>Main methods</p></a></h3>
 
-| Function                                                  | Returns type                                                                                                                                                                                                                                                                                                                                                                                                                | Description                                                                                    |
-| --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| [convert(declaration, output, options?)](#main-convert-0) | <code><a href="https://lamnhan.com/autodocs/interfaces/headingblock.html" target="_blank">HeadingBlock</a> \| <a href="https://lamnhan.com/autodocs/interfaces/textblock.html" target="_blank">TextBlock</a> \| <a href="https://lamnhan.com/autodocs/interfaces/listblock.html" target="_blank">ListBlock</a> \| <a href="https://lamnhan.com/autodocs/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code> | Convert a declaration into content blocks.                                                     |
-| [generateDocs()](#main-generatedocs-0)                    | <code>boolean</code>                                                                                                                                                                                                                                                                                                                                                                                                        | Generate the API reference using Typedoc.                                                      |
-| [output(path, rendering)](#main-output-0)                 | <code>void</code>                                                                                                                                                                                                                                                                                                                                                                                                           | Render and save a document                                                                     |
-| [outputLocal()](#main-outputlocal-0)                      | <code>void</code>                                                                                                                                                                                                                                                                                                                                                                                                           | Render and save documents based on local configuration.                                        |
-| [parse(what?, child?)](#main-parse-0)                     | <code><a href="https://lamnhan.com/autodocs/classes/declaration.html" target="_blank">Declaration</a></code>                                                                                                                                                                                                                                                                                                                | Turn the source code into a [Declaration](https://lamnhan.github.io/classes/declaration.html). |
-| [render(rendering, currentContent?)](#main-render-0)      | <code>string</code>                                                                                                                                                                                                                                                                                                                                                                                                         | Render content based on configuration.                                                         |
-| [renderLocal()](#main-renderlocal-0)                      | <code><a href="https://lamnhan.com/autodocs/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code>                                                                                                                                                                                                                                                                                                 | Render content based on local configuration.                                                   |
+| Function                                                    | Returns type                                                                                                                                                                                                                                                                                                                                                                                                                                        | Description                                             |
+| ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| [convert(declaration, output, options?)](#main-convert-0)   | <code><a href="https://lamnhan.github.io/autodocs/interfaces/headingblock.html" target="_blank">HeadingBlock</a> \| <a href="https://lamnhan.github.io/autodocs/interfaces/textblock.html" target="_blank">TextBlock</a> \| <a href="https://lamnhan.github.io/autodocs/interfaces/listblock.html" target="_blank">ListBlock</a> \| <a href="https://lamnhan.github.io/autodocs/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code> | Convert a declaration into content blocks.              |
+| [generateDocs()](#main-generatedocs-0)                      | <code>void</code>                                                                                                                                                                                                                                                                                                                                                                                                                                   | Generate the API reference using Typedoc.               |
+| [output(path, rendering)](#main-output-0)                   | <code>void</code>                                                                                                                                                                                                                                                                                                                                                                                                                                   | Render and save a document                              |
+| [outputLocal()](#main-outputlocal-0)                        | <code>void</code>                                                                                                                                                                                                                                                                                                                                                                                                                                   | Render and save documents based on local configuration. |
+| [parse(input?)](#main-parse-0)                              | <code><a href="https://lamnhan.github.io/autodocs/classes/declaration.html" target="_blank">Declaration</a></code>                                                                                                                                                                                                                                                                                                                                  | Turn the source code into a <a autodocs="Declaration" href="https://lamnhan.github.io/autodocs/classes/declaration.html">Declaration</a>.            |
+| [render(rendering, currentContent?, html?)](#main-render-0) | <code>string</code>                                                                                                                                                                                                                                                                                                                                                                                                                                 | Render content based on configuration.                  |
+| [renderLocal()](#main-renderlocal-0)                        | <code><a href="https://lamnhan.github.io/autodocs/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code>                                                                                                                                                                                                                                                                                                                   | Render content based on local configuration.            |
 
-<h4><a name="main-convert-0" href="https://lamnhan.com/autodocs/classes/main.html#convert"><p><code>convert(declaration, output, options?)</code></p></a></h4>
+<h4><a name="main-convert-0" href="https://lamnhan.github.io/autodocs/classes/main.html#convert"><p><code>convert(declaration, output, options?)</code></p></a></h4>
 
 **Convert a declaration into content blocks.**
 
 **Parameters**
 
-| Param           | Type                                                                                                                  | Description                   |
-| --------------- | --------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
-| **declaration** | <code><a href="https://lamnhan.com/autodocs/classes/declaration.html" target="_blank">Declaration</a></code>          | The declaration               |
-| **output**      | <code>string</code>                                                                                                   | Expected [output](#converter) |
-| options         | <code><a href="https://lamnhan.com/autodocs/interfaces/convertoptions.html" target="_blank">ConvertOptions</a></code> | Custom convertion options     |
+| Param           | Type                                                                                                                        | Description                   |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| **declaration** | <code><a href="https://lamnhan.github.io/autodocs/classes/declaration.html" target="_blank">Declaration</a></code>          | The declaration               |
+| **output**      | <code>string</code>                                                                                                         | Expected [output](#converter) |
+| options         | <code><a href="https://lamnhan.github.io/autodocs/interfaces/convertoptions.html" target="_blank">ConvertOptions</a></code> | Custom convertion options     |
 
 **Returns**
 
-<code><a href="https://lamnhan.com/autodocs/interfaces/headingblock.html" target="_blank">HeadingBlock</a> | <a href="https://lamnhan.com/autodocs/interfaces/textblock.html" target="_blank">TextBlock</a> | <a href="https://lamnhan.com/autodocs/interfaces/listblock.html" target="_blank">ListBlock</a> | <a href="https://lamnhan.com/autodocs/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code>
+<code><a href="https://lamnhan.github.io/autodocs/interfaces/headingblock.html" target="_blank">HeadingBlock</a> | <a href="https://lamnhan.github.io/autodocs/interfaces/textblock.html" target="_blank">TextBlock</a> | <a href="https://lamnhan.github.io/autodocs/interfaces/listblock.html" target="_blank">ListBlock</a> | <a href="https://lamnhan.github.io/autodocs/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code>
 
 ---
 
-<h4><a name="main-generatedocs-0" href="https://lamnhan.com/autodocs/classes/main.html#generatedocs"><p><code>generateDocs()</code></p></a></h4>
+<h4><a name="main-generatedocs-0" href="https://lamnhan.github.io/autodocs/classes/main.html#generatedocs"><p><code>generateDocs()</code></p></a></h4>
 
 **Generate the API reference using Typedoc.**
 
@@ -461,20 +454,20 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 **Returns**
 
-<code>boolean</code>
+<code>void</code>
 
 ---
 
-<h4><a name="main-output-0" href="https://lamnhan.com/autodocs/classes/main.html#output"><p><code>output(path, rendering)</code></p></a></h4>
+<h4><a name="main-output-0" href="https://lamnhan.github.io/autodocs/classes/main.html#output"><p><code>output(path, rendering)</code></p></a></h4>
 
 **Render and save a document**
 
 **Parameters**
 
-| Param         | Type                                                                                                        | Description             |
-| ------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------- |
-| **path**      | <code>string</code>                                                                                         | Path to the document    |
-| **rendering** | <code><a href="https://lamnhan.com/autodocs/interfaces/rendering.html" target="_blank">Rendering</a></code> | Rendering configuration |
+| Param         | Type                                                                                                              | Description             |
+| ------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| **path**      | <code>string</code>                                                                                               | Path to the document    |
+| **rendering** | <code><a href="https://lamnhan.github.io/autodocs/interfaces/rendering.html" target="_blank">Rendering</a></code> | Rendering configuration |
 
 **Returns**
 
@@ -482,7 +475,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="main-outputlocal-0" href="https://lamnhan.com/autodocs/classes/main.html#outputlocal"><p><code>outputLocal()</code></p></a></h4>
+<h4><a name="main-outputlocal-0" href="https://lamnhan.github.io/autodocs/classes/main.html#outputlocal"><p><code>outputLocal()</code></p></a></h4>
 
 **Render and save documents based on local configuration.**
 
@@ -492,33 +485,33 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="main-parse-0" href="https://lamnhan.com/autodocs/classes/main.html#parse"><p><code>parse(what?, child?)</code></p></a></h4>
+<h4><a name="main-parse-0" href="https://lamnhan.github.io/autodocs/classes/main.html#parse"><p><code>parse(input?)</code></p></a></h4>
 
-**Turn the source code into a [Declaration](https://lamnhan.github.io/classes/declaration.html).**
+**Turn the source code into a <a autodocs="Declaration" href="https://lamnhan.github.io/autodocs/classes/declaration.html">Declaration</a>.**
 
 **Parameters**
 
-| Param | Type                            | Description           |
-| ----- | ------------------------------- | --------------------- |
-| what  | <code>string \| string[]</code> | Parsing input         |
-| child | <code>string</code>             | Parse a certain child |
+| Param | Type                | Description   |
+| ----- | ------------------- | ------------- |
+| input | <code>string</code> | Parsing input |
 
 **Returns**
 
-<code><a href="https://lamnhan.com/autodocs/classes/declaration.html" target="_blank">Declaration</a></code>
+<code><a href="https://lamnhan.github.io/autodocs/classes/declaration.html" target="_blank">Declaration</a></code>
 
 ---
 
-<h4><a name="main-render-0" href="https://lamnhan.com/autodocs/classes/main.html#render"><p><code>render(rendering, currentContent?)</code></p></a></h4>
+<h4><a name="main-render-0" href="https://lamnhan.github.io/autodocs/classes/main.html#render"><p><code>render(rendering, currentContent?, html?)</code></p></a></h4>
 
 **Render content based on configuration.**
 
 **Parameters**
 
-| Param          | Type                                                                                                                        | Description                 |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| **rendering**  | <code><a href="https://lamnhan.com/autodocs/interfaces/rendering.html" target="_blank">Rendering</a></code>                 | Redering configuration      |
-| currentContent | <code><a href="https://lamnhan.com/autodocs/interfaces/contentbysections.html" target="_blank">ContentBySections</a></code> | Current content by sections |
+| Param          | Type                                                                                                                              | Description                 |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| **rendering**  | <code><a href="https://lamnhan.github.io/autodocs/interfaces/rendering.html" target="_blank">Rendering</a></code>                 | Redering configuration      |
+| currentContent | <code><a href="https://lamnhan.github.io/autodocs/interfaces/contentbysections.html" target="_blank">ContentBySections</a></code> | Current content by sections |
+| html           | <code>boolean</code>                                                                                                              |                             |
 
 **Returns**
 
@@ -526,13 +519,13 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="main-renderlocal-0" href="https://lamnhan.com/autodocs/classes/main.html#renderlocal"><p><code>renderLocal()</code></p></a></h4>
+<h4><a name="main-renderlocal-0" href="https://lamnhan.github.io/autodocs/classes/main.html#renderlocal"><p><code>renderLocal()</code></p></a></h4>
 
 **Render content based on local configuration.**
 
 **Returns**
 
-<code><a href="https://lamnhan.com/autodocs/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code>
+<code><a href="https://lamnhan.github.io/autodocs/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code>
 
 ---
 
@@ -540,49 +533,49 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 <section id="declaration" title="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
-<h2><a name="declaration" href="https://lamnhan.com/autodocs/classes/declaration.html"><p>Declaration</p></a></h2>
+<h2><a name="declaration" href="https://lamnhan.github.io/autodocs/classes/declaration.html"><p>Declaration</p></a></h2>
 
 **A Declaration is an object the holds information of a source code element.**
 
 <h3><a name="declaration-properties"><p>Declaration properties</p></a></h3>
 
-| Name                                                                                 | Type                                                                                                                        | Description |
-| ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [DEFAULT_VALUE](https://lamnhan.com/autodocs/classes/declaration.html#default_value) | <code>any</code>                                                                                                            |             |
-| [DISPLAY_TYPE](https://lamnhan.com/autodocs/classes/declaration.html#display_type)   | <code>string</code>                                                                                                         |             |
-| [FULL_TEXT](https://lamnhan.com/autodocs/classes/declaration.html#full_text)         | <code>string</code>                                                                                                         |             |
-| [ID](https://lamnhan.com/autodocs/classes/declaration.html#id)                       | <code>string</code>                                                                                                         |             |
-| [IS_OPTIONAL](https://lamnhan.com/autodocs/classes/declaration.html#is_optional)     | <code>boolean</code>                                                                                                        |             |
-| [LEVEL](https://lamnhan.com/autodocs/classes/declaration.html#level)                 | <code>number</code>                                                                                                         |             |
-| [LINK](https://lamnhan.com/autodocs/classes/declaration.html#link)                   | <code>string</code>                                                                                                         |             |
-| [NAME](https://lamnhan.com/autodocs/classes/declaration.html#name)                   | <code>string</code>                                                                                                         |             |
-| [PARAMETERS](https://lamnhan.com/autodocs/classes/declaration.html#parameters)       | <code><a href="https://lamnhan.com/autodocs/interfaces/reflectiondata.html" target="_blank">ReflectionData</a>[]</code>     |             |
-| [REFLECTION](https://lamnhan.com/autodocs/classes/declaration.html#reflection)       | <code>Reflection</code>                                                                                                     |             |
-| [RETURNS](https://lamnhan.com/autodocs/classes/declaration.html#returns)             | <code>string</code>                                                                                                         |             |
-| [SECTIONS](https://lamnhan.com/autodocs/classes/declaration.html#sections)           | <code><a href="https://lamnhan.com/autodocs/interfaces/contentbysections.html" target="_blank">ContentBySections</a></code> |             |
-| [SHORT_TEXT](https://lamnhan.com/autodocs/classes/declaration.html#short_text)       | <code>string</code>                                                                                                         |             |
-| [TEXT](https://lamnhan.com/autodocs/classes/declaration.html#text)                   | <code>string</code>                                                                                                         |             |
-| [TYPE](https://lamnhan.com/autodocs/classes/declaration.html#type)                   | <code>string</code>                                                                                                         |             |
+| Name                                                                                       | Type                                                                                                                              | Description |
+| ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [DEFAULT_VALUE](https://lamnhan.github.io/autodocs/classes/declaration.html#default_value) | <code>any</code>                                                                                                                  |             |
+| [DISPLAY_TYPE](https://lamnhan.github.io/autodocs/classes/declaration.html#display_type)   | <code>string</code>                                                                                                               |             |
+| [FULL_TEXT](https://lamnhan.github.io/autodocs/classes/declaration.html#full_text)         | <code>string</code>                                                                                                               |             |
+| [ID](https://lamnhan.github.io/autodocs/classes/declaration.html#id)                       | <code>string</code>                                                                                                               |             |
+| [IS_OPTIONAL](https://lamnhan.github.io/autodocs/classes/declaration.html#is_optional)     | <code>boolean</code>                                                                                                              |             |
+| [LEVEL](https://lamnhan.github.io/autodocs/classes/declaration.html#level)                 | <code>number</code>                                                                                                               |             |
+| [LINK](https://lamnhan.github.io/autodocs/classes/declaration.html#link)                   | <code>string</code>                                                                                                               |             |
+| [NAME](https://lamnhan.github.io/autodocs/classes/declaration.html#name)                   | <code>string</code>                                                                                                               |             |
+| [PARAMETERS](https://lamnhan.github.io/autodocs/classes/declaration.html#parameters)       | <code><a href="https://lamnhan.github.io/autodocs/interfaces/reflectiondata.html" target="_blank">ReflectionData</a>[]</code>     |             |
+| [REFLECTION](https://lamnhan.github.io/autodocs/classes/declaration.html#reflection)       | <code>Reflection</code>                                                                                                           |             |
+| [RETURNS](https://lamnhan.github.io/autodocs/classes/declaration.html#returns)             | <code>string</code>                                                                                                               |             |
+| [SECTIONS](https://lamnhan.github.io/autodocs/classes/declaration.html#sections)           | <code><a href="https://lamnhan.github.io/autodocs/interfaces/contentbysections.html" target="_blank">ContentBySections</a></code> |             |
+| [SHORT_TEXT](https://lamnhan.github.io/autodocs/classes/declaration.html#short_text)       | <code>string</code>                                                                                                               |             |
+| [TEXT](https://lamnhan.github.io/autodocs/classes/declaration.html#text)                   | <code>string</code>                                                                                                               |             |
+| [TYPE](https://lamnhan.github.io/autodocs/classes/declaration.html#type)                   | <code>string</code>                                                                                                               |             |
 
 <h3><a name="declaration-methods"><p>Declaration methods</p></a></h3>
 
-| Function                                                                     | Returns type                                                                                                   | Description |
-| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ----------- |
-| [getChild(name)](#declaration-getchild-0)                                    | <code><a href="https://lamnhan.com/autodocs/classes/declaration.html" target="_blank">Declaration</a></code>   |             |
-| [getChildId(childName)](#declaration-getchildid-0)                           | <code>string</code>                                                                                            |             |
-| [getClasses(offset?)](#declaration-getclasses-0)                             | <code><a href="https://lamnhan.com/autodocs/classes/declaration.html" target="_blank">Declaration</a>[]</code> |             |
-| [getFunctionsOrMethods(offset?)](#declaration-getfunctionsormethods-0)       | <code><a href="https://lamnhan.com/autodocs/classes/declaration.html" target="_blank">Declaration</a>[]</code> |             |
-| [getInterfaces(offset?)](#declaration-getinterfaces-0)                       | <code><a href="https://lamnhan.com/autodocs/classes/declaration.html" target="_blank">Declaration</a>[]</code> |             |
-| [getVariablesOrProperties(offset?)](#declaration-getvariablesorproperties-0) | <code><a href="https://lamnhan.com/autodocs/classes/declaration.html" target="_blank">Declaration</a>[]</code> |             |
-| [hasClasses()](#declaration-hasclasses-0)                                    | <code>boolean</code>                                                                                           |             |
-| [hasFunctionsOrMethods()](#declaration-hasfunctionsormethods-0)              | <code>boolean</code>                                                                                           |             |
-| [hasInterfaces()](#declaration-hasinterfaces-0)                              | <code>boolean</code>                                                                                           |             |
-| [hasVariablesOrProperties()](#declaration-hasvariablesorproperties-0)        | <code>boolean</code>                                                                                           |             |
-| [isKind(kindString)](#declaration-iskind-0)                                  | <code>boolean</code>                                                                                           |             |
-| [setId(id)](#declaration-setid-0)                                            | <code>this</code>                                                                                              |             |
-| [setLevel(level)](#declaration-setlevel-0)                                   | <code>this</code>                                                                                              |             |
+| Function                                                                     | Returns type                                                                                                         | Description |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [getChild(name)](#declaration-getchild-0)                                    | <code><a href="https://lamnhan.github.io/autodocs/classes/declaration.html" target="_blank">Declaration</a></code>   |             |
+| [getChildId(childName)](#declaration-getchildid-0)                           | <code>string</code>                                                                                                  |             |
+| [getClasses(offset?)](#declaration-getclasses-0)                             | <code><a href="https://lamnhan.github.io/autodocs/classes/declaration.html" target="_blank">Declaration</a>[]</code> |             |
+| [getFunctionsOrMethods(offset?)](#declaration-getfunctionsormethods-0)       | <code><a href="https://lamnhan.github.io/autodocs/classes/declaration.html" target="_blank">Declaration</a>[]</code> |             |
+| [getInterfaces(offset?)](#declaration-getinterfaces-0)                       | <code><a href="https://lamnhan.github.io/autodocs/classes/declaration.html" target="_blank">Declaration</a>[]</code> |             |
+| [getVariablesOrProperties(offset?)](#declaration-getvariablesorproperties-0) | <code><a href="https://lamnhan.github.io/autodocs/classes/declaration.html" target="_blank">Declaration</a>[]</code> |             |
+| [hasClasses()](#declaration-hasclasses-0)                                    | <code>boolean</code>                                                                                                 |             |
+| [hasFunctionsOrMethods()](#declaration-hasfunctionsormethods-0)              | <code>boolean</code>                                                                                                 |             |
+| [hasInterfaces()](#declaration-hasinterfaces-0)                              | <code>boolean</code>                                                                                                 |             |
+| [hasVariablesOrProperties()](#declaration-hasvariablesorproperties-0)        | <code>boolean</code>                                                                                                 |             |
+| [isKind(kindString)](#declaration-iskind-0)                                  | <code>boolean</code>                                                                                                 |             |
+| [setId(id)](#declaration-setid-0)                                            | <code>this</code>                                                                                                    |             |
+| [setLevel(level)](#declaration-setlevel-0)                                   | <code>this</code>                                                                                                    |             |
 
-<h4><a name="declaration-getchild-0" href="https://lamnhan.com/autodocs/classes/declaration.html#getchild"><p><code>getChild(name)</code></p></a></h4>
+<h4><a name="declaration-getchild-0" href="https://lamnhan.github.io/autodocs/classes/declaration.html#getchild"><p><code>getChild(name)</code></p></a></h4>
 
 **The `getChild` call signature.**
 
@@ -594,11 +587,11 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 **Returns**
 
-<code><a href="https://lamnhan.com/autodocs/classes/declaration.html" target="_blank">Declaration</a></code>
+<code><a href="https://lamnhan.github.io/autodocs/classes/declaration.html" target="_blank">Declaration</a></code>
 
 ---
 
-<h4><a name="declaration-getchildid-0" href="https://lamnhan.com/autodocs/classes/declaration.html#getchildid"><p><code>getChildId(childName)</code></p></a></h4>
+<h4><a name="declaration-getchildid-0" href="https://lamnhan.github.io/autodocs/classes/declaration.html#getchildid"><p><code>getChildId(childName)</code></p></a></h4>
 
 **The `getChildId` call signature.**
 
@@ -614,7 +607,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="declaration-getclasses-0" href="https://lamnhan.com/autodocs/classes/declaration.html#getclasses"><p><code>getClasses(offset?)</code></p></a></h4>
+<h4><a name="declaration-getclasses-0" href="https://lamnhan.github.io/autodocs/classes/declaration.html#getclasses"><p><code>getClasses(offset?)</code></p></a></h4>
 
 **The `getClasses` call signature.**
 
@@ -626,11 +619,11 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 **Returns**
 
-<code><a href="https://lamnhan.com/autodocs/classes/declaration.html" target="_blank">Declaration</a>[]</code>
+<code><a href="https://lamnhan.github.io/autodocs/classes/declaration.html" target="_blank">Declaration</a>[]</code>
 
 ---
 
-<h4><a name="declaration-getfunctionsormethods-0" href="https://lamnhan.com/autodocs/classes/declaration.html#getfunctionsormethods"><p><code>getFunctionsOrMethods(offset?)</code></p></a></h4>
+<h4><a name="declaration-getfunctionsormethods-0" href="https://lamnhan.github.io/autodocs/classes/declaration.html#getfunctionsormethods"><p><code>getFunctionsOrMethods(offset?)</code></p></a></h4>
 
 **The `getFunctionsOrMethods` call signature.**
 
@@ -642,11 +635,11 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 **Returns**
 
-<code><a href="https://lamnhan.com/autodocs/classes/declaration.html" target="_blank">Declaration</a>[]</code>
+<code><a href="https://lamnhan.github.io/autodocs/classes/declaration.html" target="_blank">Declaration</a>[]</code>
 
 ---
 
-<h4><a name="declaration-getinterfaces-0" href="https://lamnhan.com/autodocs/classes/declaration.html#getinterfaces"><p><code>getInterfaces(offset?)</code></p></a></h4>
+<h4><a name="declaration-getinterfaces-0" href="https://lamnhan.github.io/autodocs/classes/declaration.html#getinterfaces"><p><code>getInterfaces(offset?)</code></p></a></h4>
 
 **The `getInterfaces` call signature.**
 
@@ -658,11 +651,11 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 **Returns**
 
-<code><a href="https://lamnhan.com/autodocs/classes/declaration.html" target="_blank">Declaration</a>[]</code>
+<code><a href="https://lamnhan.github.io/autodocs/classes/declaration.html" target="_blank">Declaration</a>[]</code>
 
 ---
 
-<h4><a name="declaration-getvariablesorproperties-0" href="https://lamnhan.com/autodocs/classes/declaration.html#getvariablesorproperties"><p><code>getVariablesOrProperties(offset?)</code></p></a></h4>
+<h4><a name="declaration-getvariablesorproperties-0" href="https://lamnhan.github.io/autodocs/classes/declaration.html#getvariablesorproperties"><p><code>getVariablesOrProperties(offset?)</code></p></a></h4>
 
 **The `getVariablesOrProperties` call signature.**
 
@@ -674,11 +667,11 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 **Returns**
 
-<code><a href="https://lamnhan.com/autodocs/classes/declaration.html" target="_blank">Declaration</a>[]</code>
+<code><a href="https://lamnhan.github.io/autodocs/classes/declaration.html" target="_blank">Declaration</a>[]</code>
 
 ---
 
-<h4><a name="declaration-hasclasses-0" href="https://lamnhan.com/autodocs/classes/declaration.html#hasclasses"><p><code>hasClasses()</code></p></a></h4>
+<h4><a name="declaration-hasclasses-0" href="https://lamnhan.github.io/autodocs/classes/declaration.html#hasclasses"><p><code>hasClasses()</code></p></a></h4>
 
 **The `hasClasses` call signature.**
 
@@ -688,7 +681,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="declaration-hasfunctionsormethods-0" href="https://lamnhan.com/autodocs/classes/declaration.html#hasfunctionsormethods"><p><code>hasFunctionsOrMethods()</code></p></a></h4>
+<h4><a name="declaration-hasfunctionsormethods-0" href="https://lamnhan.github.io/autodocs/classes/declaration.html#hasfunctionsormethods"><p><code>hasFunctionsOrMethods()</code></p></a></h4>
 
 **The `hasFunctionsOrMethods` call signature.**
 
@@ -698,7 +691,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="declaration-hasinterfaces-0" href="https://lamnhan.com/autodocs/classes/declaration.html#hasinterfaces"><p><code>hasInterfaces()</code></p></a></h4>
+<h4><a name="declaration-hasinterfaces-0" href="https://lamnhan.github.io/autodocs/classes/declaration.html#hasinterfaces"><p><code>hasInterfaces()</code></p></a></h4>
 
 **The `hasInterfaces` call signature.**
 
@@ -708,7 +701,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="declaration-hasvariablesorproperties-0" href="https://lamnhan.com/autodocs/classes/declaration.html#hasvariablesorproperties"><p><code>hasVariablesOrProperties()</code></p></a></h4>
+<h4><a name="declaration-hasvariablesorproperties-0" href="https://lamnhan.github.io/autodocs/classes/declaration.html#hasvariablesorproperties"><p><code>hasVariablesOrProperties()</code></p></a></h4>
 
 **The `hasVariablesOrProperties` call signature.**
 
@@ -718,7 +711,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="declaration-iskind-0" href="https://lamnhan.com/autodocs/classes/declaration.html#iskind"><p><code>isKind(kindString)</code></p></a></h4>
+<h4><a name="declaration-iskind-0" href="https://lamnhan.github.io/autodocs/classes/declaration.html#iskind"><p><code>isKind(kindString)</code></p></a></h4>
 
 **The `isKind` call signature.**
 
@@ -734,7 +727,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="declaration-setid-0" href="https://lamnhan.com/autodocs/classes/declaration.html#setid"><p><code>setId(id)</code></p></a></h4>
+<h4><a name="declaration-setid-0" href="https://lamnhan.github.io/autodocs/classes/declaration.html#setid"><p><code>setId(id)</code></p></a></h4>
 
 **The `setId` call signature.**
 
@@ -750,7 +743,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="declaration-setlevel-0" href="https://lamnhan.com/autodocs/classes/declaration.html#setlevel"><p><code>setLevel(level)</code></p></a></h4>
+<h4><a name="declaration-setlevel-0" href="https://lamnhan.github.io/autodocs/classes/declaration.html#setlevel"><p><code>setLevel(level)</code></p></a></h4>
 
 **The `setLevel` call signature.**
 
@@ -770,30 +763,29 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 <section id="parser" title="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
-<h2><a name="parser" href="https://lamnhan.com/autodocs/classes/parser.html"><p>The <code>Parser</code></p></a></h2>
+<h2><a name="parser" href="https://lamnhan.github.io/autodocs/classes/parser.html"><p>The <code>Parser</code></p></a></h2>
 
 **The `Parser` turns source code into [Declaration](#declaration)**
 
 <h3><a name="parser-methods"><p>Parser methods</p></a></h3>
 
-| Function                                | Returns type                                                                                                 | Description |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------- |
-| [parse(what?, child?)](#parser-parse-0) | <code><a href="https://lamnhan.com/autodocs/classes/declaration.html" target="_blank">Declaration</a></code> |             |
+| Function                         | Returns type                                                                                                       | Description |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------- |
+| [parse(input?)](#parser-parse-0) | <code><a href="https://lamnhan.github.io/autodocs/classes/declaration.html" target="_blank">Declaration</a></code> |             |
 
-<h4><a name="parser-parse-0" href="https://lamnhan.com/autodocs/classes/parser.html#parse"><p><code>parse(what?, child?)</code></p></a></h4>
+<h4><a name="parser-parse-0" href="https://lamnhan.github.io/autodocs/classes/parser.html#parse"><p><code>parse(input?)</code></p></a></h4>
 
 **The `parse` call signature.**
 
 **Parameters**
 
-| Param | Type                            | Description |
-| ----- | ------------------------------- | ----------- |
-| what  | <code>string \| string[]</code> |             |
-| child | <code>string</code>             |             |
+| Param | Type                | Description |
+| ----- | ------------------- | ----------- |
+| input | <code>string</code> |             |
 
 **Returns**
 
-<code><a href="https://lamnhan.com/autodocs/classes/declaration.html" target="_blank">Declaration</a></code>
+<code><a href="https://lamnhan.github.io/autodocs/classes/declaration.html" target="_blank">Declaration</a></code>
 
 ---
 
@@ -801,7 +793,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 <section id="converter" title="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
-<h2><a name="converter" href="https://lamnhan.com/autodocs/classes/converter.html"><p>The <code>Converter</code></p></a></h2>
+<h2><a name="converter" href="https://lamnhan.github.io/autodocs/classes/converter.html"><p>The <code>Converter</code></p></a></h2>
 
 **The `Converter` turns [Declaration](#declaration) into content blocks**
 
@@ -836,25 +828,25 @@ A [Declaration](#declaration) supports certain output depended on its kind:
 
 <h3><a name="converter-methods"><p>Converter methods</p></a></h3>
 
-| Function                                                       | Returns type                                                                                                                                                                                                                                                                                                                                                                                                                | Description |
-| -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [convert(declaration, output, options?)](#converter-convert-0) | <code><a href="https://lamnhan.com/autodocs/interfaces/headingblock.html" target="_blank">HeadingBlock</a> \| <a href="https://lamnhan.com/autodocs/interfaces/textblock.html" target="_blank">TextBlock</a> \| <a href="https://lamnhan.com/autodocs/interfaces/listblock.html" target="_blank">ListBlock</a> \| <a href="https://lamnhan.com/autodocs/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code> |             |
+| Function                                                       | Returns type                                                                                                                                                                                                                                                                                                                                                                                                                                        | Description |
+| -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [convert(declaration, output, options?)](#converter-convert-0) | <code><a href="https://lamnhan.github.io/autodocs/interfaces/headingblock.html" target="_blank">HeadingBlock</a> \| <a href="https://lamnhan.github.io/autodocs/interfaces/textblock.html" target="_blank">TextBlock</a> \| <a href="https://lamnhan.github.io/autodocs/interfaces/listblock.html" target="_blank">ListBlock</a> \| <a href="https://lamnhan.github.io/autodocs/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code> |             |
 
-<h4><a name="converter-convert-0" href="https://lamnhan.com/autodocs/classes/converter.html#convert"><p><code>convert(declaration, output, options?)</code></p></a></h4>
+<h4><a name="converter-convert-0" href="https://lamnhan.github.io/autodocs/classes/converter.html#convert"><p><code>convert(declaration, output, options?)</code></p></a></h4>
 
 **The `convert` call signature.**
 
 **Parameters**
 
-| Param           | Type                                                                                                                  | Description |
-| --------------- | --------------------------------------------------------------------------------------------------------------------- | ----------- |
-| **declaration** | <code><a href="https://lamnhan.com/autodocs/classes/declaration.html" target="_blank">Declaration</a></code>          |             |
-| **output**      | <code>string</code>                                                                                                   |             |
-| options         | <code><a href="https://lamnhan.com/autodocs/interfaces/convertoptions.html" target="_blank">ConvertOptions</a></code> |             |
+| Param           | Type                                                                                                                        | Description |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| **declaration** | <code><a href="https://lamnhan.github.io/autodocs/classes/declaration.html" target="_blank">Declaration</a></code>          |             |
+| **output**      | <code>string</code>                                                                                                         |             |
+| options         | <code><a href="https://lamnhan.github.io/autodocs/interfaces/convertoptions.html" target="_blank">ConvertOptions</a></code> |             |
 
 **Returns**
 
-<code><a href="https://lamnhan.com/autodocs/interfaces/headingblock.html" target="_blank">HeadingBlock</a> | <a href="https://lamnhan.com/autodocs/interfaces/textblock.html" target="_blank">TextBlock</a> | <a href="https://lamnhan.com/autodocs/interfaces/listblock.html" target="_blank">ListBlock</a> | <a href="https://lamnhan.com/autodocs/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code>
+<code><a href="https://lamnhan.github.io/autodocs/interfaces/headingblock.html" target="_blank">HeadingBlock</a> | <a href="https://lamnhan.github.io/autodocs/interfaces/textblock.html" target="_blank">TextBlock</a> | <a href="https://lamnhan.github.io/autodocs/interfaces/listblock.html" target="_blank">ListBlock</a> | <a href="https://lamnhan.github.io/autodocs/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code>
 
 ---
 
@@ -862,7 +854,7 @@ A [Declaration](#declaration) supports certain output depended on its kind:
 
 <section id="renderer" title="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
-<h2><a name="renderer" href="https://lamnhan.com/autodocs/classes/renderer.html"><p>The <code>Renderer</code></p></a></h2>
+<h2><a name="renderer" href="https://lamnhan.github.io/autodocs/classes/renderer.html"><p>The <code>Renderer</code></p></a></h2>
 
 **The Renderer turns a rendering input into the final content**
 
@@ -870,59 +862,61 @@ Builtin sections:
 
 - `head`: Package name & description
 - `toc`: Table of content
+- `tocx`: Table of content, with detail API reference link
 - `license`: License information
 
 <h3><a name="renderer-methods"><p>Renderer methods</p></a></h3>
 
-| Function                                                                     | Returns type                                                                                                                  | Description |
-| ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [getData(rendering)](#renderer-getdata-0)                                    | <code><a href="https://lamnhan.com/autodocs/interfaces/renderingdata.html" target="_blank">RenderingData</a></code>           |             |
-| [getDataBatch(batchRendering)](#renderer-getdatabatch-0)                     | <code><a href="https://lamnhan.com/autodocs/interfaces/batchrenderingdata.html" target="_blank">BatchRenderingData</a></code> |             |
-| [render(rendering, currentContent?)](#renderer-render-0)                     | <code>string</code>                                                                                                           |             |
-| [renderBatch(batchRendering, batchCurrentContent?)](#renderer-renderbatch-0) | <code><a href="https://lamnhan.com/autodocs/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code>   |             |
+| Function                                                                     | Returns type                                                                                                                        | Description |
+| ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [getData(rendering)](#renderer-getdata-0)                                    | <code><a href="https://lamnhan.github.io/autodocs/interfaces/renderingdata.html" target="_blank">RenderingData</a></code>           |             |
+| [getDataBatch(batchRendering)](#renderer-getdatabatch-0)                     | <code><a href="https://lamnhan.github.io/autodocs/interfaces/batchrenderingdata.html" target="_blank">BatchRenderingData</a></code> |             |
+| [render(rendering, currentContent?, html?)](#renderer-render-0)              | <code>string</code>                                                                                                                 |             |
+| [renderBatch(batchRendering, batchCurrentContent?)](#renderer-renderbatch-0) | <code><a href="https://lamnhan.github.io/autodocs/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code>   |             |
 
-<h4><a name="renderer-getdata-0" href="https://lamnhan.com/autodocs/classes/renderer.html#getdata"><p><code>getData(rendering)</code></p></a></h4>
+<h4><a name="renderer-getdata-0" href="https://lamnhan.github.io/autodocs/classes/renderer.html#getdata"><p><code>getData(rendering)</code></p></a></h4>
 
 **The `getData` call signature.**
 
 **Parameters**
 
-| Param         | Type                                                                                                        | Description |
-| ------------- | ----------------------------------------------------------------------------------------------------------- | ----------- |
-| **rendering** | <code><a href="https://lamnhan.com/autodocs/interfaces/rendering.html" target="_blank">Rendering</a></code> |             |
+| Param         | Type                                                                                                              | Description |
+| ------------- | ----------------------------------------------------------------------------------------------------------------- | ----------- |
+| **rendering** | <code><a href="https://lamnhan.github.io/autodocs/interfaces/rendering.html" target="_blank">Rendering</a></code> |             |
 
 **Returns**
 
-<code><a href="https://lamnhan.com/autodocs/interfaces/renderingdata.html" target="_blank">RenderingData</a></code>
+<code><a href="https://lamnhan.github.io/autodocs/interfaces/renderingdata.html" target="_blank">RenderingData</a></code>
 
 ---
 
-<h4><a name="renderer-getdatabatch-0" href="https://lamnhan.com/autodocs/classes/renderer.html#getdatabatch"><p><code>getDataBatch(batchRendering)</code></p></a></h4>
+<h4><a name="renderer-getdatabatch-0" href="https://lamnhan.github.io/autodocs/classes/renderer.html#getdatabatch"><p><code>getDataBatch(batchRendering)</code></p></a></h4>
 
 **The `getDataBatch` call signature.**
 
 **Parameters**
 
-| Param              | Type                                                                                                                  | Description |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------- | ----------- |
-| **batchRendering** | <code><a href="https://lamnhan.com/autodocs/interfaces/batchrendering.html" target="_blank">BatchRendering</a></code> |             |
+| Param              | Type                                                                                                                        | Description |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| **batchRendering** | <code><a href="https://lamnhan.github.io/autodocs/interfaces/batchrendering.html" target="_blank">BatchRendering</a></code> |             |
 
 **Returns**
 
-<code><a href="https://lamnhan.com/autodocs/interfaces/batchrenderingdata.html" target="_blank">BatchRenderingData</a></code>
+<code><a href="https://lamnhan.github.io/autodocs/interfaces/batchrenderingdata.html" target="_blank">BatchRenderingData</a></code>
 
 ---
 
-<h4><a name="renderer-render-0" href="https://lamnhan.com/autodocs/classes/renderer.html#render"><p><code>render(rendering, currentContent?)</code></p></a></h4>
+<h4><a name="renderer-render-0" href="https://lamnhan.github.io/autodocs/classes/renderer.html#render"><p><code>render(rendering, currentContent?, html?)</code></p></a></h4>
 
 **The `render` call signature.**
 
 **Parameters**
 
-| Param          | Type                                                                                                                        | Description |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| **rendering**  | <code><a href="https://lamnhan.com/autodocs/interfaces/rendering.html" target="_blank">Rendering</a></code>                 |             |
-| currentContent | <code><a href="https://lamnhan.com/autodocs/interfaces/contentbysections.html" target="_blank">ContentBySections</a></code> |             |
+| Param          | Type                                                                                                                              | Description |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| **rendering**  | <code><a href="https://lamnhan.github.io/autodocs/interfaces/rendering.html" target="_blank">Rendering</a></code>                 |             |
+| currentContent | <code><a href="https://lamnhan.github.io/autodocs/interfaces/contentbysections.html" target="_blank">ContentBySections</a></code> |             |
+| html           | <code>boolean</code>                                                                                                              |             |
 
 **Returns**
 
@@ -930,20 +924,20 @@ Builtin sections:
 
 ---
 
-<h4><a name="renderer-renderbatch-0" href="https://lamnhan.com/autodocs/classes/renderer.html#renderbatch"><p><code>renderBatch(batchRendering, batchCurrentContent?)</code></p></a></h4>
+<h4><a name="renderer-renderbatch-0" href="https://lamnhan.github.io/autodocs/classes/renderer.html#renderbatch"><p><code>renderBatch(batchRendering, batchCurrentContent?)</code></p></a></h4>
 
 **The `renderBatch` call signature.**
 
 **Parameters**
 
-| Param               | Type                                                                                                                  | Description |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------- | ----------- |
-| **batchRendering**  | <code><a href="https://lamnhan.com/autodocs/interfaces/batchrendering.html" target="_blank">BatchRendering</a></code> |             |
-| batchCurrentContent | <code>object</code>                                                                                                   |             |
+| Param               | Type                                                                                                                        | Description |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| **batchRendering**  | <code><a href="https://lamnhan.github.io/autodocs/interfaces/batchrendering.html" target="_blank">BatchRendering</a></code> |             |
+| batchCurrentContent | <code>object</code>                                                                                                         |             |
 
 **Returns**
 
-<code><a href="https://lamnhan.com/autodocs/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code>
+<code><a href="https://lamnhan.github.io/autodocs/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code>
 
 ---
 
@@ -975,5 +969,9 @@ Builtin sections:
 ---
 
 ⚡️ This document is generated automatically using [@lamnhan/autodocs](https://github.com/lamnhan/autodocs).
+
+</section>
+
+<section id="tocx" title="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
 </section>

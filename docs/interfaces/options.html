@@ -73,7 +73,7 @@
 					<ul>
 						<li>Under the <strong>@lamnhan/autodocs</strong> property of <code>package.json</code> file</li>
 						<li>The <code>autodocs.config.js</code> file for more advanced config</li>
-						<li>By the <code>options</code> param when init new <a href="https://lamnhan.com/autodocs/index.html#autodocs"><code>autodocs(options?)</code></a> instance.</li>
+						<li>By the <code>options</code> param when init new [[autodocs | <code>autodocs(options?)</code>]] instance.</li>
 					</ul>
 				</div>
 			</section>
@@ -92,12 +92,12 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#apigenerator" class="tsd-kind-icon">api<wbr>Generator</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#apiurl" class="tsd-kind-icon">api<wbr>Url</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#converts" class="tsd-kind-icon">converts</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#files" class="tsd-kind-icon">files</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#noattr" class="tsd-kind-icon">no<wbr>Attr</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#out" class="tsd-kind-icon">out</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#readme" class="tsd-kind-icon">readme</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#url" class="tsd-kind-icon">url</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="options.html#typedoc" class="tsd-kind-icon">typedoc</a></li>
 							</ul>
 						</section>
 					</div>
@@ -106,17 +106,47 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="converts" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> converts</h3>
-					<div class="tsd-signature tsd-kind-icon">converts<span class="tsd-signature-symbol">:</span> <a href="customconverts.html" class="tsd-signature-type">CustomConverts</a></div>
+					<a name="apigenerator" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> api<wbr>Generator</h3>
+					<div class="tsd-signature tsd-kind-icon">api<wbr>Generator<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"typedoc"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"none"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/79278a6/src/lib/types.ts#L39">lib/types.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/3ff45a4/src/lib/types.ts#L26">lib/types.ts:26</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Custom converts</p>
+							<p>Detail API generator</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="apiurl" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> api<wbr>Url</h3>
+					<div class="tsd-signature tsd-kind-icon">api<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/3ff45a4/src/lib/types.ts#L22">lib/types.ts:22</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Custom API reference url, default to the Github Pages repo url</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="converts" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> converts</h3>
+					<div class="tsd-signature tsd-kind-icon">converts<span class="tsd-signature-symbol">:</span> <a href="additionalconverts.html" class="tsd-signature-type">AdditionalConverts</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/3ff45a4/src/lib/types.ts#L40">lib/types.ts:40</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Additional converts</p>
 						</div>
 					</div>
 				</section>
@@ -126,7 +156,7 @@
 					<div class="tsd-signature tsd-kind-icon">files<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/79278a6/src/lib/types.ts#L33">lib/types.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/3ff45a4/src/lib/types.ts#L34">lib/types.ts:34</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -149,57 +179,27 @@
 					<div class="tsd-signature tsd-kind-icon">no<wbr>Attr<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/79278a6/src/lib/types.ts#L43">lib/types.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/3ff45a4/src/lib/types.ts#L44">lib/types.ts:44</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Ignore generator footer attribution</p>
+							<p>No generator footer attribution</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="out" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> out</h3>
-					<div class="tsd-signature tsd-kind-icon">out<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="typedoc" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> typedoc</h3>
+					<div class="tsd-signature tsd-kind-icon">typedoc<span class="tsd-signature-symbol">:</span> <a href="typedocconfigs.html" class="tsd-signature-type">TypedocConfigs</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/79278a6/src/lib/types.ts#L21">lib/types.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/3ff45a4/src/lib/types.ts#L30">lib/types.ts:30</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Custom <a href="https://typedoc.org">Typedoc</a> output folder, default to <code>docs/</code></p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="readme" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> readme</h3>
-					<div class="tsd-signature tsd-kind-icon">readme<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/79278a6/src/lib/types.ts#L25">lib/types.ts:25</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Custom <a href="https://typedoc.org">Typedoc</a> readme</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="url" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> url</h3>
-					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/autodocs/blob/79278a6/src/lib/types.ts#L29">lib/types.ts:29</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Custom API reference url, default to the Github Pages repo url</p>
+							<p>Custom <a href="https://typedoc.org">Typedoc</a> config</p>
 						</div>
 					</div>
 				</section>
@@ -221,6 +221,12 @@
 						<a href="options.html" class="tsd-kind-icon">Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="options.html#apigenerator" class="tsd-kind-icon">api<wbr>Generator</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="options.html#apiurl" class="tsd-kind-icon">api<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="options.html#converts" class="tsd-kind-icon">converts</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -230,13 +236,7 @@
 								<a href="options.html#noattr" class="tsd-kind-icon">no<wbr>Attr</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="options.html#out" class="tsd-kind-icon">out</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="options.html#readme" class="tsd-kind-icon">readme</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="options.html#url" class="tsd-kind-icon">url</a>
+								<a href="options.html#typedoc" class="tsd-kind-icon">typedoc</a>
 							</li>
 						</ul>
 					</li>

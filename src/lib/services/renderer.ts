@@ -125,7 +125,8 @@ export class Renderer {
     // render links
     content = this.$Content.convertLinks(content, id => this.$Parser.parse(id).LINK);
     // result
-    return html ? this.$Content.md2Html(content) : content;
+    // TODO: support html output
+    return content;
   }
 
   renderBatch(
