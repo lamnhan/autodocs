@@ -86,12 +86,11 @@ export class Main {
   }
 
   /**
-   * Turn the source code into a [Declaration](https://lamnhan.github.io/classes/declaration.html).
-   * @param what - Parsing input
-   * @param child - Parse a certain child
+   * Turn the source code into a [[Declaration]].
+   * @param input - Parsing input
    */
-  parse(what?: string | string[], child?: string) {
-    return this.$Parser.parse(what, child);
+  parse(input?: string) {
+    return this.$Parser.parse(input);
   }
 
   /**

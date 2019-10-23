@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import { pathExistsSync, readJsonSync } from 'fs-extra';
 
-import { Options, BuiltinTemplate, Required } from '../types';
+import { Options, BuiltinTemplate } from '../types';
 import { Rendering } from './renderer';
 
 interface PackageJson {
@@ -19,7 +19,9 @@ interface PackageJson {
   '@lamnhan/autodocs': Options;
 }
 
-type ProjectOptions = Required<Options>;
+type ProjectOptions = {
+  [P in keyof Options]-?: Options[P];
+};
 
 export class Project {
   private optionsPath = resolve('autodocs.config.js');
@@ -67,12 +69,12 @@ export class Project {
       : pkgOptions
     );
     // default url
-    if (!localOptions.url) {
+    if (!localOptions.apiUrl) {
       const [, org, repo] = repoUrl
         .replace('https://', '')
         .replace('.git', '')
         .split('/');
-      localOptions.url = `https://${org}.github.io/${repo}`;
+      localOptions.apiUrl = `https://${org}.github.io/${repo}`;
     }
     // options
     return {

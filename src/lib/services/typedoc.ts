@@ -18,7 +18,7 @@ export type KindString = keyof typeof ReflectionKind;
 
 export type DefaultValue = any;
 
-export interface TypedocOptions {
+export interface TypedocConfigs {
   [key: string]: any;
 }
 
@@ -202,7 +202,7 @@ export class Typedoc {
       link = `${home}.html`;
     }
     // result
-    const { url: apiUrl } = this.$Project.OPTIONS;
+    const { apiUrl } = this.$Project.OPTIONS;
     return apiUrl + '/' + link;
   }
 

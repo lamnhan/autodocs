@@ -183,21 +183,10 @@ export class Renderer {
         blockRenderings.forEach(blockRendering => {
           // declaration
           if (blockRendering instanceof Array) {
-            const [source, output = 'SELF', options = {}] = blockRendering;
-            // TODO: move what logic to parser, 1 unified input
-            const [whatDef, child] = source.split('#');
-            const what =
-              !whatDef || whatDef === '*'
-                ? undefined
-                : whatDef.indexOf('@') !== -1
-                ? whatDef.replace(/\@/g, 'src/').split('+')
-                : whatDef;
-            const declaration = this.$Parser.parse(what, child);
-            const blocks = this.$Converter.convert(
-              declaration,
-              output,
-              options
-            );
+            const [input, output = 'SELF', options = {}] = blockRendering;
+            // parsing & converting
+            const declaration = this.$Parser.parse(input);
+            const blocks = this.$Converter.convert(declaration, output, options);
             // add all blocks as section blocks
             declarationBlocks.push(...blocks);
           }
@@ -263,8 +252,8 @@ export class Renderer {
   }
 
   private getDataTOCX(blocks: Block[]) {
-    const { url } = this.$Project.OPTIONS;
-    blocks.push(this.$Content.blockHeading('Detail API reference', 2, undefined, url));
+    const { apiUrl } = this.$Project.OPTIONS;
+    blocks.push(this.$Content.blockHeading('Detail API reference', 2, undefined, apiUrl));
     return this.getDataTOC(blocks);
   }
 }

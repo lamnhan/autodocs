@@ -1,4 +1,4 @@
-import { Reflection, DeclarationReflection, Typedoc } from './typedoc';
+import { DeclarationReflection, Typedoc } from './typedoc';
 import { Content } from './content';
 
 import { Declaration } from '../components/declaration';
@@ -15,7 +15,8 @@ export class Parser {
     this.$Content = $Content;
   }
 
-  parse(what?: string | string[], child?: string) {
+  parse(input?: string) {
+    const { what, child } = this.extractInput(input || '*');
     // any container
     let reflection = this.$Typedoc.getReflection(what);
     // call signature
@@ -37,5 +38,20 @@ export class Parser {
     }
     // parse result
     return new Declaration(this.$Typedoc, this.$Content, reflection);
+  }
+
+  private extractInput(input: string) {
+    const [whatDef, child] = (
+      input.indexOf('@') === -1
+      ? input.split('.')
+      : [input]
+    );
+    const what =
+      !whatDef || whatDef === '*'
+        ? undefined
+        : whatDef.indexOf('@') !== -1
+        ? whatDef.replace(/\@/g, 'src/').split('+')
+        : whatDef;
+    return { what, child };
   }
 }

@@ -1,4 +1,4 @@
-import { TypedocOptions } from './services/typedoc';
+import { TypedocConfigs } from './services/typedoc';
 import { Block, Content } from './services/content';
 import { ConvertOptions } from './services/converter';
 import { Rendering } from './services/renderer';
@@ -19,7 +19,7 @@ export interface Options {
   /**
    * Custom API reference url, default to the Github Pages repo url
    */
-  url?: string;
+  apiUrl?: string;
   /**
    * Detail API generator
    */
@@ -27,7 +27,7 @@ export interface Options {
   /**
    * Custom [Typedoc](https://typedoc.org) config
    */
-  typedoc?: TypedocOptions;
+  typedoc?: TypedocConfigs;
   /**
    * List of documents to be generated: __key__ is the path to the document and __value__ is a template name or a rendering input
    */
@@ -55,7 +55,3 @@ export type AdditionalConvert = (
 export interface AdditionalConverts {
   [output: string]: AdditionalConvert;
 }
-
-export type Required<T> = {
-  [P in keyof T]-?: T[P];
-};
