@@ -41,6 +41,7 @@ export interface BatchRenderResult {
  *
  * - `head`: Package name & description
  * - `toc`: Table of content
+ * - `tocx`: Table of content, with detail API reference link
  * - `license`: License information
  */
 export class Renderer {
@@ -120,6 +121,8 @@ export class Renderer {
       );
       content = content.replace(this.tocPlaceholder, toc);
     }
+    // render links
+    content = this.$Content.convertLinks(content, id => this.$Parser.parse(id).LINK);
     // result
     return content;
   }
@@ -176,6 +179,7 @@ export class Renderer {
           // declaration
           if (blockRendering instanceof Array) {
             const [source, output = 'SELF', options = {}] = blockRendering;
+            // TODO: move what logic to parser, 1 unified input
             const [whatDef, child] = source.split('#');
             const what =
               !whatDef || whatDef === '*'
@@ -255,7 +259,7 @@ export class Renderer {
 
   private getDataTOCX(blocks: Block[]) {
     const { url } = this.$Project.OPTIONS;
-    blocks.push(this.$Content.blockHeading('Detail API Reference', 2, undefined, url));
+    blocks.push(this.$Content.blockHeading('Detail API reference', 2, undefined, url));
     return this.getDataTOC(blocks);
   }
 }
