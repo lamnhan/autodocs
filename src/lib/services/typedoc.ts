@@ -18,6 +18,10 @@ export type KindString = keyof typeof ReflectionKind;
 
 export type DefaultValue = any;
 
+export interface TypedocOptions {
+  [key: string]: any;
+}
+
 interface TypeData {
   type: string;
   displayType: string;
@@ -70,46 +74,10 @@ export class Typedoc {
     typedocProject?: ProjectReflection
   ) {
     this.$Project = $Project;
-    // init typedoc
+    // init the default instance
     this.typedocApp = typedocApp || this.createApp();
     this.typedocProject =
       typedocProject || this.createProject(this.typedocApp, ['src']);
-  }
-
-  extend(src: string[], configs = {}) {
-    const typedocApp = this.createApp(configs);
-    const typedocProject = this.createProject(typedocApp, src);
-    return new Typedoc(this.$Project, typedocApp, typedocProject);
-  }
-
-  createApp(configs = {}) {
-    const { name: packageName } = this.$Project.PACKAGE;
-    const { readme } = this.$Project.OPTIONS;
-    return new Application({
-      // default
-      name: `${packageName} API Reference`,
-      mode: 'file',
-      logger: 'none',
-      target: 'ES5',
-      module: 'CommonJS',
-      experimentalDecorators: true,
-      ignoreCompilerErrors: true,
-      excludeNotExported: true,
-      excludePrivate: true,
-      excludeProtected: true,
-      readme,
-      // custom
-      ...configs,
-    });
-  }
-
-  createProject(app: Application, src: string[]) {
-    //  init project
-    const projectReflection = app.convert(app.expandInputFiles(src));
-    if (!projectReflection) {
-      throw new Error('Typedoc convert failed.');
-    }
-    return projectReflection;
   }
 
   generateDocs(out: string) {
@@ -184,8 +152,38 @@ export class Typedoc {
     } as ReflectionData;
   }
 
+  private createApp(configs = {}) {
+    const { name: packageName } = this.$Project.PACKAGE;
+    const { typedoc: localConfigs } = this.$Project.OPTIONS;
+    // default configs
+    const typedocOptions = {
+      name: `${packageName} API Reference`,
+      mode: 'file',
+      logger: 'none',
+      target: 'ES5',
+      module: 'CommonJS',
+      experimentalDecorators: true,
+      ignoreCompilerErrors: true,
+      excludeNotExported: true,
+      excludePrivate: true,
+      excludeProtected: true,
+      ...localConfigs,
+    };
+    // create app
+    return new Application({ ...typedocOptions, ...configs });
+  }
+
+  private createProject(app: Application, src: string[]) {
+    //  init project
+    const projectReflection = app.convert(app.expandInputFiles(src));
+    if (!projectReflection) {
+      throw new Error('Typedoc convert failed.');
+    }
+    return projectReflection;
+  }
+
   private getTypeLink(name: string, kind: ReflectionKind) {
-    const { readme } = this.$Project.OPTIONS;
+    const { typedoc: { readme } } = this.$Project.OPTIONS;
     const home = !!readme && readme === 'none' ? 'index' : 'globals';
     const id = name.toLowerCase();
     // build link
@@ -204,7 +202,8 @@ export class Typedoc {
       link = `${home}.html`;
     }
     // result
-    return this.$Project.OPTIONS.url + '/' + link;
+    const { url: apiUrl } = this.$Project.OPTIONS;
+    return apiUrl + '/' + link;
   }
 
   private getLink(reflection: Reflection) {

@@ -1,3 +1,4 @@
+import { TypedocOptions } from './services/typedoc';
 import { Block, Content } from './services/content';
 import { ConvertOptions } from './services/converter';
 import { Rendering } from './services/renderer';
@@ -11,22 +12,18 @@ import { Declaration } from './components/declaration';
  *
  * - Under the __@lamnhan/autodocs__ property of `package.json` file
  * - The `autodocs.config.js` file for more advanced config
- * - By the `options` param when init new [`autodocs(options?)`](https://lamnhan.com/autodocs/index.html#autodocs) instance.
+ * - By the `options` param when init new [[autodocs | `autodocs(options?)`]] instance.
  *
  */
 export interface Options {
   /**
-   * Custom [Typedoc](https://typedoc.org) output folder, default to `docs/`
-   */
-  out?: string;
-  /**
-   * Custom [Typedoc](https://typedoc.org) readme
-   */
-  readme?: string;
-  /**
    * Custom API reference url, default to the Github Pages repo url
    */
   url?: string;
+  /**
+   * Custom [Typedoc](https://typedoc.org) config
+   */
+  typedoc?: TypedocOptions;
   /**
    * List of documents to be generated: __key__ is the path to the document and __value__ is a template name or a rendering input
    */
@@ -34,23 +31,27 @@ export interface Options {
     [path: string]: BuiltinTemplate | Rendering;
   };
   /**
-   * Custom converts
+   * Additional converts
    */
-  converts?: CustomConverts;
+  converts?: AdditionalConverts;
   /**
-   * Ignore generator footer attribution
+   * No generator footer attribution
    */
   noAttr?: boolean;
 }
 
 export type BuiltinTemplate = 'mini' | 'full';
 
-export type CustomConvert = (
+export type AdditionalConvert = (
   declaration: Declaration,
   options: ConvertOptions,
   $Content: Content
 ) => Block[];
 
-export interface CustomConverts {
-  [output: string]: CustomConvert;
+export interface AdditionalConverts {
+  [output: string]: AdditionalConvert;
 }
+
+export type Required<T> = {
+  [P in keyof T]-?: T[P];
+};

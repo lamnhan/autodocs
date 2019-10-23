@@ -1,10 +1,10 @@
 import { resolve } from 'path';
 import { pathExistsSync, readJsonSync } from 'fs-extra';
 
-import { Options, BuiltinTemplate } from '../types';
+import { Options, BuiltinTemplate, Required } from '../types';
 import { Rendering } from './renderer';
 
-export interface PackageJson {
+interface PackageJson {
   name: string;
   version: string;
   description: string;
@@ -19,21 +19,17 @@ export interface PackageJson {
   '@lamnhan/autodocs': Options;
 }
 
+type ProjectOptions = Required<Options>;
+
 export class Project {
   private optionsPath = resolve('autodocs.config.js');
 
   private package: PackageJson;
-  private options: Options;
+  private options: ProjectOptions;
 
   constructor(options: Options = {}) {
-    // package.json
-    this.package = this.getPackageJson();
-    // autodocs options
-    const localOptions = this.getLocalOptions();
-    this.options = {
-      ...localOptions,
-      ...options,
-    };
+    this.package = this.getPackage();
+    this.options = this.getOptions(options);
   }
 
   get PACKAGE() {
@@ -55,35 +51,39 @@ export class Project {
     }
   }
 
-  private getPackageJson() {
+  private getPackage() {
     return readJsonSync('package.json') as PackageJson;
   }
 
-  private getLocalOptions() {
+  private getOptions(options: Options = {}) {
     const {
       repository: { url: repoUrl },
       '@lamnhan/autodocs': pkgOptions = {},
     } = this.package;
-    // get options
-    const options: Options = pathExistsSync(this.optionsPath)
+    // get local options
+    const localOptions: Options = (
+      pathExistsSync(this.optionsPath)
       ? require(this.optionsPath)
-      : pkgOptions;
-    // default github url
-    if (!options.url) {
+      : pkgOptions
+    );
+    // default url
+    if (!localOptions.url) {
       const [, org, repo] = repoUrl
         .replace('https://', '')
         .replace('.git', '')
         .split('/');
-      options.url = `https://${org}.github.io/${repo}`;
+      localOptions.url = `https://${org}.github.io/${repo}`;
     }
     // options
     return {
-      out: 'docs',
-      noAttr: false,
+      // url: local url | github url
+      typedoc: {},
       files: {},
       converts: {},
+      noAttr: false,
+      ...localOptions,
       ...options,
-    } as Options;
+    } as ProjectOptions;
   }
 
   private getMiniTemplate() {

@@ -1,6 +1,8 @@
 module.exports = {
   url: 'https://lamnhan.com/autodocs',
-  readme: 'none',
+  typedoc: {
+    readme: 'none',
+  },
   files: {
     'README.md': {
       head: true,
