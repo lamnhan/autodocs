@@ -1,4 +1,3 @@
-import { CustomConverts } from '../types';
 import { Project } from './project';
 import { DefaultValue } from './typedoc';
 import { Block, Content } from './content';

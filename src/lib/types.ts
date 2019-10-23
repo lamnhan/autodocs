@@ -21,6 +21,10 @@ export interface Options {
    */
   url?: string;
   /**
+   * Detail API generator
+   */
+  apiGenerator?: 'typedoc' | 'none';
+  /**
    * Custom [Typedoc](https://typedoc.org) config
    */
   typedoc?: TypedocOptions;

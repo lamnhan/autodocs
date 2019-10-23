@@ -78,6 +78,7 @@ export class Project {
     return {
       // url: local url | github url
       typedoc: {},
+      apiGenerator: 'typedoc',
       files: {},
       converts: {},
       noAttr: false,

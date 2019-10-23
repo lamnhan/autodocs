@@ -160,8 +160,10 @@ export class Main {
    * The default folder is __/docs__. You can change the output folder by providing the `out` property of [Options](#options).
    */
   generateDocs() {
-    const { out } = this.$Project.OPTIONS;
-    return this.$Typedoc.generateDocs(out as string);
+    const { apiGenerator, typedoc } = this.$Project.OPTIONS;
+    if (apiGenerator === 'typedoc') {
+      this.$Typedoc.generateDocs(typedoc.out || 'docs');
+    }
   }
 }
 

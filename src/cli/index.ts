@@ -42,7 +42,7 @@ export class CLI {
   generate() {
     // generate files
     this.lib.outputLocal();
-    // generate /docs
+    // generate detail api
     this.lib.generateDocs();
   }
 }
