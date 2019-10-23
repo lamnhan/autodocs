@@ -4,6 +4,7 @@ import { Project } from './project';
 import { ContentBySections, Block, Content } from './content';
 import { Parser } from './parser';
 import { ConvertOptions, Converter } from './converter';
+import { ThisConverter } from 'typedoc/dist/lib/converter/types';
 
 export interface Rendering {
   [section: string]: true | SectionRendering;
@@ -64,7 +65,7 @@ export class Renderer {
     this.$Converter = $Converter;
   }
 
-  render(rendering: Rendering, currentContent: ContentBySections = {}) {
+  render(rendering: Rendering, currentContent: ContentBySections = {}, html = false) {
     // get rendering data
     const renderingData = this.getData(rendering);
     // merge data
@@ -124,7 +125,7 @@ export class Renderer {
     // render links
     content = this.$Content.convertLinks(content, id => this.$Parser.parse(id).LINK);
     // result
-    return content;
+    return html ? this.$Content.md2Html(content) : content;
   }
 
   renderBatch(
@@ -137,7 +138,11 @@ export class Renderer {
     Object.keys(batchRendering).forEach(id => {
       const rendering = batchRendering[id];
       const currentContent = batchCurrentContent[id] || {};
-      batchResult[id] = this.render(rendering, currentContent);
+      batchResult[id] = this.render(
+        rendering,
+        currentContent,
+        id.indexOf('.html') !== -1
+      );
     });
     return batchResult;
   }

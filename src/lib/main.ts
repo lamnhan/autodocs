@@ -109,8 +109,8 @@ export class Main {
    * @param rendering - Redering configuration
    * @param currentContent - Current content by sections
    */
-  render(rendering: Rendering, currentContent: ContentBySections = {}) {
-    return this.$Renderer.render(rendering, currentContent);
+  render(rendering: Rendering, currentContent: ContentBySections = {}, html = false) {
+    return this.$Renderer.render(rendering, currentContent, html);
   }
 
   /**
@@ -140,7 +140,11 @@ export class Main {
    */
   output(path: string, rendering: Rendering) {
     const currentContent = this.$Loader.load(path);
-    const renderResult = this.render(rendering, currentContent);
+    const renderResult = this.render(
+      rendering,
+      currentContent,
+      path.indexOf('.html') !== -1
+    );
     return this.$Content.writeFileSync(path, renderResult);
   }
 
