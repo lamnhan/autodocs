@@ -16,7 +16,7 @@ interface PackageJson {
     url: string;
   };
   // options
-  '@lamnhan/autodocs': Options;
+  '@lamnhan/docsuper': Options;
 }
 
 type ProjectOptions = {
@@ -24,7 +24,7 @@ type ProjectOptions = {
 };
 
 export class Project {
-  private optionsPath = resolve('autodocs.config.js');
+  private optionsPath = resolve('docsuper.config.js');
 
   private package: PackageJson;
   private options: ProjectOptions;
@@ -60,7 +60,7 @@ export class Project {
   private getOptions(options: Options = {}) {
     const {
       repository: { url: repoUrl },
-      '@lamnhan/autodocs': pkgOptions = {},
+      '@lamnhan/docsuper': pkgOptions = {},
     } = this.package;
     // get local options
     const localOptions: Options = (

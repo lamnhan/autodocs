@@ -242,7 +242,7 @@ export class Renderer {
     return [
       this.$Content.blockText([
         '---',
-        `⚡️ This document is generated automatically using [@lamnhan/autodocs](https://github.com/lamnhan/autodocs).`,
+        `⚡️ This document is generated automatically using [@lamnhan/docsuper](https://github.com/lamnhan/docsuper).`,
       ]),
     ];
   }

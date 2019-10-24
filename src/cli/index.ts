@@ -1,13 +1,13 @@
 import chalk from 'chalk';
 import * as commander from 'commander';
 
-import { Autodocs } from '../lib/main';
+import { Docsuper } from '../lib/main';
 
 export class CLI {
-  private lib: Autodocs;
+  private lib: Docsuper;
 
   constructor() {
-    this.lib = new Autodocs();
+    this.lib = new Docsuper();
   }
 
   /**
@@ -16,7 +16,7 @@ export class CLI {
   getApp() {
     commander
       .version(require('../../package.json').version, '-v, --version')
-      .usage('autodocs [options] [command]')
+      .usage('docsuper [options] [command]')
       .description('Document generator for Typescript projects.');
 
     commander

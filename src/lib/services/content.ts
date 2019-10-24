@@ -221,18 +221,18 @@ export class Content {
   convertLinks(content: string, buildLink: (id: string) => string) {
     // turns template into 'a' tag
     content = content
-      .replace(/\[\[(.*) \|[ ]*(.*)\]\]/g, '<a autodocs="$1">$2</a>')
-      .replace(/\[\[(.*)\]\]/g, '<a autodocs="$1">$1</a>')
-      .replace(/\{\@link (.*) \|[ ]*(.*)\}/g, '<a autodocs="$1">$2</a>')
-      .replace(/\{\@link (.*)\}/g, '<a autodocs="$1">$1</a>');
+      .replace(/\[\[(.*) \|[ ]*(.*)\]\]/g, '<a docsuper="$1">$2</a>')
+      .replace(/\[\[(.*)\]\]/g, '<a docsuper="$1">$1</a>')
+      .replace(/\{\@link (.*) \|[ ]*(.*)\}/g, '<a docsuper="$1">$2</a>')
+      .replace(/\{\@link (.*)\}/g, '<a docsuper="$1">$1</a>');
     // render link tag
-    (content.match(/<a autodocs=".*">.*<\/a>/g) || []).forEach(item => {
-      const id = ((/<a autodocs="(.*?)">/.exec(item) || []).pop() || '').split('"').shift();
+    (content.match(/<a docsuper=".*">.*<\/a>/g) || []).forEach(item => {
+      const id = ((/<a docsuper="(.*?)">/.exec(item) || []).pop() || '').split('"').shift();
       if (!!id) {
         const href = buildLink(id);
         content = content.replace(
-          new RegExp(`<a autodocs="${id}">`, 'g'),
-          `<a autodocs="${id}" href="${href}">`
+          new RegExp(`<a docsuper="${id}">`, 'g'),
+          `<a docsuper="${id}" href="${href}">`
         );
       }
     });

@@ -170,4 +170,4 @@ export class Main {
   }
 }
 
-export { Main as Autodocs };
+export { Main as Docsuper };

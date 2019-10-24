@@ -1,6 +1,6 @@
 import { Options } from './types';
-import { Autodocs } from './main';
+import { Docsuper } from './main';
 
-export function autodocs(options?: Options) {
-  return new Autodocs(options);
+export function docsuper(options?: Options) {
+  return new Docsuper(options);
 }

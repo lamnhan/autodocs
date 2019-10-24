@@ -1,5 +1,5 @@
 {
-  "name": "@lamnhan/autodocs",
+  "name": "@lamnhan/docsuper",
   "version": "0.0.1",
   "description": "Document generator for Typescript projects.",
   "author": "Lam Nhan",
@@ -8,7 +8,7 @@
   "main": "./src/public-api.js",
   "typings": "./src/public-api.d.ts",
   "bin": {
-    "autodocs": "./src/index.js"
+    "docsuper": "./src/index.js"
   },
   "files": [
     "src",
@@ -19,7 +19,7 @@
     "lint": "gts check",
     "fix": "gts fix",
     "build": "npm run compile && npm i -g",
-    "docs": "autodocs generate",
+    "docs": "docsuper generate",
     "test": "npm run compile && nyc --cache false mocha test/**/*.js",
     "coverage": "nyc --cache false report --reporter=text-lcov | coveralls"
   },
@@ -30,10 +30,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/lamnhan/autodocs.git"
+    "url": "https://github.com/lamnhan/docsuper.git"
   },
   "bugs": {
-    "url": "https://github.com/lamnhan/autodocs/issues"
+    "url": "https://github.com/lamnhan/docsuper/issues"
   },
   "dependencies": {
     "chalk": "^2.4.2",
