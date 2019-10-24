@@ -85,10 +85,10 @@ export class Renderer {
         contentData.push(
           // opening
           this.$Content.sectionOpening(sectionName, {
-            title: 'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY',
+            note: 'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY',
           }),
           // content
-          sectionName === 'toc'
+          sectionName === 'toc' || sectionName === 'tocx'
             ? this.tocPlaceholder
             : this.$Content.renderContent(sectionData),
           // closing
@@ -164,7 +164,7 @@ export class Renderer {
         else if (sectionName === 'license') {
           sectionBlocks = this.getDataLicense();
         }
-        // toc, ...
+        // toc, tocx ...
         else {
           sectionBlocks = [];
         }
