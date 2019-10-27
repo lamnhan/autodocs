@@ -9,10 +9,7 @@ import {
 } from 'typedoc';
 import { ReferenceType, ArrayType, UnionType } from 'typedoc/dist/lib/models';
 
-import { Project } from './project';
-
-export * from 'typedoc';
-export * from 'typedoc/dist/lib/models';
+import { ProjectService } from './project';
 
 export type KindString = keyof typeof ReflectionKind;
 
@@ -62,18 +59,16 @@ interface IterationEvent<Item, Data> {
   displayData: Data;
 }
 
-export class Typedoc {
-  private $Project: Project;
+export class TypedocService {
 
   typedocApp: Application;
   typedocProject: ProjectReflection;
 
   constructor(
-    $Project: Project,
+    private projectService: ProjectService,
     typedocApp?: Application,
     typedocProject?: ProjectReflection
   ) {
-    this.$Project = $Project;
     // init the default instance
     this.typedocApp = typedocApp || this.createApp();
     this.typedocProject =
@@ -153,8 +148,8 @@ export class Typedoc {
   }
 
   private createApp(configs = {}) {
-    const { name: packageName } = this.$Project.PACKAGE;
-    const { typedoc: localConfigs } = this.$Project.OPTIONS;
+    const { name: packageName } = this.projectService.PACKAGE;
+    const { typedoc: localConfigs } = this.projectService.OPTIONS;
     // default configs
     const typedocOptions = {
       name: `${packageName} API Reference`,
@@ -183,7 +178,7 @@ export class Typedoc {
   }
 
   private getTypeLink(name: string, kind: ReflectionKind) {
-    const { typedoc: { readme } } = this.$Project.OPTIONS;
+    const { typedoc: { readme } } = this.projectService.OPTIONS;
     const home = !!readme && readme === 'none' ? 'index' : 'globals';
     const id = name.toLowerCase();
     // build link
@@ -202,7 +197,7 @@ export class Typedoc {
       link = `${home}.html`;
     }
     // result
-    const { apiUrl } = this.$Project.OPTIONS;
+    const { apiUrl } = this.projectService.OPTIONS;
     return apiUrl + '/' + link;
   }
 

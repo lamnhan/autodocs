@@ -1,9 +1,9 @@
 import { TypedocConfigs } from './services/typedoc';
-import { Block, Content } from './services/content';
-import { ConvertOptions } from './services/converter';
-import { Rendering } from './services/renderer';
+import { Block, ContentService } from './services/content';
+import { ConvertOptions } from './services/convert';
+import { Rendering } from './services/render';
 
-import { Declaration } from './components/declaration';
+import { Declaration } from './declaration';
 
 /**
  * Custom generator options
@@ -49,7 +49,7 @@ export type BuiltinTemplate = 'mini' | 'full';
 export type AdditionalConvert = (
   declaration: Declaration,
   options: ConvertOptions,
-  $Content: Content
+  $Content: ContentService
 ) => Block[];
 
 export interface AdditionalConverts {

@@ -2,20 +2,16 @@ import {
   Reflection,
   SignatureReflection,
   ReflectionKind,
-  ReflectionData,
-  DefaultValue,
-  Typedoc,
-} from '../services/typedoc';
-import { ContentBySections, Content } from '../services/content';
+} from 'typedoc';
+
+import { ReflectionData, DefaultValue, TypedocService } from './services/typedoc';
+import { ContentBySections, ContentService } from './services/content';
 
 /**
  * A Declaration is an object the holds information of a source code element.
  */
 export class Declaration {
-  private $Typedoc: Typedoc;
-  private $Content: Content;
 
-  private reflection: Reflection;
   private id: string;
   private level: number;
   // reflection
@@ -35,13 +31,13 @@ export class Declaration {
   private fullText: string;
   private sections: ContentBySections;
 
-  constructor($Typedoc: Typedoc, $Content: Content, reflection: Reflection) {
-    this.$Typedoc = $Typedoc;
-    this.$Content = $Content;
-    // reflection
-    this.reflection = reflection;
+  constructor(
+    private typedocService: TypedocService,
+    private contentService: ContentService,
+    private reflection: Reflection
+  ) {
     // default values
-    this.id = this.$Content.buildId(this.reflection.name);
+    this.id = this.contentService.buildId(this.reflection.name);
     this.level = 2;
     // extract data
     const {
@@ -54,7 +50,7 @@ export class Declaration {
       displayType = '',
       isOptional = false,
       defaultValue = '',
-    } = this.$Typedoc.extractReflection(this.reflection);
+    } = this.typedocService.extractReflection(this.reflection);
     // set data
     this.name = name;
     this.link = link;
@@ -67,8 +63,8 @@ export class Declaration {
     this.defaultValue = defaultValue;
     this.parameters = (
       (this.reflection as SignatureReflection).parameters || []
-    ).map(param => this.$Typedoc.extractReflection(param));
-    this.sections = this.$Content.extractSections(text);
+    ).map(param => this.typedocService.extractReflection(param));
+    this.sections = this.contentService.extractSections(text);
     this.fullText = text
       .replace(/<section [^\n]*/g, '')
       .replace('</section>', '');
@@ -145,7 +141,7 @@ export class Declaration {
   }
 
   isKind(kindString: keyof typeof ReflectionKind) {
-    return this.$Typedoc.isReflectionKind(this.reflection, kindString);
+    return this.typedocService.isReflectionKind(this.reflection, kindString);
   }
 
   hasVariablesOrProperties() {
@@ -167,12 +163,12 @@ export class Declaration {
   }
 
   getChildId(childName: string) {
-    return this.$Content.buildId(this.id + ' ' + childName);
+    return this.contentService.buildId(this.id + ' ' + childName);
   }
 
   getChild(name: string) {
-    const reflection = this.$Typedoc.getChildReflection(this.reflection, name);
-    return new Declaration(this.$Typedoc, this.$Content, reflection)
+    const reflection = this.typedocService.getChildReflection(this.reflection, name);
+    return new Declaration(this.typedocService, this.contentService, reflection)
       .setId(this.getChildId(reflection.name))
       .setLevel(this.level + 1);
   }
@@ -181,11 +177,11 @@ export class Declaration {
     if (!this.hasVariablesOrProperties()) {
       throw new Error('No variables or properties.');
     }
-    const variablesOrProperties = this.$Typedoc.getReflections(
+    const variablesOrProperties = this.typedocService.getReflections(
       'VariableOrProperty',
       this.reflection
     );
-    const accessors = this.$Typedoc
+    const accessors = this.typedocService
       .getReflections('Accessor', this.reflection)
       .map(accessor => {
         if (accessor.getSignature) {
@@ -194,7 +190,7 @@ export class Declaration {
         return accessor;
       });
     return [...variablesOrProperties, ...accessors].map(item =>
-      new Declaration(this.$Typedoc, this.$Content, item)
+      new Declaration(this.typedocService, this.contentService, item)
         .setId(this.getChildId(item.name))
         .setLevel(this.level + offset)
     );
@@ -206,13 +202,13 @@ export class Declaration {
     }
     const result: Declaration[] = [];
     // get all signatures
-    this.$Typedoc
+    this.typedocService
       .getReflections('FunctionOrMethod', this.reflection)
       .forEach(item =>
         item.getAllSignatures().forEach((signature, i) =>
           result.push(
             // tslint:disable-next-line: no-any
-            new Declaration(this.$Typedoc, this.$Content, signature as any)
+            new Declaration(this.typedocService, this.contentService, signature as any)
               .setId(this.getChildId(signature.name) + '-' + i)
               .setLevel(this.level + offset)
           )
@@ -226,10 +222,10 @@ export class Declaration {
     if (!this.hasInterfaces()) {
       throw new Error('No interfaces.');
     }
-    return this.$Typedoc
+    return this.typedocService
       .getReflections('Interface', this.reflection)
       .map(item =>
-        new Declaration(this.$Typedoc, this.$Content, item).setLevel(
+        new Declaration(this.typedocService, this.contentService, item).setLevel(
           this.level + offset
         )
       );
@@ -239,10 +235,10 @@ export class Declaration {
     if (!this.hasClasses()) {
       throw new Error('No classes.');
     }
-    return this.$Typedoc
+    return this.typedocService
       .getReflections('Class', this.reflection)
       .map(item =>
-        new Declaration(this.$Typedoc, this.$Content, item).setLevel(
+        new Declaration(this.typedocService, this.contentService, item).setLevel(
           this.level + offset
         )
       );

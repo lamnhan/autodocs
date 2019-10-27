@@ -1,8 +1,8 @@
-import { Project } from './project';
+import { ProjectService } from './project';
 import { DefaultValue } from './typedoc';
-import { Block, Content } from './content';
+import { Block, ContentService } from './content';
 
-import { Declaration } from '../components/declaration';
+import { Declaration } from '../declaration';
 
 export interface DeclarationOptions {
   id?: string;
@@ -41,7 +41,7 @@ export interface ConvertOptions
  *
  * | Output | Kinds | Description |
  * | --- | --- | ---|
- * | __FULL__ | any | All content |
+ * | __FULL__ | any | All content (with headings) |
  * | __SELF__ | any | Title, description, content WITHOUT local sections, parameters & returns (for function) |
  * | __SECTION:<SECTION_ID>__ | any | A local section |
  * | __VALUE__ | `Variable`, `Property` | Default value |
@@ -63,16 +63,21 @@ export interface ConvertOptions
  * | __SUMMARY_CLASSES__ | `Collection` | Summary table of classes |
  * | __DETAIL_CLASSES__ | `Collection` | Detail list of classes |
  * | __FULL_CLASSES__ | `Collection` | Summary table & detail list of classes |
- *
+ * 
+ * Provide options with the third item of a rendering input:
+ * 
+ * - [Declaration](#declaration) level/id: `{ level: number, id }`
+ * - **SELF** header: `{ title, link }` 
+ * - Raw object: `{ raw: true }`
+ * - Use the default heading: `{ heading: true }`
+ * - Use local anchors (instead of detail links): `{ local: true }`
  */
-export class Converter {
-  private $Project: Project;
-  private $Content: Content;
+export class ConvertService {
 
-  constructor($Project: Project, $Content: Content) {
-    this.$Project = $Project;
-    this.$Content = $Content;
-  }
+  constructor(
+    private projectService: ProjectService,
+    private contentService: ContentService
+  ) {}
 
   convert(
     declaration: Declaration,
@@ -141,12 +146,12 @@ export class Converter {
           return this.getSection(declaration, output.replace('SECTION:', ''));
         }
         // custom convertion
-        const { converts = {} } = this.$Project.OPTIONS;
+        const { converts = {} } = this.projectService.OPTIONS;
         const customConvert = converts[output];
         if (!customConvert) {
           throw new Error('No output: ' + output);
         }
-        return customConvert(declaration, options, this.$Content) || [];
+        return customConvert(declaration, options, this.contentService) || [];
     }
   }
 
@@ -211,7 +216,6 @@ export class Converter {
       ID,
       NAME,
       LINK,
-      TYPE,
       DISPLAY_TYPE,
       SHORT_TEXT,
       TEXT,
@@ -219,7 +223,7 @@ export class Converter {
       PARAMETERS,
     } = declaration;
     // default blocks
-    const body = this.$Content.blockText([
+    const body = this.contentService.blockText([
       '**' + (SHORT_TEXT || `The \`${NAME}\` ${kindText}.`) + '**',
       TEXT,
     ]);
@@ -230,7 +234,7 @@ export class Converter {
       ).join(', ');
       const title = customTitle || `\`${NAME}(${params})\``;
       const link = customLink || LINK;
-      blocks.push(this.$Content.blockHeading(title, LEVEL, ID, link), body);
+      blocks.push(this.contentService.blockHeading(title, LEVEL, ID, link), body);
       // params
       if (!!PARAMETERS.length) {
         const parameterRows = PARAMETERS.map(parameter => {
@@ -242,8 +246,8 @@ export class Converter {
           ];
         });
         blocks.push(
-          this.$Content.blockText(`**Parameters**`),
-          this.$Content.blockTable(
+          this.contentService.blockText(`**Parameters**`),
+          this.contentService.blockTable(
             ['Param', 'Type', 'Description'],
             parameterRows
           )
@@ -251,7 +255,7 @@ export class Converter {
       }
       // returns
       blocks.push(
-        this.$Content.blockText([
+        this.contentService.blockText([
           `**Returns**`,
           `${DISPLAY_TYPE}${!RETURNS ? '' : ' - ' + RETURNS}`,
         ])
@@ -265,13 +269,13 @@ export class Converter {
     ) {
       const title = customTitle || `\`${NAME}\``;
       const link = customLink || LINK;
-      blocks.push(this.$Content.blockHeading(title, LEVEL, ID, link), body);
+      blocks.push(this.contentService.blockHeading(title, LEVEL, ID, link), body);
     }
     // any
     else {
       const title = customTitle || `The \`${NAME}\` ${kindText}`;
       const link = customLink || LINK;
-      blocks.push(this.$Content.blockHeading(title, LEVEL, ID, link), body);
+      blocks.push(this.contentService.blockHeading(title, LEVEL, ID, link), body);
     }
     // result
     return blocks;
@@ -279,7 +283,7 @@ export class Converter {
 
   private getSection(declaration: Declaration, sectionId: string) {
     const { [sectionId]: sectionContent = '' } = declaration.SECTIONS;
-    const content = this.$Content.blockText(sectionContent);
+    const content = this.contentService.blockText(sectionContent);
     return [content] as Block[];
   }
 
@@ -292,12 +296,12 @@ export class Converter {
         const items: string[] = [];
         value.forEach(item => {
           const valueText = convertValue(item);
-          items.push('<li>' + this.$Content.md2Html(valueText) + '</li>');
+          items.push('<li>' + this.contentService.md2Html(valueText) + '</li>');
         });
-        return this.$Content.renderText(['<ol>', ...items, '</ol>'], true);
+        return this.contentService.renderText(['<ol>', ...items, '</ol>'], true);
       } else if (value instanceof Object) {
         if (rawObject) {
-          return this.$Content.renderText([
+          return this.contentService.renderText([
             `\`\`\`json`,
             JSON.stringify(value, null, 2),
             `\`\`\``,
@@ -310,11 +314,11 @@ export class Converter {
             const valueText = convertValue(item);
             items.push(
               '<li>' +
-                this.$Content.md2Html(`**\`${key}\`**: ` + valueText) +
+                this.contentService.md2Html(`**\`${key}\`**: ` + valueText) +
                 '</li>'
             );
           });
-          return this.$Content.renderText(['<ul>', ...items, '</ul>'], true);
+          return this.contentService.renderText(['<ul>', ...items, '</ul>'], true);
         }
       } else if (
         typeof value === 'number' ||
@@ -328,7 +332,7 @@ export class Converter {
     };
     // result
     const valueText = convertValue(DEFAULT_VALUE);
-    return [this.$Content.blockText(valueText)];
+    return [this.contentService.blockText(valueText)];
   }
 
   private getVariablesOrProperties(
@@ -348,10 +352,10 @@ export class Converter {
           declaration.NAME +
           ' ' +
           (declaration.isKind('Global') ? 'variables' : 'properties');
-        const heading = this.$Content.blockHeading(
+        const heading = this.contentService.blockHeading(
           headingTitle,
           3,
-          this.$Content.buildId(headingTitle)
+          this.contentService.buildId(headingTitle)
         );
         result.push(heading);
       }
@@ -387,14 +391,14 @@ export class Converter {
         if (mode === 'detail' || mode === 'full') {
           detailBlocks.push(
             ...this.getSelf(child),
-            this.$Content.blockText('---')
+            this.contentService.blockText('---')
           );
         }
       });
       // summary table
       if (!!summaryRows.length) {
         result.push(
-          this.$Content.blockTable(['Name', 'Type', 'Description'], summaryRows)
+          this.contentService.blockTable(['Name', 'Type', 'Description'], summaryRows)
         );
       }
       // detail
@@ -423,10 +427,10 @@ export class Converter {
           declaration.NAME +
           ' ' +
           (declaration.isKind('Global') ? 'functions' : 'methods');
-        const heading = this.$Content.blockHeading(
+        const heading = this.contentService.blockHeading(
           headingTitle,
           3,
-          this.$Content.buildId(headingTitle)
+          this.contentService.buildId(headingTitle)
         );
         result.push(heading);
       }
@@ -452,14 +456,14 @@ export class Converter {
         if (mode === 'detail' || mode === 'full') {
           detailBlocks.push(
             ...this.getSelf(child),
-            this.$Content.blockText('---')
+            this.contentService.blockText('---')
           );
         }
       });
       // summary
       if (!!summaryRows.length) {
         result.push(
-          this.$Content.blockTable(
+          this.contentService.blockTable(
             ['Function', 'Returns type', 'Description'],
             summaryRows
           )
@@ -488,10 +492,10 @@ export class Converter {
       // heading
       if (withHeading) {
         const headingTitle = declaration.NAME + ' interfaces';
-        const heading = this.$Content.blockHeading(
+        const heading = this.contentService.blockHeading(
           headingTitle,
           3,
-          this.$Content.buildId(headingTitle)
+          this.contentService.buildId(headingTitle)
         );
         result.push(heading);
       }
@@ -513,7 +517,7 @@ export class Converter {
       // summary
       if (!!summaryRows.length) {
         result.push(
-          this.$Content.blockTable(['Interface', 'Description'], summaryRows)
+          this.contentService.blockTable(['Interface', 'Description'], summaryRows)
         );
       }
       // detail
@@ -539,10 +543,10 @@ export class Converter {
       // heading
       if (withHeading) {
         const headingTitle = declaration.NAME + ' classes';
-        const heading = this.$Content.blockHeading(
+        const heading = this.contentService.blockHeading(
           headingTitle,
           3,
-          this.$Content.buildId(headingTitle)
+          this.contentService.buildId(headingTitle)
         );
         result.push(heading);
       }
@@ -564,7 +568,7 @@ export class Converter {
       // summary
       if (!!summaryRows.length) {
         result.push(
-          this.$Content.blockTable(['Class', 'Description'], summaryRows)
+          this.contentService.blockTable(['Class', 'Description'], summaryRows)
         );
       }
       // detail

@@ -1,4 +1,3 @@
-import { EOL } from 'os';
 import { readFileSync, outputFileSync } from 'fs-extra';
 import { format as prettierFormater } from 'prettier';
 import { ConverterOptions, Converter } from 'showdown';
@@ -38,8 +37,9 @@ export interface TableBlock {
   data: Table;
 }
 
-export class Content {
-  EOL2X = EOL.repeat(2);
+export class ContentService {
+  EOL = '\r\n';
+  EOL2X = this.EOL.repeat(2);
 
   constructor() {}
 
@@ -155,7 +155,7 @@ export class Content {
         );
       }
     });
-    return this.format(rows.join(EOL));
+    return this.format(rows.join(this.EOL));
   }
 
   renderContent(blocks: Block[]) {
@@ -191,7 +191,7 @@ export class Content {
 
   renderText(text: Text, single = false) {
     return this.format(
-      typeof text === 'string' ? text : text.join(single ? EOL : this.EOL2X)
+      typeof text === 'string' ? text : text.join(single ? this.EOL : this.EOL2X)
     );
   }
 
@@ -199,7 +199,7 @@ export class Content {
     const blocks = list.map(
       ([title, description = '']) => `- ${title}: ${description}`
     );
-    return this.format(blocks.join(EOL));
+    return this.format(blocks.join(this.EOL));
   }
 
   renderTable([headers, ...rows]: Table) {
@@ -214,7 +214,7 @@ export class Content {
         '| ' + headers.join(' | ') + ' |',
         '| --- | --- | --- |',
         ...tableRows,
-      ].join(EOL)
+      ].join(this.EOL)
     );
   }
 

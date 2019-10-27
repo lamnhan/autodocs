@@ -1,10 +1,7 @@
-import { EOL } from 'os';
-
-import { Project } from './project';
-import { ContentBySections, Block, Content } from './content';
-import { Parser } from './parser';
-import { ConvertOptions, Converter } from './converter';
-import { ThisConverter } from 'typedoc/dist/lib/converter/types';
+import { ProjectService } from './project';
+import { ContentBySections, Block, ContentService } from './content';
+import { ParseService } from './parse';
+import { ConvertOptions, ConvertService } from './convert';
 
 export interface Rendering {
   [section: string]: true | SectionRendering;
@@ -45,25 +42,16 @@ export interface BatchRenderResult {
  * - `tocx`: Table of content, with detail API reference link
  * - `license`: License information
  */
-export class Renderer {
-  private $Project: Project;
-  private $Content: Content;
-  private $Parser: Parser;
-  private $Converter: Converter;
+export class RenderService {
 
   private tocPlaceholder = '[TOC]';
 
   constructor(
-    $Project: Project,
-    $Content: Content,
-    $Parser: Parser,
-    $Converter: Converter
-  ) {
-    this.$Project = $Project;
-    this.$Content = $Content;
-    this.$Parser = $Parser;
-    this.$Converter = $Converter;
-  }
+    private projectService: ProjectService,
+    private contentService: ContentService,
+    private parseService: ParseService,
+    private convertService: ConvertService
+  ) {}
 
   render(rendering: Rendering, currentContent: ContentBySections = {}, html = false) {
     // get rendering data
@@ -84,15 +72,15 @@ export class Renderer {
       if (sectionData instanceof Array) {
         contentData.push(
           // opening
-          this.$Content.sectionOpening(sectionName, {
+          this.contentService.sectionOpening(sectionName, {
             note: 'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY',
           }),
           // content
           sectionName === 'toc' || sectionName === 'tocx'
             ? this.tocPlaceholder
-            : this.$Content.renderContent(sectionData),
+            : this.contentService.renderContent(sectionData),
           // closing
-          this.$Content.sectionClosing()
+          this.contentService.sectionClosing()
         );
         // toc data
         tocData.push(...sectionData);
@@ -101,21 +89,21 @@ export class Renderer {
       else {
         contentData.push(
           // opening
-          this.$Content.sectionOpening(sectionName),
+          this.contentService.sectionOpening(sectionName),
           // content
           sectionData,
           // closing
-          this.$Content.sectionClosing()
+          this.contentService.sectionClosing()
         );
         // toc data
-        tocData.push(...this.$Content.extractHeadings(EOL + sectionData));
+        tocData.push(...this.contentService.extractHeadings('\r\n' + sectionData));
       }
     });
     // render content
-    let content = this.$Content.renderText(contentData);
+    let content = this.contentService.renderText(contentData);
     // add toc
     if (!!data.toc || !!data.tocx) {
-      const toc = this.$Content.renderContent(
+      const toc = this.contentService.renderContent(
         !!data.tocx
         ? this.getDataTOCX(tocData)
         : this.getDataTOC(tocData)
@@ -123,7 +111,7 @@ export class Renderer {
       content = content.replace(this.tocPlaceholder, toc);
     }
     // render links
-    content = this.$Content.convertLinks(content, id => this.$Parser.parse(id).LINK);
+    content = this.contentService.convertLinks(content, id => this.parseService.parse(id).LINK);
     // result
     // TODO: support html output
     return content;
@@ -186,8 +174,8 @@ export class Renderer {
           if (blockRendering instanceof Array) {
             const [input, output = 'SELF', options = {}] = blockRendering;
             // parsing & converting
-            const declaration = this.$Parser.parse(input);
-            const blocks = this.$Converter.convert(declaration, output, options);
+            const declaration = this.parseService.parse(input);
+            const blocks = this.convertService.convert(declaration, output, options);
             // add all blocks as section blocks
             declarationBlocks.push(...blocks);
           }
@@ -203,7 +191,7 @@ export class Renderer {
       data[sectionName] = sectionBlocks;
     });
     // add attr
-    if (!this.$Project.OPTIONS.noAttr) {
+    if (!this.projectService.OPTIONS.noAttr) {
       data.attr = this.getDataAttr();
     }
     // result
@@ -219,8 +207,8 @@ export class Renderer {
   }
 
   private getDataHead() {
-    const { name, description } = this.$Project.PACKAGE;
-    return [this.$Content.blockText([`# ${name}`, `**${description}**`])];
+    const { name, description } = this.projectService.PACKAGE;
+    return [this.contentService.blockText([`# ${name}`, `**${description}**`])];
   }
 
   private getDataLicense() {
@@ -228,10 +216,10 @@ export class Renderer {
       name,
       license,
       repository: { url: repoUrl },
-    } = this.$Project.PACKAGE;
+    } = this.projectService.PACKAGE;
     const licenseUrl = repoUrl.replace('.git', '') + '/blob/master/LICENSE';
     return [
-      this.$Content.blockText([
+      this.contentService.blockText([
         '## License',
         `**${name}** is released under the [${license}](${licenseUrl}) license.`,
       ]),
@@ -240,7 +228,7 @@ export class Renderer {
 
   private getDataAttr() {
     return [
-      this.$Content.blockText([
+      this.contentService.blockText([
         '---',
         `⚡️ This document is generated automatically using [@lamnhan/docsuper](https://github.com/lamnhan/docsuper).`,
       ]),
@@ -248,13 +236,13 @@ export class Renderer {
   }
 
   private getDataTOC(blocks: Block[]) {
-    const tocContent = this.$Content.renderTOC(blocks);
-    return [this.$Content.blockText([`**Table of content**`, tocContent])];
+    const tocContent = this.contentService.renderTOC(blocks);
+    return [this.contentService.blockText([`**Table of content**`, tocContent])];
   }
 
   private getDataTOCX(blocks: Block[]) {
-    const { apiUrl } = this.$Project.OPTIONS;
-    blocks.push(this.$Content.blockHeading('Detail API reference', 2, undefined, apiUrl));
+    const { apiUrl } = this.projectService.OPTIONS;
+    blocks.push(this.contentService.blockHeading('Detail API reference', 2, undefined, apiUrl));
     return this.getDataTOC(blocks);
   }
 }

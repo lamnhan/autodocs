@@ -1,24 +1,24 @@
-import { DeclarationReflection, Typedoc } from './typedoc';
-import { Content } from './content';
+import { DeclarationReflection } from 'typedoc';
 
-import { Declaration } from '../components/declaration';
+import { TypedocService } from './typedoc';
+import { ContentService } from './content';
+
+import { Declaration } from '../declaration';
 
 /**
  * The `Parser` turns source code into [Declaration](#declaration)
  */
-export class Parser {
-  private $Typedoc: Typedoc;
-  private $Content: Content;
+export class ParseService {
 
-  constructor($Typedoc: Typedoc, $Content: Content) {
-    this.$Typedoc = $Typedoc;
-    this.$Content = $Content;
-  }
+  constructor(
+    private typedocService: TypedocService,
+    private contentService: ContentService
+  ) {}
 
   parse(input?: string) {
     const { what, child } = this.extractInput(input || '*');
     // any container
-    let reflection = this.$Typedoc.getReflection(what);
+    let reflection = this.typedocService.getReflection(what);
     // call signature
     const callable = ((reflection as DeclarationReflection).signatures ||
       [])[0];
@@ -34,10 +34,10 @@ export class Parser {
     }
     // or a child
     if (!!child) {
-      reflection = this.$Typedoc.getChildReflection(reflection, child);
+      reflection = this.typedocService.getChildReflection(reflection, child);
     }
     // parse result
-    return new Declaration(this.$Typedoc, this.$Content, reflection);
+    return new Declaration(this.typedocService, this.contentService, reflection);
   }
 
   private extractInput(input: string) {

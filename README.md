@@ -56,18 +56,18 @@
     - [`isKind(kindString)`](#declaration-iskind-0)
     - [`setId(id)`](#declaration-setid-0)
     - [`setLevel(level)`](#declaration-setlevel-0)
-- [The `Parser`](#parser)
-  - [Parser methods](#parser-methods)
-    - [`parse(input?)`](#parser-parse-0)
-- [The `Converter`](#converter)
-  - [Converter methods](#converter-methods)
-    - [`convert(declaration, output, options?)`](#converter-convert-0)
-- [The `Renderer`](#renderer)
-  - [Renderer methods](#renderer-methods)
-    - [`getData(rendering)`](#renderer-getdata-0)
-    - [`getDataBatch(batchRendering)`](#renderer-getdatabatch-0)
-    - [`render(rendering, currentContent?, html?)`](#renderer-render-0)
-    - [`renderBatch(batchRendering, batchCurrentContent?)`](#renderer-renderbatch-0)
+- [The Parser](#parseservice)
+  - [ParseService methods](#parseservice-methods)
+    - [`parse(input?)`](#parseservice-parse-0)
+- [The Converter](#convertservice)
+  - [ConvertService methods](#convertservice-methods)
+    - [`convert(declaration, output, options?)`](#convertservice-convert-0)
+- [The Renderer](#renderservice)
+  - [RenderService methods](#renderservice-methods)
+    - [`getData(rendering)`](#renderservice-getdata-0)
+    - [`getDataBatch(batchRendering)`](#renderservice-getdatabatch-0)
+    - [`render(rendering, currentContent?, html?)`](#renderservice-render-0)
+    - [`renderBatch(batchRendering, batchCurrentContent?)`](#renderservice-renderbatch-0)
 - [Detail API reference](https://lamnhan.github.io/docsuper)
 
 
@@ -414,15 +414,15 @@ Options can be provided in 3 ways:
 
 <h3><a name="main-properties"><p>Main properties</p></a></h3>
 
-| Name                                                                        | Type                                                                                                           | Description               |
-| --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| [Content](https://lamnhan.github.io/docsuper/classes/main.html#content)     | <code><a href="https://lamnhan.github.io/docsuper/classes/content.html" target="_blank">Content</a></code>     | Get the Content service   |
-| [Converter](https://lamnhan.github.io/docsuper/classes/main.html#converter) | <code><a href="https://lamnhan.github.io/docsuper/classes/converter.html" target="_blank">Converter</a></code> | Get the Converter service |
-| [Loader](https://lamnhan.github.io/docsuper/classes/main.html#loader)       | <code><a href="https://lamnhan.github.io/docsuper/classes/loader.html" target="_blank">Loader</a></code>       | Get the Loader service    |
-| [Parser](https://lamnhan.github.io/docsuper/classes/main.html#parser)       | <code><a href="https://lamnhan.github.io/docsuper/classes/parser.html" target="_blank">Parser</a></code>       | Get the Parser service    |
-| [Project](https://lamnhan.github.io/docsuper/classes/main.html#project)     | <code><a href="https://lamnhan.github.io/docsuper/classes/project.html" target="_blank">Project</a></code>     | Get the Project service   |
-| [Renderer](https://lamnhan.github.io/docsuper/classes/main.html#renderer)   | <code><a href="https://lamnhan.github.io/docsuper/classes/renderer.html" target="_blank">Renderer</a></code>   | Get the Renderer service  |
-| [Typedoc](https://lamnhan.github.io/docsuper/classes/main.html#typedoc)     | <code><a href="https://lamnhan.github.io/docsuper/classes/typedoc.html" target="_blank">Typedoc</a></code>     | Get the Typedoc service   |
+| Name                                                                        | Type                                                                                                                     | Description               |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------- |
+| [Content](https://lamnhan.github.io/docsuper/classes/main.html#content)     | <code><a href="https://lamnhan.github.io/docsuper/classes/contentservice.html" target="_blank">ContentService</a></code> | Get the Content service   |
+| [Converter](https://lamnhan.github.io/docsuper/classes/main.html#converter) | <code><a href="https://lamnhan.github.io/docsuper/classes/convertservice.html" target="_blank">ConvertService</a></code> | Get the Converter service |
+| [Loader](https://lamnhan.github.io/docsuper/classes/main.html#loader)       | <code><a href="https://lamnhan.github.io/docsuper/classes/loadservice.html" target="_blank">LoadService</a></code>       | Get the Loader service    |
+| [Parser](https://lamnhan.github.io/docsuper/classes/main.html#parser)       | <code><a href="https://lamnhan.github.io/docsuper/classes/parseservice.html" target="_blank">ParseService</a></code>     | Get the Parser service    |
+| [Project](https://lamnhan.github.io/docsuper/classes/main.html#project)     | <code><a href="https://lamnhan.github.io/docsuper/classes/projectservice.html" target="_blank">ProjectService</a></code> | Get the Project service   |
+| [Renderer](https://lamnhan.github.io/docsuper/classes/main.html#renderer)   | <code><a href="https://lamnhan.github.io/docsuper/classes/renderservice.html" target="_blank">RenderService</a></code>   | Get the Renderer service  |
+| [Typedoc](https://lamnhan.github.io/docsuper/classes/main.html#typedoc)     | <code><a href="https://lamnhan.github.io/docsuper/classes/typedocservice.html" target="_blank">TypedocService</a></code> | Get the Typedoc service   |
 
 <h3><a name="main-methods"><p>Main methods</p></a></h3>
 
@@ -771,17 +771,17 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 <section id="parser" note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
-<h2><a name="parser" href="https://lamnhan.github.io/docsuper/classes/parser.html"><p>The <code>Parser</code></p></a></h2>
+<h2><a name="parseservice" href="https://lamnhan.github.io/docsuper/classes/parseservice.html"><p>The Parser</p></a></h2>
 
 **The `Parser` turns source code into [Declaration](#declaration)**
 
-<h3><a name="parser-methods"><p>Parser methods</p></a></h3>
+<h3><a name="parseservice-methods"><p>ParseService methods</p></a></h3>
 
-| Function                         | Returns type                                                                                                       | Description |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------- |
-| [parse(input?)](#parser-parse-0) | <code><a href="https://lamnhan.github.io/docsuper/classes/declaration.html" target="_blank">Declaration</a></code> |             |
+| Function                               | Returns type                                                                                                       | Description |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------- |
+| [parse(input?)](#parseservice-parse-0) | <code><a href="https://lamnhan.github.io/docsuper/classes/declaration.html" target="_blank">Declaration</a></code> |             |
 
-<h4><a name="parser-parse-0" href="https://lamnhan.github.io/docsuper/classes/parser.html#parse"><p><code>parse(input?)</code></p></a></h4>
+<h4><a name="parseservice-parse-0" href="https://lamnhan.github.io/docsuper/classes/parseservice.html#parse"><p><code>parse(input?)</code></p></a></h4>
 
 **The `parse` call signature.**
 
@@ -801,7 +801,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 <section id="converter" note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
-<h2><a name="converter" href="https://lamnhan.github.io/docsuper/classes/converter.html"><p>The <code>Converter</code></p></a></h2>
+<h2><a name="convertservice" href="https://lamnhan.github.io/docsuper/classes/convertservice.html"><p>The Converter</p></a></h2>
 
 **The `Converter` turns [Declaration](#declaration) into content blocks**
 
@@ -811,7 +811,7 @@ A [Declaration](#declaration) supports certain output depended on its kind:
 
 | Output                   | Kinds                  | Description                                                                             |
 | ------------------------ | ---------------------- | --------------------------------------------------------------------------------------- |
-| **FULL**                 | any                    | All content                                                                             |
+| **FULL**                 | any                    | All content (with headings)                                                             |
 | **SELF**                 | any                    | Title, description, content WITHOUT local sections, parameters & returns (for function) |
 | **SECTION:<SECTION_ID>** | any                    | A local section                                                                         |
 | **VALUE**                | `Variable`, `Property` | Default value                                                                           |
@@ -834,13 +834,21 @@ A [Declaration](#declaration) supports certain output depended on its kind:
 | **DETAIL_CLASSES**       | `Collection`           | Detail list of classes                                                                  |
 | **FULL_CLASSES**         | `Collection`           | Summary table & detail list of classes                                                  |
 
-<h3><a name="converter-methods"><p>Converter methods</p></a></h3>
+Provide options with the third item of a rendering input:
 
-| Function                                                       | Returns type                                                                                                                                                                                                                                                                                                                                                                                                                                        | Description |
-| -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [convert(declaration, output, options?)](#converter-convert-0) | <code><a href="https://lamnhan.github.io/docsuper/interfaces/headingblock.html" target="_blank">HeadingBlock</a> \| <a href="https://lamnhan.github.io/docsuper/interfaces/textblock.html" target="_blank">TextBlock</a> \| <a href="https://lamnhan.github.io/docsuper/interfaces/listblock.html" target="_blank">ListBlock</a> \| <a href="https://lamnhan.github.io/docsuper/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code> |             |
+- [Declaration](#declaration) level/id: `{ level: number, id }`
+- **SELF** header: `{ title, link }`
+- Raw object: `{ raw: true }`
+- Use the default heading: `{ heading: true }`
+- Use local anchors (instead of detail links): `{ local: true }`
 
-<h4><a name="converter-convert-0" href="https://lamnhan.github.io/docsuper/classes/converter.html#convert"><p><code>convert(declaration, output, options?)</code></p></a></h4>
+<h3><a name="convertservice-methods"><p>ConvertService methods</p></a></h3>
+
+| Function                                                            | Returns type                                                                                                                                                                                                                                                                                                                                                                                                                                        | Description |
+| ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [convert(declaration, output, options?)](#convertservice-convert-0) | <code><a href="https://lamnhan.github.io/docsuper/interfaces/headingblock.html" target="_blank">HeadingBlock</a> \| <a href="https://lamnhan.github.io/docsuper/interfaces/textblock.html" target="_blank">TextBlock</a> \| <a href="https://lamnhan.github.io/docsuper/interfaces/listblock.html" target="_blank">ListBlock</a> \| <a href="https://lamnhan.github.io/docsuper/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code> |             |
+
+<h4><a name="convertservice-convert-0" href="https://lamnhan.github.io/docsuper/classes/convertservice.html#convert"><p><code>convert(declaration, output, options?)</code></p></a></h4>
 
 **The `convert` call signature.**
 
@@ -862,7 +870,7 @@ A [Declaration](#declaration) supports certain output depended on its kind:
 
 <section id="renderer" note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
-<h2><a name="renderer" href="https://lamnhan.github.io/docsuper/classes/renderer.html"><p>The <code>Renderer</code></p></a></h2>
+<h2><a name="renderservice" href="https://lamnhan.github.io/docsuper/classes/renderservice.html"><p>The Renderer</p></a></h2>
 
 **The Renderer turns a rendering input into the final content**
 
@@ -873,16 +881,16 @@ Builtin sections:
 - `tocx`: Table of content, with detail API reference link
 - `license`: License information
 
-<h3><a name="renderer-methods"><p>Renderer methods</p></a></h3>
+<h3><a name="renderservice-methods"><p>RenderService methods</p></a></h3>
 
-| Function                                                                     | Returns type                                                                                                                        | Description |
-| ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [getData(rendering)](#renderer-getdata-0)                                    | <code><a href="https://lamnhan.github.io/docsuper/interfaces/renderingdata.html" target="_blank">RenderingData</a></code>           |             |
-| [getDataBatch(batchRendering)](#renderer-getdatabatch-0)                     | <code><a href="https://lamnhan.github.io/docsuper/interfaces/batchrenderingdata.html" target="_blank">BatchRenderingData</a></code> |             |
-| [render(rendering, currentContent?, html?)](#renderer-render-0)              | <code>string</code>                                                                                                                 |             |
-| [renderBatch(batchRendering, batchCurrentContent?)](#renderer-renderbatch-0) | <code><a href="https://lamnhan.github.io/docsuper/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code>   |             |
+| Function                                                                          | Returns type                                                                                                                        | Description |
+| --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [getData(rendering)](#renderservice-getdata-0)                                    | <code><a href="https://lamnhan.github.io/docsuper/interfaces/renderingdata.html" target="_blank">RenderingData</a></code>           |             |
+| [getDataBatch(batchRendering)](#renderservice-getdatabatch-0)                     | <code><a href="https://lamnhan.github.io/docsuper/interfaces/batchrenderingdata.html" target="_blank">BatchRenderingData</a></code> |             |
+| [render(rendering, currentContent?, html?)](#renderservice-render-0)              | <code>string</code>                                                                                                                 |             |
+| [renderBatch(batchRendering, batchCurrentContent?)](#renderservice-renderbatch-0) | <code><a href="https://lamnhan.github.io/docsuper/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code>   |             |
 
-<h4><a name="renderer-getdata-0" href="https://lamnhan.github.io/docsuper/classes/renderer.html#getdata"><p><code>getData(rendering)</code></p></a></h4>
+<h4><a name="renderservice-getdata-0" href="https://lamnhan.github.io/docsuper/classes/renderservice.html#getdata"><p><code>getData(rendering)</code></p></a></h4>
 
 **The `getData` call signature.**
 
@@ -898,7 +906,7 @@ Builtin sections:
 
 ---
 
-<h4><a name="renderer-getdatabatch-0" href="https://lamnhan.github.io/docsuper/classes/renderer.html#getdatabatch"><p><code>getDataBatch(batchRendering)</code></p></a></h4>
+<h4><a name="renderservice-getdatabatch-0" href="https://lamnhan.github.io/docsuper/classes/renderservice.html#getdatabatch"><p><code>getDataBatch(batchRendering)</code></p></a></h4>
 
 **The `getDataBatch` call signature.**
 
@@ -914,7 +922,7 @@ Builtin sections:
 
 ---
 
-<h4><a name="renderer-render-0" href="https://lamnhan.github.io/docsuper/classes/renderer.html#render"><p><code>render(rendering, currentContent?, html?)</code></p></a></h4>
+<h4><a name="renderservice-render-0" href="https://lamnhan.github.io/docsuper/classes/renderservice.html#render"><p><code>render(rendering, currentContent?, html?)</code></p></a></h4>
 
 **The `render` call signature.**
 
@@ -932,7 +940,7 @@ Builtin sections:
 
 ---
 
-<h4><a name="renderer-renderbatch-0" href="https://lamnhan.github.io/docsuper/classes/renderer.html#renderbatch"><p><code>renderBatch(batchRendering, batchCurrentContent?)</code></p></a></h4>
+<h4><a name="renderservice-renderbatch-0" href="https://lamnhan.github.io/docsuper/classes/renderservice.html#renderbatch"><p><code>renderBatch(batchRendering, batchCurrentContent?)</code></p></a></h4>
 
 **The `renderBatch` call signature.**
 

@@ -2,7 +2,7 @@ import { resolve } from 'path';
 import { pathExistsSync, readJsonSync } from 'fs-extra';
 
 import { Options, BuiltinTemplate } from '../types';
-import { Rendering } from './renderer';
+import { Rendering } from './render';
 
 interface PackageJson {
   name: string;
@@ -23,7 +23,7 @@ type ProjectOptions = {
   [P in keyof Options]-?: Options[P];
 };
 
-export class Project {
+export class ProjectService {
   private optionsPath = resolve('docsuper.config.js');
 
   private package: PackageJson;
@@ -92,7 +92,7 @@ export class Project {
   private getMiniTemplate() {
     return {
       head: true,
-      toc: true,
+      tocx: true,
       options: ['Options', 'FULL', { title: 'Options' }],
       main: ['Main', 'FULL', { title: 'Main service' }],
       license: true,
@@ -103,39 +103,9 @@ export class Project {
     return {
       head: true,
       toc: true,
-      interfaces: [
-        {
-          type: 'header',
-          data: {
-            id: 'interfaces',
-            level: 2,
-            title: 'Interfaces',
-          },
-        },
-        ['*', 'SUMMARY_INTERFACES'],
-      ],
-      functions: [
-        {
-          type: 'header',
-          data: {
-            id: 'functions',
-            level: 2,
-            title: 'Functions',
-          },
-        },
-        ['*', 'FULL_FUNCTIONS'],
-      ],
-      classes: [
-        {
-          type: 'header',
-          data: {
-            id: 'classes',
-            level: 2,
-            title: 'Classes',
-          },
-        },
-        ['*', 'FULL_CLASSES'],
-      ],
+      interfaces: ['*', 'SUMMARY_INTERFACES', { heading: true }],
+      functions: ['*', 'FULL_FUNCTIONS', { heading: true }],
+      classes: ['*', 'FULL_CLASSES', { heading: true }],
       license: true,
     } as Rendering;
   }

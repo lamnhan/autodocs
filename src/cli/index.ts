@@ -1,13 +1,13 @@
 import chalk from 'chalk';
 import * as commander from 'commander';
 
-import { Docsuper } from '../lib/main';
+import { docsuper, DocsuperModule } from '../public-api';
 
 export class CLI {
-  private lib: Docsuper;
+  private docsuperModule: DocsuperModule;
 
   constructor() {
-    this.lib = new Docsuper();
+    this.docsuperModule = docsuper();
   }
 
   /**
@@ -41,8 +41,8 @@ export class CLI {
 
   generate() {
     // generate files
-    this.lib.outputLocal();
+    this.docsuperModule.outputLocal();
     // generate detail api
-    this.lib.generateDocs();
+    this.docsuperModule.generateDocs();
   }
 }

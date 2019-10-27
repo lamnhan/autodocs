@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Converter | @lamnhan/docsuper API Reference</title>
+	<title>ConvertService | @lamnhan/docsuper API Reference</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../index.html">Globals</a>
 				</li>
 				<li>
-					<a href="converter.html">Converter</a>
+					<a href="convertservice.html">ConvertService</a>
 				</li>
 			</ul>
-			<h1>Class Converter</h1>
+			<h1>Class ConvertService</h1>
 		</div>
 	</div>
 </header>
@@ -84,7 +84,7 @@
 						<tbody><tr>
 								<td><strong>FULL</strong></td>
 								<td>any</td>
-								<td>All content</td>
+								<td>All content (with headings)</td>
 							</tr>
 							<tr>
 								<td><strong>SELF</strong></td>
@@ -192,13 +192,21 @@
 								<td>Summary table &amp; detail list of classes</td>
 							</tr>
 					</tbody></table>
+					<p>Provide options with the third item of a rendering input:</p>
+					<ul>
+						<li><a href="#declaration">Declaration</a> level/id: <code>{ level: number, id }</code></li>
+						<li><strong>SELF</strong> header: <code>{ title, link }</code></li>
+						<li>Raw object: <code>{ raw: true }</code></li>
+						<li>Use the default heading: <code>{ heading: true }</code></li>
+						<li>Use local anchors (instead of detail links): <code>{ local: true }</code></li>
+					</ul>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Converter</span>
+						<span class="target">ConvertService</span>
 					</li>
 				</ul>
 			</section>
@@ -209,13 +217,13 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="converter.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="convertservice.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="converter.html#convert" class="tsd-kind-icon">convert</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="convertservice.html#convert" class="tsd-kind-icon">convert</a></li>
 							</ul>
 						</section>
 					</div>
@@ -227,25 +235,25 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Converter<span class="tsd-signature-symbol">(</span>$Project<span class="tsd-signature-symbol">: </span><a href="project.html" class="tsd-signature-type">Project</a>, $Content<span class="tsd-signature-symbol">: </span><a href="content.html" class="tsd-signature-type">Content</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="converter.html" class="tsd-signature-type">Converter</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Convert<wbr>Service<span class="tsd-signature-symbol">(</span>projectService<span class="tsd-signature-symbol">: </span><a href="projectservice.html" class="tsd-signature-type">ProjectService</a>, contentService<span class="tsd-signature-symbol">: </span><a href="contentservice.html" class="tsd-signature-type">ContentService</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="convertservice.html" class="tsd-signature-type">ConvertService</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/a6729a3/src/lib/services/converter.ts#L70">lib/services/converter.ts:70</a></li>
+									<li>Defined in lib/services/convert.ts:75</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>$Project: <a href="project.html" class="tsd-signature-type">Project</a></h5>
+									<h5>projectService: <a href="projectservice.html" class="tsd-signature-type">ProjectService</a></h5>
 								</li>
 								<li>
-									<h5>$Content: <a href="content.html" class="tsd-signature-type">Content</a></h5>
+									<h5>contentService: <a href="contentservice.html" class="tsd-signature-type">ContentService</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="converter.html" class="tsd-signature-type">Converter</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="convertservice.html" class="tsd-signature-type">ConvertService</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -262,7 +270,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/a6729a3/src/lib/services/converter.ts#L77">lib/services/converter.ts:77</a></li>
+									<li>Defined in lib/services/convert.ts:82</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -296,13 +304,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="converter.html" class="tsd-kind-icon">Converter</a>
+						<a href="convertservice.html" class="tsd-kind-icon">Convert<wbr>Service</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="converter.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="convertservice.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="converter.html#convert" class="tsd-kind-icon">convert</a>
+								<a href="convertservice.html#convert" class="tsd-kind-icon">convert</a>
 							</li>
 						</ul>
 					</li>

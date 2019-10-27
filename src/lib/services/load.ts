@@ -1,14 +1,13 @@
 import { resolve } from 'path';
 import { pathExistsSync } from 'fs-extra';
 
-import { ContentBySections, Content } from './content';
+import { ContentBySections, ContentService } from './content';
 
-export class Loader {
-  private $Content: Content;
+export class LoadService {
 
-  constructor($Content: Content) {
-    this.$Content = $Content;
-  }
+  constructor(
+    private contentService: ContentService
+  ) {}
 
   batchLoad(paths: string[]) {
     const batchContent: { [path: string]: ContentBySections } = {};
@@ -20,8 +19,8 @@ export class Loader {
     let contentBySections: ContentBySections = {};
     const filePath = resolve(path);
     if (!!pathExistsSync(filePath)) {
-      const content = this.$Content.readFileSync(filePath);
-      contentBySections = this.$Content.extractSections(content);
+      const content = this.contentService.readFileSync(filePath);
+      contentBySections = this.contentService.extractSections(content);
     }
     return contentBySections;
   }
