@@ -6,10 +6,9 @@ import { ContentService } from './content';
 import { Declaration } from '../declaration';
 
 /**
- * The `Parser` turns source code into [Declaration](#declaration)
+ * The `Parser` turns source code into [[Declaration]]
  */
 export class ParseService {
-
   constructor(
     private typedocService: TypedocService,
     private contentService: ContentService
@@ -37,15 +36,16 @@ export class ParseService {
       reflection = this.typedocService.getChildReflection(reflection, child);
     }
     // parse result
-    return new Declaration(this.typedocService, this.contentService, reflection);
+    return new Declaration(
+      this.typedocService,
+      this.contentService,
+      reflection
+    );
   }
 
   private extractInput(input: string) {
-    const [whatDef, child] = (
-      input.indexOf('@') === -1
-      ? input.split('.')
-      : [input]
-    );
+    const [whatDef, child] =
+      input.indexOf('@') === -1 ? input.split('.') : [input];
     const what =
       !whatDef || whatDef === '*'
         ? undefined

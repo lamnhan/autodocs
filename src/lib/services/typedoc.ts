@@ -60,7 +60,6 @@ interface IterationEvent<Item, Data> {
 }
 
 export class TypedocService {
-
   typedocApp: Application;
   typedocProject: ProjectReflection;
 
@@ -73,6 +72,12 @@ export class TypedocService {
     this.typedocApp = typedocApp || this.createApp();
     this.typedocProject =
       typedocProject || this.createProject(this.typedocApp, ['src']);
+  }
+
+  extend(src: string[], configs = {}) {
+    const app = this.createApp(configs);
+    const project = this.createProject(app, src);
+    return new TypedocService(this.projectService, app, project);
   }
 
   generateDocs(out: string) {
@@ -178,7 +183,9 @@ export class TypedocService {
   }
 
   private getTypeLink(name: string, kind: ReflectionKind) {
-    const { typedoc: { readme } } = this.projectService.OPTIONS;
+    const {
+      typedoc: { readme },
+    } = this.projectService.OPTIONS;
     const home = !!readme && readme === 'none' ? 'index' : 'globals';
     const id = name.toLowerCase();
     // build link

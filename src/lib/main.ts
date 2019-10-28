@@ -26,8 +26,14 @@ export class Main {
     this.typedocService = new TypedocService(this.projectService);
     this.contentService = new ContentService();
     this.loadService = new LoadService(this.contentService);
-    this.parseService = new ParseService(this.typedocService, this.contentService);
-    this.convertService = new ConvertService(this.projectService, this.contentService);
+    this.parseService = new ParseService(
+      this.typedocService,
+      this.contentService
+    );
+    this.convertService = new ConvertService(
+      this.projectService,
+      this.contentService
+    );
     this.renderService = new RenderService(
       this.projectService,
       this.contentService,
@@ -58,30 +64,30 @@ export class Main {
   }
 
   /**
-   * Get the Loader service
+   * Get the Load service
    */
-  get Loader() {
+  get Load() {
     return this.loadService;
   }
 
   /**
-   * Get the Parser service
+   * Get the Parse service
    */
-  get Parser() {
+  get Parse() {
     return this.parseService;
   }
 
   /**
-   * Get the Converter service
+   * Get the Convert service
    */
-  get Converter() {
+  get Convert() {
     return this.convertService;
   }
 
   /**
-   * Get the Renderer service
+   * Get the Render service
    */
-  get Renderer() {
+  get Render() {
     return this.renderService;
   }
 
@@ -96,7 +102,7 @@ export class Main {
   /**
    * Convert a declaration into content blocks.
    * @param declaration - The declaration
-   * @param output - Expected [output](#converter)
+   * @param output - Expected output, see [[ConvertService]]
    * @param options - Custom convertion options
    */
   convert(declaration: Declaration, output: string, options?: ConvertOptions) {
@@ -108,7 +114,11 @@ export class Main {
    * @param rendering - Redering configuration
    * @param currentContent - Current content by sections
    */
-  render(rendering: Rendering, currentContent: ContentBySections = {}, html = false) {
+  render(
+    rendering: Rendering,
+    currentContent: ContentBySections = {},
+    html = false
+  ) {
     return this.renderService.render(rendering, currentContent, html);
   }
 
@@ -122,7 +132,9 @@ export class Main {
     Object.keys(files).forEach(path => {
       const value = files[path];
       batchRendering[path] =
-        typeof value === 'string' ? this.projectService.getTemplate(value as BuiltinTemplate) : value;
+        typeof value === 'string'
+          ? this.projectService.getTemplate(value as BuiltinTemplate)
+          : value;
     });
     // render files
     const batchCurrentContent = this.loadService.batchLoad(
@@ -160,7 +172,7 @@ export class Main {
   /**
    * Generate the API reference using Typedoc.
    *
-   * The default folder is __/docs__. You can change the output folder by providing the `out` property of [Options](#options).
+   * The default folder is __/docs__. You can change the output folder by providing the `out` property of [[Options]].
    */
   generateDocs() {
     const { apiGenerator, typedoc } = this.projectService.OPTIONS;

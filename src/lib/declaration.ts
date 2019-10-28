@@ -1,17 +1,16 @@
-import {
-  Reflection,
-  SignatureReflection,
-  ReflectionKind,
-} from 'typedoc';
+import { Reflection, SignatureReflection, ReflectionKind } from 'typedoc';
 
-import { ReflectionData, DefaultValue, TypedocService } from './services/typedoc';
+import {
+  ReflectionData,
+  DefaultValue,
+  TypedocService,
+} from './services/typedoc';
 import { ContentBySections, ContentService } from './services/content';
 
 /**
  * A Declaration is an object the holds information of a source code element.
  */
 export class Declaration {
-
   private id: string;
   private level: number;
   // reflection
@@ -167,7 +166,10 @@ export class Declaration {
   }
 
   getChild(name: string) {
-    const reflection = this.typedocService.getChildReflection(this.reflection, name);
+    const reflection = this.typedocService.getChildReflection(
+      this.reflection,
+      name
+    );
     return new Declaration(this.typedocService, this.contentService, reflection)
       .setId(this.getChildId(reflection.name))
       .setLevel(this.level + 1);
@@ -208,7 +210,11 @@ export class Declaration {
         item.getAllSignatures().forEach((signature, i) =>
           result.push(
             // tslint:disable-next-line: no-any
-            new Declaration(this.typedocService, this.contentService, signature as any)
+            new Declaration(
+              this.typedocService,
+              this.contentService,
+              signature as any
+            )
               .setId(this.getChildId(signature.name) + '-' + i)
               .setLevel(this.level + offset)
           )
@@ -225,9 +231,11 @@ export class Declaration {
     return this.typedocService
       .getReflections('Interface', this.reflection)
       .map(item =>
-        new Declaration(this.typedocService, this.contentService, item).setLevel(
-          this.level + offset
-        )
+        new Declaration(
+          this.typedocService,
+          this.contentService,
+          item
+        ).setLevel(this.level + offset)
       );
   }
 
@@ -238,9 +246,11 @@ export class Declaration {
     return this.typedocService
       .getReflections('Class', this.reflection)
       .map(item =>
-        new Declaration(this.typedocService, this.contentService, item).setLevel(
-          this.level + offset
-        )
+        new Declaration(
+          this.typedocService,
+          this.contentService,
+          item
+        ).setLevel(this.level + offset)
       );
   }
 }

@@ -33,11 +33,11 @@ export interface ConvertOptions
 }
 
 /**
- * The `Converter` turns [Declaration](#declaration) into content blocks
+ * The `Converter` turns [[Declaration]] into content blocks
  *
  * ### Converter output
  *
- * A [Declaration](#declaration) supports certain output depended on its kind:
+ * A [[Declaration]] supports certain output depended on its kind:
  *
  * | Output | Kinds | Description |
  * | --- | --- | ---|
@@ -63,17 +63,16 @@ export interface ConvertOptions
  * | __SUMMARY_CLASSES__ | `Collection` | Summary table of classes |
  * | __DETAIL_CLASSES__ | `Collection` | Detail list of classes |
  * | __FULL_CLASSES__ | `Collection` | Summary table & detail list of classes |
- * 
+ *
  * Provide options with the third item of a rendering input:
- * 
- * - [Declaration](#declaration) level/id: `{ level: number, id }`
- * - **SELF** header: `{ title, link }` 
+ *
+ * - [[Declaration]] level/id: `{ level: number, id }`
+ * - **SELF** header: `{ title, link }`
  * - Raw object: `{ raw: true }`
  * - Use the default heading: `{ heading: true }`
  * - Use local anchors (instead of detail links): `{ local: true }`
  */
 export class ConvertService {
-
   constructor(
     private projectService: ProjectService,
     private contentService: ContentService
@@ -234,7 +233,10 @@ export class ConvertService {
       ).join(', ');
       const title = customTitle || `\`${NAME}(${params})\``;
       const link = customLink || LINK;
-      blocks.push(this.contentService.blockHeading(title, LEVEL, ID, link), body);
+      blocks.push(
+        this.contentService.blockHeading(title, LEVEL, ID, link),
+        body
+      );
       // params
       if (!!PARAMETERS.length) {
         const parameterRows = PARAMETERS.map(parameter => {
@@ -269,13 +271,19 @@ export class ConvertService {
     ) {
       const title = customTitle || `\`${NAME}\``;
       const link = customLink || LINK;
-      blocks.push(this.contentService.blockHeading(title, LEVEL, ID, link), body);
+      blocks.push(
+        this.contentService.blockHeading(title, LEVEL, ID, link),
+        body
+      );
     }
     // any
     else {
       const title = customTitle || `The \`${NAME}\` ${kindText}`;
       const link = customLink || LINK;
-      blocks.push(this.contentService.blockHeading(title, LEVEL, ID, link), body);
+      blocks.push(
+        this.contentService.blockHeading(title, LEVEL, ID, link),
+        body
+      );
     }
     // result
     return blocks;
@@ -298,7 +306,10 @@ export class ConvertService {
           const valueText = convertValue(item);
           items.push('<li>' + this.contentService.md2Html(valueText) + '</li>');
         });
-        return this.contentService.renderText(['<ol>', ...items, '</ol>'], true);
+        return this.contentService.renderText(
+          ['<ol>', ...items, '</ol>'],
+          true
+        );
       } else if (value instanceof Object) {
         if (rawObject) {
           return this.contentService.renderText([
@@ -318,7 +329,10 @@ export class ConvertService {
                 '</li>'
             );
           });
-          return this.contentService.renderText(['<ul>', ...items, '</ul>'], true);
+          return this.contentService.renderText(
+            ['<ul>', ...items, '</ul>'],
+            true
+          );
         }
       } else if (
         typeof value === 'number' ||
@@ -398,7 +412,10 @@ export class ConvertService {
       // summary table
       if (!!summaryRows.length) {
         result.push(
-          this.contentService.blockTable(['Name', 'Type', 'Description'], summaryRows)
+          this.contentService.blockTable(
+            ['Name', 'Type', 'Description'],
+            summaryRows
+          )
         );
       }
       // detail
@@ -517,7 +534,10 @@ export class ConvertService {
       // summary
       if (!!summaryRows.length) {
         result.push(
-          this.contentService.blockTable(['Interface', 'Description'], summaryRows)
+          this.contentService.blockTable(
+            ['Interface', 'Description'],
+            summaryRows
+          )
         );
       }
       // detail

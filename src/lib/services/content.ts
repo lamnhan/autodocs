@@ -87,23 +87,29 @@ export class ContentService {
 
   extractHeadings(content: string) {
     const headings: HeadingBlock[] = [];
-    (content.match(/(\n#{1}[^\n]*)|(<h[^>]*>([\s\S]*?)<\/h[^>]*>)/g) || [])
-    .forEach(heading => {
+    (
+      content.match(/(\n#{1}[^\n]*)|(<h[^>]*>([\s\S]*?)<\/h[^>]*>)/g) || []
+    ).forEach(heading => {
       // html
       if (heading.charAt(0) === '<') {
         const level = Number(heading.charAt(2));
         if (!isNaN(level) && level < 7) {
-          const title = (/<h[^>]*>([\s\S]*?)<\/h[^>]*>/.exec(heading) || []).pop();
+          const title = (
+            /<h[^>]*>([\s\S]*?)<\/h[^>]*>/.exec(heading) || []
+          ).pop();
           if (!!title) {
-            const id = (/<a[^>]* name="(.*?)">/.exec(heading) || []).pop()
-              || this.buildId(title);
+            const id =
+              (/<a[^>]* name="(.*?)">/.exec(heading) || []).pop() ||
+              this.buildId(title);
             headings.push(this.blockHeading(title, level, id));
           }
         }
       }
       // md
       else {
-        const [head, ...body] = heading.replace(/(?:\r\n|\r|\n)/g, '').split(' ');
+        const [head, ...body] = heading
+          .replace(/(?:\r\n|\r|\n)/g, '')
+          .split(' ');
         const level = head.length;
         if (level < 7) {
           const title = body.join(' ').replace(new RegExp(' ' + head, 'g'), '');
@@ -191,7 +197,9 @@ export class ContentService {
 
   renderText(text: Text, single = false) {
     return this.format(
-      typeof text === 'string' ? text : text.join(single ? this.EOL : this.EOL2X)
+      typeof text === 'string'
+        ? text
+        : text.join(single ? this.EOL : this.EOL2X)
     );
   }
 
@@ -227,7 +235,9 @@ export class ContentService {
       .replace(/\{\@link (.*)\}/g, '<a docsuper="$1">$1</a>');
     // render link tag
     (content.match(/<a docsuper=".*">.*<\/a>/g) || []).forEach(item => {
-      const id = ((/<a docsuper="(.*?)">/.exec(item) || []).pop() || '').split('"').shift();
+      const id = ((/<a docsuper="(.*?)">/.exec(item) || []).pop() || '')
+        .split('"')
+        .shift();
       if (!!id) {
         const href = buildLink(id);
         content = content.replace(
@@ -239,5 +249,4 @@ export class ContentService {
     // final result
     return content;
   }
-
 }

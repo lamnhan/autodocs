@@ -43,7 +43,6 @@ export interface BatchRenderResult {
  * - `license`: License information
  */
 export class RenderService {
-
   private tocPlaceholder = '[TOC]';
 
   constructor(
@@ -53,7 +52,11 @@ export class RenderService {
     private convertService: ConvertService
   ) {}
 
-  render(rendering: Rendering, currentContent: ContentBySections = {}, html = false) {
+  render(
+    rendering: Rendering,
+    currentContent: ContentBySections = {},
+    html = false
+  ) {
     // get rendering data
     const renderingData = this.getData(rendering);
     // merge data
@@ -96,7 +99,9 @@ export class RenderService {
           this.contentService.sectionClosing()
         );
         // toc data
-        tocData.push(...this.contentService.extractHeadings('\r\n' + sectionData));
+        tocData.push(
+          ...this.contentService.extractHeadings('\r\n' + sectionData)
+        );
       }
     });
     // render content
@@ -104,14 +109,15 @@ export class RenderService {
     // add toc
     if (!!data.toc || !!data.tocx) {
       const toc = this.contentService.renderContent(
-        !!data.tocx
-        ? this.getDataTOCX(tocData)
-        : this.getDataTOC(tocData)
+        !!data.tocx ? this.getDataTOCX(tocData) : this.getDataTOC(tocData)
       );
       content = content.replace(this.tocPlaceholder, toc);
     }
     // render links
-    content = this.contentService.convertLinks(content, id => this.parseService.parse(id).LINK);
+    content = this.contentService.convertLinks(
+      content,
+      id => this.parseService.parse(id).LINK
+    );
     // result
     // TODO: support html output
     return content;
@@ -175,7 +181,11 @@ export class RenderService {
             const [input, output = 'SELF', options = {}] = blockRendering;
             // parsing & converting
             const declaration = this.parseService.parse(input);
-            const blocks = this.convertService.convert(declaration, output, options);
+            const blocks = this.convertService.convert(
+              declaration,
+              output,
+              options
+            );
             // add all blocks as section blocks
             declarationBlocks.push(...blocks);
           }
@@ -237,12 +247,21 @@ export class RenderService {
 
   private getDataTOC(blocks: Block[]) {
     const tocContent = this.contentService.renderTOC(blocks);
-    return [this.contentService.blockText([`**Table of content**`, tocContent])];
+    return [
+      this.contentService.blockText([`**Table of content**`, tocContent]),
+    ];
   }
 
   private getDataTOCX(blocks: Block[]) {
     const { apiUrl } = this.projectService.OPTIONS;
-    blocks.push(this.contentService.blockHeading('Detail API reference', 2, undefined, apiUrl));
+    blocks.push(
+      this.contentService.blockHeading(
+        'Detail API reference',
+        2,
+        undefined,
+        apiUrl
+      )
+    );
     return this.getDataTOC(blocks);
   }
 }

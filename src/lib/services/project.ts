@@ -63,11 +63,9 @@ export class ProjectService {
       '@lamnhan/docsuper': pkgOptions = {},
     } = this.package;
     // get local options
-    const localOptions: Options = (
-      pathExistsSync(this.optionsPath)
+    const localOptions: Options = pathExistsSync(this.optionsPath)
       ? require(this.optionsPath)
-      : pkgOptions
-    );
+      : pkgOptions;
     // default url
     if (!localOptions.apiUrl) {
       const [, org, repo] = repoUrl

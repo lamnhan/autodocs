@@ -4,10 +4,7 @@ import { pathExistsSync } from 'fs-extra';
 import { ContentBySections, ContentService } from './content';
 
 export class LoadService {
-
-  constructor(
-    private contentService: ContentService
-  ) {}
+  constructor(private contentService: ContentService) {}
 
   batchLoad(paths: string[]) {
     const batchContent: { [path: string]: ContentBySections } = {};
