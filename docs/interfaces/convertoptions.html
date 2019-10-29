@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ConvertOptions | @lamnhan/docsuper API Reference</title>
+	<title>ConvertOptions | @lamnhan/docsuper</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">@lamnhan/docsuper API Reference</a>
+					<a href="../index.html" class="title">@lamnhan/docsuper</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -51,7 +51,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../index.html">Globals</a>
+					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
 					<a href="convertoptions.html">ConvertOptions</a>
@@ -78,6 +78,9 @@
 					</li>
 					<li>
 						<a href="convertingoptions.html" class="tsd-signature-type">ConvertingOptions</a>
+					</li>
+					<li>
+						<a href="filteroptions.html" class="tsd-signature-type">FilterOptions</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">ConvertOptions</span>
@@ -97,6 +100,7 @@
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="convertoptions.html#filter" class="tsd-kind-icon">filter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="convertoptions.html#heading" class="tsd-kind-icon">heading</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="convertoptions.html#id" class="tsd-kind-icon">id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="convertoptions.html#level" class="tsd-kind-icon">level</a></li>
@@ -112,13 +116,24 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="filter" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> filter</h3>
+					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <a href="../globals.html#declarationfilter" class="tsd-signature-type">DeclarationFilter</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="filteroptions.html">FilterOptions</a>.<a href="filteroptions.html#filter">filter</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/400c213/src/lib/services/convert.ts#L27">lib/services/convert.ts:27</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="heading" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> heading</h3>
 					<div class="tsd-signature tsd-kind-icon">heading<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="convertingoptions.html">ConvertingOptions</a>.<a href="convertingoptions.html#heading">heading</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/55f7d2a/src/lib/services/convert.ts#L22">lib/services/convert.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/400c213/src/lib/services/convert.ts#L22">lib/services/convert.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -129,7 +144,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="declarationoptions.html">DeclarationOptions</a>.<a href="declarationoptions.html#id">id</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/55f7d2a/src/lib/services/convert.ts#L8">lib/services/convert.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/400c213/src/lib/services/convert.ts#L8">lib/services/convert.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -138,9 +153,9 @@
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> level</h3>
 					<div class="tsd-signature tsd-kind-icon">level<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="declarationoptions.html">DeclarationOptions</a>.<a href="declarationoptions.html#level">level</a></p>
+						<p>Inherited from <a href="convertingoptions.html">ConvertingOptions</a>.<a href="convertingoptions.html#level">level</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/55f7d2a/src/lib/services/convert.ts#L9">lib/services/convert.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/400c213/src/lib/services/convert.ts#L21">lib/services/convert.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -151,7 +166,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="headingoptions.html">HeadingOptions</a>.<a href="headingoptions.html#link">link</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/55f7d2a/src/lib/services/convert.ts#L14">lib/services/convert.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/400c213/src/lib/services/convert.ts#L13">lib/services/convert.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -162,7 +177,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="convertingoptions.html">ConvertingOptions</a>.<a href="convertingoptions.html#local">local</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/55f7d2a/src/lib/services/convert.ts#L23">lib/services/convert.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/400c213/src/lib/services/convert.ts#L23">lib/services/convert.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -173,7 +188,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="valueoptions.html">ValueOptions</a>.<a href="valueoptions.html#raw">raw</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/55f7d2a/src/lib/services/convert.ts#L18">lib/services/convert.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/400c213/src/lib/services/convert.ts#L17">lib/services/convert.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -184,7 +199,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="headingoptions.html">HeadingOptions</a>.<a href="headingoptions.html#title">title</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/55f7d2a/src/lib/services/convert.ts#L13">lib/services/convert.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/400c213/src/lib/services/convert.ts#L12">lib/services/convert.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -194,7 +209,7 @@
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
-						<a href="../index.html"><em>Globals</em></a>
+						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 				</ul>
 			</nav>
@@ -205,6 +220,9 @@
 					<li class="current tsd-kind-interface">
 						<a href="convertoptions.html" class="tsd-kind-icon">Convert<wbr>Options</a>
 						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="convertoptions.html#filter" class="tsd-kind-icon">filter</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="convertoptions.html#heading" class="tsd-kind-icon">heading</a>
 							</li>

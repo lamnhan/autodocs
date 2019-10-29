@@ -3,6 +3,10 @@ import * as commander from 'commander';
 
 import { docsuper, DocsuperModule } from '../public-api';
 
+interface GenerateOptions {
+  config?: string;
+}
+
 export class CLI {
   private docsuperModule: DocsuperModule;
 
@@ -22,7 +26,8 @@ export class CLI {
     commander
       .command('generate')
       .description('Generate the documentation.')
-      .action(() => this.generate());
+      .option('-c, --config [value]', 'Path to custom config file.')
+      .action(options => this.generate(options));
 
     commander
       .command('help')
@@ -39,10 +44,15 @@ export class CLI {
     return commander;
   }
 
-  generate() {
+  generate(options: GenerateOptions) {
+    // get instance
+    const { config } = options;
+    const docsuperModule = !config
+      ? this.docsuperModule
+      : this.docsuperModule.extend(config);
     // generate files
-    this.docsuperModule.outputLocal();
+    docsuperModule.outputLocal();
     // generate detail api
-    this.docsuperModule.generateDocs();
+    docsuperModule.generateDocs();
   }
 }

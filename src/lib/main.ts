@@ -1,11 +1,11 @@
-import { Options, BuiltinTemplate } from './types';
-import { ProjectService } from './services/project';
+import { OptionsInput, ProjectService } from './services/project';
 import { TypedocService } from './services/typedoc';
 import { ContentBySections, ContentService } from './services/content';
 import { LoadService } from './services/load';
 import { ParseService } from './services/parse';
 import { ConvertOptions, ConvertService } from './services/convert';
 import { Rendering, BatchRendering, RenderService } from './services/render';
+import { BuiltinTemplate, TemplateService } from './services/template';
 
 import { Declaration } from './declaration';
 
@@ -20,13 +20,15 @@ export class Main {
   private parseService: ParseService;
   private convertService: ConvertService;
   private renderService: RenderService;
+  private templateService: TemplateService;
 
-  constructor(options?: Options) {
-    this.projectService = new ProjectService(options);
+  constructor(optionsInput?: OptionsInput) {
+    this.projectService = new ProjectService(optionsInput);
     this.typedocService = new TypedocService(this.projectService);
     this.contentService = new ContentService();
     this.loadService = new LoadService(this.contentService);
     this.parseService = new ParseService(
+      this.projectService,
       this.typedocService,
       this.contentService
     );
@@ -40,6 +42,7 @@ export class Main {
       this.parseService,
       this.convertService
     );
+    this.templateService = new TemplateService();
   }
 
   /**
@@ -92,6 +95,14 @@ export class Main {
   }
 
   /**
+   * Create a new instance
+   * @param options - Custom options
+   */
+  extend(optionsInput?: OptionsInput) {
+    return new Main(optionsInput);
+  }
+
+  /**
    * Turn the source code into a [[Declaration]].
    * @param input - Parsing input
    */
@@ -133,7 +144,7 @@ export class Main {
       const value = files[path];
       batchRendering[path] =
         typeof value === 'string'
-          ? this.projectService.getTemplate(value as BuiltinTemplate)
+          ? this.templateService.getTemplate(value as BuiltinTemplate)
           : value;
     });
     // render files

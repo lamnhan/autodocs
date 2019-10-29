@@ -2,7 +2,7 @@ import { ProjectService } from './project';
 import { DefaultValue } from './typedoc';
 import { Block, ContentService } from './content';
 
-import { Declaration } from '../declaration';
+import { DeclarationFilter, Declaration } from '../declaration';
 
 export interface DeclarationOptions {
   id?: string;
@@ -23,14 +23,30 @@ export interface ConvertingOptions {
   local?: boolean;
 }
 
+export interface FilterOptions {
+  filter?: DeclarationFilter;
+}
+
 export interface ConvertOptions
   extends DeclarationOptions,
     HeadingOptions,
     ValueOptions,
-    ConvertingOptions {
+    ConvertingOptions,
+    FilterOptions {
   // tslint:disable-next-line: no-any
   [key: string]: any;
 }
+
+export type AdditionalConvert = (
+  declaration: Declaration,
+  options: ConvertOptions,
+  $Content: ContentService
+) => Block[];
+
+export interface AdditionalConverts {
+  [output: string]: AdditionalConvert;
+}
+
 
 /**
  * The Converter turns a [[Declaration]] into {@link Block | content blocks}
@@ -158,46 +174,38 @@ export class ConvertService {
     declaration: Declaration,
     options: ConvertingOptions & HeadingOptions = {}
   ) {
-    const { level = 2 } = options;
     const result: Block[] = [];
+    // prepare options
+    const childrenOptions: ConvertingOptions = {
+      ...options,
+      heading: true,
+      level: (options.level || 2) + 1,
+    };
     // self
     const self = this.getSelf(declaration, options);
     result.push(...self);
     // variables or properties
     if (declaration.hasVariablesOrProperties()) {
       result.push(
-        ...this.getVariablesOrProperties(declaration, 'summary', {
-          ...options,
-          heading: true,
-          level: level + 1,
-        })
+        ...this.getVariablesOrProperties(declaration, 'summary', childrenOptions)
       );
     }
     // functions or methods
     if (declaration.hasFunctionsOrMethods()) {
       result.push(
-        ...this.getFunctionsOrMethods(declaration, 'full', {
-          ...options,
-          level: level + 1,
-        })
+        ...this.getFunctionsOrMethods(declaration, 'full', childrenOptions)
       );
     }
     // interfaces
     if (declaration.hasInterfaces()) {
       result.push(
-        ...this.getInterfaces(declaration, 'full', {
-          ...options,
-          level: level + 1,
-        })
+        ...this.getInterfaces(declaration, 'full', childrenOptions)
       );
     }
     // classes
     if (declaration.hasClasses()) {
       result.push(
-        ...this.getClasses(declaration, 'full', {
-          ...options,
-          level: level + 1,
-        })
+        ...this.getClasses(declaration, 'full', childrenOptions)
       );
     }
     // result
@@ -354,27 +362,25 @@ export class ConvertService {
   private getVariablesOrProperties(
     declaration: Declaration,
     mode: 'summary' | 'detail' | 'full',
-    options: ConvertingOptions = {}
+    options: ConvertingOptions & FilterOptions = {}
   ) {
-    const { level = 2, heading, local } = options;
+    const { level = 2, heading, local, filter } = options;
     const withHeading = heading === undefined && mode === 'full' ? true : heading;
     const localLinking = local === undefined && mode === 'full' ? true : local;
     // process level
     const headingLevel = level - (withHeading ? 0 : 1);
     const childLevel = headingLevel + 1;
     // get children
-    const children = declaration.getVariablesOrProperties();
+    const children = declaration.getVariablesOrProperties(filter);
     // build blocks
     const result: Block[] = [];
     if (!!children.length) {
       // heading
       if (withHeading) {
-        const { name: pkgName } = this.projectService.PACKAGE;
-        const { NAME } = declaration;
-        const headingTitle = NAME === pkgName
+        const headingTitle = declaration.isRoot()
           ? 'Variables'
           : (
-              NAME +
+              declaration.NAME +
               (declaration.isKind('Global') ? ' variables' : ' properties')
             );
         const heading = this.contentService.blockHeading(
@@ -441,29 +447,27 @@ export class ConvertService {
   private getFunctionsOrMethods(
     declaration: Declaration,
     mode: 'summary' | 'detail' | 'full',
-    options: ConvertingOptions = {}
+    options: ConvertingOptions & FilterOptions = {}
   ) {
-    const { level = 2, heading, local } = options;
+    const { level = 2, heading, local, filter } = options;
     const withHeading = heading === undefined && mode === 'full' ? true : heading;
     const localLinking = local === undefined && mode === 'full' ? true : local;
     // process level
     const headingLevel = level - (withHeading ? 0 : 1);
     const childLevel = headingLevel + 1;
     // get children
-    const children = declaration.getFunctionsOrMethods();
+    const children = declaration.getFunctionsOrMethods(filter);
     // build blocks
     const result: Block[] = [];
     if (!!children.length) {
       // heading
       if (withHeading) {
-        const { name: pkgName } = this.projectService.PACKAGE;
-        const { NAME } = declaration;
-        const headingTitle = NAME === pkgName
-        ? 'Functions'
-        : (
-            NAME +
-            (declaration.isKind('Global') ? ' functions' : ' methods')
-          );
+        const headingTitle = declaration.isRoot()
+          ? 'Functions'
+          : (
+              declaration.NAME +
+              (declaration.isKind('Global') ? ' functions' : ' methods')
+            );
         const heading = this.contentService.blockHeading(
           headingTitle,
           headingLevel,
@@ -518,24 +522,24 @@ export class ConvertService {
   private getInterfaces(
     declaration: Declaration,
     mode: 'summary' | 'detail' | 'full',
-    options: ConvertingOptions = {}
+    options: ConvertingOptions & FilterOptions = {}
   ) {
-    const { level = 2, heading, local } = options;
+    const { level = 2, heading, local, filter } = options;
     const withHeading = heading === undefined && mode === 'full' ? true : heading;
     const localLinking = local === undefined && mode === 'full' ? true : local;
     // process level
     const headingLevel = level - (withHeading ? 0 : 1);
     const childLevel = headingLevel + 1;
     // get children
-    const children = declaration.getInterfaces();
+    const children = declaration.getInterfaces(filter);
     // build blocks
     const result: Block[] = [];
     if (!!children.length) {
       // heading
       if (withHeading) {
-        const { name: pkgName } = this.projectService.PACKAGE;
-        const { NAME } = declaration;
-        const headingTitle = NAME === pkgName ? 'Interfaces' : NAME + ' interfaces';
+        const headingTitle = declaration.isRoot()
+          ? 'Interfaces'
+          : declaration.NAME + ' interfaces';
         const heading = this.contentService.blockHeading(
           headingTitle,
           headingLevel,
@@ -579,24 +583,24 @@ export class ConvertService {
   private getClasses(
     declaration: Declaration,
     mode: 'summary' | 'detail' | 'full',
-    options: ConvertingOptions = {}
+    options: ConvertingOptions & FilterOptions = {}
   ) {
-    const { level = 2, heading, local } = options;
+    const { level = 2, heading, local, filter } = options;
     const withHeading = heading === undefined && mode === 'full' ? true : heading;
     const localLinking = local === undefined && mode === 'full' ? true : local;
     // process level
     const headingLevel = level - (withHeading ? 0 : 1);
     const childLevel = headingLevel + 1;
     // get children
-    const children = declaration.getClasses();
+    const children = declaration.getClasses(filter);
     // build blocks
     const result: Block[] = [];
     if (!!children.length) {
       // heading
       if (withHeading) {
-        const { name: pkgName } = this.projectService.PACKAGE;
-        const { NAME } = declaration;
-        const headingTitle = NAME === pkgName ? 'Classes' : NAME + ' classes';
+        const headingTitle = declaration.isRoot()
+          ? 'Classes'
+          : declaration.NAME + ' classes';
         const heading = this.contentService.blockHeading(
           headingTitle,
           headingLevel,

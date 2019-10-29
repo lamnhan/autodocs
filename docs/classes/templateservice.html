@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ParseService | @lamnhan/docsuper</title>
+	<title>TemplateService | @lamnhan/docsuper</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,28 +54,21 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="parseservice.html">ParseService</a>
+					<a href="templateservice.html">TemplateService</a>
 				</li>
 			</ul>
-			<h1>Class ParseService</h1>
+			<h1>Class TemplateService</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>The <code>Parser</code> turns source code into <a href="declaration.html">Declaration</a></p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ParseService</span>
+						<span class="target">TemplateService</span>
 					</li>
 				</ul>
 			</section>
@@ -86,13 +79,13 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="parseservice.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="templateservice.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="parseservice.html#parse" class="tsd-kind-icon">parse</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="templateservice.html#gettemplate" class="tsd-kind-icon">get<wbr>Template</a></li>
 							</ul>
 						</section>
 					</div>
@@ -104,28 +97,16 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Parse<wbr>Service<span class="tsd-signature-symbol">(</span>projectService<span class="tsd-signature-symbol">: </span><a href="projectservice.html" class="tsd-signature-type">ProjectService</a>, typedocService<span class="tsd-signature-symbol">: </span><a href="typedocservice.html" class="tsd-signature-type">TypedocService</a>, contentService<span class="tsd-signature-symbol">: </span><a href="contentservice.html" class="tsd-signature-type">ContentService</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parseservice.html" class="tsd-signature-type">ParseService</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Template<wbr>Service<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="templateservice.html" class="tsd-signature-type">TemplateService</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/400c213/src/lib/services/parse.ts#L12">lib/services/parse.ts:12</a></li>
+									<li>Defined in lib/services/template.ts:5</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>projectService: <a href="projectservice.html" class="tsd-signature-type">ProjectService</a></h5>
-								</li>
-								<li>
-									<h5>typedocService: <a href="typedocservice.html" class="tsd-signature-type">TypedocService</a></h5>
-								</li>
-								<li>
-									<h5>contentService: <a href="contentservice.html" class="tsd-signature-type">ContentService</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="parseservice.html" class="tsd-signature-type">ParseService</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="templateservice.html" class="tsd-signature-type">TemplateService</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -133,25 +114,25 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="parse" class="tsd-anchor"></a>
-					<h3>parse</h3>
+					<a name="gettemplate" class="tsd-anchor"></a>
+					<h3>get<wbr>Template</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">parse<span class="tsd-signature-symbol">(</span>input<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="declaration.html" class="tsd-signature-type">Declaration</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Template<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><a href="../globals.html#builtintemplate" class="tsd-signature-type">BuiltinTemplate</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/rendering.html" class="tsd-signature-type">Rendering</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/400c213/src/lib/services/parse.ts#L19">lib/services/parse.ts:19</a></li>
+									<li>Defined in lib/services/template.ts:9</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> input: <span class="tsd-signature-type">string</span></h5>
+									<h5>name: <a href="../globals.html#builtintemplate" class="tsd-signature-type">BuiltinTemplate</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="declaration.html" class="tsd-signature-type">Declaration</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/rendering.html" class="tsd-signature-type">Rendering</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -170,13 +151,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="parseservice.html" class="tsd-kind-icon">Parse<wbr>Service</a>
+						<a href="templateservice.html" class="tsd-kind-icon">Template<wbr>Service</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="parseservice.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="templateservice.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="parseservice.html#parse" class="tsd-kind-icon">parse</a>
+								<a href="templateservice.html#gettemplate" class="tsd-kind-icon">get<wbr>Template</a>
 							</li>
 						</ul>
 					</li>

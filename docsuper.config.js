@@ -1,9 +1,5 @@
 module.exports = {
   apiUrl: 'https://lamnhan.com/docsuper',
-  apiGenerator: 'none',
-  typedoc: {
-    readme: 'none',
-  },
   files: {
     'README.md': {
       head: true,
@@ -12,11 +8,11 @@ module.exports = {
         ['Options', 'SELF', { title: 'Options' }],
         ['Options', 'SUMMARY_PROPERTIES', { heading: true }]
       ],
-      main: ['Main', 'FULL', { title: 'Main service' }],
+      main: ['Main', 'FULL', { title: 'The Module' }],
       declaration: ['Declaration', 'FULL', { title: 'Declaration' }],
-      parser: ['ParseService', 'FULL', { title: 'The Parser' }],
-      converter: ['ConvertService', 'FULL', { title: 'The Converter' }],
-      renderer: ['RenderService', 'FULL', { title: 'The Renderer' }],
+      parser: ['ParseService', 'FULL', { title: 'Parsing' }],
+      converter: ['ConvertService', 'FULL', { title: 'Converting' }],
+      renderer: ['RenderService', 'FULL', { title: 'Rendering' }],
       license: true
     },
   }

@@ -68,10 +68,11 @@ export class TypedocService {
     typedocApp?: Application,
     typedocProject?: ProjectReflection
   ) {
+    const { srcPath } = this.projectService.OPTIONS;
     // init the default instance
     this.typedocApp = typedocApp || this.createApp();
     this.typedocProject =
-      typedocProject || this.createProject(this.typedocApp, ['src']);
+      typedocProject || this.createProject(this.typedocApp, [srcPath]);
   }
 
   extend(src: string[], configs = {}) {

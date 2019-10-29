@@ -99,7 +99,9 @@ export class ContentService {
           ).pop();
           if (!!title) {
             const id =
-              (/<a[^>]* name="(.*?)">/.exec(heading) || []).pop() ||
+              ((/<a[^>]* name="(.*?)">/.exec(heading) || []).pop() || '')
+              .split('"')
+              .shift() ||
               this.buildId(title);
             headings.push(this.blockHeading(title, level, id));
           }

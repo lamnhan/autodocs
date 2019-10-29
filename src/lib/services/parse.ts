@@ -1,5 +1,6 @@
 import { DeclarationReflection } from 'typedoc';
 
+import { ProjectService } from './project';
 import { TypedocService } from './typedoc';
 import { ContentService } from './content';
 
@@ -10,6 +11,7 @@ import { Declaration } from '../declaration';
  */
 export class ParseService {
   constructor(
+    private projectService: ProjectService,
     private typedocService: TypedocService,
     private contentService: ContentService
   ) {}
@@ -37,6 +39,7 @@ export class ParseService {
     }
     // parse result
     return new Declaration(
+      this.projectService,
       this.typedocService,
       this.contentService,
       reflection

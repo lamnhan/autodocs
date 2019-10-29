@@ -1,9 +1,7 @@
 import { TypedocConfigs } from './services/typedoc';
-import { Block, ContentService } from './services/content';
-import { ConvertOptions } from './services/convert';
+import { AdditionalConverts } from './services/convert';
 import { Rendering } from './services/render';
-
-import { Declaration } from './declaration';
+import { BuiltinTemplate } from './services/template';
 
 /**
  * Custom generator options
@@ -16,6 +14,10 @@ import { Declaration } from './declaration';
  *
  */
 export interface Options {
+  /**
+   * Path to the source code, default to `src`
+   */
+  srcPath?: string;
   /**
    * Custom API reference url, default to the Github Pages repo url
    */
@@ -35,23 +37,11 @@ export interface Options {
     [path: string]: BuiltinTemplate | Rendering;
   };
   /**
-   * Additional converts, see [[AdditionalConverts]]
+   * Additional converts
    */
   converts?: AdditionalConverts;
   /**
    * No generator footer attribution
    */
   noAttr?: boolean;
-}
-
-export type BuiltinTemplate = 'mini' | 'full';
-
-export type AdditionalConvert = (
-  declaration: Declaration,
-  options: ConvertOptions,
-  $Content: ContentService
-) => Block[];
-
-export interface AdditionalConverts {
-  [output: string]: AdditionalConvert;
 }

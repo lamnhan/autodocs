@@ -1,8 +1,9 @@
 import { resolve } from 'path';
 import { pathExistsSync, readJsonSync } from 'fs-extra';
 
-import { Options, BuiltinTemplate } from '../types';
-import { Rendering } from './render';
+import { Options } from '../types';
+
+export type OptionsInput = string | Options;
 
 interface PackageJson {
   name: string;
@@ -24,14 +25,14 @@ type ProjectOptions = {
 };
 
 export class ProjectService {
-  private optionsPath = resolve('docsuper.config.js');
+  private defaultLocalPath = resolve('docsuper.config.js');
 
   private package: PackageJson;
   private options: ProjectOptions;
 
-  constructor(options: Options = {}) {
+  constructor(optionsInput?: OptionsInput) {
     this.package = this.getPackage();
-    this.options = this.getOptions(options);
+    this.options = this.getOptions(optionsInput);
   }
 
   get PACKAGE() {
@@ -42,69 +43,46 @@ export class ProjectService {
     return this.options;
   }
 
-  getTemplate(name: BuiltinTemplate) {
-    switch (name) {
-      case 'mini':
-        return this.getMiniTemplate();
-      case 'full':
-        return this.getFullTemplate();
-      default:
-        throw new Error('No template name ' + name);
-    }
-  }
-
   private getPackage() {
     return readJsonSync('package.json') as PackageJson;
   }
 
-  private getOptions(options: Options = {}) {
+  private getOptions(optionsInput?: OptionsInput) {
     const {
       repository: { url: repoUrl },
       '@lamnhan/docsuper': pkgOptions = {},
     } = this.package;
-    // get local options
-    const localOptions: Options = pathExistsSync(this.optionsPath)
-      ? require(this.optionsPath)
-      : pkgOptions;
-    // default url
-    if (!localOptions.apiUrl) {
+    // get options
+    let options: Options = {};
+    // by input
+    if (!!optionsInput && optionsInput instanceof Object) {
+      options = optionsInput;
+    }
+    // from path or package.json
+    else {
+      const path = optionsInput || this.defaultLocalPath;
+      options = pathExistsSync(path) ? require(path) : pkgOptions;
+    }
+    // api url
+    let apiUrl = options.apiUrl;
+    if (!apiUrl) {
       const [, org, repo] = repoUrl
         .replace('https://', '')
         .replace('.git', '')
         .split('/');
-      localOptions.apiUrl = `https://${org}.github.io/${repo}`;
+      apiUrl = `https://${org}.github.io/${repo}`;
     }
     // options
     return {
-      // apiUrl
+      apiUrl,
+      srcPath: 'src',
       typedoc: {},
       apiGenerator: 'typedoc',
       files: {},
       converts: {},
       noAttr: false,
-      ...localOptions,
       ...options,
     } as ProjectOptions;
   }
 
-  private getMiniTemplate() {
-    return {
-      head: true,
-      tocx: true,
-      options: ['Options', 'FULL'],
-      main: ['Main', 'FULL'],
-      license: true,
-    } as Rendering;
-  }
-
-  private getFullTemplate() {
-    return {
-      head: true,
-      tocx: true,
-      functions: ['*', 'FULL_FUNCTIONS'],
-      interfaces: ['*', 'SUMMARY_INTERFACES', { heading: true }],
-      classes: ['*', 'FULL_CLASSES'],
-      license: true,
-    } as Rendering;
-  }
 }

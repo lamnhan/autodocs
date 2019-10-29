@@ -1,11 +1,14 @@
 import { Reflection, SignatureReflection, ReflectionKind } from 'typedoc';
 
+import { ProjectService } from './services/project';
 import {
   ReflectionData,
   DefaultValue,
   TypedocService,
 } from './services/typedoc';
 import { ContentBySections, ContentService } from './services/content';
+
+export type DeclarationFilter = (declaration: Declaration) => boolean;
 
 /**
  * A Declaration is an unit that holds the information of a source code element.
@@ -30,6 +33,7 @@ export class Declaration {
   private sections: ContentBySections;
 
   constructor(
+    private projectService: ProjectService,
     private typedocService: TypedocService,
     private contentService: ContentService,
     private reflection: Reflection
@@ -129,7 +133,8 @@ export class Declaration {
   }
 
   isRoot() {
-    return false;
+    const { name: pkgName } = this.projectService.PACKAGE;
+    return this.isCollection() && this.name === pkgName;
   }
 
   isCollection() {
@@ -167,11 +172,16 @@ export class Declaration {
       this.reflection,
       name
     );
-    return new Declaration(this.typedocService, this.contentService, reflection)
-      .setId(this.getChildId(reflection.name));
+    return new Declaration(
+      this.projectService,
+      this.typedocService,
+      this.contentService,
+      reflection
+    )
+    .setId(this.getChildId(reflection.name));
   }
 
-  getVariablesOrProperties() {
+  getVariablesOrProperties(filter?: DeclarationFilter) {
     if (!this.hasVariablesOrProperties()) {
       throw new Error('No variables or properties.');
     }
@@ -187,13 +197,20 @@ export class Declaration {
         }
         return accessor;
       });
-    return [...variablesOrProperties, ...accessors].map(item =>
-      new Declaration(this.typedocService, this.contentService, item)
-        .setId(this.getChildId(item.name))
-    );
+    return [...variablesOrProperties, ...accessors]
+    .map(item =>
+      new Declaration(
+        this.projectService,
+        this.typedocService,
+        this.contentService,
+        item
+      )
+      .setId(this.getChildId(item.name))
+    )
+    .filter(item => !filter ? true : filter(item));
   }
 
-  getFunctionsOrMethods() {
+  getFunctionsOrMethods(filter?: DeclarationFilter) {
     if (!this.hasFunctionsOrMethods()) {
       throw new Error('No functions or methods.');
     }
@@ -205,19 +222,21 @@ export class Declaration {
         item.getAllSignatures().forEach((signature, i) =>
           result.push(
             new Declaration(
+              this.projectService, 
               this.typedocService,
               this.contentService,
               // tslint:disable-next-line: no-any
               signature as any
-            ).setId(this.getChildId(signature.name) + '-' + i)
+            )
+            .setId(this.getChildId(signature.name) + '-' + i)
           )
         )
       );
     // result
-    return result;
+    return result.filter(item => !filter ? true : filter(item));
   }
 
-  getInterfaces() {
+  getInterfaces(filter?: DeclarationFilter) {
     if (!this.hasInterfaces()) {
       throw new Error('No interfaces.');
     }
@@ -225,25 +244,28 @@ export class Declaration {
       .getReflections('Interface', this.reflection)
       .map(item =>
         new Declaration(
+          this.projectService, 
           this.typedocService,
           this.contentService,
           item
         )
-      );
+      )
+      .filter(item => !filter ? true : filter(item));
   }
 
-  getClasses() {
+  getClasses(filter?: DeclarationFilter) {
     if (!this.hasClasses()) {
       throw new Error('No classes.');
     }
     return this.typedocService
       .getReflections('Class', this.reflection)
       .map(item =>
-        new Declaration(
+        new Declaration(this.projectService, 
           this.typedocService,
           this.contentService,
           item
         )
-      );
+      )
+      .filter(item => !filter ? true : filter(item));
   }
 }
