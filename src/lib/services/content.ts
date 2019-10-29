@@ -229,10 +229,10 @@ export class ContentService {
   convertLinks(content: string, buildLink: (id: string) => string) {
     // turns template into 'a' tag
     content = content
-      .replace(/\[\[(.*) \|[ ]*(.*)\]\]/g, '<a docsuper="$1">$2</a>')
-      .replace(/\[\[(.*)\]\]/g, '<a docsuper="$1">$1</a>')
-      .replace(/\{\@link (.*) \|[ ]*(.*)\}/g, '<a docsuper="$1">$2</a>')
-      .replace(/\{\@link (.*)\}/g, '<a docsuper="$1">$1</a>');
+      .replace(/\[\[([^\]]*) \|[ ]*([^\]]*)\]\]/g, '<a docsuper="$1">$2</a>')
+      .replace(/\[\[([^\]]*)\]\]/g, '<a docsuper="$1">$1</a>')
+      .replace(/\{\@link ([^\}]*) \|[ ]*([^\}]*)\}/g, '<a docsuper="$1">$2</a>')
+      .replace(/\{\@link ([^\}]*)\}/g, '<a docsuper="$1">$1</a>');
     // render link tag
     (content.match(/<a docsuper=".*">.*<\/a>/g) || []).forEach(item => {
       const id = ((/<a docsuper="(.*?)">/.exec(item) || []).pop() || '')
@@ -240,10 +240,12 @@ export class ContentService {
         .shift();
       if (!!id) {
         const href = buildLink(id);
-        content = content.replace(
-          new RegExp(`<a docsuper="${id}">`, 'g'),
-          `<a docsuper="${id}" href="${href}">`
-        );
+        if (!!href) {
+          content = content.replace(
+            new RegExp(`<a docsuper="${id}">`, 'g'),
+            `<a docsuper="${id}" href="${href}">`
+          );
+        }
       }
     });
     // final result

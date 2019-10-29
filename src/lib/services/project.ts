@@ -76,7 +76,7 @@ export class ProjectService {
     }
     // options
     return {
-      // url: local url | github url
+      // apiUrl
       typedoc: {},
       apiGenerator: 'typedoc',
       files: {},
@@ -91,8 +91,8 @@ export class ProjectService {
     return {
       head: true,
       tocx: true,
-      options: ['Options', 'FULL', { title: 'Options' }],
-      main: ['Main', 'FULL', { title: 'Main service' }],
+      options: ['Options', 'FULL'],
+      main: ['Main', 'FULL'],
       license: true,
     } as Rendering;
   }
@@ -100,10 +100,10 @@ export class ProjectService {
   private getFullTemplate() {
     return {
       head: true,
-      toc: true,
+      tocx: true,
+      functions: ['*', 'FULL_FUNCTIONS'],
       interfaces: ['*', 'SUMMARY_INTERFACES', { heading: true }],
-      functions: ['*', 'FULL_FUNCTIONS', { heading: true }],
-      classes: ['*', 'FULL_CLASSES', { heading: true }],
+      classes: ['*', 'FULL_CLASSES'],
       license: true,
     } as Rendering;
   }

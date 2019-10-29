@@ -1,5 +1,5 @@
 import { ProjectService } from './project';
-import { ContentBySections, Block, ContentService } from './content';
+import { ContentBySections, Block, Heading, ContentService } from './content';
 import { ParseService } from './parse';
 import { ConvertOptions, ConvertService } from './convert';
 
@@ -114,9 +114,20 @@ export class RenderService {
       content = content.replace(this.tocPlaceholder, toc);
     }
     // render links
+    const localHeadings: {[id: string]: Heading} = {};
+    this.contentService.extractHeadings(content).forEach(
+      block => localHeadings[block.data.id as string] = block.data
+    );
     content = this.contentService.convertLinks(
       content,
-      id => this.parseService.parse(id).LINK
+      input => {
+        try {
+          const { ID, LINK } = this.parseService.parse(input);
+          return !!localHeadings[ID] ? '#' + ID : LINK;
+        } catch (error) {
+          return '';
+        }
+      }
     );
     // result
     // TODO: support html output

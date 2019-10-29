@@ -6,7 +6,6 @@ import { Declaration } from '../declaration';
 
 export interface DeclarationOptions {
   id?: string;
-  level?: number;
 }
 
 export interface HeadingOptions {
@@ -19,6 +18,7 @@ export interface ValueOptions {
 }
 
 export interface ConvertingOptions {
+  level?: number;
   heading?: boolean;
   local?: boolean;
 }
@@ -33,46 +33,50 @@ export interface ConvertOptions
 }
 
 /**
- * The `Converter` turns [[Declaration]] into content blocks
+ * The Converter turns a [[Declaration]] into {@link Block | content blocks}
  *
  * ### Converter output
  *
- * A [[Declaration]] supports certain output depended on its kind:
+ * A [[Declaration]] supports certain convert output depended on its kind. You can also provide your custom converts output, use the `converts` field of [[Options]]. 
  *
- * | Output | Kinds | Description |
- * | --- | --- | ---|
- * | __FULL__ | any | All content (with headings) |
- * | __SELF__ | any | Title, description, content WITHOUT local sections, parameters & returns (for function) |
- * | __SECTION:<SECTION_ID>__ | any | A local section |
- * | __VALUE__ | `Variable`, `Property` | Default value |
- * | __SUMMARY_VARIABLES__ | `Collection` | Summary table of variables |
- * | __DETAIL_VARIABLES__ | `Collection` | Detail list of variables |
- * | __FULL_VARIABLES__ | `Collection` | Summary table & detail list of variables |
- * | __SUMMARY_FUNCTIONS__ | `Collection` | Summary table of functions |
- * | __DETAIL_FUNCTIONS__ | `Collection` | Detail list of functions |
- * | __FULL_FUNCTIONS__ | `Collection` | Summary table & detail list of functions |
- * | __SUMMARY_PROPERTIES__ | `Interface`, `Class` | Summary table of properties |
- * | __DETAIL_PROPERTIES__ | `Interface`, `Class` | Detail list of properties |
- * | __FULL_PROPERTIES__ | `Interface`, `Class` | Summary table & detail list of properties |
- * | __SUMMARY_METHODS__ | `Class` | Summary table of methods |
- * | __DETAIL_METHODS__ | `Class` | Detail list of methods |
- * | __FULL_METHODS__ | `Class` | Summary table & detail list of methods |
- * | __SUMMARY_INTERFACES__ | `Collection` | Summary table of interfaces |
- * | __DETAIL_INTERFACES__ | `Collection` | Detail list of interfaces |
- * | __FULL_INTERFACES__ | `Collection` | Summary table & detail list of interfaces |
- * | __SUMMARY_CLASSES__ | `Collection` | Summary table of classes |
- * | __DETAIL_CLASSES__ | `Collection` | Detail list of classes |
- * | __FULL_CLASSES__ | `Collection` | Summary table & detail list of classes |
+ * Here the list of default output:
+ * 
+ * | Output | Kinds | Options | Description |
+ * | --- | --- | --- | --- |
+ * | __SECTION:<SECTION_ID>__ | any | none | A local section |
+ * | __VALUE__ | `Variable`, `Property` | [[ValueOptions]] | Default value |
+ * | __SELF__ | any | [[DeclarationOptions]] & [[ConvertingOptions]] & [[HeadingOptions]] | Title, description, content WITHOUT local sections, parameters & returns (for function) |
+ * | __FULL__ | any | [[DeclarationOptions]] & [[ConvertingOptions]] & [[HeadingOptions]] | All content (with headings) |
+ * | __SUMMARY_VARIABLES__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table of variables |
+ * | __DETAIL_VARIABLES__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Detail list of variables |
+ * | __FULL_VARIABLES__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table & detail list of variables |
+ * | __SUMMARY_FUNCTIONS__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table of functions |
+ * | __DETAIL_FUNCTIONS__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Detail list of functions |
+ * | __FULL_FUNCTIONS__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table & detail list of functions |
+ * | __SUMMARY_PROPERTIES__ | `Interface`, `Class` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table of properties |
+ * | __DETAIL_PROPERTIES__ | `Interface`, `Class` | [[DeclarationOptions]] & [[ConvertingOptions]] | Detail list of properties |
+ * | __FULL_PROPERTIES__ | `Interface`, `Class` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table & detail list of properties |
+ * | __SUMMARY_METHODS__ | `Class` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table of methods |
+ * | __DETAIL_METHODS__ | `Class` | [[DeclarationOptions]] & [[ConvertingOptions]] | Detail list of methods |
+ * | __FULL_METHODS__ | `Class` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table & detail list of methods |
+ * | __SUMMARY_INTERFACES__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table of interfaces |
+ * | __DETAIL_INTERFACES__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Detail list of interfaces |
+ * | __FULL_INTERFACES__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table & detail list of interfaces |
+ * | __SUMMARY_CLASSES__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table of classes |
+ * | __DETAIL_CLASSES__ | `Collection`| [[DeclarationOptions]] & [[ConvertingOptions]] | Detail list of classes |
+ * | __FULL_CLASSES__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table & detail list of classes |
  *
  * Provide options with the third item of a rendering input:
  *
- * - [[Declaration]] level/id: `{ level: number, id }`
+ * - Declaration id: `{ id }`
  * - **SELF** header: `{ title, link }`
  * - Raw object: `{ raw: true }`
+ * - Level: `{ level }`
  * - Use the default heading: `{ heading: true }`
  * - Use local anchors (instead of detail links): `{ local: true }`
  */
 export class ConvertService {
+
   constructor(
     private projectService: ProjectService,
     private contentService: ContentService
@@ -83,11 +87,7 @@ export class ConvertService {
     output: string,
     options: ConvertOptions = {}
   ) {
-    const { level, id } = options;
-    // override level
-    if (!!level) {
-      declaration.setLevel(level);
-    }
+    const { id } = options;
     // override id
     if (!!id) {
       declaration.setId(id);
@@ -140,7 +140,7 @@ export class ConvertService {
         return this.getSelf(declaration, options);
       // custom
       default:
-        // get section
+        // local section
         if (output.indexOf('SECTION:') !== -1) {
           return this.getSection(declaration, output.replace('SECTION:', ''));
         }
@@ -156,17 +156,20 @@ export class ConvertService {
 
   private getFull(
     declaration: Declaration,
-    headingOptions: HeadingOptions = {}
+    options: ConvertingOptions & HeadingOptions = {}
   ) {
+    const { level = 2 } = options;
     const result: Block[] = [];
     // self
-    const self = this.getSelf(declaration, headingOptions);
+    const self = this.getSelf(declaration, options);
     result.push(...self);
     // variables or properties
     if (declaration.hasVariablesOrProperties()) {
       result.push(
         ...this.getVariablesOrProperties(declaration, 'summary', {
+          ...options,
           heading: true,
+          level: level + 1,
         })
       );
     }
@@ -174,8 +177,8 @@ export class ConvertService {
     if (declaration.hasFunctionsOrMethods()) {
       result.push(
         ...this.getFunctionsOrMethods(declaration, 'full', {
-          heading: true,
-          local: true,
+          ...options,
+          level: level + 1,
         })
       );
     }
@@ -183,8 +186,8 @@ export class ConvertService {
     if (declaration.hasInterfaces()) {
       result.push(
         ...this.getInterfaces(declaration, 'full', {
-          heading: true,
-          local: true,
+          ...options,
+          level: level + 1,
         })
       );
     }
@@ -192,8 +195,8 @@ export class ConvertService {
     if (declaration.hasClasses()) {
       result.push(
         ...this.getClasses(declaration, 'full', {
-          heading: true,
-          local: true,
+          ...options,
+          level: level + 1,
         })
       );
     }
@@ -203,15 +206,14 @@ export class ConvertService {
 
   private getSelf(
     declaration: Declaration,
-    headingOptions: HeadingOptions = {}
+    options: ConvertingOptions & HeadingOptions = {}
   ) {
-    const { title: customTitle, link: customLink } = headingOptions;
+    const { level = 2, title: customTitle, link: customLink } = options;
     const blocks: Block[] = [];
     const kindText = (
       declaration.REFLECTION.kindString || 'Unknown'
     ).toLowerCase();
     const {
-      LEVEL,
       ID,
       NAME,
       LINK,
@@ -234,7 +236,7 @@ export class ConvertService {
       const title = customTitle || `\`${NAME}(${params})\``;
       const link = customLink || LINK;
       blocks.push(
-        this.contentService.blockHeading(title, LEVEL, ID, link),
+        this.contentService.blockHeading(title, level, ID, link),
         body
       );
       // params
@@ -272,7 +274,7 @@ export class ConvertService {
       const title = customTitle || `\`${NAME}\``;
       const link = customLink || LINK;
       blocks.push(
-        this.contentService.blockHeading(title, LEVEL, ID, link),
+        this.contentService.blockHeading(title, level, ID, link),
         body
       );
     }
@@ -281,7 +283,7 @@ export class ConvertService {
       const title = customTitle || `The \`${NAME}\` ${kindText}`;
       const link = customLink || LINK;
       blocks.push(
-        this.contentService.blockHeading(title, LEVEL, ID, link),
+        this.contentService.blockHeading(title, level, ID, link),
         body
       );
     }
@@ -352,28 +354,37 @@ export class ConvertService {
   private getVariablesOrProperties(
     declaration: Declaration,
     mode: 'summary' | 'detail' | 'full',
-    convertingOptions: ConvertingOptions = {}
+    options: ConvertingOptions = {}
   ) {
-    const { heading: withHeading, local: localLinking } = convertingOptions;
+    const { level = 2, heading, local } = options;
+    const withHeading = heading === undefined && mode === 'full' ? true : heading;
+    const localLinking = local === undefined && mode === 'full' ? true : local;
+    // process level
+    const headingLevel = level - (withHeading ? 0 : 1);
+    const childLevel = headingLevel + 1;
     // get children
-    const children = declaration.getVariablesOrProperties(withHeading ? 2 : 1);
+    const children = declaration.getVariablesOrProperties();
     // build blocks
     const result: Block[] = [];
     if (!!children.length) {
       // heading
       if (withHeading) {
-        const headingTitle =
-          declaration.NAME +
-          ' ' +
-          (declaration.isKind('Global') ? 'variables' : 'properties');
+        const { name: pkgName } = this.projectService.PACKAGE;
+        const { NAME } = declaration;
+        const headingTitle = NAME === pkgName
+          ? 'Variables'
+          : (
+              NAME +
+              (declaration.isKind('Global') ? ' variables' : ' properties')
+            );
         const heading = this.contentService.blockHeading(
           headingTitle,
-          3,
+          headingLevel,
           this.contentService.buildId(headingTitle)
         );
         result.push(heading);
       }
-      //
+      // children
       const summaryRows: string[][] = [];
       const detailBlocks: Block[] = [];
       children.forEach(child => {
@@ -392,8 +403,8 @@ export class ConvertService {
               ? `**${NAME}**`
               : NAME // interface parent
             : NAME; // collection or class
-        const ref = !!localLinking ? '#' + ID : LINK;
-        //
+        const ref = localLinking ? '#' + ID : LINK;
+        // summary / full
         if (mode === 'summary' || mode === 'full') {
           summaryRows.push([
             `[${displayName}](${ref})`,
@@ -401,10 +412,10 @@ export class ConvertService {
             SHORT_TEXT,
           ]);
         }
-        //
+        // detail / full
         if (mode === 'detail' || mode === 'full') {
           detailBlocks.push(
-            ...this.getSelf(child),
+            ...this.getSelf(child, { level: childLevel }),
             this.contentService.blockText('---')
           );
         }
@@ -430,28 +441,37 @@ export class ConvertService {
   private getFunctionsOrMethods(
     declaration: Declaration,
     mode: 'summary' | 'detail' | 'full',
-    convertingOptions: ConvertingOptions = {}
+    options: ConvertingOptions = {}
   ) {
-    const { heading: withHeading, local: localLinking } = convertingOptions;
+    const { level = 2, heading, local } = options;
+    const withHeading = heading === undefined && mode === 'full' ? true : heading;
+    const localLinking = local === undefined && mode === 'full' ? true : local;
+    // process level
+    const headingLevel = level - (withHeading ? 0 : 1);
+    const childLevel = headingLevel + 1;
     // get children
-    const children = declaration.getFunctionsOrMethods(withHeading ? 2 : 1);
+    const children = declaration.getFunctionsOrMethods();
     // build blocks
     const result: Block[] = [];
     if (!!children.length) {
       // heading
       if (withHeading) {
-        const headingTitle =
-          declaration.NAME +
-          ' ' +
-          (declaration.isKind('Global') ? 'functions' : 'methods');
+        const { name: pkgName } = this.projectService.PACKAGE;
+        const { NAME } = declaration;
+        const headingTitle = NAME === pkgName
+        ? 'Functions'
+        : (
+            NAME +
+            (declaration.isKind('Global') ? ' functions' : ' methods')
+          );
         const heading = this.contentService.blockHeading(
           headingTitle,
-          3,
+          headingLevel,
           this.contentService.buildId(headingTitle)
         );
         result.push(heading);
       }
-      //
+      // children
       const summaryRows: string[][] = [];
       const detailBlocks: Block[] = [];
       children.forEach(child => {
@@ -461,7 +481,7 @@ export class ConvertService {
         ).join(', ');
         const displayName = `${NAME}(${params})`;
         const ref = localLinking ? '#' + ID : LINK;
-        //
+        // summary / full
         if (mode === 'summary' || mode === 'full') {
           summaryRows.push([
             `[${displayName}](${ref})`,
@@ -469,10 +489,10 @@ export class ConvertService {
             SHORT_TEXT || '',
           ]);
         }
-        //
+        // detail / full
         if (mode === 'detail' || mode === 'full') {
           detailBlocks.push(
-            ...this.getSelf(child),
+            ...this.getSelf(child, { level: childLevel }),
             this.contentService.blockText('---')
           );
         }
@@ -498,37 +518,44 @@ export class ConvertService {
   private getInterfaces(
     declaration: Declaration,
     mode: 'summary' | 'detail' | 'full',
-    convertingOptions: ConvertingOptions = {}
+    options: ConvertingOptions = {}
   ) {
-    const { heading: withHeading, local: localLinking } = convertingOptions;
+    const { level = 2, heading, local } = options;
+    const withHeading = heading === undefined && mode === 'full' ? true : heading;
+    const localLinking = local === undefined && mode === 'full' ? true : local;
+    // process level
+    const headingLevel = level - (withHeading ? 0 : 1);
+    const childLevel = headingLevel + 1;
     // get children
-    const children = declaration.getInterfaces(withHeading ? 2 : 1);
+    const children = declaration.getInterfaces();
     // build blocks
     const result: Block[] = [];
     if (!!children.length) {
       // heading
       if (withHeading) {
-        const headingTitle = declaration.NAME + ' interfaces';
+        const { name: pkgName } = this.projectService.PACKAGE;
+        const { NAME } = declaration;
+        const headingTitle = NAME === pkgName ? 'Interfaces' : NAME + ' interfaces';
         const heading = this.contentService.blockHeading(
           headingTitle,
-          3,
+          headingLevel,
           this.contentService.buildId(headingTitle)
         );
         result.push(heading);
       }
-      //
+      // children
       const summaryRows: string[][] = [];
       const detailBlocks: Block[] = [];
       children.forEach(child => {
         const { ID, NAME, LINK, SHORT_TEXT } = child;
         const ref = localLinking ? '#' + ID : LINK;
-        //
+        // summary / full
         if (mode === 'summary' || mode === 'full') {
           summaryRows.push([`[${NAME}](${ref})`, SHORT_TEXT || '']);
         }
-        //
+        // detail / full
         if (mode === 'detail' || mode === 'full') {
-          detailBlocks.push(...this.getFull(child));
+          detailBlocks.push(...this.getFull(child, { level: childLevel }));
         }
       });
       // summary
@@ -552,37 +579,44 @@ export class ConvertService {
   private getClasses(
     declaration: Declaration,
     mode: 'summary' | 'detail' | 'full',
-    convertingOptions: ConvertingOptions = {}
+    options: ConvertingOptions = {}
   ) {
-    const { heading: withHeading, local: localLinking } = convertingOptions;
+    const { level = 2, heading, local } = options;
+    const withHeading = heading === undefined && mode === 'full' ? true : heading;
+    const localLinking = local === undefined && mode === 'full' ? true : local;
+    // process level
+    const headingLevel = level - (withHeading ? 0 : 1);
+    const childLevel = headingLevel + 1;
     // get children
-    const children = declaration.getClasses(withHeading ? 2 : 1);
+    const children = declaration.getClasses();
     // build blocks
     const result: Block[] = [];
     if (!!children.length) {
       // heading
       if (withHeading) {
-        const headingTitle = declaration.NAME + ' classes';
+        const { name: pkgName } = this.projectService.PACKAGE;
+        const { NAME } = declaration;
+        const headingTitle = NAME === pkgName ? 'Classes' : NAME + ' classes';
         const heading = this.contentService.blockHeading(
           headingTitle,
-          3,
+          headingLevel,
           this.contentService.buildId(headingTitle)
         );
         result.push(heading);
       }
-      //
+      // children
       const summaryRows: string[][] = [];
       const detailBlocks: Block[] = [];
       children.forEach(child => {
         const { ID, NAME, LINK, SHORT_TEXT } = child;
         const ref = localLinking ? '#' + ID : LINK;
-        //
+        // summary / full
         if (mode === 'summary' || mode === 'full') {
           summaryRows.push([`[${NAME}](${ref})`, SHORT_TEXT || '']);
         }
-        //
+        // summary / full
         if (mode === 'detail' || mode === 'full') {
-          detailBlocks.push(...this.getFull(child));
+          detailBlocks.push(...this.getFull(child, { level: childLevel }));
         }
       });
       // summary

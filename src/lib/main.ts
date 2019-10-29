@@ -10,7 +10,7 @@ import { Rendering, BatchRendering, RenderService } from './services/render';
 import { Declaration } from './declaration';
 
 /**
- * The Main service
+ * The Docsuper module
  */
 export class Main {
   private projectService: ProjectService;

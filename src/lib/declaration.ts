@@ -8,11 +8,10 @@ import {
 import { ContentBySections, ContentService } from './services/content';
 
 /**
- * A Declaration is an object the holds information of a source code element.
+ * A Declaration is an unit that holds the information of a source code element.
  */
 export class Declaration {
   private id: string;
-  private level: number;
   // reflection
   private name: string;
   private link: string;
@@ -37,7 +36,6 @@ export class Declaration {
   ) {
     // default values
     this.id = this.contentService.buildId(this.reflection.name);
-    this.level = 2;
     // extract data
     const {
       name,
@@ -75,10 +73,6 @@ export class Declaration {
 
   get ID() {
     return this.id;
-  }
-
-  get LEVEL() {
-    return this.level;
   }
 
   get NAME() {
@@ -134,9 +128,12 @@ export class Declaration {
     return this;
   }
 
-  setLevel(level: number) {
-    this.level = level;
-    return this;
+  isRoot() {
+    return false;
+  }
+
+  isCollection() {
+    return this.reflection.isProject();
   }
 
   isKind(kindString: keyof typeof ReflectionKind) {
@@ -171,11 +168,10 @@ export class Declaration {
       name
     );
     return new Declaration(this.typedocService, this.contentService, reflection)
-      .setId(this.getChildId(reflection.name))
-      .setLevel(this.level + 1);
+      .setId(this.getChildId(reflection.name));
   }
 
-  getVariablesOrProperties(offset = 1) {
+  getVariablesOrProperties() {
     if (!this.hasVariablesOrProperties()) {
       throw new Error('No variables or properties.');
     }
@@ -194,11 +190,10 @@ export class Declaration {
     return [...variablesOrProperties, ...accessors].map(item =>
       new Declaration(this.typedocService, this.contentService, item)
         .setId(this.getChildId(item.name))
-        .setLevel(this.level + offset)
     );
   }
 
-  getFunctionsOrMethods(offset = 1) {
+  getFunctionsOrMethods() {
     if (!this.hasFunctionsOrMethods()) {
       throw new Error('No functions or methods.');
     }
@@ -209,14 +204,12 @@ export class Declaration {
       .forEach(item =>
         item.getAllSignatures().forEach((signature, i) =>
           result.push(
-            // tslint:disable-next-line: no-any
             new Declaration(
               this.typedocService,
               this.contentService,
+              // tslint:disable-next-line: no-any
               signature as any
-            )
-              .setId(this.getChildId(signature.name) + '-' + i)
-              .setLevel(this.level + offset)
+            ).setId(this.getChildId(signature.name) + '-' + i)
           )
         )
       );
@@ -224,7 +217,7 @@ export class Declaration {
     return result;
   }
 
-  getInterfaces(offset = 1) {
+  getInterfaces() {
     if (!this.hasInterfaces()) {
       throw new Error('No interfaces.');
     }
@@ -235,11 +228,11 @@ export class Declaration {
           this.typedocService,
           this.contentService,
           item
-        ).setLevel(this.level + offset)
+        )
       );
   }
 
-  getClasses(offset = 1) {
+  getClasses() {
     if (!this.hasClasses()) {
       throw new Error('No classes.');
     }
@@ -250,7 +243,7 @@ export class Declaration {
           this.typedocService,
           this.contentService,
           item
-        ).setLevel(this.level + offset)
+        )
       );
   }
 }

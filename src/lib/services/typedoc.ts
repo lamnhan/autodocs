@@ -153,11 +153,9 @@ export class TypedocService {
   }
 
   private createApp(configs = {}) {
-    const { name: packageName } = this.projectService.PACKAGE;
     const { typedoc: localConfigs } = this.projectService.OPTIONS;
     // default configs
     const typedocOptions = {
-      name: `${packageName} API Reference`,
       mode: 'file',
       logger: 'none',
       target: 'ES5',

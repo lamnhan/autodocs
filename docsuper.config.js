@@ -1,5 +1,6 @@
 module.exports = {
-  url: 'https://lamnhan.com/docsuper',
+  apiUrl: 'https://lamnhan.com/docsuper',
+  apiGenerator: 'none',
   typedoc: {
     readme: 'none',
   },
@@ -17,6 +18,6 @@ module.exports = {
       converter: ['ConvertService', 'FULL', { title: 'The Converter' }],
       renderer: ['RenderService', 'FULL', { title: 'The Renderer' }],
       license: true
-    }
+    },
   }
 };
