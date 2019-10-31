@@ -38,11 +38,16 @@ interface CommentData {
   returns?: string;
 }
 
+interface SourceData {
+  fileName?: string;
+}
+
 export interface ReflectionData
   extends TypeData,
     FlagData,
     DefaultValueData,
-    CommentData {
+    CommentData,
+    SourceData {
   name: string;
   link: string;
 }
@@ -113,7 +118,6 @@ export class TypedocService {
       ? // class or interface
         this.typedocProject.getChildByName(what)
       : // custom project
-        // TODO: do not create new project
         this.createProject(
           this.createApp({
             name: what.join(' ').replace(/(src\/)/g, '@'),
@@ -142,6 +146,7 @@ export class TypedocService {
     const flagData = this.getFlags(reflection);
     const defaultValueData = this.getDefaultValue(reflection);
     const commentData = this.getComment(reflection);
+    const sourceData = this.getSource(reflection);
     // result
     return {
       name,
@@ -150,6 +155,7 @@ export class TypedocService {
       ...flagData,
       ...defaultValueData,
       ...commentData,
+      ...sourceData,
     } as ReflectionData;
   }
 
@@ -361,5 +367,16 @@ export class TypedocService {
     }
     // result
     return commentData;
+  }
+
+  private getSource(reflection: Reflection) {
+    const { sources } = reflection;
+    const sourceData: SourceData = {};
+    if (!!sources) {
+      const [{ fileName }] = sources;
+      sourceData.fileName = fileName;
+    }
+    // result
+    return sourceData;
   }
 }

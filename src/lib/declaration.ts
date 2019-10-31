@@ -26,6 +26,7 @@ export class Declaration {
   private displayType: string;
   private isOptional: boolean;
   private defaultValue: DefaultValue;
+  private fileName: string;
   // call signature
   private parameters: ReflectionData[];
   // custom
@@ -51,6 +52,7 @@ export class Declaration {
       displayType = '',
       isOptional = false,
       defaultValue = '',
+      fileName = '',
     } = this.typedocService.extractReflection(this.reflection);
     // set data
     this.name = name;
@@ -62,6 +64,7 @@ export class Declaration {
     this.displayType = '<code>' + displayType + '</code>';
     this.isOptional = isOptional;
     this.defaultValue = defaultValue;
+    this.fileName = fileName;
     this.parameters = (
       (this.reflection as SignatureReflection).parameters || []
     ).map(param => this.typedocService.extractReflection(param));
@@ -113,6 +116,10 @@ export class Declaration {
 
   get DEFAULT_VALUE() {
     return this.defaultValue;
+  }
+
+  get FILE_NAME() {
+    return this.fileName;
   }
 
   get PARAMETERS() {
