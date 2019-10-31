@@ -79,6 +79,7 @@ export class ProjectService {
       typedoc: {},
       apiGenerator: 'typedoc',
       files: {},
+      filesOpt: {},
       converts: {},
       noAttr: false,
       ...options,

@@ -37,6 +37,12 @@ export interface Options {
     [path: string]: BuiltinTemplate | Rendering;
   };
   /**
+   * Additional redering options
+   */
+  filesOpt?: {
+    [path: string]: OptionsForFiles;
+  };
+  /**
    * Additional converts
    */
   converts?: AdditionalConverts;
@@ -44,4 +50,8 @@ export interface Options {
    * No generator footer attribution
    */
   noAttr?: boolean;
+}
+
+export interface OptionsForFiles {
+  cleanOutput?: boolean;
 }

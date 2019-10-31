@@ -136,20 +136,24 @@ export class Main {
    * Render content based on local configuration.
    */
   renderLocal() {
-    const { files = {} } = this.projectService.OPTIONS;
+    const { files, filesOpt } = this.projectService.OPTIONS;
     // convert files to batch rendering
     const batchRendering: BatchRendering = {};
+    const pathsToLoadCurrentContent: string[] = [];
     Object.keys(files).forEach(path => {
       const value = files[path];
       batchRendering[path] =
         typeof value === 'string'
-          ? this.templateService.getTemplate(value as BuiltinTemplate)
-          : value;
+        ? this.templateService.getTemplate(value as BuiltinTemplate)
+        : value;
+      // clean output or not
+      const opt = filesOpt[path];
+      if (!opt || !opt.cleanOutput) {
+        pathsToLoadCurrentContent.push(path);
+      }
     });
     // render files
-    const batchCurrentContent = this.loadService.batchLoad(
-      Object.keys(batchRendering)
-    );
+    const batchCurrentContent = this.loadService.batchLoad(pathsToLoadCurrentContent);
     // result
     return this.renderService.renderBatch(batchRendering, batchCurrentContent);
   }
