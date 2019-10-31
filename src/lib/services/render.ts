@@ -54,8 +54,7 @@ export class RenderService {
 
   render(
     rendering: Rendering,
-    currentContent: ContentBySections = {},
-    html = false
+    currentContent: ContentBySections = {}
   ) {
     // get rendering data
     const renderingData = this.getData(rendering);
@@ -130,7 +129,6 @@ export class RenderService {
       }
     );
     // result
-    // TODO: support html output
     return content;
   }
 
@@ -144,11 +142,7 @@ export class RenderService {
     Object.keys(batchRendering).forEach(id => {
       const rendering = batchRendering[id];
       const currentContent = batchCurrentContent[id] || {};
-      batchResult[id] = this.render(
-        rendering,
-        currentContent,
-        id.indexOf('.html') !== -1
-      );
+      batchResult[id] = this.render(rendering, currentContent);
     });
     return batchResult;
   }

@@ -15,7 +15,7 @@ export interface Heading {
   link?: string;
 }
 export interface HeadingBlock {
-  type: 'header';
+  type: 'heading';
   data: Heading;
 }
 
@@ -76,8 +76,10 @@ export class ContentService {
       item => {
         const id = (/<section id="(.*?)"/.exec(item) || []).pop();
         if (!!id) {
-          sections[id] = this.format(
-            item.replace(/<section [^\n]*/g, '').replace('</section>', '')
+          sections[id] = this.md2Html(
+            item
+            .replace(/<section [^\n]*/g, '')
+            .replace('</section>', '')
           );
         }
       }
@@ -87,35 +89,15 @@ export class ContentService {
 
   extractHeadings(content: string) {
     const headings: HeadingBlock[] = [];
-    (
-      content.match(/(\n#{1}[^\n]*)|(<h[^>]*>([\s\S]*?)<\/h[^>]*>)/g) || []
-    ).forEach(heading => {
-      // html
-      if (heading.charAt(0) === '<') {
-        const level = Number(heading.charAt(2));
-        if (!isNaN(level) && level < 7) {
-          const title = (
-            /<h[^>]*>([\s\S]*?)<\/h[^>]*>/.exec(heading) || []
-          ).pop();
-          if (!!title) {
-            const id =
-              ((/<a[^>]* name="(.*?)">/.exec(heading) || []).pop() || '')
-              .split('"')
-              .shift() ||
-              this.buildId(title);
-            headings.push(this.blockHeading(title, level, id));
-          }
-        }
-      }
-      // md
-      else {
-        const [head, ...body] = heading
-          .replace(/(?:\r\n|\r|\n)/g, '')
-          .split(' ');
-        const level = head.length;
-        if (level < 7) {
-          const title = body.join(' ').replace(new RegExp(' ' + head, 'g'), '');
-          const id = this.buildId(title);
+    (content.match(/<h[^>]*>([\s\S]*?)<\/h[^>]*>/g) || []).forEach(heading => {
+      const level = Number(heading.charAt(2));
+      if (!isNaN(level) && level < 7) {
+        const title = (/<h[^>]*>([\s\S]*?)<\/h[^>]*>/.exec(heading) || []).pop();
+        if (!!title) {
+          const id = ((/<a[^>]* name="(.*?)">/.exec(heading) || []).pop() || '')
+            .split('"')
+            .shift()
+            || this.buildId(title);
           headings.push(this.blockHeading(title, level, id));
         }
       }
@@ -123,19 +105,39 @@ export class ContentService {
     return headings;
   }
 
-  md2Html(mdContent: string, options?: ConverterOptions) {
-    return new Converter(options).makeHtml(mdContent);
+  md2Html(mdContent: string, showdownOptions: ConverterOptions = {}) {
+    return new Converter({
+      omitExtraWLInCodeBlocks: true,
+      parseImgDimensions: true,
+      simplifiedAutoLink: true,
+      excludeTrailingPunctuationFromURLs: true,
+      strikethrough: true,
+      tables: true,
+      tasklists: true,
+      ghMentions: true,
+      // smartIndentationFix: true,
+      disableForced4SpacesIndentedSublists: true,
+      simpleLineBreaks: true,
+      requireSpaceBeforeHeadingText: true,
+      ...showdownOptions,
+    }).makeHtml(mdContent);
   }
 
-  format(content: string) {
-    return prettierFormater(content, { parser: 'markdown' });
+  html2Md(htmlContent: string, showdownOptions: ConverterOptions = {}) {
+    return new Converter(showdownOptions).makeMarkdown(htmlContent);
+  }
+
+  formatMd(mdContent: string) {
+    return prettierFormater(mdContent, { parser: 'markdown' });
+  }
+
+  formatHtml(htmlContent: string) {
+    return prettierFormater(htmlContent, { parser: 'html' });
   }
 
   blockHeading(title: string, level: number, id?: string, link?: string) {
-    return {
-      type: 'header',
-      data: { title, level, id, link },
-    } as HeadingBlock;
+    const heading = { title, level, id, link };
+    return { type: 'heading', data: heading } as HeadingBlock;
   }
 
   blockText(text: Text) {
@@ -147,34 +149,40 @@ export class ContentService {
   }
 
   blockTable(headers: string[], rows: string[][]) {
-    rows.unshift(headers); // add headers
-    return { type: 'table', data: rows } as TableBlock;
+    const table = [ headers, ...rows ];
+    return { type: 'table', data: table } as TableBlock;
   }
 
-  renderTOC(blocks: Block[], offset = 2) {
-    const rows: string[] = [];
+  renderTOC(blocks: Block[], offset = 2, tocId = 'master-toc') {
+    const result: string[] = [];
     blocks.forEach(({ type, data }) => {
-      if (type === 'header') {
+      if (type === 'heading') {
         const { title, level, id, link } = data as Heading;
-        rows.push(
+        result.push(
           `${'    '.repeat(level - offset)}- [${title}](${
             !!id ? '#' + id : link
           })`
         );
       }
     });
-    return this.format(rows.join(this.EOL));
+    const mdContent = result.join(this.EOL);
+    return this
+      .md2Html(mdContent)
+      .replace('<ul>', `<ul id="${tocId}">`);
   }
 
   renderContent(blocks: Block[]) {
-    const result = blocks.map(block => this.renderBlock(block));
-    return this.format(result.join(this.EOL2X));
+    return this.formatHtml(
+      blocks
+      .map(block => this.renderBlock(block))
+      .join(this.EOL)
+    );
   }
 
   renderBlock({ type, data }: Block) {
     let content = '';
     switch (type) {
-      case 'header':
+      case 'heading':
         content = this.renderHeading(data as Heading);
         break;
       case 'list':
@@ -194,14 +202,14 @@ export class ContentService {
   renderHeading({ id, title, level, link }: Heading) {
     const h = 'h' + level;
     const a = `a name="${id}"` + (!!link ? ` href="${link}"` : ``);
-    return this.format(`<${h}><${a}>${this.md2Html(title)}</a></${h}>`);
+    return `<${h}><${a}>${ this.md2Html(title) }</a></${h}>`;
   }
 
-  renderText(text: Text, single = false) {
-    return this.format(
+  renderText(text: Text, singleLine = false) {
+    return this.md2Html(
       typeof text === 'string'
-        ? text
-        : text.join(single ? this.EOL : this.EOL2X)
+      ? text
+      : text.join(singleLine ? this.EOL : this.EOL2X)
     );
   }
 
@@ -209,43 +217,41 @@ export class ContentService {
     const blocks = list.map(
       ([title, description = '']) => `- ${title}: ${description}`
     );
-    return this.format(blocks.join(this.EOL));
+    return this.md2Html(blocks.join(this.EOL));
   }
 
   renderTable([headers, ...rows]: Table) {
-    const tableRows = rows.map(cells => {
-      // process value
-      cells = cells.map(x => (x || '').replace(/\|/g, '\\|'));
-      // build row
-      return '| ' + cells.join(' | ') + ' |';
+    const table = ['<table>'];
+    table.push('  <tr>');
+    headers.forEach(header => table.push(`    <th>${header}</th>`));
+    table.push('  </tr>');
+    rows.forEach(cells => {
+      table.push('  <tr>');
+      cells.forEach(cell => table.push(`    <td>${this.md2Html(cell)}</td>`));
+      table.push('  </tr>');
     });
-    return this.format(
-      [
-        '| ' + headers.join(' | ') + ' |',
-        '| --- | --- | --- |',
-        ...tableRows,
-      ].join(this.EOL)
-    );
+    table.push('</table>');
+    return table.join(this.EOL);
   }
 
   convertLinks(content: string, buildLink: (id: string) => string) {
     // turns template into 'a' tag
     content = content
-      .replace(/\[\[([^\]]*) \|[ ]*([^\]]*)\]\]/g, '<a docsuper="$1">$2</a>')
-      .replace(/\[\[([^\]]*)\]\]/g, '<a docsuper="$1">$1</a>')
-      .replace(/\{\@link ([^\}]*) \|[ ]*([^\}]*)\}/g, '<a docsuper="$1">$2</a>')
-      .replace(/\{\@link ([^\}]*)\}/g, '<a docsuper="$1">$1</a>');
+      .replace(/\[\[([^\]]*) \|[ ]*([^\]]*)\]\]/g, '<a data-sref="$1">$2</a>')
+      .replace(/\[\[([^\]]*)\]\]/g, '<a data-sref="$1">$1</a>')
+      .replace(/\{\@link ([^\}]*) \|[ ]*([^\}]*)\}/g, '<a data-sref="$1">$2</a>')
+      .replace(/\{\@link ([^\}]*)\}/g, '<a data-sref="$1">$1</a>');
     // render link tag
-    (content.match(/<a docsuper=".*">.*<\/a>/g) || []).forEach(item => {
-      const id = ((/<a docsuper="(.*?)">/.exec(item) || []).pop() || '')
+    (content.match(/<a data-sref=".*">.*<\/a>/g) || []).forEach(item => {
+      const id = ((/<a data-sref="(.*?)">/.exec(item) || []).pop() || '')
         .split('"')
         .shift();
       if (!!id) {
         const href = buildLink(id);
         if (!!href) {
           content = content.replace(
-            new RegExp(`<a docsuper="${id}">`, 'g'),
-            `<a docsuper="${id}" href="${href}">`
+            new RegExp(`<a data-sref="${id}">`, 'g'),
+            `<a data-sref="${id}" href="${href}">`
           );
         }
       }

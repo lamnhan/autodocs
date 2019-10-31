@@ -96,6 +96,7 @@
 								<li><a href="#main-properties">Main properties</a></li>
 								<li><a href="#main-methods">Main methods</a><ul>
 										<li><a href="#main-convert-0"><code>convert(declaration, output, options?)</code></a></li>
+										<li><a href="#main-extend-0"><code>extend(optionsInput?)</code></a></li>
 										<li><a href="#main-generatedocs-0"><code>generateDocs()</code></a></li>
 										<li><a href="#main-output-0"><code>output(path, rendering)</code></a></li>
 										<li><a href="#main-outputlocal-0"><code>outputLocal()</code></a></li>
@@ -451,7 +452,7 @@ Any markdown content goes here!
 							<tr>
 								<td><a href="https://lamnhan.com/docsuper/interfaces/options.html#converts">converts</a></td>
 								<td><code><a href="https://lamnhan.com/docsuper/interfaces/additionalconverts.html" target="_blank">AdditionalConverts</a></code></td>
-								<td>Additional converts, see <a docsuper="AdditionalConverts" href="https://lamnhan.com/docsuper/interfaces/additionalconverts.html">AdditionalConverts</a></td>
+								<td>Additional converts</td>
 							</tr>
 							<tr>
 								<td><a href="https://lamnhan.com/docsuper/interfaces/options.html#files">files</a></td>
@@ -462,6 +463,11 @@ Any markdown content goes here!
 								<td><a href="https://lamnhan.com/docsuper/interfaces/options.html#noattr">noAttr</a></td>
 								<td><code>boolean</code></td>
 								<td>No generator footer attribution</td>
+							</tr>
+							<tr>
+								<td><a href="https://lamnhan.com/docsuper/interfaces/options.html#srcpath">srcPath</a></td>
+								<td><code>string</code></td>
+								<td>Path to the source code, default to <code>src</code></td>
 							</tr>
 							<tr>
 								<td><a href="https://lamnhan.com/docsuper/interfaces/options.html#typedoc">typedoc</a></td>
@@ -533,6 +539,11 @@ Any markdown content goes here!
 								<td>Convert a declaration into content blocks.</td>
 							</tr>
 							<tr>
+								<td><a href="#main-extend-0">extend(optionsInput?)</a></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/main.html" target="_blank">Main</a></code></td>
+								<td>Create a new instance</td>
+							</tr>
+							<tr>
 								<td><a href="#main-generatedocs-0">generateDocs()</a></td>
 								<td><code>void</code></td>
 								<td>Generate the API reference using Typedoc.</td>
@@ -592,6 +603,26 @@ Any markdown content goes here!
 					</tbody></table>
 					<p><strong>Returns</strong></p>
 					<p><code><a href="https://lamnhan.com/docsuper/interfaces/headingblock.html" target="_blank">HeadingBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/textblock.html" target="_blank">TextBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/listblock.html" target="_blank">ListBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code></p>
+					<hr>
+					<h4><a name="main-extend-0" href="https://lamnhan.com/docsuper/classes/main.html#extend"><p><code>extend(optionsInput?)</code></p></a></h4>
+					<p><strong>Create a new instance</strong></p>
+					<p><strong>Parameters</strong></p>
+					<table>
+						<thead>
+							<tr>
+								<th>Param</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+								<td>optionsInput</td>
+								<td><code><a href="https://lamnhan.com/docsuper/globals.html#optionsinput" target="_blank">OptionsInput</a></code></td>
+								<td></td>
+							</tr>
+					</tbody></table>
+					<p><strong>Returns</strong></p>
+					<p><code><a href="https://lamnhan.com/docsuper/classes/main.html" target="_blank">Main</a></code></p>
 					<hr>
 					<h4><a name="main-generatedocs-0" href="https://lamnhan.com/docsuper/classes/main.html#generatedocs"><p><code>generateDocs()</code></p></a></h4>
 					<p><strong>Generate the API reference using Typedoc.</strong></p>
@@ -1424,8 +1455,6 @@ Any markdown content goes here!
 						<h2>License</h2>
 					</a>
 					<p><strong>@lamnhan/docsuper</strong> is released under the <a href="https://github.com/lamnhan/docsuper/blob/master/LICENSE">MIT</a> license.</p>
-				</section>
-				<section id="footer">
 				</section>
 				<section id="attr" note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 					<hr>

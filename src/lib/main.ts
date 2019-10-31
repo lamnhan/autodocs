@@ -127,10 +127,9 @@ export class Main {
    */
   render(
     rendering: Rendering,
-    currentContent: ContentBySections = {},
-    html = false
+    currentContent: ContentBySections = {}
   ) {
-    return this.renderService.render(rendering, currentContent, html);
+    return this.renderService.render(rendering, currentContent);
   }
 
   /**
@@ -162,11 +161,7 @@ export class Main {
    */
   output(path: string, rendering: Rendering) {
     const currentContent = this.loadService.load(path);
-    const renderResult = this.render(
-      rendering,
-      currentContent,
-      path.indexOf('.html') !== -1
-    );
+    const renderResult = this.render(rendering, currentContent);
     return this.contentService.writeFileSync(path, renderResult);
   }
 

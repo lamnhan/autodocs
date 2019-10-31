@@ -47,7 +47,6 @@ export interface AdditionalConverts {
   [output: string]: AdditionalConvert;
 }
 
-
 /**
  * The Converter turns a [[Declaration]] into {@link Block | content blocks}
  *
@@ -59,7 +58,7 @@ export interface AdditionalConverts {
  * 
  * | Output | Kinds | Options | Description |
  * | --- | --- | --- | --- |
- * | __SECTION:<SECTION_ID>__ | any | none | A local section |
+ * | __SECTION:`ID`__ | any | none | A local section |
  * | __VALUE__ | `Variable`, `Property` | [[ValueOptions]] | Default value |
  * | __SELF__ | any | [[DeclarationOptions]] & [[ConvertingOptions]] & [[HeadingOptions]] | Title, description, content WITHOUT local sections, parameters & returns (for function) |
  * | __FULL__ | any | [[DeclarationOptions]] & [[ConvertingOptions]] & [[HeadingOptions]] | All content (with headings) |
