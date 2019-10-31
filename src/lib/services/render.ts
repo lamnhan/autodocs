@@ -75,7 +75,7 @@ export class RenderService {
         contentData.push(
           // opening
           this.contentService.sectionOpening(sectionName, {
-            note: 'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY',
+            'data-note': 'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY',
           }),
           // content
           sectionName === 'toc' || sectionName === 'tocx'

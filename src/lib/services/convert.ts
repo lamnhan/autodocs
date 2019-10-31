@@ -60,26 +60,26 @@ export interface AdditionalConverts {
  * | --- | --- | --- | --- |
  * | __SECTION:`ID`__ | any | none | A local section |
  * | __VALUE__ | `Variable`, `Property` | [[ValueOptions]] | Default value |
- * | __SELF__ | any | [[DeclarationOptions]] & [[ConvertingOptions]] & [[HeadingOptions]] | Title, description, content WITHOUT local sections, parameters & returns (for function) |
- * | __FULL__ | any | [[DeclarationOptions]] & [[ConvertingOptions]] & [[HeadingOptions]] | All content (with headings) |
- * | __SUMMARY_VARIABLES__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table of variables |
- * | __DETAIL_VARIABLES__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Detail list of variables |
- * | __FULL_VARIABLES__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table & detail list of variables |
- * | __SUMMARY_FUNCTIONS__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table of functions |
- * | __DETAIL_FUNCTIONS__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Detail list of functions |
- * | __FULL_FUNCTIONS__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table & detail list of functions |
- * | __SUMMARY_PROPERTIES__ | `Interface`, `Class` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table of properties |
- * | __DETAIL_PROPERTIES__ | `Interface`, `Class` | [[DeclarationOptions]] & [[ConvertingOptions]] | Detail list of properties |
- * | __FULL_PROPERTIES__ | `Interface`, `Class` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table & detail list of properties |
- * | __SUMMARY_METHODS__ | `Class` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table of methods |
- * | __DETAIL_METHODS__ | `Class` | [[DeclarationOptions]] & [[ConvertingOptions]] | Detail list of methods |
- * | __FULL_METHODS__ | `Class` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table & detail list of methods |
- * | __SUMMARY_INTERFACES__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table of interfaces |
- * | __DETAIL_INTERFACES__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Detail list of interfaces |
- * | __FULL_INTERFACES__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table & detail list of interfaces |
- * | __SUMMARY_CLASSES__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table of classes |
- * | __DETAIL_CLASSES__ | `Collection`| [[DeclarationOptions]] & [[ConvertingOptions]] | Detail list of classes |
- * | __FULL_CLASSES__ | `Collection` | [[DeclarationOptions]] & [[ConvertingOptions]] | Summary table & detail list of classes |
+ * | __SELF__ | any | [[DeclarationOptions]], [[ConvertingOptions]], [[HeadingOptions]] | Title, description, content WITHOUT local sections, parameters & returns (for function) |
+ * | __FULL__ | any | [[DeclarationOptions]], [[ConvertingOptions]], [[HeadingOptions]] | All content (with headings) |
+ * | __SUMMARY_VARIABLES__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]] | Summary table of variables |
+ * | __DETAIL_VARIABLES__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]] | Detail list of variables |
+ * | __FULL_VARIABLES__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]] | Summary table & detail list of variables |
+ * | __SUMMARY_FUNCTIONS__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]] | Summary table of functions |
+ * | __DETAIL_FUNCTIONS__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]] | Detail list of functions |
+ * | __FULL_FUNCTIONS__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]] | Summary table & detail list of functions |
+ * | __SUMMARY_PROPERTIES__ | `Interface`, `Class` | [[DeclarationOptions]], [[ConvertingOptions]] | Summary table of properties |
+ * | __DETAIL_PROPERTIES__ | `Interface`, `Class` | [[DeclarationOptions]], [[ConvertingOptions]] | Detail list of properties |
+ * | __FULL_PROPERTIES__ | `Interface`, `Class` | [[DeclarationOptions]], [[ConvertingOptions]] | Summary table & detail list of properties |
+ * | __SUMMARY_METHODS__ | `Class` | [[DeclarationOptions]], [[ConvertingOptions]] | Summary table of methods |
+ * | __DETAIL_METHODS__ | `Class` | [[DeclarationOptions]], [[ConvertingOptions]] | Detail list of methods |
+ * | __FULL_METHODS__ | `Class` | [[DeclarationOptions]], [[ConvertingOptions]] | Summary table & detail list of methods |
+ * | __SUMMARY_INTERFACES__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]] | Summary table of interfaces |
+ * | __DETAIL_INTERFACES__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]] | Detail list of interfaces |
+ * | __FULL_INTERFACES__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]] | Summary table & detail list of interfaces |
+ * | __SUMMARY_CLASSES__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]] | Summary table of classes |
+ * | __DETAIL_CLASSES__ | `Collection`| [[DeclarationOptions]], [[ConvertingOptions]] | Detail list of classes |
+ * | __FULL_CLASSES__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]] | Summary table & detail list of classes |
  *
  * Provide options with the third item of a rendering input:
  *

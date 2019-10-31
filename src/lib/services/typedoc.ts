@@ -251,7 +251,7 @@ export class TypedocService {
         const { reflection: typeReflection } = type as ReferenceType;
         const { name, kind } = typeReflection as Reflection;
         const link = this.getTypeLink(name, kind);
-        typeData.displayType = `<a href="${link}" target="_blank">${name}</a>`;
+        typeData.displayType = `[${name}](${link})`;
       }
       // array
       else if (type.type === 'array') {

@@ -59,7 +59,7 @@ export class Declaration {
     this.text = text.split('<section id="').shift() || '';
     this.returns = returns;
     this.type = type;
-    this.displayType = displayType;
+    this.displayType = '<code>' + displayType + '</code>';
     this.isOptional = isOptional;
     this.defaultValue = defaultValue;
     this.parameters = (

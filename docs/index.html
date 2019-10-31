@@ -62,7 +62,7 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<section id="head" note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
+				<section id="head" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 					<a href="#lamnhandocsuper" id="lamnhandocsuper" style="color: inherit; text-decoration: none;">
 						<h1>@lamnhan/docsuper</h1>
 					</a>
@@ -71,7 +71,7 @@
 				<section id="header">
 					<p><a href="https://github.com/lamnhan/docsuper/blob/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="License"></a> <a href="https://www.patreon.com/lamnhan"><img src="https://lamnhan.github.io/assets/images/badges/patreon.svg" alt="Support me on Patreon"></a> <a href="https://www.paypal.me/lamnhan"><img src="https://lamnhan.github.io/assets/images/badges/paypal_donate.svg" alt="PayPal"></a> <a href="https://m.me/lamhiennhan"><img src="https://img.shields.io/badge/ask/me-anything-1abc9c.svg" alt="Ask me anything"></a></p>
 				</section>
-				<section id="tocx" note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
+				<section id="tocx" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 					<p><strong>Table of content</strong></p>
 					<ul>
 						<li><a href="#introduction">Introduction</a><ul>
@@ -101,7 +101,7 @@
 										<li><a href="#main-output-0"><code>output(path, rendering)</code></a></li>
 										<li><a href="#main-outputlocal-0"><code>outputLocal()</code></a></li>
 										<li><a href="#main-parse-0"><code>parse(input?)</code></a></li>
-										<li><a href="#main-render-0"><code>render(rendering, currentContent?, html?)</code></a></li>
+										<li><a href="#main-render-0"><code>render(rendering, currentContent?)</code></a></li>
 										<li><a href="#main-renderlocal-0"><code>renderLocal()</code></a></li>
 									</ul>
 								</li>
@@ -146,7 +146,7 @@
 								<li><a href="#renderservice-methods">RenderService methods</a><ul>
 										<li><a href="#renderservice-getdata-0"><code>getData(rendering)</code></a></li>
 										<li><a href="#renderservice-getdatabatch-0"><code>getDataBatch(batchRendering)</code></a></li>
-										<li><a href="#renderservice-render-0"><code>render(rendering, currentContent?, html?)</code></a></li>
+										<li><a href="#renderservice-render-0"><code>render(rendering, currentContent?)</code></a></li>
 										<li><a href="#renderservice-renderbatch-0"><code>renderBatch(batchRendering, batchCurrentContent?)</code></a></li>
 									</ul>
 								</li>
@@ -421,14 +421,14 @@ Any markdown content goes here!
 						<li><code>&lt;\h1&gt;A heading&lt;/\h1&gt;</code> (HTML headings, but <strong>not intended</strong> to be headings)</li>
 					</ul>
 				</section>
-				<section id="options" note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
+				<section id="options" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 					<h2><a name="options" href="https://lamnhan.com/docsuper/interfaces/options.html"><p>Options</p></a></h2>
 					<p><strong>Custom generator options</strong></p>
 					<p>Options can be provided in 3 ways:</p>
 					<ul>
 						<li>Under the <strong>@lamnhan/docsuper</strong> property of <code>package.json</code> file</li>
 						<li>The <code>docsuper.config.js</code> file for more advanced config</li>
-						<li>By the <code>options</code> param when init new <a docsuper="docsuper" href="https://lamnhan.com/docsuper/globals.html"><code>docsuper(options?)</code></a> instance.</li>
+						<li>By the <code>options</code> param when init new <a data-sref="docsuper" href="https://lamnhan.com/docsuper/globals.html"><code>docsuper(options?)</code></a> instance.</li>
 					</ul>
 					<h2><a name="options-properties"><p>Options properties</p></a></h2>
 					<table>
@@ -451,7 +451,7 @@ Any markdown content goes here!
 							</tr>
 							<tr>
 								<td><a href="https://lamnhan.com/docsuper/interfaces/options.html#converts">converts</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/additionalconverts.html" target="_blank">AdditionalConverts</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/additionalconverts.html">AdditionalConverts</a></code></td>
 								<td>Additional converts</td>
 							</tr>
 							<tr>
@@ -471,12 +471,12 @@ Any markdown content goes here!
 							</tr>
 							<tr>
 								<td><a href="https://lamnhan.com/docsuper/interfaces/options.html#typedoc">typedoc</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/typedocconfigs.html" target="_blank">TypedocConfigs</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/typedocconfigs.html">TypedocConfigs</a></code></td>
 								<td>Custom <a href="https://typedoc.org">Typedoc</a> config</td>
 							</tr>
 					</tbody></table>
 				</section>
-				<section id="main" note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
+				<section id="main" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 					<h2><a name="main" href="https://lamnhan.com/docsuper/classes/main.html"><p>The Module</p></a></h2>
 					<p><strong>The Docsuper module</strong></p>
 					<h3><a name="main-properties"><p>Main properties</p></a></h3>
@@ -490,37 +490,37 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td><a href="https://lamnhan.com/docsuper/classes/main.html#content">Content</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/contentservice.html" target="_blank">ContentService</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/contentservice.html">ContentService</a></code></td>
 								<td>Get the Content service</td>
 							</tr>
 							<tr>
 								<td><a href="https://lamnhan.com/docsuper/classes/main.html#convert">Convert</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/convertservice.html" target="_blank">ConvertService</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/convertservice.html">ConvertService</a></code></td>
 								<td>Get the Convert service</td>
 							</tr>
 							<tr>
 								<td><a href="https://lamnhan.com/docsuper/classes/main.html#load">Load</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/loadservice.html" target="_blank">LoadService</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/loadservice.html">LoadService</a></code></td>
 								<td>Get the Load service</td>
 							</tr>
 							<tr>
 								<td><a href="https://lamnhan.com/docsuper/classes/main.html#parse">Parse</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/parseservice.html" target="_blank">ParseService</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/parseservice.html">ParseService</a></code></td>
 								<td>Get the Parse service</td>
 							</tr>
 							<tr>
 								<td><a href="https://lamnhan.com/docsuper/classes/main.html#project">Project</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/projectservice.html" target="_blank">ProjectService</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/projectservice.html">ProjectService</a></code></td>
 								<td>Get the Project service</td>
 							</tr>
 							<tr>
 								<td><a href="https://lamnhan.com/docsuper/classes/main.html#render">Render</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/renderservice.html" target="_blank">RenderService</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/renderservice.html">RenderService</a></code></td>
 								<td>Get the Render service</td>
 							</tr>
 							<tr>
 								<td><a href="https://lamnhan.com/docsuper/classes/main.html#typedoc">Typedoc</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/typedocservice.html" target="_blank">TypedocService</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/typedocservice.html">TypedocService</a></code></td>
 								<td>Get the Typedoc service</td>
 							</tr>
 					</tbody></table>
@@ -535,12 +535,12 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td><a href="#main-convert-0">convert(declaration, output, options?)</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/headingblock.html" target="_blank">HeadingBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/textblock.html" target="_blank">TextBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/listblock.html" target="_blank">ListBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/headingblock.html">HeadingBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/textblock.html">TextBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/listblock.html">ListBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/tableblock.html">TableBlock</a>[]</code></td>
 								<td>Convert a declaration into content blocks.</td>
 							</tr>
 							<tr>
 								<td><a href="#main-extend-0">extend(optionsInput?)</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/main.html" target="_blank">Main</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/main.html">Main</a></code></td>
 								<td>Create a new instance</td>
 							</tr>
 							<tr>
@@ -560,17 +560,17 @@ Any markdown content goes here!
 							</tr>
 							<tr>
 								<td><a href="#main-parse-0">parse(input?)</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a></code></td>
-								<td>Turn the source code into a <a docsuper="Declaration" href="#declaration">Declaration</a>.</td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html">Declaration</a></code></td>
+								<td>Turn the source code into a <a data-sref="Declaration" href="#declaration">Declaration</a>.</td>
 							</tr>
 							<tr>
-								<td><a href="#main-render-0">render(rendering, currentContent?, html?)</a></td>
+								<td><a href="#main-render-0">render(rendering, currentContent?)</a></td>
 								<td><code>string</code></td>
 								<td>Render content based on configuration.</td>
 							</tr>
 							<tr>
 								<td><a href="#main-renderlocal-0">renderLocal()</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderresult.html">BatchRenderResult</a></code></td>
 								<td>Render content based on local configuration.</td>
 							</tr>
 					</tbody></table>
@@ -587,22 +587,22 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td><strong>declaration</strong></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html">Declaration</a></code></td>
 								<td>The declaration</td>
 							</tr>
 							<tr>
 								<td><strong>output</strong></td>
 								<td><code>string</code></td>
-								<td>Expected output, see <a docsuper="ConvertService" href="#convertservice">ConvertService</a></td>
+								<td>Expected output, see <a data-sref="ConvertService" href="#convertservice">ConvertService</a></td>
 							</tr>
 							<tr>
 								<td>options</td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/convertoptions.html" target="_blank">ConvertOptions</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/convertoptions.html">ConvertOptions</a></code></td>
 								<td>Custom convertion options</td>
 							</tr>
 					</tbody></table>
 					<p><strong>Returns</strong></p>
-					<p><code><a href="https://lamnhan.com/docsuper/interfaces/headingblock.html" target="_blank">HeadingBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/textblock.html" target="_blank">TextBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/listblock.html" target="_blank">ListBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code></p>
+					<p><code><a href="https://lamnhan.com/docsuper/interfaces/headingblock.html">HeadingBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/textblock.html">TextBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/listblock.html">ListBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/tableblock.html">TableBlock</a>[]</code></p>
 					<hr>
 					<h4><a name="main-extend-0" href="https://lamnhan.com/docsuper/classes/main.html#extend"><p><code>extend(optionsInput?)</code></p></a></h4>
 					<p><strong>Create a new instance</strong></p>
@@ -617,16 +617,16 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td>optionsInput</td>
-								<td><code><a href="https://lamnhan.com/docsuper/globals.html#optionsinput" target="_blank">OptionsInput</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/globals.html#optionsinput">OptionsInput</a></code></td>
 								<td></td>
 							</tr>
 					</tbody></table>
 					<p><strong>Returns</strong></p>
-					<p><code><a href="https://lamnhan.com/docsuper/classes/main.html" target="_blank">Main</a></code></p>
+					<p><code><a href="https://lamnhan.com/docsuper/classes/main.html">Main</a></code></p>
 					<hr>
 					<h4><a name="main-generatedocs-0" href="https://lamnhan.com/docsuper/classes/main.html#generatedocs"><p><code>generateDocs()</code></p></a></h4>
 					<p><strong>Generate the API reference using Typedoc.</strong></p>
-					<p>The default folder is <strong>/docs</strong>. You can change the output folder by providing the <code>out</code> property of <a docsuper="Options" href="#options">Options</a>.</p>
+					<p>The default folder is <strong>/docs</strong>. You can change the output folder by providing the <code>out</code> property of <a data-sref="Options" href="#options">Options</a>.</p>
 					<p><strong>Returns</strong></p>
 					<p><code>void</code></p>
 					<hr>
@@ -648,7 +648,7 @@ Any markdown content goes here!
 							</tr>
 							<tr>
 								<td><strong>rendering</strong></td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/rendering.html" target="_blank">Rendering</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/rendering.html">Rendering</a></code></td>
 								<td>Rendering configuration</td>
 							</tr>
 					</tbody></table>
@@ -661,7 +661,7 @@ Any markdown content goes here!
 					<p><code>void</code></p>
 					<hr>
 					<h4><a name="main-parse-0" href="https://lamnhan.com/docsuper/classes/main.html#parse"><p><code>parse(input?)</code></p></a></h4>
-					<p><strong>Turn the source code into a <a docsuper="Declaration" href="#declaration">Declaration</a>.</strong></p>
+					<p><strong>Turn the source code into a <a data-sref="Declaration" href="#declaration">Declaration</a>.</strong></p>
 					<p><strong>Parameters</strong></p>
 					<table>
 						<thead>
@@ -678,9 +678,9 @@ Any markdown content goes here!
 							</tr>
 					</tbody></table>
 					<p><strong>Returns</strong></p>
-					<p><code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a></code></p>
+					<p><code><a href="https://lamnhan.com/docsuper/classes/declaration.html">Declaration</a></code></p>
 					<hr>
-					<h4><a name="main-render-0" href="https://lamnhan.com/docsuper/classes/main.html#render"><p><code>render(rendering, currentContent?, html?)</code></p></a></h4>
+					<h4><a name="main-render-0" href="https://lamnhan.com/docsuper/classes/main.html#render"><p><code>render(rendering, currentContent?)</code></p></a></h4>
 					<p><strong>Render content based on configuration.</strong></p>
 					<p><strong>Parameters</strong></p>
 					<table>
@@ -693,18 +693,13 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td><strong>rendering</strong></td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/rendering.html" target="_blank">Rendering</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/rendering.html">Rendering</a></code></td>
 								<td>Redering configuration</td>
 							</tr>
 							<tr>
 								<td>currentContent</td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/contentbysections.html" target="_blank">ContentBySections</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/contentbysections.html">ContentBySections</a></code></td>
 								<td>Current content by sections</td>
-							</tr>
-							<tr>
-								<td>html</td>
-								<td><code>boolean</code></td>
-								<td></td>
 							</tr>
 					</tbody></table>
 					<p><strong>Returns</strong></p>
@@ -713,10 +708,10 @@ Any markdown content goes here!
 					<h4><a name="main-renderlocal-0" href="https://lamnhan.com/docsuper/classes/main.html#renderlocal"><p><code>renderLocal()</code></p></a></h4>
 					<p><strong>Render content based on local configuration.</strong></p>
 					<p><strong>Returns</strong></p>
-					<p><code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code></p>
+					<p><code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderresult.html">BatchRenderResult</a></code></p>
 					<hr>
 				</section>
-				<section id="declaration" note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
+				<section id="declaration" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 					<h2><a name="declaration" href="https://lamnhan.com/docsuper/classes/declaration.html"><p>Declaration</p></a></h2>
 					<p><strong>A Declaration is an unit that holds the information of a source code element.</strong></p>
 					<h3><a name="declaration-properties"><p>Declaration properties</p></a></h3>
@@ -765,7 +760,7 @@ Any markdown content goes here!
 							</tr>
 							<tr>
 								<td><a href="https://lamnhan.com/docsuper/classes/declaration.html#parameters">PARAMETERS</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/reflectiondata.html" target="_blank">ReflectionData</a>[]</code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/reflectiondata.html">ReflectionData</a>[]</code></td>
 								<td></td>
 							</tr>
 							<tr>
@@ -780,7 +775,7 @@ Any markdown content goes here!
 							</tr>
 							<tr>
 								<td><a href="https://lamnhan.com/docsuper/classes/declaration.html#sections">SECTIONS</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/contentbysections.html" target="_blank">ContentBySections</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/contentbysections.html">ContentBySections</a></code></td>
 								<td></td>
 							</tr>
 							<tr>
@@ -810,7 +805,7 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td><a href="#declaration-getchild-0">getChild(name)</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html">Declaration</a></code></td>
 								<td></td>
 							</tr>
 							<tr>
@@ -820,22 +815,22 @@ Any markdown content goes here!
 							</tr>
 							<tr>
 								<td><a href="#declaration-getclasses-0">getClasses(filter?)</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a>[]</code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html">Declaration</a>[]</code></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td><a href="#declaration-getfunctionsormethods-0">getFunctionsOrMethods(filter?)</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a>[]</code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html">Declaration</a>[]</code></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td><a href="#declaration-getinterfaces-0">getInterfaces(filter?)</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a>[]</code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html">Declaration</a>[]</code></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td><a href="#declaration-getvariablesorproperties-0">getVariablesOrProperties(filter?)</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a>[]</code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html">Declaration</a>[]</code></td>
 								<td></td>
 							</tr>
 							<tr>
@@ -897,7 +892,7 @@ Any markdown content goes here!
 							</tr>
 					</tbody></table>
 					<p><strong>Returns</strong></p>
-					<p><code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a></code></p>
+					<p><code><a href="https://lamnhan.com/docsuper/classes/declaration.html">Declaration</a></code></p>
 					<hr>
 					<h4><a name="declaration-getchildid-0" href="https://lamnhan.com/docsuper/classes/declaration.html#getchildid"><p><code>getChildId(childName)</code></p></a></h4>
 					<p><strong>The <code>getChildId</code> call signature.</strong></p>
@@ -932,12 +927,12 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td>filter</td>
-								<td><code><a href="https://lamnhan.com/docsuper/globals.html#declarationfilter" target="_blank">DeclarationFilter</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/globals.html#declarationfilter">DeclarationFilter</a></code></td>
 								<td></td>
 							</tr>
 					</tbody></table>
 					<p><strong>Returns</strong></p>
-					<p><code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a>[]</code></p>
+					<p><code><a href="https://lamnhan.com/docsuper/classes/declaration.html">Declaration</a>[]</code></p>
 					<hr>
 					<h4><a name="declaration-getfunctionsormethods-0" href="https://lamnhan.com/docsuper/classes/declaration.html#getfunctionsormethods"><p><code>getFunctionsOrMethods(filter?)</code></p></a></h4>
 					<p><strong>The <code>getFunctionsOrMethods</code> call signature.</strong></p>
@@ -952,12 +947,12 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td>filter</td>
-								<td><code><a href="https://lamnhan.com/docsuper/globals.html#declarationfilter" target="_blank">DeclarationFilter</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/globals.html#declarationfilter">DeclarationFilter</a></code></td>
 								<td></td>
 							</tr>
 					</tbody></table>
 					<p><strong>Returns</strong></p>
-					<p><code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a>[]</code></p>
+					<p><code><a href="https://lamnhan.com/docsuper/classes/declaration.html">Declaration</a>[]</code></p>
 					<hr>
 					<h4><a name="declaration-getinterfaces-0" href="https://lamnhan.com/docsuper/classes/declaration.html#getinterfaces"><p><code>getInterfaces(filter?)</code></p></a></h4>
 					<p><strong>The <code>getInterfaces</code> call signature.</strong></p>
@@ -972,12 +967,12 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td>filter</td>
-								<td><code><a href="https://lamnhan.com/docsuper/globals.html#declarationfilter" target="_blank">DeclarationFilter</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/globals.html#declarationfilter">DeclarationFilter</a></code></td>
 								<td></td>
 							</tr>
 					</tbody></table>
 					<p><strong>Returns</strong></p>
-					<p><code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a>[]</code></p>
+					<p><code><a href="https://lamnhan.com/docsuper/classes/declaration.html">Declaration</a>[]</code></p>
 					<hr>
 					<h4><a name="declaration-getvariablesorproperties-0" href="https://lamnhan.com/docsuper/classes/declaration.html#getvariablesorproperties"><p><code>getVariablesOrProperties(filter?)</code></p></a></h4>
 					<p><strong>The <code>getVariablesOrProperties</code> call signature.</strong></p>
@@ -992,12 +987,12 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td>filter</td>
-								<td><code><a href="https://lamnhan.com/docsuper/globals.html#declarationfilter" target="_blank">DeclarationFilter</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/globals.html#declarationfilter">DeclarationFilter</a></code></td>
 								<td></td>
 							</tr>
 					</tbody></table>
 					<p><strong>Returns</strong></p>
-					<p><code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a>[]</code></p>
+					<p><code><a href="https://lamnhan.com/docsuper/classes/declaration.html">Declaration</a>[]</code></p>
 					<hr>
 					<h4><a name="declaration-hasclasses-0" href="https://lamnhan.com/docsuper/classes/declaration.html#hasclasses"><p><code>hasClasses()</code></p></a></h4>
 					<p><strong>The <code>hasClasses</code> call signature.</strong></p>
@@ -1070,9 +1065,9 @@ Any markdown content goes here!
 					<p><code>this</code></p>
 					<hr>
 				</section>
-				<section id="parser" note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
+				<section id="parser" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 					<h2><a name="parseservice" href="https://lamnhan.com/docsuper/classes/parseservice.html"><p>Parsing</p></a></h2>
-					<p><strong>The <code>Parser</code> turns source code into <a docsuper="Declaration" href="#declaration">Declaration</a></strong></p>
+					<p><strong>The <code>Parser</code> turns source code into <a data-sref="Declaration" href="#declaration">Declaration</a></strong></p>
 					<h3><a name="parseservice-methods"><p>ParseService methods</p></a></h3>
 					<table>
 						<thead>
@@ -1084,7 +1079,7 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td><a href="#parseservice-parse-0">parse(input?)</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html">Declaration</a></code></td>
 								<td></td>
 							</tr>
 					</tbody></table>
@@ -1106,16 +1101,16 @@ Any markdown content goes here!
 							</tr>
 					</tbody></table>
 					<p><strong>Returns</strong></p>
-					<p><code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a></code></p>
+					<p><code><a href="https://lamnhan.com/docsuper/classes/declaration.html">Declaration</a></code></p>
 					<hr>
 				</section>
-				<section id="converter" note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
+				<section id="converter" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 					<h2><a name="convertservice" href="https://lamnhan.com/docsuper/classes/convertservice.html"><p>Converting</p></a></h2>
-					<p><strong>The Converter turns a <a docsuper="Declaration" href="#declaration">Declaration</a> into <a docsuper="Block">content blocks</a></strong></p>
+					<p><strong>The Converter turns a <a data-sref="Declaration" href="#declaration">Declaration</a> into <a data-sref="Block">content blocks</a></strong></p>
 					<a href="#converter-output" id="converter-output" style="color: inherit; text-decoration: none;">
 						<h3>Converter output</h3>
 					</a>
-					<p>A <a docsuper="Declaration" href="#declaration">Declaration</a> supports certain convert output depended on its kind. You can also provide your custom converts output, use the <code>converts</code> field of <a docsuper="Options" href="#options">Options</a>.</p>
+					<p>A <a data-sref="Declaration" href="#declaration">Declaration</a> supports certain convert output depended on its kind. You can also provide your custom converts output, use the <code>converts</code> field of <a data-sref="Options" href="#options">Options</a>.</p>
 					<p>Here the list of default output:</p>
 					<table>
 						<thead>
@@ -1127,7 +1122,7 @@ Any markdown content goes here!
 							</tr>
 						</thead>
 						<tbody><tr>
-								<td><strong>SECTION:<SECTION_ID></strong></td>
+								<td><strong>SECTION:<code>ID</code></strong></td>
 								<td>any</td>
 								<td>none</td>
 								<td>A local section</td>
@@ -1135,127 +1130,127 @@ Any markdown content goes here!
 							<tr>
 								<td><strong>VALUE</strong></td>
 								<td><code>Variable</code>, <code>Property</code></td>
-								<td><a docsuper="ValueOptions" href="https://lamnhan.com/docsuper/interfaces/valueoptions.html">ValueOptions</a></td>
+								<td><a data-sref="ValueOptions" href="https://lamnhan.com/docsuper/interfaces/valueoptions.html">ValueOptions</a></td>
 								<td>Default value</td>
 							</tr>
 							<tr>
 								<td><strong>SELF</strong></td>
 								<td>any</td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a> &amp; <a docsuper="HeadingOptions">HeadingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a> &amp; <a data-sref="HeadingOptions">HeadingOptions</a></td>
 								<td>Title, description, content WITHOUT local sections, parameters &amp; returns (for function)</td>
 							</tr>
 							<tr>
 								<td><strong>FULL</strong></td>
 								<td>any</td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a> &amp; <a docsuper="HeadingOptions">HeadingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a> &amp; <a data-sref="HeadingOptions">HeadingOptions</a></td>
 								<td>All content (with headings)</td>
 							</tr>
 							<tr>
 								<td><strong>SUMMARY_VARIABLES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Summary table of variables</td>
 							</tr>
 							<tr>
 								<td><strong>DETAIL_VARIABLES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Detail list of variables</td>
 							</tr>
 							<tr>
 								<td><strong>FULL_VARIABLES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Summary table &amp; detail list of variables</td>
 							</tr>
 							<tr>
 								<td><strong>SUMMARY_FUNCTIONS</strong></td>
 								<td><code>Collection</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Summary table of functions</td>
 							</tr>
 							<tr>
 								<td><strong>DETAIL_FUNCTIONS</strong></td>
 								<td><code>Collection</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Detail list of functions</td>
 							</tr>
 							<tr>
 								<td><strong>FULL_FUNCTIONS</strong></td>
 								<td><code>Collection</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Summary table &amp; detail list of functions</td>
 							</tr>
 							<tr>
 								<td><strong>SUMMARY_PROPERTIES</strong></td>
 								<td><code>Interface</code>, <code>Class</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Summary table of properties</td>
 							</tr>
 							<tr>
 								<td><strong>DETAIL_PROPERTIES</strong></td>
 								<td><code>Interface</code>, <code>Class</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Detail list of properties</td>
 							</tr>
 							<tr>
 								<td><strong>FULL_PROPERTIES</strong></td>
 								<td><code>Interface</code>, <code>Class</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Summary table &amp; detail list of properties</td>
 							</tr>
 							<tr>
 								<td><strong>SUMMARY_METHODS</strong></td>
 								<td><code>Class</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Summary table of methods</td>
 							</tr>
 							<tr>
 								<td><strong>DETAIL_METHODS</strong></td>
 								<td><code>Class</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Detail list of methods</td>
 							</tr>
 							<tr>
 								<td><strong>FULL_METHODS</strong></td>
 								<td><code>Class</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Summary table &amp; detail list of methods</td>
 							</tr>
 							<tr>
 								<td><strong>SUMMARY_INTERFACES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Summary table of interfaces</td>
 							</tr>
 							<tr>
 								<td><strong>DETAIL_INTERFACES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Detail list of interfaces</td>
 							</tr>
 							<tr>
 								<td><strong>FULL_INTERFACES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Summary table &amp; detail list of interfaces</td>
 							</tr>
 							<tr>
 								<td><strong>SUMMARY_CLASSES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Summary table of classes</td>
 							</tr>
 							<tr>
 								<td><strong>DETAIL_CLASSES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Detail list of classes</td>
 							</tr>
 							<tr>
 								<td><strong>FULL_CLASSES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a docsuper="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a docsuper="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
 								<td>Summary table &amp; detail list of classes</td>
 							</tr>
 					</tbody></table>
@@ -1279,7 +1274,7 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td><a href="#convertservice-convert-0">convert(declaration, output, options?)</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/headingblock.html" target="_blank">HeadingBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/textblock.html" target="_blank">TextBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/listblock.html" target="_blank">ListBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/headingblock.html">HeadingBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/textblock.html">TextBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/listblock.html">ListBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/tableblock.html">TableBlock</a>[]</code></td>
 								<td></td>
 							</tr>
 					</tbody></table>
@@ -1296,7 +1291,7 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td><strong>declaration</strong></td>
-								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/classes/declaration.html">Declaration</a></code></td>
 								<td></td>
 							</tr>
 							<tr>
@@ -1306,15 +1301,15 @@ Any markdown content goes here!
 							</tr>
 							<tr>
 								<td>options</td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/convertoptions.html" target="_blank">ConvertOptions</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/convertoptions.html">ConvertOptions</a></code></td>
 								<td></td>
 							</tr>
 					</tbody></table>
 					<p><strong>Returns</strong></p>
-					<p><code><a href="https://lamnhan.com/docsuper/interfaces/headingblock.html" target="_blank">HeadingBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/textblock.html" target="_blank">TextBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/listblock.html" target="_blank">ListBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code></p>
+					<p><code><a href="https://lamnhan.com/docsuper/interfaces/headingblock.html">HeadingBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/textblock.html">TextBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/listblock.html">ListBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/tableblock.html">TableBlock</a>[]</code></p>
 					<hr>
 				</section>
-				<section id="renderer" note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
+				<section id="renderer" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 					<h2><a name="renderservice" href="https://lamnhan.com/docsuper/classes/renderservice.html"><p>Rendering</p></a></h2>
 					<p><strong>The Renderer turns a rendering input into the final content</strong></p>
 					<p>Builtin sections:</p>
@@ -1335,22 +1330,22 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td><a href="#renderservice-getdata-0">getData(rendering)</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/renderingdata.html" target="_blank">RenderingData</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/renderingdata.html">RenderingData</a></code></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td><a href="#renderservice-getdatabatch-0">getDataBatch(batchRendering)</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderingdata.html" target="_blank">BatchRenderingData</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderingdata.html">BatchRenderingData</a></code></td>
 								<td></td>
 							</tr>
 							<tr>
-								<td><a href="#renderservice-render-0">render(rendering, currentContent?, html?)</a></td>
+								<td><a href="#renderservice-render-0">render(rendering, currentContent?)</a></td>
 								<td><code>string</code></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td><a href="#renderservice-renderbatch-0">renderBatch(batchRendering, batchCurrentContent?)</a></td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderresult.html">BatchRenderResult</a></code></td>
 								<td></td>
 							</tr>
 					</tbody></table>
@@ -1367,12 +1362,12 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td><strong>rendering</strong></td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/rendering.html" target="_blank">Rendering</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/rendering.html">Rendering</a></code></td>
 								<td></td>
 							</tr>
 					</tbody></table>
 					<p><strong>Returns</strong></p>
-					<p><code><a href="https://lamnhan.com/docsuper/interfaces/renderingdata.html" target="_blank">RenderingData</a></code></p>
+					<p><code><a href="https://lamnhan.com/docsuper/interfaces/renderingdata.html">RenderingData</a></code></p>
 					<hr>
 					<h4><a name="renderservice-getdatabatch-0" href="https://lamnhan.com/docsuper/classes/renderservice.html#getdatabatch"><p><code>getDataBatch(batchRendering)</code></p></a></h4>
 					<p><strong>The <code>getDataBatch</code> call signature.</strong></p>
@@ -1387,14 +1382,14 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td><strong>batchRendering</strong></td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/batchrendering.html" target="_blank">BatchRendering</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/batchrendering.html">BatchRendering</a></code></td>
 								<td></td>
 							</tr>
 					</tbody></table>
 					<p><strong>Returns</strong></p>
-					<p><code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderingdata.html" target="_blank">BatchRenderingData</a></code></p>
+					<p><code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderingdata.html">BatchRenderingData</a></code></p>
 					<hr>
-					<h4><a name="renderservice-render-0" href="https://lamnhan.com/docsuper/classes/renderservice.html#render"><p><code>render(rendering, currentContent?, html?)</code></p></a></h4>
+					<h4><a name="renderservice-render-0" href="https://lamnhan.com/docsuper/classes/renderservice.html#render"><p><code>render(rendering, currentContent?)</code></p></a></h4>
 					<p><strong>The <code>render</code> call signature.</strong></p>
 					<p><strong>Parameters</strong></p>
 					<table>
@@ -1407,17 +1402,12 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td><strong>rendering</strong></td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/rendering.html" target="_blank">Rendering</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/rendering.html">Rendering</a></code></td>
 								<td></td>
 							</tr>
 							<tr>
 								<td>currentContent</td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/contentbysections.html" target="_blank">ContentBySections</a></code></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>html</td>
-								<td><code>boolean</code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/contentbysections.html">ContentBySections</a></code></td>
 								<td></td>
 							</tr>
 					</tbody></table>
@@ -1437,7 +1427,7 @@ Any markdown content goes here!
 						</thead>
 						<tbody><tr>
 								<td><strong>batchRendering</strong></td>
-								<td><code><a href="https://lamnhan.com/docsuper/interfaces/batchrendering.html" target="_blank">BatchRendering</a></code></td>
+								<td><code><a href="https://lamnhan.com/docsuper/interfaces/batchrendering.html">BatchRendering</a></code></td>
 								<td></td>
 							</tr>
 							<tr>
@@ -1447,16 +1437,18 @@ Any markdown content goes here!
 							</tr>
 					</tbody></table>
 					<p><strong>Returns</strong></p>
-					<p><code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code></p>
+					<p><code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderresult.html">BatchRenderResult</a></code></p>
 					<hr>
 				</section>
-				<section id="license" note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
+				<section id="license" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 					<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 						<h2>License</h2>
 					</a>
 					<p><strong>@lamnhan/docsuper</strong> is released under the <a href="https://github.com/lamnhan/docsuper/blob/master/LICENSE">MIT</a> license.</p>
 				</section>
-				<section id="attr" note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
+				<section id="footer">
+				</section>
+				<section id="attr" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 					<hr>
 					<p>⚡️ This document is generated automatically using <a href="https://github.com/lamnhan/docsuper">@lamnhan/docsuper</a>.</p>
 				</section>

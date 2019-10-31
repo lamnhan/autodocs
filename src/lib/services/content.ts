@@ -76,10 +76,8 @@ export class ContentService {
       item => {
         const id = (/<section id="(.*?)"/.exec(item) || []).pop();
         if (!!id) {
-          sections[id] = this.md2Html(
-            item
-            .replace(/<section [^\n]*/g, '')
-            .replace('</section>', '')
+          sections[id] = this.formatMd(
+            item.replace(/<section [^\n]*/g, '').replace('</section>', '')
           );
         }
       }
@@ -89,15 +87,35 @@ export class ContentService {
 
   extractHeadings(content: string) {
     const headings: HeadingBlock[] = [];
-    (content.match(/<h[^>]*>([\s\S]*?)<\/h[^>]*>/g) || []).forEach(heading => {
-      const level = Number(heading.charAt(2));
-      if (!isNaN(level) && level < 7) {
-        const title = (/<h[^>]*>([\s\S]*?)<\/h[^>]*>/.exec(heading) || []).pop();
-        if (!!title) {
-          const id = ((/<a[^>]* name="(.*?)">/.exec(heading) || []).pop() || '')
-            .split('"')
-            .shift()
-            || this.buildId(title);
+    (
+      content.match(/(\n#{1}[^\n]*)|(<h[^>]*>([\s\S]*?)<\/h[^>]*>)/g) || []
+    ).forEach(heading => {
+      // html
+      if (heading.charAt(0) === '<') {
+        const level = Number(heading.charAt(2));
+        if (!isNaN(level) && level < 7) {
+          const title = (
+            /<h[^>]*>([\s\S]*?)<\/h[^>]*>/.exec(heading) || []
+          ).pop();
+          if (!!title) {
+            const id =
+              ((/<a[^>]* name="(.*?)">/.exec(heading) || []).pop() || '')
+              .split('"')
+              .shift() ||
+              this.buildId(title);
+            headings.push(this.blockHeading(title, level, id));
+          }
+        }
+      }
+      // md
+      else {
+        const [head, ...body] = heading
+          .replace(/(?:\r\n|\r|\n)/g, '')
+          .split(' ');
+        const level = head.length;
+        if (level < 7) {
+          const title = body.join(' ').replace(new RegExp(' ' + head, 'g'), '');
+          const id = this.buildId(title);
           headings.push(this.blockHeading(title, level, id));
         }
       }
@@ -115,7 +133,6 @@ export class ContentService {
       tables: true,
       tasklists: true,
       ghMentions: true,
-      // smartIndentationFix: true,
       disableForced4SpacesIndentedSublists: true,
       simpleLineBreaks: true,
       requireSpaceBeforeHeadingText: true,
@@ -153,30 +170,24 @@ export class ContentService {
     return { type: 'table', data: table } as TableBlock;
   }
 
-  renderTOC(blocks: Block[], offset = 2, tocId = 'master-toc') {
-    const result: string[] = [];
+  renderTOC(blocks: Block[], offset = 2) {
+    const rows: string[] = [];
     blocks.forEach(({ type, data }) => {
       if (type === 'heading') {
         const { title, level, id, link } = data as Heading;
-        result.push(
+        rows.push(
           `${'    '.repeat(level - offset)}- [${title}](${
             !!id ? '#' + id : link
           })`
         );
       }
     });
-    const mdContent = result.join(this.EOL);
-    return this
-      .md2Html(mdContent)
-      .replace('<ul>', `<ul id="${tocId}">`);
+    return this.formatMd(rows.join(this.EOL));
   }
 
   renderContent(blocks: Block[]) {
-    return this.formatHtml(
-      blocks
-      .map(block => this.renderBlock(block))
-      .join(this.EOL)
-    );
+    const result = blocks.map(block => this.renderBlock(block));
+    return this.formatMd(result.join(this.EOL2X));
   }
 
   renderBlock({ type, data }: Block) {
@@ -202,14 +213,14 @@ export class ContentService {
   renderHeading({ id, title, level, link }: Heading) {
     const h = 'h' + level;
     const a = `a name="${id}"` + (!!link ? ` href="${link}"` : ``);
-    return `<${h}><${a}>${ this.md2Html(title) }</a></${h}>`;
+    return this.formatMd(`<${h}><${a}>${this.md2Html(title)}</a></${h}>`);
   }
 
-  renderText(text: Text, singleLine = false) {
-    return this.md2Html(
+  renderText(text: Text, single = false) {
+    return this.formatMd(
       typeof text === 'string'
-      ? text
-      : text.join(singleLine ? this.EOL : this.EOL2X)
+        ? text
+        : text.join(single ? this.EOL : this.EOL2X)
     );
   }
 
@@ -217,21 +228,23 @@ export class ContentService {
     const blocks = list.map(
       ([title, description = '']) => `- ${title}: ${description}`
     );
-    return this.md2Html(blocks.join(this.EOL));
+    return this.formatMd(blocks.join(this.EOL));
   }
 
   renderTable([headers, ...rows]: Table) {
-    const table = ['<table>'];
-    table.push('  <tr>');
-    headers.forEach(header => table.push(`    <th>${header}</th>`));
-    table.push('  </tr>');
-    rows.forEach(cells => {
-      table.push('  <tr>');
-      cells.forEach(cell => table.push(`    <td>${this.md2Html(cell)}</td>`));
-      table.push('  </tr>');
+    const tableRows = rows.map(cells => {
+      // process value
+      cells = cells.map(x => (x || '').replace(/\|/g, '\\|'));
+      // build row
+      return '| ' + cells.join(' | ') + ' |';
     });
-    table.push('</table>');
-    return table.join(this.EOL);
+    return this.formatMd(
+      [
+        '| ' + headers.join(' | ') + ' |',
+        '| ' + new Array(headers.length).fill('---').join(' | ') + ' |',
+        ...tableRows,
+      ].join(this.EOL)
+    );
   }
 
   convertLinks(content: string, buildLink: (id: string) => string) {
