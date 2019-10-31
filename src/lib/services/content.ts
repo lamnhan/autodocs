@@ -86,6 +86,7 @@ export class ContentService {
   }
 
   extractHeadings(content: string) {
+    content = '\r\n' + content;
     const headings: HeadingBlock[] = [];
     (
       content.match(/(\n#{1}[^\n]*)|(<h[^>]*>([\s\S]*?)<\/h[^>]*>)/g) || []
@@ -94,16 +95,17 @@ export class ContentService {
       if (heading.charAt(0) === '<') {
         const level = Number(heading.charAt(2));
         if (!isNaN(level) && level < 7) {
-          const title = (
-            /<h[^>]*>([\s\S]*?)<\/h[^>]*>/.exec(heading) || []
-          ).pop();
+          const title =
+            ((/<h[^>]*>([\s\S]*?)<\/h[^>]*>/.exec(heading) || []).pop() || '')
+            .replace(/(<([^>]+)>)/ig, '');
           if (!!title) {
             const id =
               ((/<a[^>]* name="(.*?)">/.exec(heading) || []).pop() || '')
               .split('"')
               .shift() ||
               this.buildId(title);
-            headings.push(this.blockHeading(title, level, id));
+            const link = (/<a[^>]* href="(.*?)">/.exec(heading) || []).pop();
+            headings.push(this.blockHeading(title, level, id, link));
           }
         }
       }
@@ -121,6 +123,39 @@ export class ContentService {
       }
     });
     return headings;
+  }
+
+  modifyHeadings(content: string, offset: number) {
+    const replacement: Array<{
+      mdOriginal: string;
+      mdNew: string;
+      htmlOriginal: string;
+      htmlNew: string;
+    }> = [];
+    // prepare
+    this.extractHeadings(content).forEach(block => {
+      const { data: heading } = block;
+      const { level, title } = heading;
+      const newLevel = level + offset;
+      if (newLevel > 0 && newLevel < 7) {
+        // md heading
+        const mdOriginal = '#'.repeat(level) + ' ' + title;
+        const mdNew = '#'.repeat(newLevel) + ' ' + title;
+        // html heading
+        const htmlOriginal = this.renderHeading(heading);
+        const htmlNew = this.renderHeading({ ...heading, level: newLevel });
+        // save replacement
+        replacement.push({ mdOriginal, mdNew, htmlOriginal, htmlNew });
+      } else {
+        throw new Error('Heading level is out of range for modification.');
+      }
+    });
+    // modification
+    replacement.forEach(({ mdOriginal, mdNew, htmlOriginal, htmlNew }) => 
+      content = content.replace(mdOriginal, mdNew).replace(htmlOriginal, htmlNew)
+    );
+    // result
+    return content;
   }
 
   md2Html(mdContent: string, showdownOptions: ConverterOptions = {}) {

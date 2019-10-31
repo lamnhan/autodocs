@@ -58,7 +58,7 @@ export interface AdditionalConverts {
  * 
  * | Output | Kinds | Options | Description |
  * | --- | --- | --- | --- |
- * | __SECTION:`ID`__ | any | none | A local section |
+ * | __SECTION:`ID`__ | any | [[ConvertingOptions]] | A local section |
  * | __VALUE__ | `Variable`, `Property` | [[ValueOptions]] | Default value |
  * | __SELF__ | any | [[DeclarationOptions]], [[ConvertingOptions]], [[HeadingOptions]] | Title, description, content WITHOUT local sections, parameters & returns (for function) |
  * | __FULL__ | any | [[DeclarationOptions]], [[ConvertingOptions]], [[HeadingOptions]] | All content (with headings) |
@@ -157,7 +157,7 @@ export class ConvertService {
       default:
         // local section
         if (output.indexOf('SECTION:') !== -1) {
-          return this.getSection(declaration, output.replace('SECTION:', ''));
+          return this.getSection(declaration, output.replace('SECTION:', ''), options);
         }
         // custom convertion
         const { converts = {} } = this.projectService.OPTIONS;
@@ -230,10 +230,15 @@ export class ConvertService {
       RETURNS,
       PARAMETERS,
     } = declaration;
+    // process content
+    const offset = level - 2;
+    const content = !!offset
+      ? this.contentService.modifyHeadings(TEXT, offset)
+      : TEXT;
     // default blocks
     const body = this.contentService.blockText([
       '**' + (SHORT_TEXT || `The \`${NAME}\` ${kindText}.`) + '**',
-      TEXT,
+      content,
     ]);
     // function or method
     if (declaration.isKind('CallSignature')) {
@@ -298,9 +303,20 @@ export class ConvertService {
     return blocks;
   }
 
-  private getSection(declaration: Declaration, sectionId: string) {
-    const { [sectionId]: sectionContent = '' } = declaration.SECTIONS;
-    const content = this.contentService.blockText(sectionContent);
+  private getSection(
+    declaration: Declaration,
+    sectionId: string,
+    options: ConvertingOptions = {}
+  ) {
+    const { level = 2 } = options;
+    const offset = level - 3;
+    const {[sectionId]: sectionContent = ''} = declaration.SECTIONS;
+    const content = this.contentService.blockText(
+      !!offset
+      ? this.contentService
+        .modifyHeadings(sectionContent, offset)
+      : sectionContent
+    );
     return [content] as Block[];
   }
 

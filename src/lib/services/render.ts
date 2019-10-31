@@ -99,7 +99,7 @@ export class RenderService {
         );
         // toc data
         tocData.push(
-          ...this.contentService.extractHeadings('\r\n' + sectionData)
+          ...this.contentService.extractHeadings(sectionData)
         );
       }
     });

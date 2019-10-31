@@ -150,6 +150,11 @@
 										<li><a href="#renderservice-renderbatch-0"><code>renderBatch(batchRendering, batchCurrentContent?)</code></a></li>
 									</ul>
 								</li>
+								<li><a href="#convertservice">The ConvertService class</a><ul>
+										<li><a href="#converter-output">Converter output</a> - <a href="#heading-3">Heading 3</a></li>
+										<li><a href="#heading-4">Heading 4</a></li>
+									</ul>
+								</li>
 							</ul>
 						</li>
 						<li><a href="https://lamnhan.com/docsuper">Detail API reference</a></li>
@@ -1124,7 +1129,7 @@ Any markdown content goes here!
 						<tbody><tr>
 								<td><strong>SECTION:<code>ID</code></strong></td>
 								<td>any</td>
-								<td>none</td>
+								<td><a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>A local section</td>
 							</tr>
 							<tr>
@@ -1136,121 +1141,121 @@ Any markdown content goes here!
 							<tr>
 								<td><strong>SELF</strong></td>
 								<td>any</td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a> &amp; <a data-sref="HeadingOptions">HeadingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="HeadingOptions">HeadingOptions</a></td>
 								<td>Title, description, content WITHOUT local sections, parameters &amp; returns (for function)</td>
 							</tr>
 							<tr>
 								<td><strong>FULL</strong></td>
 								<td>any</td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a> &amp; <a data-sref="HeadingOptions">HeadingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="HeadingOptions">HeadingOptions</a></td>
 								<td>All content (with headings)</td>
 							</tr>
 							<tr>
 								<td><strong>SUMMARY_VARIABLES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Summary table of variables</td>
 							</tr>
 							<tr>
 								<td><strong>DETAIL_VARIABLES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Detail list of variables</td>
 							</tr>
 							<tr>
 								<td><strong>FULL_VARIABLES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Summary table &amp; detail list of variables</td>
 							</tr>
 							<tr>
 								<td><strong>SUMMARY_FUNCTIONS</strong></td>
 								<td><code>Collection</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Summary table of functions</td>
 							</tr>
 							<tr>
 								<td><strong>DETAIL_FUNCTIONS</strong></td>
 								<td><code>Collection</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Detail list of functions</td>
 							</tr>
 							<tr>
 								<td><strong>FULL_FUNCTIONS</strong></td>
 								<td><code>Collection</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Summary table &amp; detail list of functions</td>
 							</tr>
 							<tr>
 								<td><strong>SUMMARY_PROPERTIES</strong></td>
 								<td><code>Interface</code>, <code>Class</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Summary table of properties</td>
 							</tr>
 							<tr>
 								<td><strong>DETAIL_PROPERTIES</strong></td>
 								<td><code>Interface</code>, <code>Class</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Detail list of properties</td>
 							</tr>
 							<tr>
 								<td><strong>FULL_PROPERTIES</strong></td>
 								<td><code>Interface</code>, <code>Class</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Summary table &amp; detail list of properties</td>
 							</tr>
 							<tr>
 								<td><strong>SUMMARY_METHODS</strong></td>
 								<td><code>Class</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Summary table of methods</td>
 							</tr>
 							<tr>
 								<td><strong>DETAIL_METHODS</strong></td>
 								<td><code>Class</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Detail list of methods</td>
 							</tr>
 							<tr>
 								<td><strong>FULL_METHODS</strong></td>
 								<td><code>Class</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Summary table &amp; detail list of methods</td>
 							</tr>
 							<tr>
 								<td><strong>SUMMARY_INTERFACES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Summary table of interfaces</td>
 							</tr>
 							<tr>
 								<td><strong>DETAIL_INTERFACES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Detail list of interfaces</td>
 							</tr>
 							<tr>
 								<td><strong>FULL_INTERFACES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Summary table &amp; detail list of interfaces</td>
 							</tr>
 							<tr>
 								<td><strong>SUMMARY_CLASSES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Summary table of classes</td>
 							</tr>
 							<tr>
 								<td><strong>DETAIL_CLASSES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Detail list of classes</td>
 							</tr>
 							<tr>
 								<td><strong>FULL_CLASSES</strong></td>
 								<td><code>Collection</code></td>
-								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a> &amp; <a data-sref="ConvertingOptions">ConvertingOptions</a></td>
+								<td><a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a></td>
 								<td>Summary table &amp; detail list of classes</td>
 							</tr>
 					</tbody></table>
@@ -1445,8 +1450,6 @@ Any markdown content goes here!
 						<h2>License</h2>
 					</a>
 					<p><strong>@lamnhan/docsuper</strong> is released under the <a href="https://github.com/lamnhan/docsuper/blob/master/LICENSE">MIT</a> license.</p>
-				</section>
-				<section id="footer">
 				</section>
 				<section id="attr" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 					<hr>
