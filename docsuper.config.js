@@ -1,6 +1,6 @@
 module.exports = {
   apiUrl: 'https://lamnhan.com/docsuper',
-  files: {
+  render: {
     'README.md': {
       head: true,
       tocx: true,

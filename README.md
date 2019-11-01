@@ -72,7 +72,7 @@
     - [`parse(input?)`](#parseservice-parse-0)
 - [Converting](#convertservice)
   - [ConvertService methods](#convertservice-methods)
-    - [`convert(declaration, output, options?)`](#convertservice-convert-0)
+    - [`convert(declaration, output?, options?)`](#convertservice-convert-0)
 - [Rendering](#renderservice)
   - [RenderService methods](#renderservice-methods)
     - [`getData(rendering)`](#renderservice-getdata-0)
@@ -406,16 +406,19 @@ Options can be provided in 3 ways:
 
 <h2><a name="options-properties"><p>Options properties</p></a></h2>
 
-| Name                                                                              | Type                                                                                               | Description                                                                                                                  |
-| --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| [apiGenerator](https://lamnhan.com/docsuper/interfaces/options.html#apigenerator) | <code>"typedoc" \| "none"</code>                                                                   | Detail API generator                                                                                                         |
-| [apiUrl](https://lamnhan.com/docsuper/interfaces/options.html#apiurl)             | <code>string</code>                                                                                | Custom API reference url, default to the Github Pages repo url                                                               |
-| [converts](https://lamnhan.com/docsuper/interfaces/options.html#converts)         | <code>[AdditionalConverts](https://lamnhan.com/docsuper/interfaces/additionalconverts.html)</code> | Additional converts                                                                                                          |
-| [files](https://lamnhan.com/docsuper/interfaces/options.html#files)               | <code>object</code>                                                                                | List of documents to be generated: **key** is the path to the document and **value** is a template name or a rendering input |
-| [filesOpt](https://lamnhan.com/docsuper/interfaces/options.html#filesopt)         | <code>object</code>                                                                                | Additional redering options                                                                                                  |
-| [noAttr](https://lamnhan.com/docsuper/interfaces/options.html#noattr)             | <code>boolean</code>                                                                               | No generator footer attribution                                                                                              |
-| [srcPath](https://lamnhan.com/docsuper/interfaces/options.html#srcpath)           | <code>string</code>                                                                                | Path to the source code, default to `src`                                                                                    |
-| [typedoc](https://lamnhan.com/docsuper/interfaces/options.html#typedoc)           | <code>[TypedocConfigs](https://lamnhan.com/docsuper/interfaces/typedocconfigs.html)</code>         | Custom [Typedoc](https://typedoc.org) config                                                                                 |
+| Name                                                                                  | Type                                                                                                                   | Description                                                                                                                                        |
+| ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [apiGenerator](https://lamnhan.com/docsuper/interfaces/options.html#apigenerator)     | <code>"none" \| "typedoc" \| [CustomApiGenerator](https://lamnhan.com/docsuper/globals.html#customapigenerator)</code> | Detail API generator, default to 'typedoc'                                                                                                         |
+| [apiUrl](https://lamnhan.com/docsuper/interfaces/options.html#apiurl)                 | <code>string</code>                                                                                                    | Custom API reference url, default to the Github Pages repo url                                                                                     |
+| [converts](https://lamnhan.com/docsuper/interfaces/options.html#converts)             | <code>[AdditionalConverts](https://lamnhan.com/docsuper/interfaces/additionalconverts.html)</code>                     | Additional converts                                                                                                                                |
+| [noAttr](https://lamnhan.com/docsuper/interfaces/options.html#noattr)                 | <code>boolean</code>                                                                                                   | No generator footer attribution                                                                                                                    |
+| [outPath](https://lamnhan.com/docsuper/interfaces/options.html#outpath)               | <code>string</code>                                                                                                    | Root path to output files to, default to the project root                                                                                          |
+| [outputMode](https://lamnhan.com/docsuper/interfaces/options.html#outputmode)         | <code>"file" \| "website"</code>                                                                                       | Output as standalone file or as a website                                                                                                          |
+| [render](https://lamnhan.com/docsuper/interfaces/options.html#render)                 | <code>object</code>                                                                                                    | List of documents to be generated: **key** is the path to the document (under the `outPath`) and **value** is a template name or a rendering input |
+| [renderOptions](https://lamnhan.com/docsuper/interfaces/options.html#renderoptions)   | <code>object</code>                                                                                                    | Additional render options                                                                                                                          |
+| [srcPath](https://lamnhan.com/docsuper/interfaces/options.html#srcpath)               | <code>string</code>                                                                                                    | Path to the source code, default to `src`                                                                                                          |
+| [typedocConfigs](https://lamnhan.com/docsuper/interfaces/options.html#typedocconfigs) | <code>[TypedocConfigs](https://lamnhan.com/docsuper/interfaces/typedocconfigs.html)</code>                             | Custom [Typedoc](https://typedoc.org) configs                                                                                                      |
+| [websiteTheme](https://lamnhan.com/docsuper/interfaces/options.html#websitetheme)     | <code>string</code>                                                                                                    | Name of or path to a website theme, built-in themes: default                                                                                       |
 
 </section>
 
@@ -881,11 +884,11 @@ Provide options with the third item of a rendering input:
 
 <h3><a name="convertservice-methods"><p>ConvertService methods</p></a></h3>
 
-| Function                                                            | Returns type                                                                                                                                                                                                                                                                                                    | Description |
-| ------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [convert(declaration, output, options?)](#convertservice-convert-0) | <code>[HeadingBlock](https://lamnhan.com/docsuper/interfaces/headingblock.html) \| [TextBlock](https://lamnhan.com/docsuper/interfaces/textblock.html) \| [ListBlock](https://lamnhan.com/docsuper/interfaces/listblock.html) \| [TableBlock](https://lamnhan.com/docsuper/interfaces/tableblock.html)[]</code> |             |
+| Function                                                             | Returns type                                                                                                                                                                                                                                                                                                    | Description |
+| -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [convert(declaration, output?, options?)](#convertservice-convert-0) | <code>[HeadingBlock](https://lamnhan.com/docsuper/interfaces/headingblock.html) \| [TextBlock](https://lamnhan.com/docsuper/interfaces/textblock.html) \| [ListBlock](https://lamnhan.com/docsuper/interfaces/listblock.html) \| [TableBlock](https://lamnhan.com/docsuper/interfaces/tableblock.html)[]</code> |             |
 
-<h4><a name="convertservice-convert-0" href="https://lamnhan.com/docsuper/classes/convertservice.html#convert"><p><code>convert(declaration, output, options?)</code></p></a></h4>
+<h4><a name="convertservice-convert-0" href="https://lamnhan.com/docsuper/classes/convertservice.html#convert"><p><code>convert(declaration, output?, options?)</code></p></a></h4>
 
 **The `convert` call signature.**
 
@@ -894,7 +897,7 @@ Provide options with the third item of a rendering input:
 | Param           | Type                                                                                       | Description |
 | --------------- | ------------------------------------------------------------------------------------------ | ----------- |
 | **declaration** | <code>[Declaration](https://lamnhan.com/docsuper/classes/declaration.html)</code>          |             |
-| **output**      | <code>string</code>                                                                        |             |
+| output          | <code>string</code>                                                                        |             |
 | options         | <code>[ConvertOptions](https://lamnhan.com/docsuper/interfaces/convertoptions.html)</code> |             |
 
 **Returns**

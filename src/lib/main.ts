@@ -1,3 +1,5 @@
+import { resolve } from 'path';
+
 import { OptionsInput, ProjectService } from './services/project';
 import { TypedocService } from './services/typedoc';
 import { ContentBySections, ContentService } from './services/content';
@@ -136,18 +138,18 @@ export class Main {
    * Render content based on local configuration.
    */
   renderLocal() {
-    const { files, filesOpt } = this.projectService.OPTIONS;
+    const { render: renderFiles, renderOptions } = this.projectService.OPTIONS;
     // convert files to batch rendering
     const batchRendering: BatchRendering = {};
     const pathsToLoadCurrentContent: string[] = [];
-    Object.keys(files).forEach(path => {
-      const value = files[path];
+    Object.keys(renderFiles).forEach(path => {
+      const value = renderFiles[path];
       batchRendering[path] =
         typeof value === 'string'
         ? this.templateService.getTemplate(value as BuiltinTemplate)
         : value;
       // clean output or not
-      const opt = filesOpt[path];
+      const opt = renderOptions[path];
       if (!opt || !opt.cleanOutput) {
         pathsToLoadCurrentContent.push(path);
       }
@@ -185,10 +187,21 @@ export class Main {
    * The default folder is __/docs__. You can change the output folder by providing the `out` property of [[Options]].
    */
   generateDocs() {
-    const { apiGenerator, typedoc } = this.projectService.OPTIONS;
-    if (apiGenerator === 'typedoc') {
-      this.typedocService.generateDocs(typedoc.out || 'docs');
+    const { apiGenerator, outPath } = this.projectService.OPTIONS;
+    // api output, default to 'docs', 
+    const apiOut = !outPath || outPath === '.'
+      ? resolve('docs')
+      : resolve(outPath, 'api');
+    // custom
+    if (apiGenerator instanceof Function) {
+      apiGenerator(this.typedocService, apiOut);
     }
+    // typedoc
+    else if (apiGenerator === 'typedoc') {
+      this.typedocService.generateDocs(apiOut);
+    }
+    // none
+    else {}
   }
 }
 

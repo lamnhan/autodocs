@@ -74,12 +74,15 @@ export class ProjectService {
     }
     // options
     return {
-      apiUrl,
       srcPath: 'src',
-      typedoc: {},
+      outPath: '.',
+      apiUrl,
       apiGenerator: 'typedoc',
-      files: {},
-      filesOpt: {},
+      typedocConfigs: {},
+      outputMode: 'file',
+      websiteTheme: 'default',
+      render: {},
+      renderOptions: {},
       converts: {},
       noAttr: false,
       ...options,

@@ -1,4 +1,5 @@
-import { TypedocConfigs } from './services/typedoc';
+// tslint:disable: no-any
+import { TypedocConfigs, TypedocService } from './services/typedoc';
 import { AdditionalConverts } from './services/convert';
 import { Rendering } from './services/render';
 import { BuiltinTemplate } from './services/template';
@@ -19,28 +20,40 @@ export interface Options {
    */
   srcPath?: string;
   /**
+   * Root path to output files to, default to the project root
+   */
+  outPath?: string;
+  /**
    * Custom API reference url, default to the Github Pages repo url
    */
   apiUrl?: string;
   /**
-   * Detail API generator
+   * Detail API generator, default to 'typedoc'
    */
-  apiGenerator?: 'typedoc' | 'none';
+  apiGenerator?: 'none' | 'typedoc' | CustomApiGenerator;
   /**
-   * Custom [Typedoc](https://typedoc.org) config
+   * Custom [Typedoc](https://typedoc.org) configs
    */
-  typedoc?: TypedocConfigs;
+  typedocConfigs?: TypedocConfigs;
   /**
-   * List of documents to be generated: __key__ is the path to the document and __value__ is a template name or a rendering input
+   * Output as standalone file or as a website
    */
-  files?: {
+  outputMode?: 'file' | 'website';
+  /**
+   * Name of or path to a website theme, built-in themes: default
+   */
+  websiteTheme?: string;
+  /**
+   * List of documents to be generated: __key__ is the path to the document (under the `outPath`) and __value__ is a template name or a rendering input
+   */
+  render?: {
     [path: string]: BuiltinTemplate | Rendering;
   };
   /**
-   * Additional redering options
+   * Additional render options
    */
-  filesOpt?: {
-    [path: string]: OptionsForFiles;
+  renderOptions?: {
+    [path: string]: RenderFileOptions;
   };
   /**
    * Additional converts
@@ -52,6 +65,11 @@ export interface Options {
   noAttr?: boolean;
 }
 
-export interface OptionsForFiles {
+export type CustomApiGenerator = (typedocService: TypedocService, out: string) => void;
+
+export interface RenderFileOptions {
+  title?: string;
   cleanOutput?: boolean;
+  templateOpts?: {[key: string]: any};
+  webData?: {[key: string]: any};
 }

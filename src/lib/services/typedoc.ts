@@ -160,7 +160,7 @@ export class TypedocService {
   }
 
   private createApp(configs = {}) {
-    const { typedoc: localConfigs } = this.projectService.OPTIONS;
+    const { typedocConfigs: localConfigs } = this.projectService.OPTIONS;
     // default configs
     const typedocOptions = {
       mode: 'file',
@@ -189,7 +189,7 @@ export class TypedocService {
 
   private getTypeLink(name: string, kind: ReflectionKind) {
     const {
-      typedoc: { readme },
+      typedocConfigs: { readme },
     } = this.projectService.OPTIONS;
     const home = !!readme && readme === 'none' ? 'index' : 'globals';
     const id = name.toLowerCase();

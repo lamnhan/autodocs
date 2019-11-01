@@ -99,7 +99,7 @@ export class ConvertService {
 
   convert(
     declaration: Declaration,
-    output: string,
+    output = 'SELF',
     options: ConvertOptions = {}
   ) {
     const { id } = options;
@@ -108,7 +108,6 @@ export class ConvertService {
       declaration.setId(id);
     }
     // convert
-    output = output || 'SELF';
     switch (output) {
       // full
       case 'FULL':

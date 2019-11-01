@@ -83,9 +83,18 @@
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="cli.html#generatecommanddef" class="tsd-kind-icon">generate<wbr>Command<wbr>Def</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="cli.html#previewcommanddef" class="tsd-kind-icon">preview<wbr>Command<wbr>Def</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="cli.html#root" class="tsd-kind-icon">root</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="cli.html#showcommanddef" class="tsd-kind-icon">show<wbr>Command<wbr>Def</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="cli.html#generate" class="tsd-kind-icon">generate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="cli.html#getapp" class="tsd-kind-icon">get<wbr>App</a></li>
 							</ul>
 						</section>
 					</div>
@@ -103,7 +112,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/c97ca92/src/cli/index.ts#L11">cli/index.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/2ca17fe/src/cli/index.ts#L29">cli/index.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="cli.html" class="tsd-signature-type">CLI</a></h4>
@@ -112,27 +121,64 @@
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="generatecommanddef" class="tsd-anchor"></a>
+					<h3>generate<wbr>Command<wbr>Def</h3>
+					<div class="tsd-signature tsd-kind-icon">generate<wbr>Command<wbr>Def<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CommandDef</span><span class="tsd-signature-symbol"> =&nbsp;[&#x27;generate&#x27;, &#x27;Generate the documentation.&#x27;,[&#x27;-c, --config [value]&#x27;, &#x27;Path to custom config file.&#x27;]]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/2ca17fe/src/cli/index.ts#L26">cli/index.ts:26</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="previewcommanddef" class="tsd-anchor"></a>
+					<h3>preview<wbr>Command<wbr>Def</h3>
+					<div class="tsd-signature tsd-kind-icon">preview<wbr>Command<wbr>Def<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CommandDef</span><span class="tsd-signature-symbol"> =&nbsp;[&#x27;preview [input] [output] [params...]&#x27;, &#x27;Preview a rendering.&#x27;]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/2ca17fe/src/cli/index.ts#L23">cli/index.ts:23</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="root" class="tsd-anchor"></a>
+					<h3>root</h3>
+					<div class="tsd-signature tsd-kind-icon">root<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[&#x27;docsuper&#x27;, &#x27;Document generator for Typescript projects.&#x27;]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/2ca17fe/src/cli/index.ts#L18">cli/index.ts:18</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="showcommanddef" class="tsd-anchor"></a>
+					<h3>show<wbr>Command<wbr>Def</h3>
+					<div class="tsd-signature tsd-kind-icon">show<wbr>Command<wbr>Def<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CommandDef</span><span class="tsd-signature-symbol"> =&nbsp;[&#x27;show [input]&#x27;, &#x27;Show Declaration info.&#x27;]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/2ca17fe/src/cli/index.ts#L20">cli/index.ts:20</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="generate" class="tsd-anchor"></a>
-					<h3>generate</h3>
+					<a name="getapp" class="tsd-anchor"></a>
+					<h3>get<wbr>App</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">generate<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">GenerateOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>App<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CommanderStatic</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/c97ca92/src/cli/index.ts#L47">cli/index.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/2ca17fe/src/cli/index.ts#L42">cli/index.ts:42</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>options: <span class="tsd-signature-type">GenerateOptions</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">CommanderStatic</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -156,8 +202,20 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="cli.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="cli.html#generatecommanddef" class="tsd-kind-icon">generate<wbr>Command<wbr>Def</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="cli.html#previewcommanddef" class="tsd-kind-icon">preview<wbr>Command<wbr>Def</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="cli.html#root" class="tsd-kind-icon">root</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="cli.html#showcommanddef" class="tsd-kind-icon">show<wbr>Command<wbr>Def</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="cli.html#generate" class="tsd-kind-icon">generate</a>
+								<a href="cli.html#getapp" class="tsd-kind-icon">get<wbr>App</a>
 							</li>
 						</ul>
 					</li>
