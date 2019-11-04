@@ -10,6 +10,8 @@ import { Declaration } from '../declaration';
  * The `Parser` turns source code into [[Declaration]]
  */
 export class ParseService {
+  private cache: {[input: string]: Declaration} = {};
+
   constructor(
     private projectService: ProjectService,
     private typedocService: TypedocService,
@@ -17,33 +19,43 @@ export class ParseService {
   ) {}
 
   parse(input?: string) {
-    const { what, child } = this.extractInput(input || '*');
-    // any container
-    let reflection = this.typedocService.getReflection(what);
-    // call signature
-    const callable = ((reflection as DeclarationReflection).signatures ||
-      [])[0];
-    if (!!callable) {
-      reflection = callable;
-    }
-    // accessor
-    else {
-      const getter = (reflection as DeclarationReflection).getSignature;
-      if (!!getter) {
-        (reflection as DeclarationReflection).type = getter.type;
+    input = input || '*';
+    // get from cache
+    let declaration = this.cache[input];
+    // no cached
+    if (!declaration) {
+      const { what, child } = this.extractInput(input);
+      // any container
+      let reflection = this.typedocService.getReflection(what);
+      // call signature
+      const callSignature = ((reflection as DeclarationReflection).signatures ||
+        [])[0];
+      if (!!callSignature) {
+        reflection = callSignature;
       }
+      // accessor
+      else {
+        const getSignature = (reflection as DeclarationReflection).getSignature;
+        if (!!getSignature) {
+          (reflection as DeclarationReflection).type = getSignature.type;
+        }
+      }
+      // or a child
+      if (!!child) {
+        reflection = this.typedocService.getChildReflection(reflection, child);
+      }
+      // parse result
+      declaration = new Declaration(
+        this.projectService,
+        this.typedocService,
+        this.contentService,
+        reflection
+      );
+      // save cache
+      this.cache[input] = declaration;
     }
-    // or a child
-    if (!!child) {
-      reflection = this.typedocService.getChildReflection(reflection, child);
-    }
-    // parse result
-    return new Declaration(
-      this.projectService,
-      this.typedocService,
-      this.contentService,
-      reflection
-    );
+    // result
+    return declaration;
   }
 
   private extractInput(input: string) {
