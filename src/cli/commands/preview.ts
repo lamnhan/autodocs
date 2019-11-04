@@ -11,7 +11,7 @@ export class PreviewCommand {
     private parseService: ParseService,
   ) {}
 
-  run(input?: string, output?: string, params: string[] = []) {
+  run(input= '*', output = 'SELF', params: string[] = []) {
     const options = this.extractOptions(params);
     // render
     const declaration = this.parseService.parse(input);
@@ -20,9 +20,9 @@ export class PreviewCommand {
     // output
     const convertInput = [
       '[',
-        `'${input || '*'}'`,
+        `'${input}'`,
         ', ',
-        `'${output || 'SELF'}'`,
+        `'${output}'`,
         !params.length
         ? ''
         : (

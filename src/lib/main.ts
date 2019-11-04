@@ -1,15 +1,14 @@
 import { resolve } from 'path';
 
+import { RenderOptions } from './types';
 import { OptionsInput, ProjectService } from './services/project';
 import { TypedocService } from './services/typedoc';
-import { ContentBySections, ContentService } from './services/content';
+import { ContentService } from './services/content';
 import { LoadService } from './services/load';
 import { ParseService } from './services/parse';
-import { ConvertOptions, ConvertService } from './services/convert';
+import { ConvertService } from './services/convert';
 import { Rendering, BatchRendering, RenderService } from './services/render';
 import { BuiltinTemplate, TemplateService } from './services/template';
-
-import { Declaration } from './declaration';
 
 /**
  * The Docsuper module
@@ -108,20 +107,38 @@ export class Main {
    * Render content based on local configuration.
    */
   renderLocal() {
-    const { render: renderFiles, renderOptions } = this.projectService.OPTIONS;
+    const { render } = this.projectService.OPTIONS;
     // convert files to batch rendering
     const batchRendering: BatchRendering = {};
     const currentContentPaths: string[] = [];
-    Object.keys(renderFiles).forEach(path => {
-      const value = renderFiles[path];
-      // use template
-      batchRendering[path] =
-        typeof value === 'string'
-        ? this.templateService.getTemplate(value as BuiltinTemplate)
-        : value;
+    Object.keys(render).forEach(path => {
+      const renderValue = render[path];
+      let renderOptions = {};
+      // template
+      if (typeof renderValue === 'string') {
+        batchRendering[path] = this.templateService.getTemplate(
+          renderValue as BuiltinTemplate
+        );
+      }
+      // rendering
+      else if (
+        !renderValue.template &&
+        !renderValue.rendering
+      ) {
+        batchRendering[path] = renderValue as Rendering;
+      }
+      // with options
+      else {
+        batchRendering[path] =
+          !!renderValue.template
+          ? this.templateService.getTemplate(renderValue.template as BuiltinTemplate)
+          : renderValue.rendering as Rendering;
+        // set options
+        renderOptions = renderValue;
+      }
       // clean output or not
-      const opt = renderOptions[path];
-      if (!opt || !opt.cleanOutput) {
+      const { cleanOutput } = renderOptions as RenderOptions;
+      if (!cleanOutput) {
         currentContentPaths.push(path);
       }
     });

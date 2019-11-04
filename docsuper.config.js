@@ -14,6 +14,6 @@ module.exports = {
       converter: ['ConvertService', 'FULL', { title: 'Converting' }],
       renderer: ['RenderService', 'FULL', { title: 'Rendering' }],
       license: true
-    },
+    }
   }
 };

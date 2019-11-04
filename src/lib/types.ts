@@ -47,13 +47,7 @@ export interface Options {
    * List of documents to be generated: __key__ is the path to the document (under the `outPath`) and __value__ is a template name or a rendering input
    */
   render?: {
-    [path: string]: BuiltinTemplate | Rendering;
-  };
-  /**
-   * Additional render options
-   */
-  renderOptions?: {
-    [path: string]: RenderFileOptions;
+    [path: string]: BuiltinTemplate | Rendering | RenderWithOptions;
   };
   /**
    * Additional converts
@@ -67,9 +61,14 @@ export interface Options {
 
 export type CustomApiGenerator = (typedocService: TypedocService, out: string) => void;
 
-export interface RenderFileOptions {
+export interface RenderWithOptions extends RenderOptions {
+  template?: BuiltinTemplate;
+  rendering?: Rendering;
+}
+
+export interface RenderOptions {
   title?: string;
   cleanOutput?: boolean;
-  templateOpts?: {[key: string]: any};
+  templateOptions?: {[key: string]: any};
   webData?: {[key: string]: any};
 }

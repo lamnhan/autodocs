@@ -82,7 +82,6 @@ export class ProjectService {
       outputMode: 'file',
       websiteTheme: 'default',
       render: {},
-      renderOptions: {},
       converts: {},
       noAttr: false,
       ...options,
