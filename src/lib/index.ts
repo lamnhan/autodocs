@@ -1,6 +1,8 @@
 import { Options } from './types';
 import { DocsuperModule } from './main';
 
-export function docsuper(options?: Options) {
+export function entry(options?: Options) {
   return new DocsuperModule(options);
 }
+
+export { entry as docsuper };

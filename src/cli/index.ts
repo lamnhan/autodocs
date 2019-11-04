@@ -8,7 +8,7 @@ import { PreviewCommand } from './commands/preview';
 
 type CommandDef = [string, string, ...Array<[string, string]>];
 
-export class CLI {
+export class Cli {
   private docsuperModule: DocsuperModule;
 
   private generateCommand: GenerateCommand;
