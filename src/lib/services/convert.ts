@@ -40,7 +40,7 @@ export interface ConvertOptions
 export type AdditionalConvert = (
   declaration: Declaration,
   options: ConvertOptions,
-  $Content: ContentService
+  contentService: ContentService
 ) => Block[];
 
 export interface AdditionalConverts {
