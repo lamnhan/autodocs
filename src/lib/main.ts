@@ -105,45 +105,16 @@ export class Main {
   }
 
   /**
-   * Turn the source code into a [[Declaration]].
-   * @param input - Parsing input
-   */
-  parse(input?: string) {
-    return this.parseService.parse(input);
-  }
-
-  /**
-   * Convert a declaration into content blocks.
-   * @param declaration - The declaration
-   * @param output - Expected output, see [[ConvertService]]
-   * @param options - Custom convertion options
-   */
-  convert(declaration: Declaration, output: string, options?: ConvertOptions) {
-    return this.convertService.convert(declaration, output, options);
-  }
-
-  /**
-   * Render content based on configuration.
-   * @param rendering - Redering configuration
-   * @param currentContent - Current content by sections
-   */
-  render(
-    rendering: Rendering,
-    currentContent: ContentBySections = {}
-  ) {
-    return this.renderService.render(rendering, currentContent);
-  }
-
-  /**
    * Render content based on local configuration.
    */
   renderLocal() {
     const { render: renderFiles, renderOptions } = this.projectService.OPTIONS;
     // convert files to batch rendering
     const batchRendering: BatchRendering = {};
-    const pathsToLoadCurrentContent: string[] = [];
+    const currentContentPaths: string[] = [];
     Object.keys(renderFiles).forEach(path => {
       const value = renderFiles[path];
+      // use template
       batchRendering[path] =
         typeof value === 'string'
         ? this.templateService.getTemplate(value as BuiltinTemplate)
@@ -151,11 +122,11 @@ export class Main {
       // clean output or not
       const opt = renderOptions[path];
       if (!opt || !opt.cleanOutput) {
-        pathsToLoadCurrentContent.push(path);
+        currentContentPaths.push(path);
       }
     });
     // render files
-    const batchCurrentContent = this.loadService.batchLoad(pathsToLoadCurrentContent);
+    const batchCurrentContent = this.loadService.batchLoad(currentContentPaths);
     // result
     return this.renderService.renderBatch(batchRendering, batchCurrentContent);
   }
@@ -167,7 +138,11 @@ export class Main {
    */
   output(path: string, rendering: Rendering) {
     const currentContent = this.loadService.load(path);
-    const renderResult = this.render(rendering, currentContent);
+    const renderResult = this.renderService.render(
+      rendering,
+      currentContent,
+      path.substr(-5) === '.html'
+    );
     return this.contentService.writeFileSync(path, renderResult);
   }
 

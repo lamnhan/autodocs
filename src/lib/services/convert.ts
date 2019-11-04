@@ -97,6 +97,12 @@ export class ConvertService {
     private contentService: ContentService
   ) {}
 
+  /**
+   * Convert a declaration into content blocks.
+   * @param declaration - The declaration
+   * @param output - Expected output, see [[ConvertService]]
+   * @param options - Custom convertion options
+   */
   convert(
     declaration: Declaration,
     output = 'SELF',

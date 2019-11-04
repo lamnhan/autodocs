@@ -18,6 +18,10 @@ export class ParseService {
     private contentService: ContentService
   ) {}
 
+  /**
+   * Turn the source code into a [[Declaration]].
+   * @param input - Parsing input
+   */
   parse(input?: string) {
     input = input || '*';
     // get from cache

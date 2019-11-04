@@ -52,9 +52,15 @@ export class RenderService {
     private convertService: ConvertService
   ) {}
 
+  /**
+   * Render content based on configuration.
+   * @param rendering - Redering configuration
+   * @param currentContent - Current content by sections
+   */
   render(
     rendering: Rendering,
-    currentContent: ContentBySections = {}
+    currentContent: ContentBySections = {},
+    html = false,
   ) {
     // get rendering data
     const renderingData = this.getData(rendering);
@@ -129,7 +135,7 @@ export class RenderService {
       }
     );
     // result
-    return content;
+    return html ? this.contentService.md2Html(content) : content;
   }
 
   renderBatch(
@@ -142,7 +148,11 @@ export class RenderService {
     Object.keys(batchRendering).forEach(id => {
       const rendering = batchRendering[id];
       const currentContent = batchCurrentContent[id] || {};
-      batchResult[id] = this.render(rendering, currentContent);
+      batchResult[id] = this.render(
+        rendering,
+        currentContent,
+        id.substr(-5) === '.html'
+      );
     });
     return batchResult;
   }
