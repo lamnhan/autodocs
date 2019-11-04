@@ -1,6 +1,6 @@
 import { readFileSync, outputFileSync } from 'fs-extra';
 import { format as prettierFormater } from 'prettier';
-import { ConverterOptions, Converter } from 'showdown';
+import * as marked from 'marked';
 
 export interface ContentBySections {
   [section: string]: string;
@@ -158,25 +158,8 @@ export class ContentService {
     return content;
   }
 
-  md2Html(mdContent: string, showdownOptions: ConverterOptions = {}) {
-    return new Converter({
-      omitExtraWLInCodeBlocks: true,
-      parseImgDimensions: true,
-      simplifiedAutoLink: true,
-      excludeTrailingPunctuationFromURLs: true,
-      strikethrough: true,
-      tables: true,
-      tasklists: true,
-      ghMentions: true,
-      disableForced4SpacesIndentedSublists: true,
-      simpleLineBreaks: true,
-      requireSpaceBeforeHeadingText: true,
-      ...showdownOptions,
-    }).makeHtml(mdContent);
-  }
-
-  html2Md(htmlContent: string, showdownOptions: ConverterOptions = {}) {
-    return new Converter(showdownOptions).makeMarkdown(htmlContent);
+  md2Html(mdContent: string, markedOptions: marked.MarkedOptions = {}) {
+    return marked(mdContent, markedOptions);
   }
 
   formatMd(mdContent: string) {
