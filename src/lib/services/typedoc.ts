@@ -219,23 +219,31 @@ export class TypedocService {
     // interface/class props
     if (
       !!parent &&
-      (parent.kind === ReflectionKind.Interface ||
-        parent.kind === ReflectionKind.Class)
+      (
+        parent.kind === ReflectionKind.Interface ||
+        parent.kind === ReflectionKind.Class
+      )
     ) {
       return this.getTypeLink(parent.name, parent.kind) + '#' + fragment;
     }
     // class methods
     else if (
-      !!parent && // the method
-      !!parent.parent && // the class
+      !!parent &&
       parent.kind === ReflectionKind.Method &&
-      parent.name === name
+      !!parent.parent // the class
     ) {
       return (
         this.getTypeLink(parent.parent.name, parent.parent.kind) +
         '#' +
         fragment
       );
+    }
+    // function
+    else if (
+      !!parent &&
+      parent.kind === ReflectionKind.Function
+    ) {
+      return this.getTypeLink(name, ReflectionKind.Function);
     }
     // interface | class | globals
     else {
@@ -257,7 +265,7 @@ export class TypedocService {
         const { reflection: typeReflection } = type as ReferenceType;
         const { name, kind } = typeReflection as Reflection;
         const link = this.getTypeLink(name, kind);
-        typeData.displayType = `[${name}](${link})`;
+        typeData.displayType = `<a href="${link}" target="_blank">${name}</a>`;
       }
       // array
       else if (type.type === 'array') {
