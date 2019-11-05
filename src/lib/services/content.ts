@@ -2,6 +2,8 @@ import { readFileSync, outputFileSync } from 'fs-extra';
 import { format as prettierFormater } from 'prettier';
 import * as marked from 'marked';
 
+import { ProjectService } from './project';
+
 export interface ContentBySections {
   [section: string]: string;
 }
@@ -41,7 +43,7 @@ export class ContentService {
   EOL = '\r\n';
   EOL2X = this.EOL.repeat(2);
 
-  constructor() {}
+  constructor(private projectService: ProjectService) {}
 
   readFileSync(path: string) {
     return readFileSync(path, 'utf-8');
@@ -159,7 +161,11 @@ export class ContentService {
   }
 
   md2Html(mdContent: string, markedOptions: marked.MarkedOptions = {}) {
-    return marked(mdContent, markedOptions);
+    const { url } = this.projectService.OPTIONS;
+    return marked(mdContent, {
+      baseUrl: url,
+      ...markedOptions
+    });
   }
 
   formatMd(mdContent: string) {

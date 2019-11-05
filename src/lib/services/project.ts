@@ -64,19 +64,19 @@ export class ProjectService {
       options = pathExistsSync(path) ? require(path) : pkgOptions;
     }
     // api url
-    let apiUrl = options.apiUrl;
-    if (!apiUrl) {
+    let url = options.url;
+    if (!url) {
       const [, org, repo] = repoUrl
         .replace('https://', '')
         .replace('.git', '')
         .split('/');
-      apiUrl = `https://${org}.github.io/${repo}`;
+      url = `https://${org}.github.io/${repo}`;
     }
     // options
     return {
+      url,
       srcPath: 'src',
       outPath: '.',
-      apiUrl,
       apiGenerator: 'typedoc',
       typedocConfigs: {},
       outputMode: 'file',

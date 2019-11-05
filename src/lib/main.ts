@@ -26,7 +26,7 @@ export class Main {
   constructor(optionsInput?: OptionsInput) {
     this.projectService = new ProjectService(optionsInput);
     this.typedocService = new TypedocService(this.projectService);
-    this.contentService = new ContentService();
+    this.contentService = new ContentService(this.projectService);
     this.loadService = new LoadService(this.contentService);
     this.parseService = new ParseService(
       this.projectService,

@@ -16,6 +16,10 @@ import { BuiltinTemplate } from './services/template';
  */
 export interface Options {
   /**
+   * Docs homepage url, default to the Github Pages repo url
+   */
+  url?: string;
+  /**
    * Path to the source code, default to `src`
    */
   srcPath?: string;
@@ -23,10 +27,6 @@ export interface Options {
    * Root path to output files to, default to the project root
    */
   outPath?: string;
-  /**
-   * Custom API reference url, default to the Github Pages repo url
-   */
-  apiUrl?: string;
   /**
    * Detail API generator, default to 'typedoc'
    */

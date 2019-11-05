@@ -209,8 +209,8 @@ export class TypedocService {
       link = `${home}.html`;
     }
     // result
-    const { apiUrl } = this.projectService.OPTIONS;
-    return apiUrl + '/' + link;
+    const { url, outPath } = this.projectService.OPTIONS;
+    return (url + (!!outPath ? '' : '/api')) + '/' + link;
   }
 
   private getLink(reflection: Reflection) {
