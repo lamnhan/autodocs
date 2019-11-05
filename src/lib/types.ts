@@ -2,7 +2,7 @@
 import { TypedocConfigs, TypedocService } from './services/typedoc';
 import { AdditionalConverts } from './services/convert';
 import { Rendering } from './services/render';
-import { BuiltinTemplate } from './services/template';
+import { BuiltinTemplate, TemplateOptions } from './services/template';
 
 /**
  * Custom generator options
@@ -69,6 +69,9 @@ export interface RenderWithOptions extends RenderOptions {
 export interface RenderOptions {
   title?: string;
   cleanOutput?: boolean;
-  templateOptions?: {[key: string]: any};
-  webData?: {[key: string]: any};
+  templateOptions?: TemplateOptions;
+  webData?: WebData;
 }
+export interface WebData {
+  [key: string]: any;
+};

@@ -1,62 +1,81 @@
+// tslint:disable: no-any
 import { Rendering } from './render';
 
-export type BuiltinTemplate = 'mini' | 'full' | 'angular' | 'cli';
+export type BuiltinTemplate =
+  | 'mini' | 'minix'
+  | 'full' | 'fullx'
+  | 'angular' | 'angularx'
+  | 'cli' | 'clix';
+
+export interface TemplateOptions {
+  [key: string]: any;
+}
 
 export class TemplateService {
 
   constructor() {}
   
-  getTemplate(name: BuiltinTemplate) {
+  getTemplate(name: BuiltinTemplate, options: TemplateOptions = {}) {
     switch (name) {
       case 'mini':
-        return this.getMiniTemplate();
+      case 'minix':
+        return this.getMiniTemplate(options, name === 'minix');
       case 'full':
-        return this.getFullTemplate();
+      case 'fullx':
+        return this.getFullTemplate(options, name === 'fullx');
       case 'angular':
-        return this.getAngularTemplate();
+      case 'angularx':
+        return this.getAngularTemplate(options, name === 'angularx');
       case 'cli':
-        return this.getCLITemplate();
+      case 'clix':
+        return this.getCLITemplate(options, name === 'clix');
       default:
         throw new Error('No template name ' + name);
     }
   }
 
-  private getMiniTemplate() {
-    return {
-      head: true,
-      tocx: true,
+  private getMiniTemplate(options: TemplateOptions = {}, extra = false) {
+    const sections: Rendering = {
       options: ['Options', 'FULL'],
       main: ['Main', 'FULL'],
-      license: true,
-    } as Rendering;
+    };
+    return this.createRendering(sections, extra);
   }
 
-  private getFullTemplate() {
-    return {
-      head: true,
-      tocx: true,
+  private getFullTemplate(options: TemplateOptions = {}, extra = false) {
+    const sections: Rendering = {
       functions: ['*', 'FULL_FUNCTIONS'],
       interfaces: ['*', 'SUMMARY_INTERFACES', { heading: true }],
       classes: ['*', 'FULL_CLASSES'],
-      license: true,
-    } as Rendering;
+    };
+    return this.createRendering(sections, extra);
   }
 
-  private getAngularTemplate() {
-    return {
-      head: true,
-      tocx: true,
+  private getAngularTemplate(options: TemplateOptions = {}, extra = false) {
+    const sections: Rendering = {
       // TODO: add sections: services, components, pipes, ...
-      license: true,
-    } as Rendering;
+    };
+    return this.createRendering(sections, extra);
   }
 
-  private getCLITemplate() {
-    return {
-      head: true,
-      tocx: true,
+  private getCLITemplate(options: TemplateOptions = {}, extra = false) {
+    const sections: Rendering = {
       // TODO: add commands section
-      license: true,
-    } as Rendering;
+    };
+    return this.createRendering(sections, extra);
+  }
+
+  private createRendering(rendering: Rendering = {}, extra = false) {
+    const sections = Object.keys(rendering);
+    // extra
+    if (extra) {
+      sections.unshift('head', 'tocx');
+      sections.push('license');
+    }
+    // build template
+    const result: Rendering = {};
+    sections.forEach(name => result[name] = rendering[name] || true);
+    // result
+    return result;
   }
 }
