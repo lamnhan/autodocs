@@ -36,17 +36,24 @@ export class TemplateService {
 
   private getMiniTemplate(options: TemplateOptions = {}, extra = false) {
     const sections: Rendering = {
-      options: ['Options', 'FULL'],
-      main: ['Main', 'FULL'],
+      options: ['Options', 'FULL', options['options'] || {}],
+      main: ['Main', 'FULL', options['main'] || {}],
     };
     return this.createRendering(sections, extra);
   }
 
   private getFullTemplate(options: TemplateOptions = {}, extra = false) {
     const sections: Rendering = {
-      functions: ['*', 'FULL_FUNCTIONS'],
-      interfaces: ['*', 'SUMMARY_INTERFACES', { heading: true }],
-      classes: ['*', 'FULL_CLASSES'],
+      functions: ['*', 'FULL_FUNCTIONS', options['functions'] || {}],
+      interfaces: [
+        '*',
+        'SUMMARY_INTERFACES',
+        {
+          heading: true,
+          ...(options['interfaces'] || {})
+        }
+      ],
+      classes: ['*', 'FULL_CLASSES', options['classes'] || {}],
     };
     return this.createRendering(sections, extra);
   }

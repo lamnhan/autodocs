@@ -7,7 +7,7 @@ import { ContentService } from './services/content';
 import { LoadService } from './services/load';
 import { ParseService } from './services/parse';
 import { ConvertService } from './services/convert';
-import { Rendering, BatchRendering, RenderService } from './services/render';
+import { Rendering, RenderService } from './services/render';
 import { BuiltinTemplate, TemplateService } from './services/template';
 
 /**
