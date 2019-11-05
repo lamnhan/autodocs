@@ -43,6 +43,11 @@ export class ProjectService {
     return this.options;
   }
 
+  get API_URL() {
+    const { url, outPath } = this.options;
+    return url + (!!outPath ? '' : '/api');
+  }
+
   private getPackage() {
     return readJsonSync('package.json') as PackageJson;
   }

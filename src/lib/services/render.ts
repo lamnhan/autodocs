@@ -268,7 +268,7 @@ export class RenderService {
   }
 
   private getDataTOCX(blocks: Block[]) {
-    const { apiUrl } = this.projectService.OPTIONS;
+    const apiUrl = this.projectService.API_URL;
     blocks.push(
       this.contentService.blockHeading(
         'Detail API reference',

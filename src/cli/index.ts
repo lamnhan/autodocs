@@ -24,8 +24,9 @@ export class Cli {
     'preview [input] [output] [params...]', 'Preview a rendering.'
   ];
   generateCommandDef: CommandDef = [
-    'generate', 'Generate the documentation.',
-    ['-c, --config [value]', 'Path to custom config file.']
+    'generate [path]', 'Generate the documentation.',
+    ['-c, --config [value]', 'Path to custom config file.'],
+    ['-t, --template [value]', 'Use this template for the "file" param.']
   ];
 
   constructor() {
@@ -62,10 +63,16 @@ export class Cli {
 
     // generate
     (() => {
-      const [command, description, configOpt] = this.generateCommandDef;
+      const [
+        command,
+        description,
+        configOpt,
+        templateOpt
+      ] = this.generateCommandDef;
       commander.command(command).description(description)
         .option(...configOpt) // -c, --config
-        .action(options => this.generateCommand.run(options));
+        .option(...templateOpt) // -t, --template
+        .action((path, options) => this.generateCommand.run(path, options));
     })();
 
     commander

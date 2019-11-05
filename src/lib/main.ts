@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 
-import { RenderOptions } from './types';
+import { RenderInput, RenderOptions } from './types';
 import { OptionsInput, ProjectService } from './services/project';
 import { TypedocService } from './services/typedoc';
 import { ContentService } from './services/content';
@@ -104,72 +104,75 @@ export class Main {
   }
 
   /**
+   * Render a file
+   * @param path - Path to file
+   * @param renderInput - Render input
+   */
+  render(path: string, renderInput: RenderInput) {
+    let rendering: Rendering = {};
+    let renderOptions: RenderOptions = {};
+    // template
+    if (typeof renderInput === 'string') {
+      rendering = this.templateService.getTemplate(
+        renderInput as BuiltinTemplate
+      );
+    }
+    // rendering
+    else if (
+      !renderInput.template &&
+      !renderInput.rendering
+    ) {
+      rendering = renderInput as Rendering;
+    }
+    // with options
+    else {
+      rendering =
+        !!renderInput.template
+        ? this.templateService.getTemplate(renderInput.template as BuiltinTemplate)
+        : renderInput.rendering as Rendering;
+      // set options
+      renderOptions = renderInput;
+    }
+    // current content (clean output or not)
+    const { cleanOutput } = renderOptions;
+    const currentContent = !cleanOutput ? this.loadService.load(path) : {};
+    // result
+    return this.renderService.render(
+      rendering,
+      currentContent,
+      path.substr(-5) === '.html'
+    );
+  }
+
+  /**
    * Render content based on local configuration.
    */
   renderLocal() {
     const { render } = this.projectService.OPTIONS;
-    // convert files to batch rendering
-    const batchRendering: BatchRendering = {};
-    const currentContentPaths: string[] = [];
-    Object.keys(render).forEach(path => {
-      const renderValue = render[path];
-      let renderOptions = {};
-      // template
-      if (typeof renderValue === 'string') {
-        batchRendering[path] = this.templateService.getTemplate(
-          renderValue as BuiltinTemplate
-        );
-      }
-      // rendering
-      else if (
-        !renderValue.template &&
-        !renderValue.rendering
-      ) {
-        batchRendering[path] = renderValue as Rendering;
-      }
-      // with options
-      else {
-        batchRendering[path] =
-          !!renderValue.template
-          ? this.templateService.getTemplate(renderValue.template as BuiltinTemplate)
-          : renderValue.rendering as Rendering;
-        // set options
-        renderOptions = renderValue;
-      }
-      // clean output or not
-      const { cleanOutput } = renderOptions as RenderOptions;
-      if (!cleanOutput) {
-        currentContentPaths.push(path);
-      }
-    });
-    // render files
-    const batchCurrentContent = this.loadService.batchLoad(currentContentPaths);
+    // render
+    const result: {[path: string]: string} = {};
+    Object.keys(render).forEach(path => result[path] = this.render(path, render[path]));
     // result
-    return this.renderService.renderBatch(batchRendering, batchCurrentContent);
+    return result;
   }
 
   /**
    * Render and save a document
    * @param path - Path to the document
-   * @param rendering - Rendering configuration
+   * @param renderInput - Render input
    */
-  output(path: string, rendering: Rendering) {
-    const currentContent = this.loadService.load(path);
-    const renderResult = this.renderService.render(
-      rendering,
-      currentContent,
-      path.substr(-5) === '.html'
-    );
-    return this.contentService.writeFileSync(path, renderResult);
+  output(path: string, renderInput: RenderInput) {
+    const content = this.render(path, renderInput);
+    return this.contentService.writeFileSync(path, content);
   }
 
   /**
    * Render and save documents based on local configuration.
    */
   outputLocal() {
-    const batchRenderResult = this.renderLocal();
-    Object.keys(batchRenderResult).forEach(path =>
-      this.contentService.writeFileSync(path, batchRenderResult[path])
+    const batchContent = this.renderLocal();
+    Object.keys(batchContent).forEach(path =>
+      this.contentService.writeFileSync(path, batchContent[path])
     );
   }
 

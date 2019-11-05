@@ -10,4 +10,5 @@ export * from './lib/services/load';
 export * from './lib/services/parse';
 export * from './lib/services/project';
 export * from './lib/services/render';
+export * from './lib/services/template';
 export * from './lib/services/typedoc';
