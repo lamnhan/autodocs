@@ -196,5 +196,3 @@ export class Main {
     else {}
   }
 }
-
-export { Main as DocsuperModule };
