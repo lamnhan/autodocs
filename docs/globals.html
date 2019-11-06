@@ -79,18 +79,18 @@
 								<li class="tsd-kind-class"><a href="classes/previewcommand.html" class="tsd-kind-icon">Preview<wbr>Command</a></li>
 								<li class="tsd-kind-class"><a href="classes/projectservice.html" class="tsd-kind-icon">Project<wbr>Service</a></li>
 								<li class="tsd-kind-class"><a href="classes/renderservice.html" class="tsd-kind-icon">Render<wbr>Service</a></li>
+								<li class="tsd-kind-class"><a href="classes/renderer.html" class="tsd-kind-icon">Renderer</a></li>
 								<li class="tsd-kind-class"><a href="classes/showcommand.html" class="tsd-kind-icon">Show<wbr>Command</a></li>
 								<li class="tsd-kind-class"><a href="classes/templateservice.html" class="tsd-kind-icon">Template<wbr>Service</a></li>
 								<li class="tsd-kind-class"><a href="classes/typedocservice.html" class="tsd-kind-icon">Typedoc<wbr>Service</a></li>
+								<li class="tsd-kind-class"><a href="classes/webservice.html" class="tsd-kind-icon">Web<wbr>Service</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-interface"><a href="interfaces/additionalconverts.html" class="tsd-kind-icon">Additional<wbr>Converts</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/batchrenderresult.html" class="tsd-kind-icon">Batch<wbr>Render<wbr>Result</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/batchrendering.html" class="tsd-kind-icon">Batch<wbr>Rendering</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/batchrenderingdata.html" class="tsd-kind-icon">Batch<wbr>Rendering<wbr>Data</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/batchrender.html" class="tsd-kind-icon">Batch<wbr>Render</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/contentbysections.html" class="tsd-kind-icon">Content<wbr>BySections</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/convertoptions.html" class="tsd-kind-icon">Convert<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/convertingoptions.html" class="tsd-kind-icon">Converting<wbr>Options</a></li>
@@ -105,12 +105,15 @@
 								<li class="tsd-kind-interface"><a href="interfaces/reflectiondata.html" class="tsd-kind-icon">Reflection<wbr>Data</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/renderoptions.html" class="tsd-kind-icon">Render<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/renderwithoptions.html" class="tsd-kind-icon">Render<wbr>With<wbr>Options</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/rendererdata.html" class="tsd-kind-icon">Renderer<wbr>Data</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/rendererfiledata.html" class="tsd-kind-icon">Renderer<wbr>File<wbr>Data</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/rendering.html" class="tsd-kind-icon">Rendering</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/renderingdata.html" class="tsd-kind-icon">Rendering<wbr>Data</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/tableblock.html" class="tsd-kind-icon">Table<wbr>Block</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/templateoptions.html" class="tsd-kind-icon">Template<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/textblock.html" class="tsd-kind-icon">Text<wbr>Block</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/typedocconfigs.html" class="tsd-kind-icon">Typedoc<wbr>Configs</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/valueoptions.html" class="tsd-kind-icon">Value<wbr>Options</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/webdata.html" class="tsd-kind-icon">Web<wbr>Data</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -129,8 +132,8 @@
 								<li class="tsd-kind-type-alias"><a href="globals.html#kindstring" class="tsd-kind-icon">Kind<wbr>String</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#list" class="tsd-kind-icon">List</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#optionsinput" class="tsd-kind-icon">Options<wbr>Input</a></li>
+								<li class="tsd-kind-type-alias"><a href="globals.html#renderinput" class="tsd-kind-icon">Render<wbr>Input</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#sectionrendering" class="tsd-kind-icon">Section<wbr>Rendering</a></li>
-								<li class="tsd-kind-type-alias"><a href="globals.html#sectionrenderingdata" class="tsd-kind-icon">Section<wbr>Rendering<wbr>Data</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#table" class="tsd-kind-icon">Table</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#text" class="tsd-kind-icon">Text</a></li>
 							</ul>
@@ -152,7 +155,7 @@
 					<div class="tsd-signature tsd-kind-icon">Additional<wbr>Convert<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/convert.ts#L40">lib/services/convert.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/convert.ts#L40">lib/services/convert.ts:40</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -189,7 +192,7 @@
 					<div class="tsd-signature tsd-kind-icon">Block<span class="tsd-signature-symbol">:</span> <a href="interfaces/headingblock.html" class="tsd-signature-type">HeadingBlock</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/textblock.html" class="tsd-signature-type">TextBlock</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/listblock.html" class="tsd-signature-type">ListBlock</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/tableblock.html" class="tsd-signature-type">TableBlock</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/content.ts#L9">lib/services/content.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/content.ts#L11">lib/services/content.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -199,17 +202,17 @@
 					<div class="tsd-signature tsd-kind-icon">Block<wbr>Rendering<span class="tsd-signature-symbol">:</span> <a href="globals.html#block" class="tsd-signature-type">Block</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#declarationrendering" class="tsd-signature-type">DeclarationRendering</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/render.ts#L14">lib/services/render.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/render.ts#L19">lib/services/render.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="builtintemplate" class="tsd-anchor"></a>
 					<h3>Builtin<wbr>Template</h3>
-					<div class="tsd-signature tsd-kind-icon">Builtin<wbr>Template<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"mini"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"full"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"angular"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"cli"</span></div>
+					<div class="tsd-signature tsd-kind-icon">Builtin<wbr>Template<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"mini"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"minix"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"full"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fullx"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"angular"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"angularx"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"cli"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"clix"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/template.ts#L3">lib/services/template.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/template.ts#L4">lib/services/template.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -219,7 +222,7 @@
 					<div class="tsd-signature tsd-kind-icon">Custom<wbr>Api<wbr>Generator<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/types.ts#L62">lib/types.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/types.ts#L59">lib/types.ts:59</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -253,7 +256,7 @@
 					<div class="tsd-signature tsd-kind-icon">Declaration<wbr>Filter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/declaration.ts#L11">lib/declaration.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/declaration.ts#L11">lib/declaration.ts:11</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -284,7 +287,7 @@
 					<div class="tsd-signature tsd-kind-icon">Declaration<wbr>Rendering<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="interfaces/convertoptions.html" class="tsd-signature-type">ConvertOptions</a><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/render.ts#L15">lib/services/render.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/render.ts#L21">lib/services/render.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -294,7 +297,7 @@
 					<div class="tsd-signature tsd-kind-icon">Default<wbr>Value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/typedoc.ts#L16">lib/services/typedoc.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/typedoc.ts#L16">lib/services/typedoc.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -304,7 +307,7 @@
 					<div class="tsd-signature tsd-kind-icon">Iteration<wbr>Formatter&lt;Data&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/typedoc.ts#L59">lib/services/typedoc.ts:59</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/typedoc.ts#L59">lib/services/typedoc.ts:59</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -341,7 +344,7 @@
 					<div class="tsd-signature tsd-kind-icon">Iteration<wbr>Handler&lt;Item, Data&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/typedoc.ts#L55">lib/services/typedoc.ts:55</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/typedoc.ts#L55">lib/services/typedoc.ts:55</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -381,7 +384,7 @@
 					<div class="tsd-signature tsd-kind-icon">Kind<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">keyof ReflectionKind</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/typedoc.ts#L14">lib/services/typedoc.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/typedoc.ts#L14">lib/services/typedoc.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -391,7 +394,7 @@
 					<div class="tsd-signature tsd-kind-icon">List<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/content.ts#L28">lib/services/content.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/content.ts#L30">lib/services/content.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -401,7 +404,17 @@
 					<div class="tsd-signature tsd-kind-icon">Options<wbr>Input<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/options.html" class="tsd-signature-type">Options</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/project.ts#L6">lib/services/project.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/project.ts#L6">lib/services/project.ts:6</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="renderinput" class="tsd-anchor"></a>
+					<h3>Render<wbr>Input</h3>
+					<div class="tsd-signature tsd-kind-icon">Render<wbr>Input<span class="tsd-signature-symbol">:</span> <a href="globals.html#builtintemplate" class="tsd-signature-type">BuiltinTemplate</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/rendering.html" class="tsd-signature-type">Rendering</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/renderwithoptions.html" class="tsd-signature-type">RenderWithOptions</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/render.ts#L23">lib/services/render.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -411,17 +424,7 @@
 					<div class="tsd-signature tsd-kind-icon">Section<wbr>Rendering<span class="tsd-signature-symbol">:</span> <a href="globals.html#blockrendering" class="tsd-signature-type">BlockRendering</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#blockrendering" class="tsd-signature-type">BlockRendering</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/render.ts#L10">lib/services/render.ts:10</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias">
-					<a name="sectionrenderingdata" class="tsd-anchor"></a>
-					<h3>Section<wbr>Rendering<wbr>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">Section<wbr>Rendering<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="globals.html#block" class="tsd-signature-type">Block</a><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/render.ts#L21">lib/services/render.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/render.ts#L15">lib/services/render.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -431,7 +434,7 @@
 					<div class="tsd-signature tsd-kind-icon">Table<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/content.ts#L34">lib/services/content.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/content.ts#L36">lib/services/content.ts:36</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -441,7 +444,7 @@
 					<div class="tsd-signature tsd-kind-icon">Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/content.ts#L22">lib/services/content.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/content.ts#L24">lib/services/content.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -452,19 +455,19 @@
 					<a name="main" class="tsd-anchor"></a>
 					<h3>main</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">main<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="interfaces/options.html" class="tsd-signature-type">Options</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classes/main.html" class="tsd-signature-type">Main</a></li>
+						<li class="tsd-signature tsd-kind-icon">main<span class="tsd-signature-symbol">(</span>optionsInput<span class="tsd-signature-symbol">?: </span><a href="globals.html#optionsinput" class="tsd-signature-type">OptionsInput</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classes/main.html" class="tsd-signature-type">Main</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/index.ts#L4">lib/index.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/index.ts#L4">lib/index.ts:4</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="interfaces/options.html" class="tsd-signature-type">Options</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> optionsInput: <a href="globals.html#optionsinput" class="tsd-signature-type">OptionsInput</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="classes/main.html" class="tsd-signature-type">Main</a></h4>
@@ -517,6 +520,9 @@
 						<a href="classes/renderservice.html" class="tsd-kind-icon">Render<wbr>Service</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/renderer.html" class="tsd-kind-icon">Renderer</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/showcommand.html" class="tsd-kind-icon">Show<wbr>Command</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -525,17 +531,14 @@
 					<li class=" tsd-kind-class">
 						<a href="classes/typedocservice.html" class="tsd-kind-icon">Typedoc<wbr>Service</a>
 					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/webservice.html" class="tsd-kind-icon">Web<wbr>Service</a>
+					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/additionalconverts.html" class="tsd-kind-icon">Additional<wbr>Converts</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/batchrenderresult.html" class="tsd-kind-icon">Batch<wbr>Render<wbr>Result</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/batchrendering.html" class="tsd-kind-icon">Batch<wbr>Rendering</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/batchrenderingdata.html" class="tsd-kind-icon">Batch<wbr>Rendering<wbr>Data</a>
+						<a href="interfaces/batchrender.html" class="tsd-kind-icon">Batch<wbr>Render</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/contentbysections.html" class="tsd-kind-icon">Content<wbr>BySections</a>
@@ -580,13 +583,19 @@
 						<a href="interfaces/renderwithoptions.html" class="tsd-kind-icon">Render<wbr>With<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/rendererdata.html" class="tsd-kind-icon">Renderer<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/rendererfiledata.html" class="tsd-kind-icon">Renderer<wbr>File<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/rendering.html" class="tsd-kind-icon">Rendering</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/renderingdata.html" class="tsd-kind-icon">Rendering<wbr>Data</a>
+						<a href="interfaces/tableblock.html" class="tsd-kind-icon">Table<wbr>Block</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/tableblock.html" class="tsd-kind-icon">Table<wbr>Block</a>
+						<a href="interfaces/templateoptions.html" class="tsd-kind-icon">Template<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/textblock.html" class="tsd-kind-icon">Text<wbr>Block</a>
@@ -596,6 +605,9 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/valueoptions.html" class="tsd-kind-icon">Value<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/webdata.html" class="tsd-kind-icon">Web<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#additionalconvert" class="tsd-kind-icon">Additional<wbr>Convert</a>
@@ -637,10 +649,10 @@
 						<a href="globals.html#optionsinput" class="tsd-kind-icon">Options<wbr>Input</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#sectionrendering" class="tsd-kind-icon">Section<wbr>Rendering</a>
+						<a href="globals.html#renderinput" class="tsd-kind-icon">Render<wbr>Input</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#sectionrenderingdata" class="tsd-kind-icon">Section<wbr>Rendering<wbr>Data</a>
+						<a href="globals.html#sectionrendering" class="tsd-kind-icon">Section<wbr>Rendering</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#table" class="tsd-kind-icon">Table</a>

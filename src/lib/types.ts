@@ -1,8 +1,7 @@
 // tslint:disable: no-any
 import { TypedocConfigs, TypedocService } from './services/typedoc';
 import { AdditionalConverts } from './services/convert';
-import { Rendering } from './services/render';
-import { BuiltinTemplate, TemplateOptions } from './services/template';
+import { BatchRender } from './services/render';
 
 /**
  * Custom generator options
@@ -46,9 +45,7 @@ export interface Options {
   /**
    * List of documents to be generated: __key__ is the path to the document (under the `outPath`) and __value__ is a template name or a rendering input
    */
-  render?: {
-    [path: string]: RenderInput;
-  };
+  render?: BatchRender;
   /**
    * Additional converts
    */
@@ -60,18 +57,3 @@ export interface Options {
 }
 
 export type CustomApiGenerator = (typedocService: TypedocService, out: string) => void;
-
-export type RenderInput = BuiltinTemplate | Rendering | RenderWithOptions;
-export interface RenderWithOptions extends RenderOptions {
-  template?: BuiltinTemplate;
-  rendering?: Rendering;
-}
-export interface RenderOptions {
-  title?: string;
-  cleanOutput?: boolean;
-  templateOptions?: TemplateOptions;
-  webData?: WebData;
-}
-export interface WebData {
-  [key: string]: any;
-};

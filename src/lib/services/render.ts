@@ -1,7 +1,12 @@
 import { ProjectService } from './project';
-import { ContentBySections, Block, Heading, ContentService } from './content';
+import { ContentBySections, Block, ContentService } from './content';
+import { LoadService } from './load';
 import { ParseService } from './parse';
 import { ConvertOptions, ConvertService } from './convert';
+import { BuiltinTemplate, TemplateOptions, TemplateService } from './template';
+import { WebData, WebService } from './web';
+
+import { RendererData, RendererFileData, Renderer } from '../renderer';
 
 export interface Rendering {
   [section: string]: true | SectionRendering;
@@ -12,24 +17,25 @@ export type SectionRendering =
   | BlockRendering[]; // multiple
 
 export type BlockRendering = Block | DeclarationRendering;
+
 export type DeclarationRendering = [string, string?, ConvertOptions?];
 
-export interface RenderingData {
-  [section: string]: SectionRenderingData;
+export type RenderInput = BuiltinTemplate | Rendering | RenderWithOptions;
+
+export interface RenderWithOptions extends RenderOptions {
+  template?: BuiltinTemplate;
+  rendering?: Rendering;
 }
 
-export type SectionRenderingData = Block[];
-
-export interface BatchRendering {
-  [id: string]: Rendering;
+export interface RenderOptions {
+  title?: string;
+  cleanOutput?: boolean;
+  templateOptions?: TemplateOptions;
+  webData?: WebData;
 }
 
-export interface BatchRenderingData {
-  [id: string]: RenderingData;
-}
-
-export interface BatchRenderResult {
-  [id: string]: string;
+export interface BatchRender {
+  [path: string]: RenderInput;
 }
 
 /**
@@ -48,8 +54,11 @@ export class RenderService {
   constructor(
     private projectService: ProjectService,
     private contentService: ContentService,
+    private loadService: LoadService,
     private parseService: ParseService,
-    private convertService: ConvertService
+    private convertService: ConvertService,
+    private templateService: TemplateService,
+    private webService: WebService,
   ) {}
 
   /**
@@ -58,107 +67,134 @@ export class RenderService {
    * @param currentContent - Current content by sections
    */
   render(
-    rendering: Rendering,
-    currentContent: ContentBySections = {},
-    html = false,
+    batchRender: BatchRender,
+    batchCurrentContent: {[path: string]: ContentBySections} = {}
   ) {
-    // get rendering data
-    const renderingData = this.getData(rendering);
+    const rendererData: RendererData = {};
+    Object.keys(batchRender).forEach(path => {
+      const renderInput = batchRender[path];
+      const currentContent = batchCurrentContent[path] || {};
+      rendererData[path] = this.getData(
+        path,
+        renderInput,
+        currentContent,
+      );
+    });
+    return new Renderer(
+      this.projectService,
+      this.contentService,
+      this.parseService,
+      this.webService,
+      rendererData
+    );
+  }
+
+  getData(
+    path: string,
+    renderInput: RenderInput,
+    currentContent: ContentBySections = {}
+  ) {
+    // process input
+    const { rendering, renderOptions } = this.processRenderInput(renderInput);
+    // get data by rendering
+    const renderingData = this.getRenderingData(rendering);
     // merge data
     const data: {
       [section: string]: string | Block[];
     } = {
+      ...(
+        !renderOptions.cleanOutput
+        ? this.loadService.load(path)
+        : {}
+      ),
       ...currentContent,
       ...renderingData,
     };
     // extract toc & content data
-    const tocData: Block[] = [];
-    const contentData: string[] = [];
+    const headings: Block[] = [];
+    const contentStack: string[] = [];
     Object.keys(data).forEach(sectionName => {
       const sectionData = data[sectionName];
       // rendered content
       if (sectionData instanceof Array) {
-        contentData.push(
-          // opening
+        contentStack.push(
           this.contentService.sectionOpening(sectionName, {
             'data-note': 'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY',
           }),
-          // content
           sectionName === 'toc' || sectionName === 'tocx'
             ? this.tocPlaceholder
             : this.contentService.renderContent(sectionData),
-          // closing
           this.contentService.sectionClosing()
         );
-        // toc data
-        tocData.push(...sectionData);
+        // section headings
+        const sectionHeadings = sectionData.filter(block => block.type === 'heading');
+        headings.push(...sectionHeadings);
       }
       // current content
       else {
-        contentData.push(
-          // opening
+        contentStack.push(
           this.contentService.sectionOpening(sectionName),
-          // content
           sectionData,
-          // closing
           this.contentService.sectionClosing()
         );
-        // toc data
-        tocData.push(
-          ...this.contentService.extractHeadings(sectionData)
-        );
+        // section headings
+        const sectionHeadings = this.contentService.extractHeadings(sectionData);
+        headings.push(...sectionHeadings);
       }
     });
     // render content
-    let content = this.contentService.renderText(contentData);
+    let content = this.contentService.renderText(contentStack);
     // add toc
     if (!!data.toc || !!data.tocx) {
       const toc = this.contentService.renderContent(
-        !!data.tocx ? this.getDataTOCX(tocData) : this.getDataTOC(tocData)
+        !!data.tocx
+        ? this.getDataTOCX(headings)
+        : this.getDataTOC(headings)
       );
       content = content.replace(this.tocPlaceholder, toc);
     }
-    // render links
-    const localHeadings: {[id: string]: Heading} = {};
-    this.contentService.extractHeadings(content).forEach(
-      block => localHeadings[block.data.id as string] = block.data
-    );
-    content = this.contentService.convertLinks(
-      content,
-      input => {
-        try {
-          const { ID, LINK } = this.parseService.parse(input);
-          return !!localHeadings[ID] ? '#' + ID : LINK;
-        } catch (error) {
-          return '';
-        }
-      }
-    );
     // result
-    return html ? this.contentService.md2Html(content) : content;
+    return {
+      headings,
+      content: (
+        path.substr(-5) === '.html'
+        ? this.contentService.md2Html(content)
+        : content
+      ),
+      options: renderOptions,
+    } as RendererFileData;
   }
 
-  renderBatch(
-    batchRendering: BatchRendering,
-    batchCurrentContent: {
-      [id: string]: ContentBySections;
-    } = {}
-  ) {
-    const batchResult: BatchRenderResult = {};
-    Object.keys(batchRendering).forEach(id => {
-      const rendering = batchRendering[id];
-      const currentContent = batchCurrentContent[id] || {};
-      batchResult[id] = this.render(
-        rendering,
-        currentContent,
-        id.substr(-5) === '.html'
+  private processRenderInput(renderInput: RenderInput) {
+    let rendering: Rendering = {};
+    let renderOptions: RenderOptions = {};
+    // template
+    if (typeof renderInput === 'string') {
+      rendering = this.templateService.getTemplate(
+        renderInput as BuiltinTemplate
       );
-    });
-    return batchResult;
+    }
+    // rendering
+    else if (
+      !renderInput.template &&
+      !renderInput.rendering
+    ) {
+      rendering = renderInput as Rendering;
+    }
+    // with options
+    else {
+      rendering =
+        !!renderInput.template
+        ? this.templateService.getTemplate(renderInput.template as BuiltinTemplate)
+        : renderInput.rendering as Rendering;
+      // set options
+      renderOptions = renderInput;
+    }
+    return { rendering, renderOptions };
   }
 
-  getData(rendering: Rendering) {
-    const data: RenderingData = {};
+  getRenderingData(rendering: Rendering) {
+    const data: {[section: string]: Block[]} = {};
     // get data for every section
     Object.keys(rendering).forEach(sectionName => {
       const sectionRendering = rendering[sectionName];
@@ -216,19 +252,12 @@ export class RenderService {
       data[sectionName] = sectionBlocks;
     });
     // add attr
-    if (!this.projectService.OPTIONS.noAttr) {
+    const { noAttr, outputMode } = this.projectService.OPTIONS;
+    if (!noAttr && outputMode === 'file') {
       data.attr = this.getDataAttr();
     }
     // result
     return data;
-  }
-
-  getDataBatch(batchRendering: BatchRendering) {
-    const batchData: BatchRenderingData = {};
-    Object.keys(batchRendering).forEach(
-      id => (batchData[id] = this.getData(batchRendering[id]))
-    );
-    return batchData;
   }
 
   private getDataHead() {

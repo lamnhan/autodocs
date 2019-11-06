@@ -427,7 +427,7 @@ export class ConvertService {
           !!REFLECTION.parent && REFLECTION.parent.kindString === 'Interface'
             ? !IS_OPTIONAL
               ? `**${NAME}**`
-              : NAME // interface parent
+              : NAME + '?' // interface parent
             : NAME; // collection or class
         const ref = localLinking ? '#' + ID : LINK;
         // summary / full

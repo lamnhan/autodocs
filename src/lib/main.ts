@@ -1,14 +1,14 @@
 import { resolve } from 'path';
 
-import { RenderInput, RenderOptions } from './types';
 import { OptionsInput, ProjectService } from './services/project';
 import { TypedocService } from './services/typedoc';
 import { ContentService } from './services/content';
 import { LoadService } from './services/load';
 import { ParseService } from './services/parse';
 import { ConvertService } from './services/convert';
-import { Rendering, RenderService } from './services/render';
-import { BuiltinTemplate, TemplateService } from './services/template';
+import { RenderInput, RenderService } from './services/render';
+import { TemplateService } from './services/template';
+import { WebService } from './services/web';
 
 /**
  * The Docsuper module
@@ -22,6 +22,7 @@ export class Main {
   private convertService: ConvertService;
   private renderService: RenderService;
   private templateService: TemplateService;
+  private webService: WebService;
 
   constructor(optionsInput?: OptionsInput) {
     this.projectService = new ProjectService(optionsInput);
@@ -37,13 +38,20 @@ export class Main {
       this.projectService,
       this.contentService
     );
+    this.templateService = new TemplateService();
+    this.webService = new WebService(
+      this.projectService,
+      this.contentService,
+    );
     this.renderService = new RenderService(
       this.projectService,
       this.contentService,
+      this.loadService,
       this.parseService,
-      this.convertService
+      this.convertService,
+      this.templateService,
+      this.webService,
     );
-    this.templateService = new TemplateService();
   }
 
   /**
@@ -109,39 +117,9 @@ export class Main {
    * @param renderInput - Render input
    */
   render(path: string, renderInput: RenderInput) {
-    let rendering: Rendering = {};
-    let renderOptions: RenderOptions = {};
-    // template
-    if (typeof renderInput === 'string') {
-      rendering = this.templateService.getTemplate(
-        renderInput as BuiltinTemplate
-      );
-    }
-    // rendering
-    else if (
-      !renderInput.template &&
-      !renderInput.rendering
-    ) {
-      rendering = renderInput as Rendering;
-    }
-    // with options
-    else {
-      rendering =
-        !!renderInput.template
-        ? this.templateService.getTemplate(renderInput.template as BuiltinTemplate)
-        : renderInput.rendering as Rendering;
-      // set options
-      renderOptions = renderInput;
-    }
-    // current content (clean output or not)
-    const { cleanOutput } = renderOptions;
-    const currentContent = !cleanOutput ? this.loadService.load(path) : {};
-    // result
-    return this.renderService.render(
-      rendering,
-      currentContent,
-      path.substr(-5) === '.html'
-    );
+    return this.renderService
+      .render({ [path]: renderInput })
+      .getResult(path);
   }
 
   /**
@@ -149,11 +127,9 @@ export class Main {
    */
   renderLocal() {
     const { render } = this.projectService.OPTIONS;
-    // render
-    const result: {[path: string]: string} = {};
-    Object.keys(render).forEach(path => result[path] = this.render(path, render[path]));
-    // result
-    return result;
+    return this.renderService
+      .render(render)
+      .getResultAll();
   }
 
   /**
@@ -162,18 +138,18 @@ export class Main {
    * @param renderInput - Render input
    */
   output(path: string, renderInput: RenderInput) {
+    const { outPath } = this.projectService.OPTIONS;
     const content = this.render(path, renderInput);
-    return this.contentService.writeFileSync(path, content);
+    return this.contentService.writeFileSync(outPath + '/' + path, content);
   }
 
   /**
    * Render and save documents based on local configuration.
    */
   outputLocal() {
-    const batchContent = this.renderLocal();
-    Object.keys(batchContent).forEach(path =>
-      this.contentService.writeFileSync(path, batchContent[path])
-    );
+    const { render } = this.projectService.OPTIONS;
+    Object.keys(render).forEach(path => this.output(path, render[path]));
+    // TODO: index
   }
 
   /**

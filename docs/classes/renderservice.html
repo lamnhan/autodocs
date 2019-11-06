@@ -100,9 +100,8 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="renderservice.html#getdata" class="tsd-kind-icon">get<wbr>Data</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="renderservice.html#getdatabatch" class="tsd-kind-icon">get<wbr>Data<wbr>Batch</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="renderservice.html#getrenderingdata" class="tsd-kind-icon">get<wbr>Rendering<wbr>Data</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="renderservice.html#render" class="tsd-kind-icon">render</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="renderservice.html#renderbatch" class="tsd-kind-icon">render<wbr>Batch</a></li>
 							</ul>
 						</section>
 					</div>
@@ -114,13 +113,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Render<wbr>Service<span class="tsd-signature-symbol">(</span>projectService<span class="tsd-signature-symbol">: </span><a href="projectservice.html" class="tsd-signature-type">ProjectService</a>, contentService<span class="tsd-signature-symbol">: </span><a href="contentservice.html" class="tsd-signature-type">ContentService</a>, parseService<span class="tsd-signature-symbol">: </span><a href="parseservice.html" class="tsd-signature-type">ParseService</a>, convertService<span class="tsd-signature-symbol">: </span><a href="convertservice.html" class="tsd-signature-type">ConvertService</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="renderservice.html" class="tsd-signature-type">RenderService</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Render<wbr>Service<span class="tsd-signature-symbol">(</span>projectService<span class="tsd-signature-symbol">: </span><a href="projectservice.html" class="tsd-signature-type">ProjectService</a>, contentService<span class="tsd-signature-symbol">: </span><a href="contentservice.html" class="tsd-signature-type">ContentService</a>, loadService<span class="tsd-signature-symbol">: </span><a href="loadservice.html" class="tsd-signature-type">LoadService</a>, parseService<span class="tsd-signature-symbol">: </span><a href="parseservice.html" class="tsd-signature-type">ParseService</a>, convertService<span class="tsd-signature-symbol">: </span><a href="convertservice.html" class="tsd-signature-type">ConvertService</a>, templateService<span class="tsd-signature-symbol">: </span><a href="templateservice.html" class="tsd-signature-type">TemplateService</a>, webService<span class="tsd-signature-symbol">: </span><a href="webservice.html" class="tsd-signature-type">WebService</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="renderservice.html" class="tsd-signature-type">RenderService</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/render.ts#L46">lib/services/render.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/render.ts#L52">lib/services/render.ts:52</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -132,10 +131,19 @@
 									<h5>contentService: <a href="contentservice.html" class="tsd-signature-type">ContentService</a></h5>
 								</li>
 								<li>
+									<h5>loadService: <a href="loadservice.html" class="tsd-signature-type">LoadService</a></h5>
+								</li>
+								<li>
 									<h5>parseService: <a href="parseservice.html" class="tsd-signature-type">ParseService</a></h5>
 								</li>
 								<li>
 									<h5>convertService: <a href="convertservice.html" class="tsd-signature-type">ConvertService</a></h5>
+								</li>
+								<li>
+									<h5>templateService: <a href="templateservice.html" class="tsd-signature-type">TemplateService</a></h5>
+								</li>
+								<li>
+									<h5>webService: <a href="webservice.html" class="tsd-signature-type">WebService</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="renderservice.html" class="tsd-signature-type">RenderService</a></h4>
@@ -149,13 +157,42 @@
 					<a name="getdata" class="tsd-anchor"></a>
 					<h3>get<wbr>Data</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Data<span class="tsd-signature-symbol">(</span>rendering<span class="tsd-signature-symbol">: </span><a href="../interfaces/rendering.html" class="tsd-signature-type">Rendering</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/renderingdata.html" class="tsd-signature-type">RenderingData</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Data<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, renderInput<span class="tsd-signature-symbol">: </span><a href="../globals.html#renderinput" class="tsd-signature-type">RenderInput</a>, currentContent<span class="tsd-signature-symbol">?: </span><a href="../interfaces/contentbysections.html" class="tsd-signature-type">ContentBySections</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/rendererfiledata.html" class="tsd-signature-type">RendererFileData</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/render.ts#L160">lib/services/render.ts:160</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/render.ts#L92">lib/services/render.ts:92</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>path: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>renderInput: <a href="../globals.html#renderinput" class="tsd-signature-type">RenderInput</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> currentContent: <a href="../interfaces/contentbysections.html" class="tsd-signature-type">ContentBySections</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/rendererfiledata.html" class="tsd-signature-type">RendererFileData</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getrenderingdata" class="tsd-anchor"></a>
+					<h3>get<wbr>Rendering<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Rendering<wbr>Data<span class="tsd-signature-symbol">(</span>rendering<span class="tsd-signature-symbol">: </span><a href="../interfaces/rendering.html" class="tsd-signature-type">Rendering</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/render.ts#L196">lib/services/render.ts:196</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -164,30 +201,12 @@
 									<h5>rendering: <a href="../interfaces/rendering.html" class="tsd-signature-type">Rendering</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/renderingdata.html" class="tsd-signature-type">RenderingData</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getdatabatch" class="tsd-anchor"></a>
-					<h3>get<wbr>Data<wbr>Batch</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Data<wbr>Batch<span class="tsd-signature-symbol">(</span>batchRendering<span class="tsd-signature-symbol">: </span><a href="../interfaces/batchrendering.html" class="tsd-signature-type">BatchRendering</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/batchrenderingdata.html" class="tsd-signature-type">BatchRenderingData</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/render.ts#L226">lib/services/render.ts:226</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
 							<ul class="tsd-parameters">
-								<li>
-									<h5>batchRendering: <a href="../interfaces/batchrendering.html" class="tsd-signature-type">BatchRendering</a></h5>
+								<li class="tsd-parameter-index-signature">
+									<h5><span class="tsd-signature-symbol">[</span>section: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="../globals.html#block" class="tsd-signature-type">Block</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/batchrenderingdata.html" class="tsd-signature-type">BatchRenderingData</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -195,13 +214,13 @@
 					<a name="render" class="tsd-anchor"></a>
 					<h3>render</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">render<span class="tsd-signature-symbol">(</span>rendering<span class="tsd-signature-symbol">: </span><a href="../interfaces/rendering.html" class="tsd-signature-type">Rendering</a>, currentContent<span class="tsd-signature-symbol">?: </span><a href="../interfaces/contentbysections.html" class="tsd-signature-type">ContentBySections</a>, html<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">render<span class="tsd-signature-symbol">(</span>batchRender<span class="tsd-signature-symbol">: </span><a href="../interfaces/batchrender.html" class="tsd-signature-type">BatchRender</a>, batchCurrentContent<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="renderer.html" class="tsd-signature-type">Renderer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/render.ts#L60">lib/services/render.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/96efef2/src/lib/services/render.ts#L69">lib/services/render.ts:69</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -212,53 +231,18 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>rendering: <a href="../interfaces/rendering.html" class="tsd-signature-type">Rendering</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Redering configuration</p>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> currentContent: <a href="../interfaces/contentbysections.html" class="tsd-signature-type">ContentBySections</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Current content by sections</p>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> html: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="renderbatch" class="tsd-anchor"></a>
-					<h3>render<wbr>Batch</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">render<wbr>Batch<span class="tsd-signature-symbol">(</span>batchRendering<span class="tsd-signature-symbol">: </span><a href="../interfaces/batchrendering.html" class="tsd-signature-type">BatchRendering</a>, batchCurrentContent<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/batchrenderresult.html" class="tsd-signature-type">BatchRenderResult</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/7a139ac/src/lib/services/render.ts#L141">lib/services/render.ts:141</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>batchRendering: <a href="../interfaces/batchrendering.html" class="tsd-signature-type">BatchRendering</a></h5>
+									<h5>batchRender: <a href="../interfaces/batchrender.html" class="tsd-signature-type">BatchRender</a></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> batchCurrentContent: <span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-index-signature">
-											<h5><span class="tsd-signature-symbol">[</span>id: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="../interfaces/contentbysections.html" class="tsd-signature-type">ContentBySections</a></h5>
+											<h5><span class="tsd-signature-symbol">[</span>path: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="../interfaces/contentbysections.html" class="tsd-signature-type">ContentBySections</a></h5>
 										</li>
 									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/batchrenderresult.html" class="tsd-signature-type">BatchRenderResult</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="renderer.html" class="tsd-signature-type">Renderer</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -286,13 +270,10 @@
 								<a href="renderservice.html#getdata" class="tsd-kind-icon">get<wbr>Data</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="renderservice.html#getdatabatch" class="tsd-kind-icon">get<wbr>Data<wbr>Batch</a>
+								<a href="renderservice.html#getrenderingdata" class="tsd-kind-icon">get<wbr>Rendering<wbr>Data</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="renderservice.html#render" class="tsd-kind-icon">render</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="renderservice.html#renderbatch" class="tsd-kind-icon">render<wbr>Batch</a>
 							</li>
 						</ul>
 					</li>
