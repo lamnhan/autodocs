@@ -65,7 +65,7 @@ export class ProjectService {
     }
     // from path or package.json
     else {
-      const path = optionsInput || this.defaultLocalPath;
+      const path = !!optionsInput ? resolve(optionsInput) : this.defaultLocalPath;
       options = pathExistsSync(path) ? require(path) : pkgOptions;
     }
     // api url
@@ -86,6 +86,8 @@ export class ProjectService {
       typedocConfigs: {},
       outputMode: 'file',
       websiteTheme: 'default',
+      websiteCategories: {},
+      websiteIndex: 'default',
       render: {},
       converts: {},
       noAttr: false,

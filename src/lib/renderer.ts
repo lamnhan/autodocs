@@ -46,22 +46,33 @@ export class Renderer {
     let content = this.content[path];
     content = this.renderLinks(path, content);
     content = this.modifyHtml(content);
+    // menu
+    const activeLink = this.fileUrl(path);
+    const menu = this.contentService
+      .md2Html(this.contentService.renderTOC(this.globalHeadings, 1))
+      .replace(new RegExp(`href="${activeLink}"`), `class="active" $&`);
     // result
     return outputMode === 'file'
       ? content
-      : this.webService.buildPage(
-        content,
-        this.contentService.md2Html(
-          this.contentService.renderTOC(this.globalHeadings, 1),
-        ),
-        title,
-        webData,
-      );
+      : this.webService.buildPage(content, menu, title, webData);
   }
 
   getResultAll() {
     const result: {[path: string]: string} = {};
-    Object.keys(this.content).forEach(path => result[path] = this.content[path]);
+    const paths: string[] = [];
+    // pages
+    Object.keys(this.content).forEach(path => {
+      paths.push(path);
+      result[path] = this.getResult(path)
+    });
+    // index.html
+    const { outputMode } = this.projectService.OPTIONS;
+    if (outputMode === 'website' && !result['index.html']) {
+      result['index.html'] = this.webService.getIndex(
+        this.fileUrl(paths[0])
+      );
+    }
+    // result
     return result;
   }
 
@@ -73,18 +84,27 @@ export class Renderer {
   private getGlobalHeadings() {
     const result: HeadingBlock[] = [];
     Object.keys(this.heading).forEach(path => {
+      const [category] = path.indexOf('/') !== -1
+        ? path.split('/')
+        : [undefined, path];
+      // build heading
       const { title } = this.option[path] || {};
-      const headings = this.heading[path];
-      // save data
-      result.push(
-        this.contentService.blockHeading(
-          title || path,
-          1,
-          undefined,
-          this.fileUrl(path)
-        ),
-        ...headings,
+      const headingBlock = this.contentService.blockHeading(
+        title || path,
+        !!category ? 2 : 1,
+        undefined,
+        this.fileUrl(path)
       );
+      // save data
+      if (!!category) {
+        const { websiteCategories } = this.projectService.OPTIONS;
+        const categoryBlock = this.contentService.blockHeading(
+          websiteCategories[category] || category,
+          1,
+        );
+        result.push(categoryBlock);
+      }
+      result.push(headingBlock);
     });
     // result
     return result;
@@ -134,7 +154,8 @@ export class Renderer {
   }
 
   private modifyHtml(content: string) {
-    return content.replace(/<table>/g, '<table class="table">');
+    return content
+      .replace(/<table>/g, '<table class="table">');
   }
 
 }

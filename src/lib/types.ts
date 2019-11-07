@@ -43,6 +43,16 @@ export interface Options {
    */
   websiteTheme?: string;
   /**
+   * Website article grouping
+   */
+  websiteCategories?: {
+    [id: string]: string;
+  };
+  /**
+   * Custom website index.html
+   */
+  websiteIndex?: string;
+  /**
    * List of documents to be generated: __key__ is the path to the document (under the `outPath`) and __value__ is a template name or a rendering input
    */
   render?: BatchRender;

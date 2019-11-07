@@ -140,16 +140,20 @@ export class Main {
   output(path: string, renderInput: RenderInput) {
     const { outPath } = this.projectService.OPTIONS;
     const content = this.render(path, renderInput);
-    return this.contentService.writeFileSync(outPath + '/' + path, content);
+    return this.contentService
+      .writeFileSync(outPath + '/' + path, content);
   }
 
   /**
    * Render and save documents based on local configuration.
    */
   outputLocal() {
-    const { render } = this.projectService.OPTIONS;
-    Object.keys(render).forEach(path => this.output(path, render[path]));
-    // TODO: index
+    const { outPath } = this.projectService.OPTIONS;
+    const batchRender = this.renderLocal();
+    Object.keys(batchRender).forEach(
+      path => this.contentService
+        .writeFileSync(outPath + '/' + path, batchRender[path])
+    );
   }
 
   /**

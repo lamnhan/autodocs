@@ -15,8 +15,18 @@ export class WebService {
     private contentService: ContentService,
   ) {}
 
-  getIndex() {
-    return 'index.html';
+  getIndex(redirectUrl: string) {
+    const { websiteIndex } = this.projectService.OPTIONS;
+    // path
+    const indexPath = 
+      !websiteIndex || websiteIndex === 'default'
+      ? this.vendorThemePath('index.html')
+      : websiteIndex;
+    // load content
+    return this.contentService
+      .readFileSync(indexPath)
+      // default
+      .replace('{{ redirectUrl }}', redirectUrl);
   }
 
   buildPage(
@@ -25,6 +35,7 @@ export class WebService {
     title = 'Untitled',
     data: WebData = {}
   ) {
+    // load theme
     const theme = this.getTheme();
     // mandatory
     let result = theme
@@ -32,6 +43,7 @@ export class WebService {
       .replace('{{ menu }}', menu)
       .replace('{{ content }}', content);
     // extra data
+    data = { ...this.getVendorData(), ...data };
     Object.keys(data).forEach(
       key => result = result.replace(`{{ ${key} }}`, data[key])
     );
@@ -50,6 +62,29 @@ export class WebService {
 
   private vendorThemePath(fileName: string) {
     return resolve(__dirname, '..', 'themes', fileName);
+  }
+
+  private getVendorData() {
+    const data: WebData = {};
+    const {
+      name: pkgName,
+      homepage,
+      repository: { url: repoUrl } = { url: undefined }
+    } = this.projectService.PACKAGE;
+    const { url } = this.projectService.OPTIONS;
+    if (!!pkgName) {
+      data['siteName'] = pkgName + ' documentation';
+    }
+    if (!!url) {
+      data['siteUrl'] = url;
+    }
+    if (!!homepage) {
+      data['homeUrl'] = homepage || url;
+    }
+    if (!!repoUrl) {
+      data['repoUrl'] = repoUrl.replace('.git', '');
+    }
+    return data;
   }
 
 }

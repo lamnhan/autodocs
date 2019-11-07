@@ -44,8 +44,9 @@
   - [Main methods](#main-methods)
     - [`extend(optionsInput?)`](#main-extend-0)
     - [`generateDocs()`](#main-generatedocs-0)
-    - [`output(path, rendering)`](#main-output-0)
+    - [`output(path, renderInput)`](#main-output-0)
     - [`outputLocal()`](#main-outputlocal-0)
+    - [`render(path, renderInput)`](#main-render-0)
     - [`renderLocal()`](#main-renderlocal-0)
 - [Declaration](#declaration)
   - [Declaration properties](#declaration-properties)
@@ -72,11 +73,10 @@
     - [`convert(declaration, output?, options?)`](#convertservice-convert-0)
 - [Rendering](#renderservice)
   - [RenderService methods](#renderservice-methods)
-    - [`getData(rendering)`](#renderservice-getdata-0)
-    - [`getDataBatch(batchRendering)`](#renderservice-getdatabatch-0)
-    - [`render(rendering, currentContent?, html?)`](#renderservice-render-0)
-    - [`renderBatch(batchRendering, batchCurrentContent?)`](#renderservice-renderbatch-0)
-- [Detail API reference](https://lamnhan.com/docsuper)
+    - [`getData(path, renderInput, currentContent?)`](#renderservice-getdata-0)
+    - [`getRenderingData(rendering)`](#renderservice-getrenderingdata-0)
+    - [`render(batchRender, batchCurrentContent?)`](#renderservice-render-0)
+- [Detail API reference](https://lamnhan.com/docsuper/api)
 
 
 </section>
@@ -391,7 +391,7 @@ Section can also be put in the source file, called [**local section**](#renderin
 
 <section id="options" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
-<h2><a name="options" href="https://lamnhan.com/docsuper/interfaces/options.html"><p>Options</p>
+<h2><a name="options" href="https://lamnhan.com/docsuper/api/interfaces/options.html"><p>Options</p>
 </a></h2>
 
 **Custom generator options**
@@ -405,24 +405,26 @@ Options can be provided in 3 ways:
 <h2><a name="options-properties"><p>Options properties</p>
 </a></h2>
 
-| Name                                                                                  | Type                                                                                                                                              | Description                                                                                                                                        |
-| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [apiGenerator](https://lamnhan.com/docsuper/interfaces/options.html#apigenerator)     | <code>"none" \| "typedoc" \| <a href="https://lamnhan.com/docsuper/globals.html#customapigenerator" target="_blank">CustomApiGenerator</a></code> | Detail API generator, default to 'typedoc'                                                                                                         |
-| [apiUrl](https://lamnhan.com/docsuper/interfaces/options.html#apiurl)                 | <code>string</code>                                                                                                                               | Custom API reference url, default to the Github Pages repo url                                                                                     |
-| [converts](https://lamnhan.com/docsuper/interfaces/options.html#converts)             | <code><a href="https://lamnhan.com/docsuper/interfaces/additionalconverts.html" target="_blank">AdditionalConverts</a></code>                     | Additional converts                                                                                                                                |
-| [noAttr](https://lamnhan.com/docsuper/interfaces/options.html#noattr)                 | <code>boolean</code>                                                                                                                              | No generator footer attribution                                                                                                                    |
-| [outPath](https://lamnhan.com/docsuper/interfaces/options.html#outpath)               | <code>string</code>                                                                                                                               | Root path to output files to, default to the project root                                                                                          |
-| [outputMode](https://lamnhan.com/docsuper/interfaces/options.html#outputmode)         | <code>"file" \| "website"</code>                                                                                                                  | Output as standalone file or as a website                                                                                                          |
-| [render](https://lamnhan.com/docsuper/interfaces/options.html#render)                 | <code>object</code>                                                                                                                               | List of documents to be generated: **key** is the path to the document (under the `outPath`) and **value** is a template name or a rendering input |
-| [srcPath](https://lamnhan.com/docsuper/interfaces/options.html#srcpath)               | <code>string</code>                                                                                                                               | Path to the source code, default to `src`                                                                                                          |
-| [typedocConfigs](https://lamnhan.com/docsuper/interfaces/options.html#typedocconfigs) | <code><a href="https://lamnhan.com/docsuper/interfaces/typedocconfigs.html" target="_blank">TypedocConfigs</a></code>                             | Custom [Typedoc](https://typedoc.org) configs                                                                                                      |
-| [websiteTheme](https://lamnhan.com/docsuper/interfaces/options.html#websitetheme)     | <code>string</code>                                                                                                                               | Name of or path to a website theme, built-in themes: default                                                                                       |
+| Name                                                                                             | Type                                                                                                                                                  | Description                                                                                                                                        |
+| ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [apiGenerator?](https://lamnhan.com/docsuper/api/interfaces/options.html#apigenerator)           | <code>"none" \| "typedoc" \| <a href="https://lamnhan.com/docsuper/api/globals.html#customapigenerator" target="_blank">CustomApiGenerator</a></code> | Detail API generator, default to 'typedoc'                                                                                                         |
+| [converts?](https://lamnhan.com/docsuper/api/interfaces/options.html#converts)                   | <code><a href="https://lamnhan.com/docsuper/api/interfaces/additionalconverts.html" target="_blank">AdditionalConverts</a></code>                     | Additional converts                                                                                                                                |
+| [noAttr?](https://lamnhan.com/docsuper/api/interfaces/options.html#noattr)                       | <code>boolean</code>                                                                                                                                  | No generator footer attribution                                                                                                                    |
+| [outPath?](https://lamnhan.com/docsuper/api/interfaces/options.html#outpath)                     | <code>string</code>                                                                                                                                   | Root path to output files to, default to the project root                                                                                          |
+| [outputMode?](https://lamnhan.com/docsuper/api/interfaces/options.html#outputmode)               | <code>"file" \| "website"</code>                                                                                                                      | Output as standalone file or as a website                                                                                                          |
+| [render?](https://lamnhan.com/docsuper/api/interfaces/options.html#render)                       | <code><a href="https://lamnhan.com/docsuper/api/interfaces/batchrender.html" target="_blank">BatchRender</a></code>                                   | List of documents to be generated: **key** is the path to the document (under the `outPath`) and **value** is a template name or a rendering input |
+| [srcPath?](https://lamnhan.com/docsuper/api/interfaces/options.html#srcpath)                     | <code>string</code>                                                                                                                                   | Path to the source code, default to `src`                                                                                                          |
+| [typedocConfigs?](https://lamnhan.com/docsuper/api/interfaces/options.html#typedocconfigs)       | <code><a href="https://lamnhan.com/docsuper/api/interfaces/typedocconfigs.html" target="_blank">TypedocConfigs</a></code>                             | Custom [Typedoc](https://typedoc.org) configs                                                                                                      |
+| [url?](https://lamnhan.com/docsuper/api/interfaces/options.html#url)                             | <code>string</code>                                                                                                                                   | Docs homepage url, default to the Github Pages repo url                                                                                            |
+| [websiteCategories?](https://lamnhan.com/docsuper/api/interfaces/options.html#websitecategories) | <code>object</code>                                                                                                                                   | Website article grouping                                                                                                                           |
+| [websiteIndex?](https://lamnhan.com/docsuper/api/interfaces/options.html#websiteindex)           | <code>string</code>                                                                                                                                   | Custom website index.html                                                                                                                          |
+| [websiteTheme?](https://lamnhan.com/docsuper/api/interfaces/options.html#websitetheme)           | <code>string</code>                                                                                                                                   | Name of or path to a website theme, built-in themes: default                                                                                       |
 
 </section>
 
 <section id="main" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
-<h2><a name="main" href="https://lamnhan.com/docsuper/classes/main.html"><p>The Module</p>
+<h2><a name="main" href="https://lamnhan.com/docsuper/api/classes/main.html"><p>The Module</p>
 </a></h2>
 
 **The Docsuper module**
@@ -430,45 +432,46 @@ Options can be provided in 3 ways:
 <h3><a name="main-properties"><p>Main properties</p>
 </a></h3>
 
-| Name                                                              | Type                                                                                                               | Description             |
-| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------------------- |
-| [Content](https://lamnhan.com/docsuper/classes/main.html#content) | <code><a href="https://lamnhan.com/docsuper/classes/contentservice.html" target="_blank">ContentService</a></code> | Get the Content service |
-| [Convert](https://lamnhan.com/docsuper/classes/main.html#convert) | <code><a href="https://lamnhan.com/docsuper/classes/convertservice.html" target="_blank">ConvertService</a></code> | Get the Convert service |
-| [Load](https://lamnhan.com/docsuper/classes/main.html#load)       | <code><a href="https://lamnhan.com/docsuper/classes/loadservice.html" target="_blank">LoadService</a></code>       | Get the Load service    |
-| [Parse](https://lamnhan.com/docsuper/classes/main.html#parse)     | <code><a href="https://lamnhan.com/docsuper/classes/parseservice.html" target="_blank">ParseService</a></code>     | Get the Parse service   |
-| [Project](https://lamnhan.com/docsuper/classes/main.html#project) | <code><a href="https://lamnhan.com/docsuper/classes/projectservice.html" target="_blank">ProjectService</a></code> | Get the Project service |
-| [Render](https://lamnhan.com/docsuper/classes/main.html#render)   | <code><a href="https://lamnhan.com/docsuper/classes/renderservice.html" target="_blank">RenderService</a></code>   | Get the Render service  |
-| [Typedoc](https://lamnhan.com/docsuper/classes/main.html#typedoc) | <code><a href="https://lamnhan.com/docsuper/classes/typedocservice.html" target="_blank">TypedocService</a></code> | Get the Typedoc service |
+| Name                                                                  | Type                                                                                                                   | Description             |
+| --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| [Content](https://lamnhan.com/docsuper/api/classes/main.html#content) | <code><a href="https://lamnhan.com/docsuper/api/classes/contentservice.html" target="_blank">ContentService</a></code> | Get the Content service |
+| [Convert](https://lamnhan.com/docsuper/api/classes/main.html#convert) | <code><a href="https://lamnhan.com/docsuper/api/classes/convertservice.html" target="_blank">ConvertService</a></code> | Get the Convert service |
+| [Load](https://lamnhan.com/docsuper/api/classes/main.html#load)       | <code><a href="https://lamnhan.com/docsuper/api/classes/loadservice.html" target="_blank">LoadService</a></code>       | Get the Load service    |
+| [Parse](https://lamnhan.com/docsuper/api/classes/main.html#parse)     | <code><a href="https://lamnhan.com/docsuper/api/classes/parseservice.html" target="_blank">ParseService</a></code>     | Get the Parse service   |
+| [Project](https://lamnhan.com/docsuper/api/classes/main.html#project) | <code><a href="https://lamnhan.com/docsuper/api/classes/projectservice.html" target="_blank">ProjectService</a></code> | Get the Project service |
+| [Render](https://lamnhan.com/docsuper/api/classes/main.html#render)   | <code><a href="https://lamnhan.com/docsuper/api/classes/renderservice.html" target="_blank">RenderService</a></code>   | Get the Render service  |
+| [Typedoc](https://lamnhan.com/docsuper/api/classes/main.html#typedoc) | <code><a href="https://lamnhan.com/docsuper/api/classes/typedocservice.html" target="_blank">TypedocService</a></code> | Get the Typedoc service |
 
 <h3><a name="main-methods"><p>Main methods</p>
 </a></h3>
 
-| Function                                  | Returns type                                                                                                                | Description                                             |
-| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| [extend(optionsInput?)](#main-extend-0)   | <code><a href="https://lamnhan.com/docsuper/classes/main.html" target="_blank">Main</a></code>                              | Create a new instance                                   |
-| [generateDocs()](#main-generatedocs-0)    | <code>void</code>                                                                                                           | Generate the API reference using Typedoc.               |
-| [output(path, rendering)](#main-output-0) | <code>void</code>                                                                                                           | Render and save a document                              |
-| [outputLocal()](#main-outputlocal-0)      | <code>void</code>                                                                                                           | Render and save documents based on local configuration. |
-| [renderLocal()](#main-renderlocal-0)      | <code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code> | Render content based on local configuration.            |
+| Function                                    | Returns type                                                                                       | Description                                             |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| [extend(optionsInput?)](#main-extend-0)     | <code><a href="https://lamnhan.com/docsuper/api/classes/main.html" target="_blank">Main</a></code> | Create a new instance                                   |
+| [generateDocs()](#main-generatedocs-0)      | <code>void</code>                                                                                  | Generate the API reference using Typedoc.               |
+| [output(path, renderInput)](#main-output-0) | <code>void</code>                                                                                  | Render and save a document                              |
+| [outputLocal()](#main-outputlocal-0)        | <code>void</code>                                                                                  | Render and save documents based on local configuration. |
+| [render(path, renderInput)](#main-render-0) | <code>string</code>                                                                                | Render a file                                           |
+| [renderLocal()](#main-renderlocal-0)        | <code>object</code>                                                                                | Render content based on local configuration.            |
 
-<h4><a name="main-extend-0" href="https://lamnhan.com/docsuper/classes/main.html#extend"><p><code>extend(optionsInput?)</code></p>
+<h4><a name="main-extend-0" href="https://lamnhan.com/docsuper/api/classes/main.html#extend"><p><code>extend(optionsInput?)</code></p>
 </a></h4>
 
 **Create a new instance**
 
 **Parameters**
 
-| Param        | Type                                                                                                           | Description |
-| ------------ | -------------------------------------------------------------------------------------------------------------- | ----------- |
-| optionsInput | <code><a href="https://lamnhan.com/docsuper/globals.html#optionsinput" target="_blank">OptionsInput</a></code> |             |
+| Param        | Type                                                                                                               | Description |
+| ------------ | ------------------------------------------------------------------------------------------------------------------ | ----------- |
+| optionsInput | <code><a href="https://lamnhan.com/docsuper/api/globals.html#optionsinput" target="_blank">OptionsInput</a></code> |             |
 
 **Returns**
 
-<code><a href="https://lamnhan.com/docsuper/classes/main.html" target="_blank">Main</a></code>
+<code><a href="https://lamnhan.com/docsuper/api/classes/main.html" target="_blank">Main</a></code>
 
 ---
 
-<h4><a name="main-generatedocs-0" href="https://lamnhan.com/docsuper/classes/main.html#generatedocs"><p><code>generateDocs()</code></p>
+<h4><a name="main-generatedocs-0" href="https://lamnhan.com/docsuper/api/classes/main.html#generatedocs"><p><code>generateDocs()</code></p>
 </a></h4>
 
 **Generate the API reference using Typedoc.**
@@ -481,17 +484,17 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="main-output-0" href="https://lamnhan.com/docsuper/classes/main.html#output"><p><code>output(path, rendering)</code></p>
+<h4><a name="main-output-0" href="https://lamnhan.com/docsuper/api/classes/main.html#output"><p><code>output(path, renderInput)</code></p>
 </a></h4>
 
 **Render and save a document**
 
 **Parameters**
 
-| Param         | Type                                                                                                        | Description             |
-| ------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------- |
-| **path**      | <code>string</code>                                                                                         | Path to the document    |
-| **rendering** | <code><a href="https://lamnhan.com/docsuper/interfaces/rendering.html" target="_blank">Rendering</a></code> | Rendering configuration |
+| Param           | Type                                                                                                             | Description          |
+| --------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------- |
+| **path**        | <code>string</code>                                                                                              | Path to the document |
+| **renderInput** | <code><a href="https://lamnhan.com/docsuper/api/globals.html#renderinput" target="_blank">RenderInput</a></code> | Render input         |
 
 **Returns**
 
@@ -499,7 +502,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="main-outputlocal-0" href="https://lamnhan.com/docsuper/classes/main.html#outputlocal"><p><code>outputLocal()</code></p>
+<h4><a name="main-outputlocal-0" href="https://lamnhan.com/docsuper/api/classes/main.html#outputlocal"><p><code>outputLocal()</code></p>
 </a></h4>
 
 **Render and save documents based on local configuration.**
@@ -510,14 +513,32 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="main-renderlocal-0" href="https://lamnhan.com/docsuper/classes/main.html#renderlocal"><p><code>renderLocal()</code></p>
+<h4><a name="main-render-0" href="https://lamnhan.com/docsuper/api/classes/main.html#render"><p><code>render(path, renderInput)</code></p>
+</a></h4>
+
+**Render a file**
+
+**Parameters**
+
+| Param           | Type                                                                                                             | Description  |
+| --------------- | ---------------------------------------------------------------------------------------------------------------- | ------------ |
+| **path**        | <code>string</code>                                                                                              | Path to file |
+| **renderInput** | <code><a href="https://lamnhan.com/docsuper/api/globals.html#renderinput" target="_blank">RenderInput</a></code> | Render input |
+
+**Returns**
+
+<code>string</code>
+
+---
+
+<h4><a name="main-renderlocal-0" href="https://lamnhan.com/docsuper/api/classes/main.html#renderlocal"><p><code>renderLocal()</code></p>
 </a></h4>
 
 **Render content based on local configuration.**
 
 **Returns**
 
-<code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code>
+<code>object</code>
 
 ---
 
@@ -525,7 +546,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 <section id="declaration" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
-<h2><a name="declaration" href="https://lamnhan.com/docsuper/classes/declaration.html"><p>Declaration</p>
+<h2><a name="declaration" href="https://lamnhan.com/docsuper/api/classes/declaration.html"><p>Declaration</p>
 </a></h2>
 
 **A Declaration is an unit that holds the information of a source code element.**
@@ -533,45 +554,45 @@ The default folder is **/docs**. You can change the output folder by providing t
 <h3><a name="declaration-properties"><p>Declaration properties</p>
 </a></h3>
 
-| Name                                                                                 | Type                                                                                                                        | Description |
-| ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [DEFAULT_VALUE](https://lamnhan.com/docsuper/classes/declaration.html#default_value) | <code>any</code>                                                                                                            |             |
-| [DISPLAY_TYPE](https://lamnhan.com/docsuper/classes/declaration.html#display_type)   | <code>string</code>                                                                                                         |             |
-| [FILE_NAME](https://lamnhan.com/docsuper/classes/declaration.html#file_name)         | <code>string</code>                                                                                                         |             |
-| [FULL_TEXT](https://lamnhan.com/docsuper/classes/declaration.html#full_text)         | <code>string</code>                                                                                                         |             |
-| [ID](https://lamnhan.com/docsuper/classes/declaration.html#id)                       | <code>string</code>                                                                                                         |             |
-| [IS_OPTIONAL](https://lamnhan.com/docsuper/classes/declaration.html#is_optional)     | <code>boolean</code>                                                                                                        |             |
-| [LINK](https://lamnhan.com/docsuper/classes/declaration.html#link)                   | <code>string</code>                                                                                                         |             |
-| [NAME](https://lamnhan.com/docsuper/classes/declaration.html#name)                   | <code>string</code>                                                                                                         |             |
-| [PARAMETERS](https://lamnhan.com/docsuper/classes/declaration.html#parameters)       | <code><a href="https://lamnhan.com/docsuper/interfaces/reflectiondata.html" target="_blank">ReflectionData</a>[]</code>     |             |
-| [REFLECTION](https://lamnhan.com/docsuper/classes/declaration.html#reflection)       | <code>Reflection</code>                                                                                                     |             |
-| [RETURNS](https://lamnhan.com/docsuper/classes/declaration.html#returns)             | <code>string</code>                                                                                                         |             |
-| [SECTIONS](https://lamnhan.com/docsuper/classes/declaration.html#sections)           | <code><a href="https://lamnhan.com/docsuper/interfaces/contentbysections.html" target="_blank">ContentBySections</a></code> |             |
-| [SHORT_TEXT](https://lamnhan.com/docsuper/classes/declaration.html#short_text)       | <code>string</code>                                                                                                         |             |
-| [TEXT](https://lamnhan.com/docsuper/classes/declaration.html#text)                   | <code>string</code>                                                                                                         |             |
-| [TYPE](https://lamnhan.com/docsuper/classes/declaration.html#type)                   | <code>string</code>                                                                                                         |             |
+| Name                                                                                     | Type                                                                                                                            | Description |
+| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [DEFAULT_VALUE](https://lamnhan.com/docsuper/api/classes/declaration.html#default_value) | <code>any</code>                                                                                                                |             |
+| [DISPLAY_TYPE](https://lamnhan.com/docsuper/api/classes/declaration.html#display_type)   | <code>string</code>                                                                                                             |             |
+| [FILE_NAME](https://lamnhan.com/docsuper/api/classes/declaration.html#file_name)         | <code>string</code>                                                                                                             |             |
+| [FULL_TEXT](https://lamnhan.com/docsuper/api/classes/declaration.html#full_text)         | <code>string</code>                                                                                                             |             |
+| [ID](https://lamnhan.com/docsuper/api/classes/declaration.html#id)                       | <code>string</code>                                                                                                             |             |
+| [IS_OPTIONAL](https://lamnhan.com/docsuper/api/classes/declaration.html#is_optional)     | <code>boolean</code>                                                                                                            |             |
+| [LINK](https://lamnhan.com/docsuper/api/classes/declaration.html#link)                   | <code>string</code>                                                                                                             |             |
+| [NAME](https://lamnhan.com/docsuper/api/classes/declaration.html#name)                   | <code>string</code>                                                                                                             |             |
+| [PARAMETERS](https://lamnhan.com/docsuper/api/classes/declaration.html#parameters)       | <code><a href="https://lamnhan.com/docsuper/api/interfaces/reflectiondata.html" target="_blank">ReflectionData</a>[]</code>     |             |
+| [REFLECTION](https://lamnhan.com/docsuper/api/classes/declaration.html#reflection)       | <code>Reflection</code>                                                                                                         |             |
+| [RETURNS](https://lamnhan.com/docsuper/api/classes/declaration.html#returns)             | <code>string</code>                                                                                                             |             |
+| [SECTIONS](https://lamnhan.com/docsuper/api/classes/declaration.html#sections)           | <code><a href="https://lamnhan.com/docsuper/api/interfaces/contentbysections.html" target="_blank">ContentBySections</a></code> |             |
+| [SHORT_TEXT](https://lamnhan.com/docsuper/api/classes/declaration.html#short_text)       | <code>string</code>                                                                                                             |             |
+| [TEXT](https://lamnhan.com/docsuper/api/classes/declaration.html#text)                   | <code>string</code>                                                                                                             |             |
+| [TYPE](https://lamnhan.com/docsuper/api/classes/declaration.html#type)                   | <code>string</code>                                                                                                             |             |
 
 <h3><a name="declaration-methods"><p>Declaration methods</p>
 </a></h3>
 
-| Function                                                                     | Returns type                                                                                                   | Description |
-| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ----------- |
-| [getChild(name)](#declaration-getchild-0)                                    | <code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a></code>   |             |
-| [getChildId(childName)](#declaration-getchildid-0)                           | <code>string</code>                                                                                            |             |
-| [getClasses(filter?)](#declaration-getclasses-0)                             | <code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a>[]</code> |             |
-| [getFunctionsOrMethods(filter?)](#declaration-getfunctionsormethods-0)       | <code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a>[]</code> |             |
-| [getInterfaces(filter?)](#declaration-getinterfaces-0)                       | <code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a>[]</code> |             |
-| [getVariablesOrProperties(filter?)](#declaration-getvariablesorproperties-0) | <code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a>[]</code> |             |
-| [hasClasses()](#declaration-hasclasses-0)                                    | <code>boolean</code>                                                                                           |             |
-| [hasFunctionsOrMethods()](#declaration-hasfunctionsormethods-0)              | <code>boolean</code>                                                                                           |             |
-| [hasInterfaces()](#declaration-hasinterfaces-0)                              | <code>boolean</code>                                                                                           |             |
-| [hasVariablesOrProperties()](#declaration-hasvariablesorproperties-0)        | <code>boolean</code>                                                                                           |             |
-| [isCollection()](#declaration-iscollection-0)                                | <code>boolean</code>                                                                                           |             |
-| [isKind(kindString)](#declaration-iskind-0)                                  | <code>boolean</code>                                                                                           |             |
-| [isRoot()](#declaration-isroot-0)                                            | <code>boolean</code>                                                                                           |             |
-| [setId(id)](#declaration-setid-0)                                            | <code>this</code>                                                                                              |             |
+| Function                                                                     | Returns type                                                                                                       | Description |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------- |
+| [getChild(name)](#declaration-getchild-0)                                    | <code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a></code>   |             |
+| [getChildId(childName)](#declaration-getchildid-0)                           | <code>string</code>                                                                                                |             |
+| [getClasses(filter?)](#declaration-getclasses-0)                             | <code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a>[]</code> |             |
+| [getFunctionsOrMethods(filter?)](#declaration-getfunctionsormethods-0)       | <code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a>[]</code> |             |
+| [getInterfaces(filter?)](#declaration-getinterfaces-0)                       | <code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a>[]</code> |             |
+| [getVariablesOrProperties(filter?)](#declaration-getvariablesorproperties-0) | <code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a>[]</code> |             |
+| [hasClasses()](#declaration-hasclasses-0)                                    | <code>boolean</code>                                                                                               |             |
+| [hasFunctionsOrMethods()](#declaration-hasfunctionsormethods-0)              | <code>boolean</code>                                                                                               |             |
+| [hasInterfaces()](#declaration-hasinterfaces-0)                              | <code>boolean</code>                                                                                               |             |
+| [hasVariablesOrProperties()](#declaration-hasvariablesorproperties-0)        | <code>boolean</code>                                                                                               |             |
+| [isCollection()](#declaration-iscollection-0)                                | <code>boolean</code>                                                                                               |             |
+| [isKind(kindString)](#declaration-iskind-0)                                  | <code>boolean</code>                                                                                               |             |
+| [isRoot()](#declaration-isroot-0)                                            | <code>boolean</code>                                                                                               |             |
+| [setId(id)](#declaration-setid-0)                                            | <code>this</code>                                                                                                  |             |
 
-<h4><a name="declaration-getchild-0" href="https://lamnhan.com/docsuper/classes/declaration.html#getchild"><p><code>getChild(name)</code></p>
+<h4><a name="declaration-getchild-0" href="https://lamnhan.com/docsuper/api/classes/declaration.html#getchild"><p><code>getChild(name)</code></p>
 </a></h4>
 
 **The `getChild` call signature.**
@@ -584,11 +605,11 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 **Returns**
 
-<code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a></code>
+<code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a></code>
 
 ---
 
-<h4><a name="declaration-getchildid-0" href="https://lamnhan.com/docsuper/classes/declaration.html#getchildid"><p><code>getChildId(childName)</code></p>
+<h4><a name="declaration-getchildid-0" href="https://lamnhan.com/docsuper/api/classes/declaration.html#getchildid"><p><code>getChildId(childName)</code></p>
 </a></h4>
 
 **The `getChildId` call signature.**
@@ -605,75 +626,75 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="declaration-getclasses-0" href="https://lamnhan.com/docsuper/classes/declaration.html#getclasses"><p><code>getClasses(filter?)</code></p>
+<h4><a name="declaration-getclasses-0" href="https://lamnhan.com/docsuper/api/classes/declaration.html#getclasses"><p><code>getClasses(filter?)</code></p>
 </a></h4>
 
 **The `getClasses` call signature.**
 
 **Parameters**
 
-| Param  | Type                                                                                                                     | Description |
-| ------ | ------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| filter | <code><a href="https://lamnhan.com/docsuper/globals.html#declarationfilter" target="_blank">DeclarationFilter</a></code> |             |
+| Param  | Type                                                                                                                         | Description |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| filter | <code><a href="https://lamnhan.com/docsuper/api/globals.html#declarationfilter" target="_blank">DeclarationFilter</a></code> |             |
 
 **Returns**
 
-<code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a>[]</code>
+<code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a>[]</code>
 
 ---
 
-<h4><a name="declaration-getfunctionsormethods-0" href="https://lamnhan.com/docsuper/classes/declaration.html#getfunctionsormethods"><p><code>getFunctionsOrMethods(filter?)</code></p>
+<h4><a name="declaration-getfunctionsormethods-0" href="https://lamnhan.com/docsuper/api/classes/declaration.html#getfunctionsormethods"><p><code>getFunctionsOrMethods(filter?)</code></p>
 </a></h4>
 
 **The `getFunctionsOrMethods` call signature.**
 
 **Parameters**
 
-| Param  | Type                                                                                                                     | Description |
-| ------ | ------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| filter | <code><a href="https://lamnhan.com/docsuper/globals.html#declarationfilter" target="_blank">DeclarationFilter</a></code> |             |
+| Param  | Type                                                                                                                         | Description |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| filter | <code><a href="https://lamnhan.com/docsuper/api/globals.html#declarationfilter" target="_blank">DeclarationFilter</a></code> |             |
 
 **Returns**
 
-<code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a>[]</code>
+<code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a>[]</code>
 
 ---
 
-<h4><a name="declaration-getinterfaces-0" href="https://lamnhan.com/docsuper/classes/declaration.html#getinterfaces"><p><code>getInterfaces(filter?)</code></p>
+<h4><a name="declaration-getinterfaces-0" href="https://lamnhan.com/docsuper/api/classes/declaration.html#getinterfaces"><p><code>getInterfaces(filter?)</code></p>
 </a></h4>
 
 **The `getInterfaces` call signature.**
 
 **Parameters**
 
-| Param  | Type                                                                                                                     | Description |
-| ------ | ------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| filter | <code><a href="https://lamnhan.com/docsuper/globals.html#declarationfilter" target="_blank">DeclarationFilter</a></code> |             |
+| Param  | Type                                                                                                                         | Description |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| filter | <code><a href="https://lamnhan.com/docsuper/api/globals.html#declarationfilter" target="_blank">DeclarationFilter</a></code> |             |
 
 **Returns**
 
-<code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a>[]</code>
+<code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a>[]</code>
 
 ---
 
-<h4><a name="declaration-getvariablesorproperties-0" href="https://lamnhan.com/docsuper/classes/declaration.html#getvariablesorproperties"><p><code>getVariablesOrProperties(filter?)</code></p>
+<h4><a name="declaration-getvariablesorproperties-0" href="https://lamnhan.com/docsuper/api/classes/declaration.html#getvariablesorproperties"><p><code>getVariablesOrProperties(filter?)</code></p>
 </a></h4>
 
 **The `getVariablesOrProperties` call signature.**
 
 **Parameters**
 
-| Param  | Type                                                                                                                     | Description |
-| ------ | ------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| filter | <code><a href="https://lamnhan.com/docsuper/globals.html#declarationfilter" target="_blank">DeclarationFilter</a></code> |             |
+| Param  | Type                                                                                                                         | Description |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| filter | <code><a href="https://lamnhan.com/docsuper/api/globals.html#declarationfilter" target="_blank">DeclarationFilter</a></code> |             |
 
 **Returns**
 
-<code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a>[]</code>
+<code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a>[]</code>
 
 ---
 
-<h4><a name="declaration-hasclasses-0" href="https://lamnhan.com/docsuper/classes/declaration.html#hasclasses"><p><code>hasClasses()</code></p>
+<h4><a name="declaration-hasclasses-0" href="https://lamnhan.com/docsuper/api/classes/declaration.html#hasclasses"><p><code>hasClasses()</code></p>
 </a></h4>
 
 **The `hasClasses` call signature.**
@@ -684,7 +705,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="declaration-hasfunctionsormethods-0" href="https://lamnhan.com/docsuper/classes/declaration.html#hasfunctionsormethods"><p><code>hasFunctionsOrMethods()</code></p>
+<h4><a name="declaration-hasfunctionsormethods-0" href="https://lamnhan.com/docsuper/api/classes/declaration.html#hasfunctionsormethods"><p><code>hasFunctionsOrMethods()</code></p>
 </a></h4>
 
 **The `hasFunctionsOrMethods` call signature.**
@@ -695,7 +716,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="declaration-hasinterfaces-0" href="https://lamnhan.com/docsuper/classes/declaration.html#hasinterfaces"><p><code>hasInterfaces()</code></p>
+<h4><a name="declaration-hasinterfaces-0" href="https://lamnhan.com/docsuper/api/classes/declaration.html#hasinterfaces"><p><code>hasInterfaces()</code></p>
 </a></h4>
 
 **The `hasInterfaces` call signature.**
@@ -706,7 +727,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="declaration-hasvariablesorproperties-0" href="https://lamnhan.com/docsuper/classes/declaration.html#hasvariablesorproperties"><p><code>hasVariablesOrProperties()</code></p>
+<h4><a name="declaration-hasvariablesorproperties-0" href="https://lamnhan.com/docsuper/api/classes/declaration.html#hasvariablesorproperties"><p><code>hasVariablesOrProperties()</code></p>
 </a></h4>
 
 **The `hasVariablesOrProperties` call signature.**
@@ -717,7 +738,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="declaration-iscollection-0" href="https://lamnhan.com/docsuper/classes/declaration.html#iscollection"><p><code>isCollection()</code></p>
+<h4><a name="declaration-iscollection-0" href="https://lamnhan.com/docsuper/api/classes/declaration.html#iscollection"><p><code>isCollection()</code></p>
 </a></h4>
 
 **The `isCollection` call signature.**
@@ -728,7 +749,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="declaration-iskind-0" href="https://lamnhan.com/docsuper/classes/declaration.html#iskind"><p><code>isKind(kindString)</code></p>
+<h4><a name="declaration-iskind-0" href="https://lamnhan.com/docsuper/api/classes/declaration.html#iskind"><p><code>isKind(kindString)</code></p>
 </a></h4>
 
 **The `isKind` call signature.**
@@ -745,7 +766,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="declaration-isroot-0" href="https://lamnhan.com/docsuper/classes/declaration.html#isroot"><p><code>isRoot()</code></p>
+<h4><a name="declaration-isroot-0" href="https://lamnhan.com/docsuper/api/classes/declaration.html#isroot"><p><code>isRoot()</code></p>
 </a></h4>
 
 **The `isRoot` call signature.**
@@ -756,7 +777,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 ---
 
-<h4><a name="declaration-setid-0" href="https://lamnhan.com/docsuper/classes/declaration.html#setid"><p><code>setId(id)</code></p>
+<h4><a name="declaration-setid-0" href="https://lamnhan.com/docsuper/api/classes/declaration.html#setid"><p><code>setId(id)</code></p>
 </a></h4>
 
 **The `setId` call signature.**
@@ -777,7 +798,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 <section id="parser" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
-<h2><a name="parseservice" href="https://lamnhan.com/docsuper/classes/parseservice.html"><p>Parsing</p>
+<h2><a name="parseservice" href="https://lamnhan.com/docsuper/api/classes/parseservice.html"><p>Parsing</p>
 </a></h2>
 
 **The `Parser` turns source code into <a data-sref="Declaration" href="#declaration">Declaration</a>**
@@ -785,11 +806,11 @@ The default folder is **/docs**. You can change the output folder by providing t
 <h3><a name="parseservice-methods"><p>ParseService methods</p>
 </a></h3>
 
-| Function                               | Returns type                                                                                                 | Description                                  |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------- |
-| [parse(input?)](#parseservice-parse-0) | <code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a></code> | Turn the source code into a <a data-sref="Declaration" href="#declaration">Declaration</a>. |
+| Function                               | Returns type                                                                                                     | Description                                  |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| [parse(input?)](#parseservice-parse-0) | <code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a></code> | Turn the source code into a <a data-sref="Declaration" href="#declaration">Declaration</a>. |
 
-<h4><a name="parseservice-parse-0" href="https://lamnhan.com/docsuper/classes/parseservice.html#parse"><p><code>parse(input?)</code></p>
+<h4><a name="parseservice-parse-0" href="https://lamnhan.com/docsuper/api/classes/parseservice.html#parse"><p><code>parse(input?)</code></p>
 </a></h4>
 
 **Turn the source code into a <a data-sref="Declaration" href="#declaration">Declaration</a>.**
@@ -802,7 +823,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 **Returns**
 
-<code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a></code>
+<code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a></code>
 
 ---
 
@@ -810,7 +831,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 <section id="converter" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
-<h2><a name="convertservice" href="https://lamnhan.com/docsuper/classes/convertservice.html"><p>Converting</p>
+<h2><a name="convertservice" href="https://lamnhan.com/docsuper/api/classes/convertservice.html"><p>Converting</p>
 </a></h2>
 
 **The Converter turns a <a data-sref="Declaration" href="#declaration">Declaration</a> into <a data-sref="Block">content blocks</a>**
@@ -823,28 +844,28 @@ Here the list of default output:
 
 | Output                 | Kinds                  | Options                                                                              | Description                                                                             |
 | ---------------------- | ---------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
-| **SECTION:`ID`**       | any                    | <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>                                                                | A local section                                                                         |
-| **VALUE**              | `Variable`, `Property` | <a data-sref="ValueOptions" href="https://lamnhan.com/docsuper/interfaces/valueoptions.html">ValueOptions</a>                                                                     | Default value                                                                           |
-| **SELF**               | any                    | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="HeadingOptions">HeadingOptions</a>                    | Title, description, content WITHOUT local sections, parameters & returns (for function) |
-| **FULL**               | any                    | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="HeadingOptions">HeadingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a> | All content (with headings)                                                             |
-| **SUMMARY_VARIABLES**  | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of variables                                                              |
-| **DETAIL_VARIABLES**   | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of variables                                                                |
-| **FULL_VARIABLES**     | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of variables                                                |
-| **SUMMARY_FUNCTIONS**  | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of functions                                                              |
-| **DETAIL_FUNCTIONS**   | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of functions                                                                |
-| **FULL_FUNCTIONS**     | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of functions                                                |
-| **SUMMARY_PROPERTIES** | `Interface`, `Class`   | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of properties                                                             |
-| **DETAIL_PROPERTIES**  | `Interface`, `Class`   | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of properties                                                               |
-| **FULL_PROPERTIES**    | `Interface`, `Class`   | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of properties                                               |
-| **SUMMARY_METHODS**    | `Class`                | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of methods                                                                |
-| **DETAIL_METHODS**     | `Class`                | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of methods                                                                  |
-| **FULL_METHODS**       | `Class`                | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of methods                                                  |
-| **SUMMARY_INTERFACES** | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of interfaces                                                             |
-| **DETAIL_INTERFACES**  | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of interfaces                                                               |
-| **FULL_INTERFACES**    | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of interfaces                                               |
-| **SUMMARY_CLASSES**    | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of classes                                                                |
-| **DETAIL_CLASSES**     | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of classes                                                                  |
-| **FULL_CLASSES**       | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of classes                                                  |
+| **SECTION:`ID`**       | any                    | <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>                                                                | A local section                                                                         |
+| **VALUE**              | `Variable`, `Property` | <a data-sref="ValueOptions" href="https://lamnhan.com/docsuper/api/interfaces/valueoptions.html">ValueOptions</a>                                                                     | Default value                                                                           |
+| **SELF**               | any                    | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="HeadingOptions">HeadingOptions</a>                    | Title, description, content WITHOUT local sections, parameters & returns (for function) |
+| **FULL**               | any                    | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="HeadingOptions">HeadingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a> | All content (with headings)                                                             |
+| **SUMMARY_VARIABLES**  | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of variables                                                              |
+| **DETAIL_VARIABLES**   | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of variables                                                                |
+| **FULL_VARIABLES**     | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of variables                                                |
+| **SUMMARY_FUNCTIONS**  | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of functions                                                              |
+| **DETAIL_FUNCTIONS**   | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of functions                                                                |
+| **FULL_FUNCTIONS**     | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of functions                                                |
+| **SUMMARY_PROPERTIES** | `Interface`, `Class`   | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of properties                                                             |
+| **DETAIL_PROPERTIES**  | `Interface`, `Class`   | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of properties                                                               |
+| **FULL_PROPERTIES**    | `Interface`, `Class`   | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of properties                                               |
+| **SUMMARY_METHODS**    | `Class`                | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of methods                                                                |
+| **DETAIL_METHODS**     | `Class`                | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of methods                                                                  |
+| **FULL_METHODS**       | `Class`                | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of methods                                                  |
+| **SUMMARY_INTERFACES** | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of interfaces                                                             |
+| **DETAIL_INTERFACES**  | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of interfaces                                                               |
+| **FULL_INTERFACES**    | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of interfaces                                               |
+| **SUMMARY_CLASSES**    | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of classes                                                                |
+| **DETAIL_CLASSES**     | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of classes                                                                  |
+| **FULL_CLASSES**       | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of classes                                                  |
 
 Provide options with the third item of a rendering input:
 
@@ -858,26 +879,26 @@ Provide options with the third item of a rendering input:
 <h3><a name="convertservice-methods"><p>ConvertService methods</p>
 </a></h3>
 
-| Function                                                             | Returns type                                                                                                                                                                                                                                                                                                                                                                                                                | Description                                |
-| -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
-| [convert(declaration, output?, options?)](#convertservice-convert-0) | <code><a href="https://lamnhan.com/docsuper/interfaces/headingblock.html" target="_blank">HeadingBlock</a> \| <a href="https://lamnhan.com/docsuper/interfaces/textblock.html" target="_blank">TextBlock</a> \| <a href="https://lamnhan.com/docsuper/interfaces/listblock.html" target="_blank">ListBlock</a> \| <a href="https://lamnhan.com/docsuper/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code> | Convert a declaration into content blocks. |
+| Function                                                             | Returns type                                                                                                                                                                                                                                                                                                                                                                                                                                | Description                                |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| [convert(declaration, output?, options?)](#convertservice-convert-0) | <code><a href="https://lamnhan.com/docsuper/api/interfaces/headingblock.html" target="_blank">HeadingBlock</a> \| <a href="https://lamnhan.com/docsuper/api/interfaces/textblock.html" target="_blank">TextBlock</a> \| <a href="https://lamnhan.com/docsuper/api/interfaces/listblock.html" target="_blank">ListBlock</a> \| <a href="https://lamnhan.com/docsuper/api/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code> | Convert a declaration into content blocks. |
 
-<h4><a name="convertservice-convert-0" href="https://lamnhan.com/docsuper/classes/convertservice.html#convert"><p><code>convert(declaration, output?, options?)</code></p>
+<h4><a name="convertservice-convert-0" href="https://lamnhan.com/docsuper/api/classes/convertservice.html#convert"><p><code>convert(declaration, output?, options?)</code></p>
 </a></h4>
 
 **Convert a declaration into content blocks.**
 
 **Parameters**
 
-| Param           | Type                                                                                                                  | Description                             |
-| --------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| **declaration** | <code><a href="https://lamnhan.com/docsuper/classes/declaration.html" target="_blank">Declaration</a></code>          | The declaration                         |
-| output          | <code>string</code>                                                                                                   | Expected output, see <a data-sref="ConvertService" href="#convertservice">ConvertService</a> |
-| options         | <code><a href="https://lamnhan.com/docsuper/interfaces/convertoptions.html" target="_blank">ConvertOptions</a></code> | Custom convertion options               |
+| Param           | Type                                                                                                                      | Description                             |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| **declaration** | <code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a></code>          | The declaration                         |
+| output          | <code>string</code>                                                                                                       | Expected output, see <a data-sref="ConvertService" href="#convertservice">ConvertService</a> |
+| options         | <code><a href="https://lamnhan.com/docsuper/api/interfaces/convertoptions.html" target="_blank">ConvertOptions</a></code> | Custom convertion options               |
 
 **Returns**
 
-<code><a href="https://lamnhan.com/docsuper/interfaces/headingblock.html" target="_blank">HeadingBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/textblock.html" target="_blank">TextBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/listblock.html" target="_blank">ListBlock</a> | <a href="https://lamnhan.com/docsuper/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code>
+<code><a href="https://lamnhan.com/docsuper/api/interfaces/headingblock.html" target="_blank">HeadingBlock</a> | <a href="https://lamnhan.com/docsuper/api/interfaces/textblock.html" target="_blank">TextBlock</a> | <a href="https://lamnhan.com/docsuper/api/interfaces/listblock.html" target="_blank">ListBlock</a> | <a href="https://lamnhan.com/docsuper/api/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code>
 
 ---
 
@@ -885,7 +906,7 @@ Provide options with the third item of a rendering input:
 
 <section id="renderer" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
 
-<h2><a name="renderservice" href="https://lamnhan.com/docsuper/classes/renderservice.html"><p>Rendering</p>
+<h2><a name="renderservice" href="https://lamnhan.com/docsuper/api/classes/renderservice.html"><p>Rendering</p>
 </a></h2>
 
 **The Renderer turns a rendering input into the final content**
@@ -900,81 +921,63 @@ Builtin sections:
 <h3><a name="renderservice-methods"><p>RenderService methods</p>
 </a></h3>
 
-| Function                                                                          | Returns type                                                                                                                  | Description                            |
-| --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| [getData(rendering)](#renderservice-getdata-0)                                    | <code><a href="https://lamnhan.com/docsuper/interfaces/renderingdata.html" target="_blank">RenderingData</a></code>           |                                        |
-| [getDataBatch(batchRendering)](#renderservice-getdatabatch-0)                     | <code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderingdata.html" target="_blank">BatchRenderingData</a></code> |                                        |
-| [render(rendering, currentContent?, html?)](#renderservice-render-0)              | <code>string</code>                                                                                                           | Render content based on configuration. |
-| [renderBatch(batchRendering, batchCurrentContent?)](#renderservice-renderbatch-0) | <code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code>   |                                        |
+| Function                                                                | Returns type                                                                                                                  | Description                            |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| [getData(path, renderInput, currentContent?)](#renderservice-getdata-0) | <code><a href="https://lamnhan.com/docsuper/api/interfaces/rendererfiledata.html" target="_blank">RendererFileData</a></code> |                                        |
+| [getRenderingData(rendering)](#renderservice-getrenderingdata-0)        | <code>object</code>                                                                                                           |                                        |
+| [render(batchRender, batchCurrentContent?)](#renderservice-render-0)    | <code><a href="https://lamnhan.com/docsuper/api/classes/renderer.html" target="_blank">Renderer</a></code>                    | Render content based on configuration. |
 
-<h4><a name="renderservice-getdata-0" href="https://lamnhan.com/docsuper/classes/renderservice.html#getdata"><p><code>getData(rendering)</code></p>
+<h4><a name="renderservice-getdata-0" href="https://lamnhan.com/docsuper/api/classes/renderservice.html#getdata"><p><code>getData(path, renderInput, currentContent?)</code></p>
 </a></h4>
 
 **The `getData` call signature.**
 
 **Parameters**
 
-| Param         | Type                                                                                                        | Description |
-| ------------- | ----------------------------------------------------------------------------------------------------------- | ----------- |
-| **rendering** | <code><a href="https://lamnhan.com/docsuper/interfaces/rendering.html" target="_blank">Rendering</a></code> |             |
+| Param           | Type                                                                                                                            | Description |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| **path**        | <code>string</code>                                                                                                             |             |
+| **renderInput** | <code><a href="https://lamnhan.com/docsuper/api/globals.html#renderinput" target="_blank">RenderInput</a></code>                |             |
+| currentContent  | <code><a href="https://lamnhan.com/docsuper/api/interfaces/contentbysections.html" target="_blank">ContentBySections</a></code> |             |
 
 **Returns**
 
-<code><a href="https://lamnhan.com/docsuper/interfaces/renderingdata.html" target="_blank">RenderingData</a></code>
+<code><a href="https://lamnhan.com/docsuper/api/interfaces/rendererfiledata.html" target="_blank">RendererFileData</a></code>
 
 ---
 
-<h4><a name="renderservice-getdatabatch-0" href="https://lamnhan.com/docsuper/classes/renderservice.html#getdatabatch"><p><code>getDataBatch(batchRendering)</code></p>
+<h4><a name="renderservice-getrenderingdata-0" href="https://lamnhan.com/docsuper/api/classes/renderservice.html#getrenderingdata"><p><code>getRenderingData(rendering)</code></p>
 </a></h4>
 
-**The `getDataBatch` call signature.**
+**The `getRenderingData` call signature.**
 
 **Parameters**
 
-| Param              | Type                                                                                                                  | Description |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------- | ----------- |
-| **batchRendering** | <code><a href="https://lamnhan.com/docsuper/interfaces/batchrendering.html" target="_blank">BatchRendering</a></code> |             |
+| Param         | Type                                                                                                            | Description |
+| ------------- | --------------------------------------------------------------------------------------------------------------- | ----------- |
+| **rendering** | <code><a href="https://lamnhan.com/docsuper/api/interfaces/rendering.html" target="_blank">Rendering</a></code> |             |
 
 **Returns**
 
-<code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderingdata.html" target="_blank">BatchRenderingData</a></code>
+<code>object</code>
 
 ---
 
-<h4><a name="renderservice-render-0" href="https://lamnhan.com/docsuper/classes/renderservice.html#render"><p><code>render(rendering, currentContent?, html?)</code></p>
+<h4><a name="renderservice-render-0" href="https://lamnhan.com/docsuper/api/classes/renderservice.html#render"><p><code>render(batchRender, batchCurrentContent?)</code></p>
 </a></h4>
 
 **Render content based on configuration.**
 
 **Parameters**
 
-| Param          | Type                                                                                                                        | Description                 |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| **rendering**  | <code><a href="https://lamnhan.com/docsuper/interfaces/rendering.html" target="_blank">Rendering</a></code>                 | Redering configuration      |
-| currentContent | <code><a href="https://lamnhan.com/docsuper/interfaces/contentbysections.html" target="_blank">ContentBySections</a></code> | Current content by sections |
-| html           | <code>boolean</code>                                                                                                        |                             |
+| Param               | Type                                                                                                                | Description |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------- | ----------- |
+| **batchRender**     | <code><a href="https://lamnhan.com/docsuper/api/interfaces/batchrender.html" target="_blank">BatchRender</a></code> |             |
+| batchCurrentContent | <code>object</code>                                                                                                 |             |
 
 **Returns**
 
-<code>string</code>
-
----
-
-<h4><a name="renderservice-renderbatch-0" href="https://lamnhan.com/docsuper/classes/renderservice.html#renderbatch"><p><code>renderBatch(batchRendering, batchCurrentContent?)</code></p>
-</a></h4>
-
-**The `renderBatch` call signature.**
-
-**Parameters**
-
-| Param               | Type                                                                                                                  | Description |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------- | ----------- |
-| **batchRendering**  | <code><a href="https://lamnhan.com/docsuper/interfaces/batchrendering.html" target="_blank">BatchRendering</a></code> |             |
-| batchCurrentContent | <code>object</code>                                                                                                   |             |
-
-**Returns**
-
-<code><a href="https://lamnhan.com/docsuper/interfaces/batchrenderresult.html" target="_blank">BatchRenderResult</a></code>
+<code><a href="https://lamnhan.com/docsuper/api/classes/renderer.html" target="_blank">Renderer</a></code>
 
 ---
 

@@ -1,5 +1,6 @@
 module.exports = {
-  url: 'https://lamnhan.com/docsuper',
+  url: 'https://lamnhan.com/docsuper/api',
+  apiGenerator: 'none',
   render: {
     'README.md': {
       head: true,

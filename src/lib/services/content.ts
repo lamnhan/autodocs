@@ -199,11 +199,11 @@ export class ContentService {
     blocks.forEach(({ type, data }) => {
       if (type === 'heading') {
         const { title, level, id, link } = data as Heading;
-        rows.push(
-          `${'    '.repeat(level - offset)}- [${title}](${
-            !!id ? '#' + id : link
-          })`
-        );
+        const spaces = '    '.repeat(level - offset);
+        const displayTitle = !id && !link
+          ? title
+          : `[${title}](${!!id ? '#' + id : link})`;
+        rows.push(`${spaces}- ${displayTitle}`);
       }
     });
     return this.formatMd(rows.join(this.EOL));
