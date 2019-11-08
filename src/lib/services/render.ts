@@ -1,5 +1,5 @@
 import { ProjectService } from './project';
-import { ContentBySections, Block, ContentService } from './content';
+import { ContentBySections, ContentBlock, ContentService } from './content';
 import { LoadService } from './load';
 import { ParseService } from './parse';
 import { ConvertOptions, ConvertService } from './convert';
@@ -16,15 +16,20 @@ export type SectionRendering =
   | BlockRendering // single
   | BlockRendering[]; // multiple
 
-export type BlockRendering = Block | DeclarationRendering;
+export type BlockRendering = ContentBlock | DeclarationRendering;
 
 export type DeclarationRendering = [string, string?, ConvertOptions?];
 
-export type RenderInput = BuiltinTemplate | Rendering | RenderWithOptions;
+export type RenderInput = 
+  | string // direct file
+  | BuiltinTemplate // direct template
+  | Rendering // direct rendering
+  | RenderWithOptions; // with options
 
 export interface RenderWithOptions extends RenderOptions {
   template?: BuiltinTemplate;
   rendering?: Rendering;
+  file?: string;
 }
 
 export interface RenderOptions {
@@ -100,7 +105,7 @@ export class RenderService {
     const renderingData = this.getRenderingData(rendering);
     // merge data
     const data: {
-      [section: string]: string | Block[];
+      [section: string]: string | ContentBlock[];
     } = {
       ...(
         !renderOptions.cleanOutput
@@ -111,7 +116,7 @@ export class RenderService {
       ...renderingData,
     };
     // extract toc & content data
-    const headings: Block[] = [];
+    const headings: ContentBlock[] = [];
     const contentStack: string[] = [];
     Object.keys(data).forEach(sectionName => {
       const sectionData = data[sectionName];
@@ -194,11 +199,11 @@ export class RenderService {
   }
 
   getRenderingData(rendering: Rendering) {
-    const data: {[section: string]: Block[]} = {};
+    const data: {[section: string]: ContentBlock[]} = {};
     // get data for every section
     Object.keys(rendering).forEach(sectionName => {
       const sectionRendering = rendering[sectionName];
-      let sectionBlocks: Block[] = [];
+      let sectionBlocks: ContentBlock[] = [];
       // build-in sections
       if (sectionRendering === true) {
         // head
@@ -216,7 +221,7 @@ export class RenderService {
       }
       // declarations
       else {
-        const declarationBlocks: Block[] = [];
+        const declarationBlocks: ContentBlock[] = [];
         // turn single block rendering to multiple
         const blockRenderings =
           sectionRendering instanceof Array &&
@@ -289,14 +294,14 @@ export class RenderService {
     ];
   }
 
-  private getDataTOC(blocks: Block[]) {
+  private getDataTOC(blocks: ContentBlock[]) {
     const tocContent = this.contentService.renderTOC(blocks);
     return [
       this.contentService.blockText([`**Table of content**`, tocContent]),
     ];
   }
 
-  private getDataTOCX(blocks: Block[]) {
+  private getDataTOCX(blocks: ContentBlock[]) {
     const apiUrl = this.projectService.API_URL;
     blocks.push(
       this.contentService.blockHeading(

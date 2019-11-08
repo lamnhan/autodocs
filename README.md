@@ -834,7 +834,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 <h2><a name="convertservice" href="https://lamnhan.com/docsuper/api/classes/convertservice.html"><p>Converting</p>
 </a></h2>
 
-**The Converter turns a <a data-sref="Declaration" href="#declaration">Declaration</a> into <a data-sref="Block">content blocks</a>**
+**The Converter turns a <a data-sref="Declaration" href="#declaration">Declaration</a> into <a data-sref="ContentBlock">content blocks</a>**
 
 ### Converter output
 

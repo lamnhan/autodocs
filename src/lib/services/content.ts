@@ -8,9 +8,9 @@ export interface ContentBySections {
   [section: string]: string;
 }
 
-export type Block = HeadingBlock | TextBlock | ListBlock | TableBlock;
+export type ContentBlock = HeadingBlock | TextBlock | ListBlock | TableBlock;
 
-export interface Heading {
+export interface ContentHeading {
   title: string;
   level: number;
   id?: string;
@@ -18,25 +18,25 @@ export interface Heading {
 }
 export interface HeadingBlock {
   type: 'heading';
-  data: Heading;
+  data: ContentHeading;
 }
 
-export type Text = string | string[];
+export type ContentText = string | string[];
 export interface TextBlock {
   type: 'text';
-  data: Text;
+  data: ContentText;
 }
 
-export type List = Array<[string, string]>;
+export type ContentList = Array<[string, string]>;
 export interface ListBlock {
   type: 'list';
-  data: List;
+  data: ContentList;
 }
 
-export type Table = string[][];
+export type ContentTable = string[][];
 export interface TableBlock {
   type: 'table';
-  data: Table;
+  data: ContentTable;
 }
 
 export class ContentService {
@@ -181,11 +181,11 @@ export class ContentService {
     return { type: 'heading', data: heading } as HeadingBlock;
   }
 
-  blockText(text: Text) {
+  blockText(text: ContentText) {
     return { type: 'text', data: text } as TextBlock;
   }
 
-  blockList(list: List) {
+  blockList(list: ContentList) {
     return { type: 'list', data: list } as ListBlock;
   }
 
@@ -194,11 +194,11 @@ export class ContentService {
     return { type: 'table', data: table } as TableBlock;
   }
 
-  renderTOC(blocks: Block[], offset = 2) {
+  renderTOC(blocks: ContentBlock[], offset = 2) {
     const rows: string[] = [];
     blocks.forEach(({ type, data }) => {
       if (type === 'heading') {
-        const { title, level, id, link } = data as Heading;
+        const { title, level, id, link } = data as ContentHeading;
         const spaces = '    '.repeat(level - offset);
         const displayTitle = !id && !link
           ? title
@@ -209,38 +209,38 @@ export class ContentService {
     return this.formatMd(rows.join(this.EOL));
   }
 
-  renderContent(blocks: Block[]) {
+  renderContent(blocks: ContentBlock[]) {
     const result = blocks.map(block => this.renderBlock(block));
     return this.formatMd(result.join(this.EOL2X));
   }
 
-  renderBlock({ type, data }: Block) {
+  renderBlock({ type, data }: ContentBlock) {
     let content = '';
     switch (type) {
       case 'heading':
-        content = this.renderHeading(data as Heading);
+        content = this.renderHeading(data as ContentHeading);
         break;
       case 'list':
-        content = this.renderList(data as List);
+        content = this.renderList(data as ContentList);
         break;
       case 'table':
-        content = this.renderTable(data as Table);
+        content = this.renderTable(data as ContentTable);
         break;
       case 'text':
       default:
-        content = this.renderText(data as Text);
+        content = this.renderText(data as ContentText);
         break;
     }
     return content;
   }
 
-  renderHeading({ id, title, level, link }: Heading) {
+  renderHeading({ id, title, level, link }: ContentHeading) {
     const h = 'h' + level;
     const a = `a name="${id}"` + (!!link ? ` href="${link}"` : ``);
     return this.formatMd(`<${h}><${a}>${this.md2Html(title)}</a></${h}>`);
   }
 
-  renderText(text: Text, single = false) {
+  renderText(text: ContentText, single = false) {
     return this.formatMd(
       typeof text === 'string'
         ? text
@@ -248,14 +248,14 @@ export class ContentService {
     );
   }
 
-  renderList(list: List) {
+  renderList(list: ContentList) {
     const blocks = list.map(
       ([title, description = '']) => `- ${title}: ${description}`
     );
     return this.formatMd(blocks.join(this.EOL));
   }
 
-  renderTable([headers, ...rows]: Table) {
+  renderTable([headers, ...rows]: ContentTable) {
     const tableRows = rows.map(cells => {
       // process value
       cells = cells.map(x => (x || '').replace(/\|/g, '\\|'));

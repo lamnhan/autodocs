@@ -1,6 +1,6 @@
 import { ProjectService } from './project';
 import { DefaultValue } from './typedoc';
-import { Block, ContentService } from './content';
+import { ContentBlock, ContentService } from './content';
 
 import { DeclarationFilter, Declaration } from '../declaration';
 
@@ -41,14 +41,14 @@ export type AdditionalConvert = (
   declaration: Declaration,
   options: ConvertOptions,
   contentService: ContentService
-) => Block[];
+) => ContentBlock[];
 
 export interface AdditionalConverts {
   [output: string]: AdditionalConvert;
 }
 
 /**
- * The Converter turns a [[Declaration]] into {@link Block | content blocks}
+ * The Converter turns a [[Declaration]] into {@link ContentBlock | content blocks}
  *
  * ### Converter output
  *
@@ -178,7 +178,7 @@ export class ConvertService {
     declaration: Declaration,
     options: ConvertingOptions & HeadingOptions = {}
   ) {
-    const result: Block[] = [];
+    const result: ContentBlock[] = [];
     // prepare options
     const childrenOptions: ConvertingOptions = {
       ...options,
@@ -221,7 +221,7 @@ export class ConvertService {
     options: ConvertingOptions & HeadingOptions = {}
   ) {
     const { level = 2, title: customTitle, link: customLink } = options;
-    const blocks: Block[] = [];
+    const blocks: ContentBlock[] = [];
     const kindText = (
       declaration.REFLECTION.kindString || 'Unknown'
     ).toLowerCase();
@@ -322,7 +322,7 @@ export class ConvertService {
         .modifyHeadings(sectionContent, offset)
       : sectionContent
     );
-    return [content] as Block[];
+    return [content] as ContentBlock[];
   }
 
   private getValue(declaration: Declaration, valueOptions: ValueOptions = {}) {
@@ -393,7 +393,7 @@ export class ConvertService {
     // get children
     const children = declaration.getVariablesOrProperties(filter);
     // build blocks
-    const result: Block[] = [];
+    const result: ContentBlock[] = [];
     if (!!children.length) {
       // heading
       if (withHeading) {
@@ -412,7 +412,7 @@ export class ConvertService {
       }
       // children
       const summaryRows: string[][] = [];
-      const detailBlocks: Block[] = [];
+      const detailBlocks: ContentBlock[] = [];
       children.forEach(child => {
         const {
           REFLECTION,
@@ -478,7 +478,7 @@ export class ConvertService {
     // get children
     const children = declaration.getFunctionsOrMethods(filter);
     // build blocks
-    const result: Block[] = [];
+    const result: ContentBlock[] = [];
     if (!!children.length) {
       // heading
       if (withHeading) {
@@ -497,7 +497,7 @@ export class ConvertService {
       }
       // children
       const summaryRows: string[][] = [];
-      const detailBlocks: Block[] = [];
+      const detailBlocks: ContentBlock[] = [];
       children.forEach(child => {
         const { ID, NAME, LINK, DISPLAY_TYPE, SHORT_TEXT, PARAMETERS } = child;
         const params = PARAMETERS.map(({ name, isOptional }) =>
@@ -553,7 +553,7 @@ export class ConvertService {
     // get children
     const children = declaration.getInterfaces(filter);
     // build blocks
-    const result: Block[] = [];
+    const result: ContentBlock[] = [];
     if (!!children.length) {
       // heading
       if (withHeading) {
@@ -569,7 +569,7 @@ export class ConvertService {
       }
       // children
       const summaryRows: string[][] = [];
-      const detailBlocks: Block[] = [];
+      const detailBlocks: ContentBlock[] = [];
       children.forEach(child => {
         const { ID, NAME, LINK, SHORT_TEXT } = child;
         const ref = localLinking ? '#' + ID : LINK;
@@ -614,7 +614,7 @@ export class ConvertService {
     // get children
     const children = declaration.getClasses(filter);
     // build blocks
-    const result: Block[] = [];
+    const result: ContentBlock[] = [];
     if (!!children.length) {
       // heading
       if (withHeading) {
@@ -630,7 +630,7 @@ export class ConvertService {
       }
       // children
       const summaryRows: string[][] = [];
-      const detailBlocks: Block[] = [];
+      const detailBlocks: ContentBlock[] = [];
       children.forEach(child => {
         const { ID, NAME, LINK, SHORT_TEXT } = child;
         const ref = localLinking ? '#' + ID : LINK;
