@@ -11,7 +11,6 @@ import { BatchRender } from './services/render';
  * - Under the __@lamnhan/docsuper__ property of `package.json` file
  * - The `docsuper.config.js` file for more advanced config
  * - By the `options` param when init new [[docsuper | `docsuper(options?)`]] instance.
- *
  */
 export interface Options {
   /**
@@ -60,6 +59,10 @@ export interface Options {
    * Additional converts
    */
   converts?: AdditionalConverts;
+  /**
+   * Global clean output, can be overridden per file
+   */
+  cleanOutput?: boolean;
   /**
    * No generator footer attribution
    */

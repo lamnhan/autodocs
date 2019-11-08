@@ -8,17 +8,16 @@ module.exports = {
   websiteCategories: {
     'getting-started': 'Getting started',
   },
+  cleanOutput: true,
   render: {
     'introduction.html': {
       title: 'Introduction',
-      cleanOutput: true,
       rendering: {
         license: true
       }
     },
     'getting-started/the-cli.html': {
       title: 'The CLI',
-      cleanOutput: true,
       rendering: {
         license: true
       }

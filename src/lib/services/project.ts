@@ -90,6 +90,7 @@ export class ProjectService {
       websiteIndex: 'default',
       render: {},
       converts: {},
+      cleanOutput: false,
       noAttr: false,
       ...options,
     } as ProjectOptions;

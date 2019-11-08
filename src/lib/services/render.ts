@@ -34,6 +34,7 @@ export interface RenderWithOptions extends RenderOptions {
 
 export interface RenderOptions {
   title?: string;
+  standalone?: boolean;
   cleanOutput?: boolean;
   templateOptions?: TemplateOptions;
   webData?: WebData;
@@ -99,20 +100,29 @@ export class RenderService {
     renderInput: RenderInput,
     currentContent: ContentBySections = {}
   ) {
+    const { cleanOutput: globalCleanOutput } = this.projectService.OPTIONS;
     // process input
     const { rendering, renderOptions } = this.processRenderInput(renderInput);
+    const { cleanOutput: localCleanOutput } = renderOptions;
     // get data by rendering
     const renderingData = this.getRenderingData(rendering);
     // merge data
     const data: {
       [section: string]: string | ContentBlock[];
     } = {
+      // current content from file
       ...(
-        !renderOptions.cleanOutput
-        ? this.loadService.load(path)
-        : {}
+        !!localCleanOutput || // local = true
+        (
+          !!globalCleanOutput && // global = true
+          localCleanOutput === undefined // local not provided
+        )
+        ? {}
+        : this.loadService.load(path)
       ),
+      // current content by arg
       ...currentContent,
+      // rendering content
       ...renderingData,
     };
     // extract toc & content data
