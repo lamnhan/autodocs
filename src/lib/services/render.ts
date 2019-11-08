@@ -34,7 +34,6 @@ export interface RenderWithOptions extends RenderOptions {
 
 export interface RenderOptions {
   title?: string;
-  standalone?: boolean;
   cleanOutput?: boolean;
   templateOptions?: TemplateOptions;
   webData?: WebData;
@@ -74,7 +73,8 @@ export class RenderService {
    */
   render(
     batchRender: BatchRender,
-    batchCurrentContent: {[path: string]: ContentBySections} = {}
+    batchCurrentContent: {[path: string]: ContentBySections} = {},
+    webOutput = false,
   ) {
     const rendererData: RendererData = {};
     Object.keys(batchRender).forEach(path => {
@@ -91,7 +91,8 @@ export class RenderService {
       this.contentService,
       this.parseService,
       this.webService,
-      rendererData
+      rendererData,
+      webOutput,
     );
   }
 
@@ -224,6 +225,10 @@ export class RenderService {
         else if (sectionName === 'license') {
           sectionBlocks = this.getDataLicense();
         }
+        // attr
+        else if (sectionName === 'attr') {
+          sectionBlocks = this.getDataAttr();
+        }
         // toc, tocx ...
         else {
           sectionBlocks = [];
@@ -266,11 +271,6 @@ export class RenderService {
       // save rendering data
       data[sectionName] = sectionBlocks;
     });
-    // add attr
-    const { noAttr, outputMode } = this.projectService.OPTIONS;
-    if (!noAttr && outputMode === 'file') {
-      data.attr = this.getDataAttr();
-    }
     // result
     return data;
   }

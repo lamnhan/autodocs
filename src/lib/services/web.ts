@@ -1,10 +1,16 @@
 // tslint:disable: no-any
-import { resolve } from 'path';
+import { resolve, sep } from 'path';
+import { pathExistsSync, copySync } from 'fs-extra';
+const APP_ROOT = require('app-root-path');
 
 import { ProjectService } from './project';
 import { ContentService } from './content';
 
 export interface WebData {
+  siteName?: string;
+  siteUrl?: string;
+  homeUrl?: string;
+  repoUrl?: string;
   [key: string]: any;
 };
 
@@ -16,11 +22,14 @@ export class WebService {
   ) {}
 
   getIndex(redirectUrl: string) {
-    const { websiteIndex } = this.projectService.OPTIONS;
+    const {
+      webRender: {
+        index: websiteIndex
+      }
+    } = this.projectService.OPTIONS;
     // path
-    const indexPath = 
-      !websiteIndex || websiteIndex === 'default'
-      ? this.vendorThemePath('index.html')
+    const indexPath = !websiteIndex
+      ? this.defaultIndexPath()
       : websiteIndex;
     // load content
     return this.contentService
@@ -51,17 +60,20 @@ export class WebService {
     return this.contentService.formatHtml(result);
   }
 
-  private getTheme() {
-    const { websiteTheme } = this.projectService.OPTIONS;
-    const themePath =
-      websiteTheme.substr(-5) === '.html'
-      ? websiteTheme
-      : this.vendorThemePath(websiteTheme + '.html');
-    return this.contentService.readFileSync(themePath);
+  copyThemeAssets() {
+    const { webRender } = this.projectService.OPTIONS;
+    const assetsPath = this.getAssetsPath();
+    const outPath = resolve(webRender.out as string, 'assets');
+    console.log(assetsPath, outPath);
+    if (pathExistsSync(assetsPath)) {
+      copySync(assetsPath, outPath);
+    }
   }
 
-  private vendorThemePath(fileName: string) {
-    return resolve(__dirname, '..', 'themes', fileName);
+  private getTheme() {
+    return this.contentService.readFileSync(
+      this.getThemePath()
+    );
   }
 
   private getVendorData() {
@@ -85,6 +97,36 @@ export class WebService {
       data['repoUrl'] = repoUrl.replace('.git', '');
     }
     return data;
+  }
+
+  private themesDir() {
+    const appRoot = '' + APP_ROOT;
+    return resolve(appRoot, 'src', 'lib', 'themes');
+  }
+
+  private defaultIndexPath() {
+    return resolve(this.themesDir(), 'index.html');
+  }
+
+  private vendorThemePath(themeName: string) {
+    return resolve(this.themesDir(), themeName, `${themeName}.html`);
+  }
+  
+  private getThemePath() {
+    const {
+      webRender: {
+        theme: websiteTheme = 'default'
+      }
+    } = this.projectService.OPTIONS;
+    return websiteTheme.substr(-5) === '.html'
+      ? resolve(websiteTheme)
+      : this.vendorThemePath(websiteTheme);
+  }
+
+  private getAssetsPath() {
+    const paths = this.getThemePath().split(sep);
+    paths.pop(); // remove file name
+    return paths.join(sep) + sep + 'assets';
   }
 
 }

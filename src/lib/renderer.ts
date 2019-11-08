@@ -16,8 +16,9 @@ export interface RendererFileData {
 
 export class Renderer {
 
+  private webOutput: boolean;
   private heading: {[path: string]: HeadingBlock[]} = {};
-  private globalHeadings: HeadingBlock[] = [];
+  private webMenuHeadings: HeadingBlock[] = [];
   private content: {[path: string]: string} = {};
   private option: {[path: string]: RenderOptions} = {};
 
@@ -26,8 +27,11 @@ export class Renderer {
     private contentService: ContentService,
     private parseService: ParseService,
     private webService: WebService,
-    data: RendererData
+    data: RendererData,
+    webOutput = false
   ) {
+    // file or web
+    this.webOutput = webOutput;
     // save data by path
     Object.keys(data).forEach(path => {
       const { headings, content, options } = data[path];
@@ -36,11 +40,10 @@ export class Renderer {
       this.option[path] = options;
     });
     // save global heading
-    this.globalHeadings = this.getGlobalHeadings();
+    this.webMenuHeadings = this.getWebMenuHeadings();
   }
 
   getResult(path: string) {
-    const { outputMode } = this.projectService.OPTIONS;
     const { title, webData = {} } = this.option[path] || {};
     // content
     let content = this.content[path];
@@ -49,12 +52,12 @@ export class Renderer {
     // menu
     const activeLink = this.fileUrl(path);
     const menu = this.contentService
-      .md2Html(this.contentService.renderTOC(this.globalHeadings, 1))
+      .md2Html(this.contentService.renderTOC(this.webMenuHeadings, 1))
       .replace(new RegExp(`href="${activeLink}"`), `class="active" $&`);
     // result
-    return outputMode === 'file'
-      ? content
-      : this.webService.buildPage(content, menu, title, webData);
+    return this.webOutput
+      ? this.webService.buildPage(content, menu, title, webData)
+      : content;
   }
 
   getResultAll() {
@@ -66,8 +69,7 @@ export class Renderer {
       result[path] = this.getResult(path)
     });
     // index.html
-    const { outputMode } = this.projectService.OPTIONS;
-    if (outputMode === 'website' && !result['index.html']) {
+    if (this.webOutput && !result['index.html']) {
       result['index.html'] = this.webService.getIndex(
         this.fileUrl(paths[0])
       );
@@ -81,7 +83,7 @@ export class Renderer {
     return url + '/' + path;
   }
   
-  private getGlobalHeadings() {
+  private getWebMenuHeadings() {
     const result: HeadingBlock[] = [];
     Object.keys(this.heading).forEach(path => {
       const [category] = path.indexOf('/') !== -1
@@ -97,7 +99,11 @@ export class Renderer {
       );
       // save data
       if (!!category) {
-        const { websiteCategories } = this.projectService.OPTIONS;
+        const {
+          webRender: {
+            categories: websiteCategories = {}
+          }
+        } = this.projectService.OPTIONS;
         const categoryBlock = this.contentService.blockHeading(
           websiteCategories[category] || category,
           1,

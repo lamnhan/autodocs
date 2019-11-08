@@ -75,7 +75,7 @@
   - [RenderService methods](#renderservice-methods)
     - [`getData(path, renderInput, currentContent?)`](#renderservice-getdata-0)
     - [`getRenderingData(rendering)`](#renderservice-getrenderingdata-0)
-    - [`render(batchRender, batchCurrentContent?)`](#renderservice-render-0)
+    - [`render(batchRender, batchCurrentContent?, webOutput?)`](#renderservice-render-0)
 - [Detail API reference](https://lamnhan.com/docsuper/api)
 
 
@@ -405,20 +405,17 @@ Options can be provided in 3 ways:
 <h2><a name="options-properties"><p>Options properties</p>
 </a></h2>
 
-| Name                                                                                             | Type                                                                                                                                                  | Description                                                                                                                                        |
-| ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [apiGenerator?](https://lamnhan.com/docsuper/api/interfaces/options.html#apigenerator)           | <code>"none" \| "typedoc" \| <a href="https://lamnhan.com/docsuper/api/globals.html#customapigenerator" target="_blank">CustomApiGenerator</a></code> | Detail API generator, default to 'typedoc'                                                                                                         |
-| [converts?](https://lamnhan.com/docsuper/api/interfaces/options.html#converts)                   | <code><a href="https://lamnhan.com/docsuper/api/interfaces/additionalconverts.html" target="_blank">AdditionalConverts</a></code>                     | Additional converts                                                                                                                                |
-| [noAttr?](https://lamnhan.com/docsuper/api/interfaces/options.html#noattr)                       | <code>boolean</code>                                                                                                                                  | No generator footer attribution                                                                                                                    |
-| [outPath?](https://lamnhan.com/docsuper/api/interfaces/options.html#outpath)                     | <code>string</code>                                                                                                                                   | Root path to output files to, default to the project root                                                                                          |
-| [outputMode?](https://lamnhan.com/docsuper/api/interfaces/options.html#outputmode)               | <code>"file" \| "website"</code>                                                                                                                      | Output as standalone file or as a website                                                                                                          |
-| [render?](https://lamnhan.com/docsuper/api/interfaces/options.html#render)                       | <code><a href="https://lamnhan.com/docsuper/api/interfaces/batchrender.html" target="_blank">BatchRender</a></code>                                   | List of documents to be generated: **key** is the path to the document (under the `outPath`) and **value** is a template name or a rendering input |
-| [srcPath?](https://lamnhan.com/docsuper/api/interfaces/options.html#srcpath)                     | <code>string</code>                                                                                                                                   | Path to the source code, default to `src`                                                                                                          |
-| [typedocConfigs?](https://lamnhan.com/docsuper/api/interfaces/options.html#typedocconfigs)       | <code><a href="https://lamnhan.com/docsuper/api/interfaces/typedocconfigs.html" target="_blank">TypedocConfigs</a></code>                             | Custom [Typedoc](https://typedoc.org) configs                                                                                                      |
-| [url?](https://lamnhan.com/docsuper/api/interfaces/options.html#url)                             | <code>string</code>                                                                                                                                   | Docs homepage url, default to the Github Pages repo url                                                                                            |
-| [websiteCategories?](https://lamnhan.com/docsuper/api/interfaces/options.html#websitecategories) | <code>object</code>                                                                                                                                   | Website article grouping                                                                                                                           |
-| [websiteIndex?](https://lamnhan.com/docsuper/api/interfaces/options.html#websiteindex)           | <code>string</code>                                                                                                                                   | Custom website index.html                                                                                                                          |
-| [websiteTheme?](https://lamnhan.com/docsuper/api/interfaces/options.html#websitetheme)           | <code>string</code>                                                                                                                                   | Name of or path to a website theme, built-in themes: default                                                                                       |
+| Name                                                                                       | Type                                                                                                                                                | Description                                             |
+| ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| [apiGenerator?](https://lamnhan.com/docsuper/api/interfaces/options.html#apigenerator)     | <code>"none" \| "typedoc" \| <a href="https://lamnhan.com/docsuper/api/index.html#customapigenerator" target="_blank">CustomApiGenerator</a></code> | Detail API generator, default to 'typedoc'              |
+| [cleanOutput?](https://lamnhan.com/docsuper/api/interfaces/options.html#cleanoutput)       | <code>boolean</code>                                                                                                                                | Global clean output, can be overridden per file         |
+| [converts?](https://lamnhan.com/docsuper/api/interfaces/options.html#converts)             | <code><a href="https://lamnhan.com/docsuper/api/interfaces/additionalconverts.html" target="_blank">AdditionalConverts</a></code>                   | Additional converts                                     |
+| [fileRender?](https://lamnhan.com/docsuper/api/interfaces/options.html#filerender)         | <code><a href="https://lamnhan.com/docsuper/api/interfaces/batchrender.html" target="_blank">BatchRender</a></code>                                 | Output as standalone file                               |
+| [noAttr?](https://lamnhan.com/docsuper/api/interfaces/options.html#noattr)                 | <code>boolean</code>                                                                                                                                | No generator footer attribution                         |
+| [srcPath?](https://lamnhan.com/docsuper/api/interfaces/options.html#srcpath)               | <code>string</code>                                                                                                                                 | Path to the source code, default to `src`               |
+| [typedocConfigs?](https://lamnhan.com/docsuper/api/interfaces/options.html#typedocconfigs) | <code><a href="https://lamnhan.com/docsuper/api/interfaces/typedocconfigs.html" target="_blank">TypedocConfigs</a></code>                           | Custom [Typedoc](https://typedoc.org) configs           |
+| [url?](https://lamnhan.com/docsuper/api/interfaces/options.html#url)                       | <code>string</code>                                                                                                                                 | Docs homepage url, default to the Github Pages repo url |
+| [webRender?](https://lamnhan.com/docsuper/api/interfaces/options.html#webrender)           | <code><a href="https://lamnhan.com/docsuper/api/interfaces/webrender.html" target="_blank">WebRender</a></code>                                     | Output as a website                                     |
 
 </section>
 
@@ -461,9 +458,9 @@ Options can be provided in 3 ways:
 
 **Parameters**
 
-| Param        | Type                                                                                                               | Description |
-| ------------ | ------------------------------------------------------------------------------------------------------------------ | ----------- |
-| optionsInput | <code><a href="https://lamnhan.com/docsuper/api/globals.html#optionsinput" target="_blank">OptionsInput</a></code> |             |
+| Param        | Type                                                                                                             | Description |
+| ------------ | ---------------------------------------------------------------------------------------------------------------- | ----------- |
+| optionsInput | <code><a href="https://lamnhan.com/docsuper/api/index.html#optionsinput" target="_blank">OptionsInput</a></code> |             |
 
 **Returns**
 
@@ -491,10 +488,10 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 **Parameters**
 
-| Param           | Type                                                                                                             | Description          |
-| --------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------- |
-| **path**        | <code>string</code>                                                                                              | Path to the document |
-| **renderInput** | <code><a href="https://lamnhan.com/docsuper/api/globals.html#renderinput" target="_blank">RenderInput</a></code> | Render input         |
+| Param           | Type                                                                                                           | Description          |
+| --------------- | -------------------------------------------------------------------------------------------------------------- | -------------------- |
+| **path**        | <code>string</code>                                                                                            | Path to the document |
+| **renderInput** | <code><a href="https://lamnhan.com/docsuper/api/index.html#renderinput" target="_blank">RenderInput</a></code> | Render input         |
 
 **Returns**
 
@@ -520,10 +517,10 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 **Parameters**
 
-| Param           | Type                                                                                                             | Description  |
-| --------------- | ---------------------------------------------------------------------------------------------------------------- | ------------ |
-| **path**        | <code>string</code>                                                                                              | Path to file |
-| **renderInput** | <code><a href="https://lamnhan.com/docsuper/api/globals.html#renderinput" target="_blank">RenderInput</a></code> | Render input |
+| Param           | Type                                                                                                           | Description  |
+| --------------- | -------------------------------------------------------------------------------------------------------------- | ------------ |
+| **path**        | <code>string</code>                                                                                            | Path to file |
+| **renderInput** | <code><a href="https://lamnhan.com/docsuper/api/index.html#renderinput" target="_blank">RenderInput</a></code> | Render input |
 
 **Returns**
 
@@ -633,9 +630,9 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 **Parameters**
 
-| Param  | Type                                                                                                                         | Description |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| filter | <code><a href="https://lamnhan.com/docsuper/api/globals.html#declarationfilter" target="_blank">DeclarationFilter</a></code> |             |
+| Param  | Type                                                                                                                       | Description |
+| ------ | -------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| filter | <code><a href="https://lamnhan.com/docsuper/api/index.html#declarationfilter" target="_blank">DeclarationFilter</a></code> |             |
 
 **Returns**
 
@@ -650,9 +647,9 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 **Parameters**
 
-| Param  | Type                                                                                                                         | Description |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| filter | <code><a href="https://lamnhan.com/docsuper/api/globals.html#declarationfilter" target="_blank">DeclarationFilter</a></code> |             |
+| Param  | Type                                                                                                                       | Description |
+| ------ | -------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| filter | <code><a href="https://lamnhan.com/docsuper/api/index.html#declarationfilter" target="_blank">DeclarationFilter</a></code> |             |
 
 **Returns**
 
@@ -667,9 +664,9 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 **Parameters**
 
-| Param  | Type                                                                                                                         | Description |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| filter | <code><a href="https://lamnhan.com/docsuper/api/globals.html#declarationfilter" target="_blank">DeclarationFilter</a></code> |             |
+| Param  | Type                                                                                                                       | Description |
+| ------ | -------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| filter | <code><a href="https://lamnhan.com/docsuper/api/index.html#declarationfilter" target="_blank">DeclarationFilter</a></code> |             |
 
 **Returns**
 
@@ -684,9 +681,9 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 **Parameters**
 
-| Param  | Type                                                                                                                         | Description |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| filter | <code><a href="https://lamnhan.com/docsuper/api/globals.html#declarationfilter" target="_blank">DeclarationFilter</a></code> |             |
+| Param  | Type                                                                                                                       | Description |
+| ------ | -------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| filter | <code><a href="https://lamnhan.com/docsuper/api/index.html#declarationfilter" target="_blank">DeclarationFilter</a></code> |             |
 
 **Returns**
 
@@ -921,11 +918,11 @@ Builtin sections:
 <h3><a name="renderservice-methods"><p>RenderService methods</p>
 </a></h3>
 
-| Function                                                                | Returns type                                                                                                                  | Description                            |
-| ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| [getData(path, renderInput, currentContent?)](#renderservice-getdata-0) | <code><a href="https://lamnhan.com/docsuper/api/interfaces/rendererfiledata.html" target="_blank">RendererFileData</a></code> |                                        |
-| [getRenderingData(rendering)](#renderservice-getrenderingdata-0)        | <code>object</code>                                                                                                           |                                        |
-| [render(batchRender, batchCurrentContent?)](#renderservice-render-0)    | <code><a href="https://lamnhan.com/docsuper/api/classes/renderer.html" target="_blank">Renderer</a></code>                    | Render content based on configuration. |
+| Function                                                                         | Returns type                                                                                                                  | Description                            |
+| -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| [getData(path, renderInput, currentContent?)](#renderservice-getdata-0)          | <code><a href="https://lamnhan.com/docsuper/api/interfaces/rendererfiledata.html" target="_blank">RendererFileData</a></code> |                                        |
+| [getRenderingData(rendering)](#renderservice-getrenderingdata-0)                 | <code>object</code>                                                                                                           |                                        |
+| [render(batchRender, batchCurrentContent?, webOutput?)](#renderservice-render-0) | <code><a href="https://lamnhan.com/docsuper/api/classes/renderer.html" target="_blank">Renderer</a></code>                    | Render content based on configuration. |
 
 <h4><a name="renderservice-getdata-0" href="https://lamnhan.com/docsuper/api/classes/renderservice.html#getdata"><p><code>getData(path, renderInput, currentContent?)</code></p>
 </a></h4>
@@ -937,7 +934,7 @@ Builtin sections:
 | Param           | Type                                                                                                                            | Description |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | **path**        | <code>string</code>                                                                                                             |             |
-| **renderInput** | <code><a href="https://lamnhan.com/docsuper/api/globals.html#renderinput" target="_blank">RenderInput</a></code>                |             |
+| **renderInput** | <code><a href="https://lamnhan.com/docsuper/api/index.html#renderinput" target="_blank">RenderInput</a></code>                  |             |
 | currentContent  | <code><a href="https://lamnhan.com/docsuper/api/interfaces/contentbysections.html" target="_blank">ContentBySections</a></code> |             |
 
 **Returns**
@@ -963,7 +960,7 @@ Builtin sections:
 
 ---
 
-<h4><a name="renderservice-render-0" href="https://lamnhan.com/docsuper/api/classes/renderservice.html#render"><p><code>render(batchRender, batchCurrentContent?)</code></p>
+<h4><a name="renderservice-render-0" href="https://lamnhan.com/docsuper/api/classes/renderservice.html#render"><p><code>render(batchRender, batchCurrentContent?, webOutput?)</code></p>
 </a></h4>
 
 **Render content based on configuration.**
@@ -974,6 +971,7 @@ Builtin sections:
 | ------------------- | ------------------------------------------------------------------------------------------------------------------- | ----------- |
 | **batchRender**     | <code><a href="https://lamnhan.com/docsuper/api/interfaces/batchrender.html" target="_blank">BatchRender</a></code> |             |
 | batchCurrentContent | <code>object</code>                                                                                                 |             |
+| webOutput           | <code>boolean</code>                                                                                                |             |
 
 **Returns**
 
@@ -991,7 +989,7 @@ Builtin sections:
 
 </section>
 
-<section id="attr" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY">
+<section id="attr">
 
 ---
 

@@ -118,7 +118,9 @@ export class Main {
    */
   render(path: string, renderInput: RenderInput) {
     return this.renderService
-      .render({ [path]: renderInput })
+      .render({
+        [path]: renderInput
+      })
       .getResult(path);
   }
 
@@ -126,10 +128,10 @@ export class Main {
    * Render content based on local configuration.
    */
   renderLocal() {
-    const { render } = this.projectService.OPTIONS;
-    return this.renderService
-      .render(render)
-      .getResultAll();
+    const { fileRender, webRender } = this.projectService.OPTIONS;
+    const file = this.renderService.render(fileRender).getResultAll();
+    const web = this.renderService.render(webRender.files, {}, true).getResultAll();
+    return { file, web };
   }
 
   /**
@@ -138,22 +140,29 @@ export class Main {
    * @param renderInput - Render input
    */
   output(path: string, renderInput: RenderInput) {
-    const { outPath } = this.projectService.OPTIONS;
     const content = this.render(path, renderInput);
-    return this.contentService
-      .writeFileSync(outPath + '/' + path, content);
+    return this.contentService.writeFileSync(path, content);
   }
 
   /**
    * Render and save documents based on local configuration.
    */
   outputLocal() {
-    const { outPath } = this.projectService.OPTIONS;
-    const batchRender = this.renderLocal();
-    Object.keys(batchRender).forEach(
-      path => this.contentService
-        .writeFileSync(outPath + '/' + path, batchRender[path])
+    const { file, web } = this.renderLocal();
+    // save files
+    Object.keys(file).forEach(path =>
+      this.contentService.writeFileSync(path, file[path])
     );
+    // save web
+    if (this.projectService.hasWebOutput()) {
+      const { webRender } = this.projectService.OPTIONS;
+      // files
+      Object.keys(web).forEach(path =>
+        this.contentService.writeFileSync(webRender.out + '/' + path, web[path])
+      );
+      // copy assets
+      this.webService.copyThemeAssets();
+    }
   }
 
   /**
@@ -162,11 +171,11 @@ export class Main {
    * The default folder is __/docs__. You can change the output folder by providing the `out` property of [[Options]].
    */
   generateDocs() {
-    const { apiGenerator, outPath } = this.projectService.OPTIONS;
+    const { apiGenerator, webRender } = this.projectService.OPTIONS;
     // api output, default to 'docs', 
-    const apiOut = !outPath || outPath === '.'
-      ? resolve('docs')
-      : resolve(outPath, 'api');
+    const apiOut = this.projectService.hasWebOutput()
+      ? resolve(webRender.out as string, 'api')
+      : resolve('docs');
     // custom
     if (apiGenerator instanceof Function) {
       apiGenerator(this.typedocService, apiOut);

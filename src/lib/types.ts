@@ -22,10 +22,6 @@ export interface Options {
    */
   srcPath?: string;
   /**
-   * Root path to output files to, default to the project root
-   */
-  outPath?: string;
-  /**
    * Detail API generator, default to 'typedoc'
    */
   apiGenerator?: 'none' | 'typedoc' | CustomApiGenerator;
@@ -34,32 +30,6 @@ export interface Options {
    */
   typedocConfigs?: TypedocConfigs;
   /**
-   * Output as standalone file or as a website
-   */
-  outputMode?: 'file' | 'website';
-  /**
-   * Name of or path to a website theme, built-in themes: default
-   */
-  websiteTheme?: string;
-  /**
-   * Website article grouping
-   */
-  websiteCategories?: {
-    [id: string]: string;
-  };
-  /**
-   * Custom website index.html
-   */
-  websiteIndex?: string;
-  /**
-   * List of documents to be generated: __key__ is the path to the document (under the `outPath`) and __value__ is a template name or a rendering input
-   */
-  render?: BatchRender;
-  /**
-   * Additional converts
-   */
-  converts?: AdditionalConverts;
-  /**
    * Global clean output, can be overridden per file
    */
   cleanOutput?: boolean;
@@ -67,6 +37,43 @@ export interface Options {
    * No generator footer attribution
    */
   noAttr?: boolean;
+  /**
+   * Output as standalone file
+   */
+  fileRender?: BatchRender;
+  /**
+   * Output as a website
+   */
+  webRender?: WebRender;
+  /**
+   * Additional converts
+   */
+  converts?: AdditionalConverts;
 }
 
 export type CustomApiGenerator = (typedocService: TypedocService, out: string) => void;
+
+export interface WebRender {
+  /**
+   * List of files
+   */
+  files: BatchRender;
+  /**
+   * Website output dir
+   */
+  out?: string;
+  /**
+   * Name of or path to a website theme, built-in themes: default
+   */
+  theme?: string;
+  /**
+   * Website article grouping
+   */
+  categories?: {
+    [id: string]: string;
+  };
+  /**
+   * Custom website index.html, default to a page that redirects to the first article
+   */
+  index?: string;
+}

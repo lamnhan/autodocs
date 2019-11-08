@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import { pathExistsSync, readJsonSync } from 'fs-extra';
 
-import { Options } from '../types';
+import { Options, WebRender } from '../types';
 
 export type OptionsInput = string | Options;
 
@@ -44,8 +44,13 @@ export class ProjectService {
   }
 
   get API_URL() {
-    const { url, outPath } = this.options;
-    return url + (!!outPath ? '' : '/api');
+    const { url } = this.options;
+    return url + (this.hasWebOutput() ? '/api' : '');
+  }
+
+  hasWebOutput() {
+    const { webRender } = this.options;
+    return !!Object.keys(webRender.files).length;
   }
 
   private getPackage() {
@@ -77,22 +82,24 @@ export class ProjectService {
         .split('/');
       url = `https://${org}.github.io/${repo}`;
     }
+    // web render
+    const webRender: WebRender = {
+      out: 'docs',
+      files: {},
+      ...(options.webRender || {})
+    };
     // options
     return {
       url,
       srcPath: 'src',
-      outPath: '.',
       apiGenerator: 'typedoc',
       typedocConfigs: {},
-      outputMode: 'file',
-      websiteTheme: 'default',
-      websiteCategories: {},
-      websiteIndex: 'default',
-      render: {},
-      converts: {},
       cleanOutput: false,
       noAttr: false,
+      fileRender: {},
+      converts: {},
       ...options,
+      webRender,
     } as ProjectOptions;
   }
 

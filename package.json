@@ -20,7 +20,7 @@
     "lint": "gts check",
     "fix": "gts fix",
     "build": "npm run compile && npm i -g",
-    "docs": "docsuper generate && docsuper generate -c docsuper-web.config.js",
+    "docs": "docsuper generate",
     "test": "npm run compile && nyc --cache false mocha test/**/*.js",
     "coverage": "nyc --cache false report --reporter=text-lcov | coveralls"
   },
@@ -37,6 +37,7 @@
     "url": "https://github.com/lamnhan/docsuper/issues"
   },
   "dependencies": {
+    "app-root-path": "^3.0.0",
     "chalk": "^2.4.2",
     "commander": "^3.0.2",
     "fs-extra": "^8.1.0",
