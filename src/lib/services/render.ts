@@ -3,7 +3,7 @@ import { ContentBySections, ContentBlock, ContentService, HeadingBlock } from '.
 import { LoadService } from './load';
 import { ParseService } from './parse';
 import { ConvertOptions, ConvertService } from './convert';
-import { BuiltinTemplate, TemplateOptions, TemplateService } from './template';
+import { BuiltinTemplate, TemplateService } from './template';
 import { WebData, WebService } from './web';
 
 import { RendererData, RendererFileData, Renderer } from '../renderer';
@@ -39,11 +39,26 @@ export interface RenderWithOptions extends RenderOptions {
   file?: string;
 }
 
-export interface RenderOptions {
-  title?: string;
+export interface RenderOptions
+  extends
+  TemplateRenderOptions,
+  WebRenderOptions,
+  FileRenderOptions {
   cleanOutput?: boolean;
-  templateOptions?: TemplateOptions;
+}
+
+export interface TemplateRenderOptions {
+  convertings?: {[section: string]: ConvertOptions};
+}
+
+export interface WebRenderOptions {
+  pageTitle?: string;
+  deepMenu?: boolean;
   webData?: WebData;
+}
+
+export interface FileRenderOptions {
+  headingOffset?: number;
 }
 
 export interface BatchRender {
@@ -117,7 +132,7 @@ export class RenderService {
     // process input
     const { rendering, renderOptions } = this.processRenderInput(renderInput);
     // get data by rendering
-    const renderingData = this.getRenderingData(rendering);
+    const renderingData = this.getRenderingData(rendering, renderOptions);
     // merge data
     const { cleanOutput: localCleanOutput } = renderOptions;
     const data: {
@@ -207,8 +222,8 @@ export class RenderService {
     } as RendererFileData;
   }
 
-  getRenderingData(rendering: Rendering) {
-    const data: {[section: string]: RenderResult} = {};
+  getRenderingData(rendering: Rendering, renderOptions: RenderOptions = {}) {
+    const result: {[section: string]: RenderResult} = {};
     // get data for every section
     Object.keys(rendering).forEach(sectionName => {
       const sectionRendering = rendering[sectionName];
@@ -237,9 +252,14 @@ export class RenderService {
       }
       // file
       else if (typeof sectionRendering === 'string') {
+        const { headingOffset } = renderOptions as FileRenderOptions;
+        let content = this.contentService.readFileSync(sectionRendering);
+        if (!!headingOffset) {
+          content = this.contentService.modifyHeadings(content, headingOffset);
+        }
         sectionResult = {
           src: sectionRendering,
-          value: this.contentService.readFileSync(sectionRendering),
+          value: content,
         };
       }
       // declarations
@@ -280,10 +300,10 @@ export class RenderService {
         };
       }
       // save rendering data
-      data[sectionName] = sectionResult;
+      result[sectionName] = sectionResult;
     });
     // result
-    return data;
+    return result;
   }
 
   private processRenderInput(renderInput: RenderInput) {
@@ -314,7 +334,10 @@ export class RenderService {
       rendering =
         !!renderInput.template
         ? // template
-          this.templateService.getTemplate(renderInput.template as BuiltinTemplate)
+          this.templateService.getTemplate(
+            renderInput.template as BuiltinTemplate,
+            renderInput as TemplateRenderOptions,
+          )
         : !!renderInput.file
         ? // file
           { content: renderInput.file }

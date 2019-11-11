@@ -44,7 +44,7 @@ export class Renderer {
   }
 
   getResult(path: string) {
-    const { title, webData = {} } = this.option[path] || {};
+    const { pageTitle, webData = {} } = this.option[path] || {};
     // content
     let content = this.content[path];
     content = this.renderLinks(path, content);
@@ -56,7 +56,7 @@ export class Renderer {
       .replace(new RegExp(`href="${activeLink}"`), `class="active" $&`);
     // result
     return this.webOutput
-      ? this.webService.buildPage(content, menu, title, webData)
+      ? this.webService.buildPage(content, menu, pageTitle, webData)
       : content;
   }
 
@@ -90,9 +90,9 @@ export class Renderer {
         ? path.split('/')
         : [undefined, path];
       // build heading
-      const { title } = this.option[path] || {};
+      const { pageTitle, deepMenu } = this.option[path] || {};
       const headingBlock = this.contentService.blockHeading(
-        title || path,
+        pageTitle || path,
         !!category ? 2 : 1,
         undefined,
         this.fileUrl(path)
@@ -111,6 +111,17 @@ export class Renderer {
         result.push(categoryBlock);
       }
       result.push(headingBlock);
+      // child menu
+      if (deepMenu) {
+        this.heading[path].forEach(block => {
+          if (block.data.level === 2) {
+            if (!!category) {
+              ++block.data.level;
+            }
+            result.push(block);
+          }
+        });
+      }
     });
     // result
     return result;

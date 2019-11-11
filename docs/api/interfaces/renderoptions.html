@@ -68,10 +68,21 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">RenderOptions</span>
+						<a href="templaterenderoptions.html" class="tsd-signature-type">TemplateRenderOptions</a>
+					</li>
+					<li>
+						<a href="webrenderoptions.html" class="tsd-signature-type">WebRenderOptions</a>
+					</li>
+					<li>
+						<a href="filerenderoptions.html" class="tsd-signature-type">FileRenderOptions</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<a href="renderwithoptions.html" class="tsd-signature-type">RenderWithOptions</a>
+								<span class="target">RenderOptions</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="renderwithoptions.html" class="tsd-signature-type">RenderWithOptions</a>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</li>
@@ -85,9 +96,11 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="renderoptions.html#cleanoutput" class="tsd-kind-icon">clean<wbr>Output</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="renderoptions.html#templateoptions" class="tsd-kind-icon">template<wbr>Options</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="renderoptions.html#title" class="tsd-kind-icon">title</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="renderoptions.html#webdata" class="tsd-kind-icon">web<wbr>Data</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="renderoptions.html#convertings" class="tsd-kind-icon">convertings</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="renderoptions.html#deepmenu" class="tsd-kind-icon">deep<wbr>Menu</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="renderoptions.html#headingoffset" class="tsd-kind-icon">heading<wbr>Offset</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="renderoptions.html#pagetitle" class="tsd-kind-icon">page<wbr>Title</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="renderoptions.html#webdata" class="tsd-kind-icon">web<wbr>Data</a></li>
 							</ul>
 						</section>
 					</div>
@@ -101,37 +114,70 @@
 					<div class="tsd-signature tsd-kind-icon">clean<wbr>Output<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/9624d4b/src/lib/services/render.ts#L37">lib/services/render.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/ae5990b/src/lib/services/render.ts#L47">lib/services/render.ts:47</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="templateoptions" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> template<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">template<wbr>Options<span class="tsd-signature-symbol">:</span> <a href="templateoptions.html" class="tsd-signature-type">TemplateOptions</a></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="convertings" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> convertings</h3>
+					<div class="tsd-signature tsd-kind-icon">convertings<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="templaterenderoptions.html">TemplateRenderOptions</a>.<a href="templaterenderoptions.html#convertings">convertings</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/9624d4b/src/lib/services/render.ts#L38">lib/services/render.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/ae5990b/src/lib/services/render.ts#L51">lib/services/render.ts:51</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-index-signature">
+								<h5><span class="tsd-signature-symbol">[</span>section: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="convertoptions.html" class="tsd-signature-type">ConvertOptions</a></h5>
+							</li>
+						</ul>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="title" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> title</h3>
-					<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="deepmenu" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> deep<wbr>Menu</h3>
+					<div class="tsd-signature tsd-kind-icon">deep<wbr>Menu<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="webrenderoptions.html">WebRenderOptions</a>.<a href="webrenderoptions.html#deepmenu">deepMenu</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/9624d4b/src/lib/services/render.ts#L36">lib/services/render.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/ae5990b/src/lib/services/render.ts#L56">lib/services/render.ts:56</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="headingoffset" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> heading<wbr>Offset</h3>
+					<div class="tsd-signature tsd-kind-icon">heading<wbr>Offset<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="filerenderoptions.html">FileRenderOptions</a>.<a href="filerenderoptions.html#headingoffset">headingOffset</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/ae5990b/src/lib/services/render.ts#L61">lib/services/render.ts:61</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="pagetitle" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> page<wbr>Title</h3>
+					<div class="tsd-signature tsd-kind-icon">page<wbr>Title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="webrenderoptions.html">WebRenderOptions</a>.<a href="webrenderoptions.html#pagetitle">pageTitle</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/ae5990b/src/lib/services/render.ts#L55">lib/services/render.ts:55</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="webdata" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> web<wbr>Data</h3>
 					<div class="tsd-signature tsd-kind-icon">web<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="webdata.html" class="tsd-signature-type">WebData</a></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="webrenderoptions.html">WebRenderOptions</a>.<a href="webrenderoptions.html#webdata">webData</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/9624d4b/src/lib/services/render.ts#L39">lib/services/render.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/ae5990b/src/lib/services/render.ts#L57">lib/services/render.ts:57</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -155,13 +201,19 @@
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="renderoptions.html#cleanoutput" class="tsd-kind-icon">clean<wbr>Output</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="renderoptions.html#templateoptions" class="tsd-kind-icon">template<wbr>Options</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="renderoptions.html#convertings" class="tsd-kind-icon">convertings</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="renderoptions.html#title" class="tsd-kind-icon">title</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="renderoptions.html#deepmenu" class="tsd-kind-icon">deep<wbr>Menu</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="renderoptions.html#headingoffset" class="tsd-kind-icon">heading<wbr>Offset</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="renderoptions.html#pagetitle" class="tsd-kind-icon">page<wbr>Title</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="renderoptions.html#webdata" class="tsd-kind-icon">web<wbr>Data</a>
 							</li>
 						</ul>

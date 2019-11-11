@@ -1,5 +1,4 @@
-// tslint:disable: no-any
-import { Rendering } from './render';
+import { Rendering, TemplateRenderOptions } from './render';
 
 export type BuiltinTemplate =
   | 'mini' | 'minix'
@@ -7,15 +6,11 @@ export type BuiltinTemplate =
   | 'angular' | 'angularx'
   | 'cli' | 'clix';
 
-export interface TemplateOptions {
-  [key: string]: any;
-}
-
 export class TemplateService {
 
   constructor() {}
   
-  getTemplate(name: BuiltinTemplate, options: TemplateOptions = {}) {
+  getTemplate(name: BuiltinTemplate, options: TemplateRenderOptions = {}) {
     switch (name) {
       case 'mini':
       case 'minix':
@@ -34,38 +29,40 @@ export class TemplateService {
     }
   }
 
-  private getMiniTemplate(options: TemplateOptions = {}, extra = false) {
+  private getMiniTemplate(options: TemplateRenderOptions = {}, extra = false) {
+    const { convertings = {} } = options;
     const sections: Rendering = {
-      options: ['Options', 'FULL', options['options'] || {}],
-      main: ['Main', 'FULL', options['main'] || {}],
+      options: ['Options', 'FULL', convertings['options'] || {}],
+      main: ['Main', 'FULL', convertings['main'] || {}],
     };
     return this.createRendering(sections, extra);
   }
 
-  private getFullTemplate(options: TemplateOptions = {}, extra = false) {
+  private getFullTemplate(options: TemplateRenderOptions = {}, extra = false) {
+    const { convertings = {} } = options;
     const sections: Rendering = {
-      functions: ['*', 'FULL_FUNCTIONS', options['functions'] || {}],
+      functions: ['*', 'FULL_FUNCTIONS', convertings['functions'] || {}],
       interfaces: [
         '*',
         'SUMMARY_INTERFACES',
         {
           heading: true,
-          ...(options['interfaces'] || {})
+          ...(convertings['interfaces'] || {})
         }
       ],
-      classes: ['*', 'FULL_CLASSES', options['classes'] || {}],
+      classes: ['*', 'FULL_CLASSES', convertings['classes'] || {}],
     };
     return this.createRendering(sections, extra);
   }
 
-  private getAngularTemplate(options: TemplateOptions = {}, extra = false) {
+  private getAngularTemplate(options: TemplateRenderOptions = {}, extra = false) {
     const sections: Rendering = {
       // TODO: add sections: services, components, pipes, ...
     };
     return this.createRendering(sections, extra);
   }
 
-  private getCLITemplate(options: TemplateOptions = {}, extra = false) {
+  private getCLITemplate(options: TemplateRenderOptions = {}, extra = false) {
     const sections: Rendering = {
       // TODO: add commands section
     };

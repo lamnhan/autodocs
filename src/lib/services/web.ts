@@ -54,7 +54,10 @@ export class WebService {
     // extra data
     data = { ...this.getVendorData(), ...data };
     Object.keys(data).forEach(
-      key => result = result.replace(`{{ ${key} }}`, data[key])
+      key => result = result.replace(
+        new RegExp(`{{ ${key} }}`, 'g'),
+        data[key]
+      )
     );
     // result
     return this.contentService.formatHtml(result);
