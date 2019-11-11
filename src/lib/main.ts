@@ -24,8 +24,8 @@ export class Main {
   private templateService: TemplateService;
   private webService: WebService;
 
-  constructor(optionsInput?: OptionsInput) {
-    this.projectService = new ProjectService(optionsInput);
+  constructor(optionsInput?: OptionsInput, packagePath?: string) {
+    this.projectService = new ProjectService(optionsInput, packagePath);
     this.typedocService = new TypedocService(this.projectService);
     this.contentService = new ContentService(this.projectService);
     this.loadService = new LoadService(this.contentService);
@@ -107,8 +107,8 @@ export class Main {
    * Create a new instance
    * @param options - Custom options
    */
-  extend(optionsInput?: OptionsInput) {
-    return new Main(optionsInput);
+  extend(optionsInput?: OptionsInput, packagePath?: string) {
+    return new Main(optionsInput, packagePath);
   }
 
   /**

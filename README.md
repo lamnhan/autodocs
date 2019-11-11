@@ -42,7 +42,7 @@
 - [The Module](#main)
   - [Main properties](#main-properties)
   - [Main methods](#main-methods)
-    - [`extend(optionsInput?)`](#main-extend-0)
+    - [`extend(optionsInput?, packagePath?)`](#main-extend-0)
     - [`generateDocs()`](#main-generatedocs-0)
     - [`output(path, renderInput)`](#main-output-0)
     - [`outputLocal()`](#main-outputlocal-0)
@@ -442,16 +442,16 @@ Options can be provided in 3 ways:
 <h3><a name="main-methods"><p>Main methods</p>
 </a></h3>
 
-| Function                                    | Returns type                                                                                       | Description                                             |
-| ------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| [extend(optionsInput?)](#main-extend-0)     | <code><a href="https://lamnhan.com/docsuper/api/classes/main.html" target="_blank">Main</a></code> | Create a new instance                                   |
-| [generateDocs()](#main-generatedocs-0)      | <code>void</code>                                                                                  | Generate the API reference using Typedoc.               |
-| [output(path, renderInput)](#main-output-0) | <code>void</code>                                                                                  | Render and save a document                              |
-| [outputLocal()](#main-outputlocal-0)        | <code>void</code>                                                                                  | Render and save documents based on local configuration. |
-| [render(path, renderInput)](#main-render-0) | <code>string</code>                                                                                | Render a file                                           |
-| [renderLocal()](#main-renderlocal-0)        | <code>object</code>                                                                                | Render content based on local configuration.            |
+| Function                                              | Returns type                                                                                       | Description                                             |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| [extend(optionsInput?, packagePath?)](#main-extend-0) | <code><a href="https://lamnhan.com/docsuper/api/classes/main.html" target="_blank">Main</a></code> | Create a new instance                                   |
+| [generateDocs()](#main-generatedocs-0)                | <code>void</code>                                                                                  | Generate the API reference using Typedoc.               |
+| [output(path, renderInput)](#main-output-0)           | <code>void</code>                                                                                  | Render and save a document                              |
+| [outputLocal()](#main-outputlocal-0)                  | <code>void</code>                                                                                  | Render and save documents based on local configuration. |
+| [render(path, renderInput)](#main-render-0)           | <code>string</code>                                                                                | Render a file                                           |
+| [renderLocal()](#main-renderlocal-0)                  | <code>object</code>                                                                                | Render content based on local configuration.            |
 
-<h4><a name="main-extend-0" href="https://lamnhan.com/docsuper/api/classes/main.html#extend"><p><code>extend(optionsInput?)</code></p>
+<h4><a name="main-extend-0" href="https://lamnhan.com/docsuper/api/classes/main.html#extend"><p><code>extend(optionsInput?, packagePath?)</code></p>
 </a></h4>
 
 **Create a new instance**
@@ -461,6 +461,7 @@ Options can be provided in 3 ways:
 | Param        | Type                                                                                                             | Description |
 | ------------ | ---------------------------------------------------------------------------------------------------------------- | ----------- |
 | optionsInput | <code><a href="https://lamnhan.com/docsuper/api/index.html#optionsinput" target="_blank">OptionsInput</a></code> |             |
+| packagePath  | <code>string</code>                                                                                              |             |
 
 **Returns**
 

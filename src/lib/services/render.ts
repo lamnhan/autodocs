@@ -314,7 +314,7 @@ export class RenderService {
       typeof renderInput === 'string' &&
       renderInput.indexOf('.') !== -1 // a file
     ) {
-      rendering = { content: renderInput };
+      rendering = { content: renderInput.replace('@', 'src/') };
     }
     // template
     else if (typeof renderInput === 'string') {

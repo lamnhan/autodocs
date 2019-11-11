@@ -29,13 +29,13 @@ module.exports = {
     },
     files: {
       'introduction.html': {
-        title: 'Introduction',
+        pageTitle: 'Introduction',
         rendering: {
           license: true
         }
       },
       'getting-started/the-cli.html': {
-        title: 'The CLI',
+        pageTitle: 'The CLI',
         rendering: {
           license: true
         }

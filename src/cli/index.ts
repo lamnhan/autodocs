@@ -26,6 +26,7 @@ export class Cli {
   generateCommandDef: CommandDef = [
     'generate [path]', 'Generate the documentation.',
     ['-c, --config [value]', 'Path to custom config file.'],
+    ['-p, --package [value]', 'Path to custom package file.'],
     ['-t, --template [value]', 'Use this template for the "file" param.']
   ];
 
@@ -67,10 +68,12 @@ export class Cli {
         command,
         description,
         configOpt,
+        packageOpt,
         templateOpt
       ] = this.generateCommandDef;
       commander.command(command).description(description)
         .option(...configOpt) // -c, --config
+        .option(...packageOpt) // -c, --package
         .option(...templateOpt) // -t, --template
         .action((path, options) => this.generateCommand.run(path, options));
     })();

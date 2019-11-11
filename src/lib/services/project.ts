@@ -25,14 +25,24 @@ type ProjectOptions = {
 };
 
 export class ProjectService {
-  private defaultLocalPath = resolve('docsuper.config.js');
+  private defaultConfigPath = 'docsuper.config.js';
+  private defaultPackagePath = 'package.json';
 
   private package: PackageJson;
   private options: ProjectOptions;
 
-  constructor(optionsInput?: OptionsInput) {
-    this.package = this.getPackage();
-    this.options = this.getOptions(optionsInput);
+  constructor(
+    optionsInput?: OptionsInput,
+    packagePath?: string
+  ) {
+    // set options
+    this.options = !!optionsInput
+      ? this.getOptions(optionsInput)
+      : this.getLocalOptions();
+    // set package
+    this.package = !!packagePath
+      ? this.getPackage(packagePath)
+      : this.getLocalPackage();
   }
 
   get PACKAGE() {
@@ -53,29 +63,32 @@ export class ProjectService {
     return !!Object.keys(webRender.files).length;
   }
 
-  private getPackage() {
-    return readJsonSync('package.json') as PackageJson;
+  private getLocalOptions() {
+    return this.getOptions(
+      pathExistsSync(this.defaultConfigPath)
+      ? this.defaultConfigPath
+      : this.package['@lamnhan/docsuper'] || {}
+    );
   }
 
-  private getOptions(optionsInput?: OptionsInput) {
-    const {
-      repository: { url: repoUrl },
-      '@lamnhan/docsuper': pkgOptions = {},
-    } = this.package;
+  private getLocalPackage() {
+    return this.getPackage(this.defaultPackagePath);
+  }
+
+  private getPackage(path: string) {
+    return readJsonSync(resolve(path)) as PackageJson;
+  }
+
+  private getOptions(optionsInput: OptionsInput) {
     // get options
-    let options: Options = {};
-    // by input
-    if (!!optionsInput && optionsInput instanceof Object) {
-      options = optionsInput;
-    }
-    // from path or package.json
-    else {
-      const path = !!optionsInput ? resolve(optionsInput) : this.defaultLocalPath;
-      options = pathExistsSync(path) ? require(path) : pkgOptions;
-    }
+    const options: Options =
+      typeof optionsInput === 'string'
+      ? require(resolve(optionsInput)) // from path
+      : optionsInput; // by input
     // api url
     let url = options.url;
     if (!url) {
+      const { repository: { url: repoUrl } } = this.package;
       const [, org, repo] = repoUrl
         .replace('https://', '')
         .replace('.git', '')

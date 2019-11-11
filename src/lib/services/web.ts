@@ -67,7 +67,6 @@ export class WebService {
     const { webRender } = this.projectService.OPTIONS;
     const assetsPath = this.getAssetsPath();
     const outPath = resolve(webRender.out as string, 'assets');
-    console.log(assetsPath, outPath);
     if (pathExistsSync(assetsPath)) {
       copySync(assetsPath, outPath);
     }
