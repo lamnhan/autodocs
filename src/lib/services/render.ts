@@ -1,5 +1,5 @@
 import { ProjectService } from './project';
-import { ContentBySections, ContentBlock, ContentService } from './content';
+import { ContentBySections, ContentBlock, ContentService, HeadingBlock } from './content';
 import { LoadService } from './load';
 import { ParseService } from './parse';
 import { ConvertOptions, ConvertService } from './convert';
@@ -8,8 +8,15 @@ import { WebData, WebService } from './web';
 
 import { RendererData, RendererFileData, Renderer } from '../renderer';
 
+/**
+ * Rendering unit
+ * 
+ * true = builtin
+ * string = file path
+ * SectionRendering = single/multile block rendering
+ */
 export interface Rendering {
-  [section: string]: true | SectionRendering;
+  [section: string]: true | string | SectionRendering;
 }
 
 export type SectionRendering =
@@ -41,6 +48,11 @@ export interface RenderOptions {
 
 export interface BatchRender {
   [path: string]: RenderInput;
+}
+
+export interface RenderResult {
+  src: string;
+  value: string | ContentBlock[];
 }
 
 /**
@@ -104,12 +116,12 @@ export class RenderService {
     const { cleanOutput: globalCleanOutput } = this.projectService.OPTIONS;
     // process input
     const { rendering, renderOptions } = this.processRenderInput(renderInput);
-    const { cleanOutput: localCleanOutput } = renderOptions;
     // get data by rendering
     const renderingData = this.getRenderingData(rendering);
     // merge data
+    const { cleanOutput: localCleanOutput } = renderOptions;
     const data: {
-      [section: string]: string | ContentBlock[];
+      [section: string]: string | RenderResult;
     } = {
       // current content from file
       ...(
@@ -131,36 +143,50 @@ export class RenderService {
     const contentStack: string[] = [];
     Object.keys(data).forEach(sectionName => {
       const sectionData = data[sectionName];
-      // rendered content
-      if (sectionData instanceof Array) {
-        contentStack.push(
-          this.contentService.sectionOpening(sectionName, {
-            'data-note': 'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY',
-          }),
-          sectionName === 'toc' || sectionName === 'tocx'
-            ? this.tocPlaceholder
-            : this.contentService.renderContent(sectionData),
-          this.contentService.sectionClosing()
-        );
-        // section headings
-        const sectionHeadings = sectionData.filter(block => block.type === 'heading');
-        headings.push(...sectionHeadings);
-      }
+      // process section data
+      let sectionContent: string;
+      const sectionAttrs: {[attr: string]: string} = {};
+      let sectionHeadings: string | HeadingBlock[] = [];
       // current content
-      else {
-        contentStack.push(
-          this.contentService.sectionOpening(sectionName),
-          sectionData,
-          this.contentService.sectionClosing()
-        );
-        // section headings
-        const sectionHeadings = this.contentService.extractHeadings(sectionData);
-        headings.push(...sectionHeadings);
+      if (typeof sectionData === 'string') {
+        sectionContent = sectionHeadings = sectionData;
       }
+      // auto content
+      else {
+        const { src, value } = sectionData;
+        // attrs
+        sectionAttrs['data-src'] = src;
+        sectionAttrs['data-note'] = 'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!';
+        // content
+        if (typeof value === 'string') {
+          sectionContent = sectionHeadings = value;
+        } else {
+          sectionContent =
+            sectionName === 'toc' || sectionName === 'tocx'
+            ? this.tocPlaceholder
+            : this.contentService.renderContent(value);
+          sectionHeadings = value
+            .filter(block => block.type === 'heading') as HeadingBlock[];
+        }
+      }
+      // save content to the stack
+      contentStack.push(
+        this.contentService.sectionOpening(sectionName, sectionAttrs),
+        sectionContent,
+        this.contentService.sectionClosing()
+      );
+      // save headings for toc
+      headings.push(
+        ...(
+          typeof sectionHeadings === 'string'
+          ? this.contentService.extractHeadings(sectionHeadings)
+          : sectionHeadings
+        )
+      );
     });
-    // render content
+    // render the content stack
     let content = this.contentService.renderText(contentStack);
-    // add toc
+    // add the toc
     if (!!data.toc || !!data.tocx) {
       const toc = this.contentService.renderContent(
         !!data.tocx
@@ -181,42 +207,15 @@ export class RenderService {
     } as RendererFileData;
   }
 
-  private processRenderInput(renderInput: RenderInput) {
-    let rendering: Rendering = {};
-    let renderOptions: RenderOptions = {};
-    // template
-    if (typeof renderInput === 'string') {
-      rendering = this.templateService.getTemplate(
-        renderInput as BuiltinTemplate
-      );
-    }
-    // rendering
-    else if (
-      !renderInput.template &&
-      !renderInput.rendering
-    ) {
-      rendering = renderInput as Rendering;
-    }
-    // with options
-    else {
-      rendering =
-        !!renderInput.template
-        ? this.templateService.getTemplate(renderInput.template as BuiltinTemplate)
-        : renderInput.rendering as Rendering;
-      // set options
-      renderOptions = renderInput;
-    }
-    return { rendering, renderOptions };
-  }
-
   getRenderingData(rendering: Rendering) {
-    const data: {[section: string]: ContentBlock[]} = {};
+    const data: {[section: string]: RenderResult} = {};
     // get data for every section
     Object.keys(rendering).forEach(sectionName => {
       const sectionRendering = rendering[sectionName];
-      let sectionBlocks: ContentBlock[] = [];
+      let sectionResult: RenderResult;
       // build-in sections
       if (sectionRendering === true) {
+        let sectionBlocks: ContentBlock[] = [];
         // head
         if (sectionName === 'head') {
           sectionBlocks = this.getDataHead();
@@ -233,6 +232,15 @@ export class RenderService {
         else {
           sectionBlocks = [];
         }
+        // builtin section result
+        sectionResult = { src: 'true', value: sectionBlocks };
+      }
+      // file
+      else if (typeof sectionRendering === 'string') {
+        sectionResult = {
+          src: sectionRendering,
+          value: this.contentService.readFileSync(sectionRendering),
+        };
       }
       // declarations
       else {
@@ -265,19 +273,69 @@ export class RenderService {
             declarationBlocks.push(blockRendering);
           }
         });
-        // render content
-        sectionBlocks = declarationBlocks;
+        // declaration result
+        sectionResult = {
+          src: JSON.stringify(blockRenderings),
+          value: declarationBlocks,
+        };
       }
       // save rendering data
-      data[sectionName] = sectionBlocks;
+      data[sectionName] = sectionResult;
     });
     // result
     return data;
   }
 
+  private processRenderInput(renderInput: RenderInput) {
+    let rendering: Rendering = {};
+    let renderOptions: RenderOptions = {};
+    // file input
+    if (
+      typeof renderInput === 'string' &&
+      renderInput.indexOf('.') !== -1 // a file
+    ) {
+      rendering = { content: renderInput };
+    }
+    // template
+    else if (typeof renderInput === 'string') {
+      rendering = this.templateService.getTemplate(
+        renderInput as BuiltinTemplate
+      );
+    }
+    // rendering
+    else if (
+      !renderInput.template &&
+      !renderInput.rendering
+    ) {
+      rendering = renderInput as Rendering;
+    }
+    // with options
+    else {
+      rendering =
+        !!renderInput.template
+        ? // template
+          this.templateService.getTemplate(renderInput.template as BuiltinTemplate)
+        : !!renderInput.file
+        ? // file
+          { content: renderInput.file }
+        : // rendering
+          renderInput.rendering as Rendering;
+      // set options
+      renderOptions = renderInput;
+    }
+    return { rendering, renderOptions };
+  }
+
   private getDataHead() {
     const { name, description } = this.projectService.PACKAGE;
-    return [this.contentService.blockText([`# ${name}`, `**${description}**`])];
+    return [
+      this.contentService.blockText(
+        [
+          `# ${name}`,
+          `**${description}**`
+        ]
+      )
+    ];
   }
 
   private getDataLicense() {
@@ -288,39 +346,46 @@ export class RenderService {
     } = this.projectService.PACKAGE;
     const licenseUrl = repoUrl.replace('.git', '') + '/blob/master/LICENSE';
     return [
-      this.contentService.blockText([
-        '## License',
-        `**${name}** is released under the [${license}](${licenseUrl}) license.`,
-      ]),
+      this.contentService.blockText(
+        [
+          '## License',
+          `**${name}** is released under the [${license}](${licenseUrl}) license.`,
+        ]
+      ),
     ];
   }
 
   private getDataAttr() {
     return [
-      this.contentService.blockText([
-        '---',
-        `⚡️ This document is generated automatically using [@lamnhan/docsuper](https://github.com/lamnhan/docsuper).`,
-      ]),
+      this.contentService.blockText(
+        [
+          '---',
+          `⚡️ This document is generated automatically using [@lamnhan/docsuper](https://github.com/lamnhan/docsuper).`,
+        ]
+      ),
     ];
   }
 
   private getDataTOC(blocks: ContentBlock[]) {
     const tocContent = this.contentService.renderTOC(blocks);
     return [
-      this.contentService.blockText([`**Table of content**`, tocContent]),
+      this.contentService.blockText(
+        [
+          `**Table of content**`,
+          tocContent
+        ]
+      ),
     ];
   }
 
   private getDataTOCX(blocks: ContentBlock[]) {
-    const apiUrl = this.projectService.API_URL;
-    blocks.push(
-      this.contentService.blockHeading(
-        'Detail API reference',
-        2,
-        undefined,
-        apiUrl
-      )
+    const apiRef = this.contentService.blockHeading(
+      'Detail API reference',
+      2,
+      undefined,
+      this.projectService.API_URL,
     );
+    blocks.push(apiRef); // add api ref link
     return this.getDataTOC(blocks);
   }
 }
