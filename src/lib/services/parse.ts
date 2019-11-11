@@ -63,14 +63,27 @@ export class ParseService {
   }
 
   private extractInput(input: string) {
-    const [whatDef, child] =
-      input.indexOf('@') === -1 ? input.split('.') : [input];
-    const what =
-      !whatDef || whatDef === '*'
-        ? undefined
-        : whatDef.indexOf('@') !== -1
-        ? whatDef.replace(/\@/g, 'src/').split('+')
-        : whatDef;
+    let what: undefined | string | string[];
+    let child: undefined | string;
+    if (!input || input === '*') {
+      what = undefined;
+    } else if (
+      input.charAt(0) === '[' &&
+      input.substr(-1) === ']'
+    ) {
+      what = input
+        .substring(1, input.length - 1)
+        .split(',')
+        .map(x =>
+          x.trim()
+          .replace(/\@/g, 'src/')
+          .replace(/'|"/g, '')
+        );
+    } else {
+      const inputSplit = input.split('.');
+      what = inputSplit[0];
+      child = inputSplit[1];
+    }
     return { what, child };
   }
 }
