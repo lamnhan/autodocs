@@ -35,14 +35,14 @@ export class ProjectService {
     optionsInput?: OptionsInput,
     packagePath?: string
   ) {
-    // set options
-    this.options = !!optionsInput
-      ? this.getOptions(optionsInput)
-      : this.getLocalOptions();
     // set package
     this.package = !!packagePath
       ? this.getPackage(packagePath)
       : this.getLocalPackage();
+    // set options
+    this.options = !!optionsInput
+      ? this.getOptions(optionsInput)
+      : this.getLocalOptions();
   }
 
   get PACKAGE() {
@@ -63,16 +63,16 @@ export class ProjectService {
     return !!Object.keys(webRender.files).length;
   }
 
+  private getLocalPackage() {
+    return this.getPackage(this.defaultPackagePath);
+  }
+
   private getLocalOptions() {
     return this.getOptions(
       pathExistsSync(this.defaultConfigPath)
       ? this.defaultConfigPath
       : this.package['@lamnhan/docsuper'] || {}
     );
-  }
-
-  private getLocalPackage() {
-    return this.getPackage(this.defaultPackagePath);
   }
 
   private getPackage(path: string) {

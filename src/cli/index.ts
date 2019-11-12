@@ -15,7 +15,7 @@ export class Cli {
   private showCommand: ShowCommand;
   private previewCommand: PreviewCommand;
 
-  root = ['docsuper', 'Document generator for Typescript projects.'];
+  commander = ['docsuper', 'Document generator for Typescript projects.'];
 
   showCommandDef: CommandDef = [
     'show [input]', 'Show Declaration info.'
@@ -42,7 +42,7 @@ export class Cli {
   }
 
   getApp() {
-    const [command, description] = this.root;
+    const [command, description] = this.commander;
     commander
       .version(require('../../package.json').version, '-v, --version')
       .usage(`${command} [options] [command]`)

@@ -168,9 +168,8 @@ export class RenderService {
       }
       // auto content
       else {
-        const { src, value } = sectionData;
+        const { value } = sectionData;
         // attrs
-        sectionAttrs['data-src'] = src;
         sectionAttrs['data-note'] = 'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!';
         // content
         if (typeof value === 'string') {
