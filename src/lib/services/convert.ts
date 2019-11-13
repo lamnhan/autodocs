@@ -27,12 +27,17 @@ export interface FilterOptions {
   filter?: DeclarationFilter;
 }
 
+export interface CustomConvertOptions {
+  convert?: AdditionalConvert;
+}
+
 export interface ConvertOptions
   extends DeclarationOptions,
     HeadingOptions,
     ValueOptions,
     ConvertingOptions,
-    FilterOptions {
+    FilterOptions,
+    CustomConvertOptions {
   // tslint:disable-next-line: no-any
   [key: string]: any;
 }
@@ -108,10 +113,14 @@ export class ConvertService {
     output = 'SELF',
     options: ConvertOptions = {}
   ) {
-    const { id } = options;
+    const { id, convert: directCustomConvert } = options;
     // override id
     if (!!id) {
       declaration.setId(id);
+    }
+    // direct custom convert
+    if (!!directCustomConvert) {
+      return directCustomConvert(declaration, options, this.contentService);
     }
     // convert
     switch (output) {

@@ -17,17 +17,31 @@ export class Cli {
 
   commander = ['docsuper', 'Document generator for Typescript projects.'];
 
+  /**
+   * @params [input] - The rendering input
+   */
   showCommandDef: CommandDef = [
     'show [input]', 'Show Declaration info.'
   ];
+
+  /**
+   * @params [input] - The rendering input
+   * @params [output] - The converting output
+   * @params [params...] - The convert options
+   */
   previewCommandDef: CommandDef = [
     'preview [input] [output] [params...]', 'Preview a rendering.'
   ];
+
+  /**
+   * @params [path] - Path to the output file
+   */
   generateCommandDef: CommandDef = [
-    'generate [path]', 'Generate the documentation.',
+    'generate [path]',
+    'Generate the documentation.',
     ['-c, --config [value]', 'Path to custom config file.'],
     ['-p, --package [value]', 'Path to custom package file.'],
-    ['-t, --template [value]', 'Use this template for the "file" param.']
+    ['-t, --template [value]', 'Use this template for the [path] param.']
   ];
 
   constructor() {
