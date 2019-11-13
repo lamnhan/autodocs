@@ -33,22 +33,25 @@ export type RenderInput =
   | Rendering // direct rendering
   | RenderWithOptions; // with options
 
-export interface RenderWithOptions extends RenderOptions {
-  template?: BuiltinTemplate;
-  rendering?: Rendering;
-  file?: string;
-}
-
-export interface RenderOptions
+export interface RenderWithOptions
   extends
+  LocalRenderOptions,
   TemplateRenderOptions,
   WebRenderOptions,
   FileRenderOptions {
+    template?: BuiltinTemplate;
+    file?: string;
+    rendering?: Rendering;
+}
+  
+export interface LocalRenderOptions {
   cleanOutput?: boolean;
 }
 
 export interface TemplateRenderOptions {
   convertings?: {[section: string]: ConvertOptions};
+  topSecs?: Rendering;
+  bottomSecs?: Rendering;
 }
 
 export interface WebRenderOptions {
@@ -221,7 +224,7 @@ export class RenderService {
     } as RendererFileData;
   }
 
-  getRenderingData(rendering: Rendering, renderOptions: RenderOptions = {}) {
+  getRenderingData(rendering: Rendering, renderOptions: RenderWithOptions = {}) {
     const result: {[section: string]: RenderResult} = {};
     // get data for every section
     Object.keys(rendering).forEach(sectionName => {
@@ -307,7 +310,7 @@ export class RenderService {
 
   private processRenderInput(renderInput: RenderInput) {
     let rendering: Rendering = {};
-    let renderOptions: RenderOptions = {};
+    let renderOptions: RenderWithOptions = {};
     // file input
     if (
       typeof renderInput === 'string' &&

@@ -13,22 +13,35 @@ export class TemplateService {
   constructor() {}
   
   getTemplate(name: BuiltinTemplate, options: TemplateRenderOptions = {}) {
+    const { topSecs = {}, bottomSecs = {} } = options;
+    // get template
+    let templateSecs: Rendering;
     switch (name) {
       case 'mini':
       case 'minix':
-        return this.getMiniTemplate(options, name === 'minix');
+        templateSecs = this.getMiniTemplate(options, name === 'minix');
+      break;
       case 'full':
       case 'fullx':
-        return this.getFullTemplate(options, name === 'fullx');
+        templateSecs = this.getFullTemplate(options, name === 'fullx');
+      break;
       case 'angular':
       case 'angularx':
-        return this.getAngularTemplate(options, name === 'angularx');
+        templateSecs = this.getAngularTemplate(options, name === 'angularx');
+      break;
       case 'cli':
       case 'clix':
-        return this.getCLITemplate(options, name === 'clix');
+        templateSecs = this.getCLITemplate(options, name === 'clix');
+      break;
       default:
         throw new Error('No template name ' + name);
     }
+    // result
+    return {
+      ...topSecs,
+      ...templateSecs,
+      ...bottomSecs,
+    };
   }
 
   private getMiniTemplate(options: TemplateRenderOptions = {}, extra = false) {
