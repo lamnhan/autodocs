@@ -1,6 +1,4 @@
 
-### Custom sections
-
 You can add any custom sections to a document file. [The CLI](#the-cli) will replace any section exists in the configuration with generated content and keep others as is.
 
 You must wrap content inside the HTML `section` tag with a **unique id**.

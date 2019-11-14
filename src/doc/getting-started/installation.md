@@ -1,9 +1,6 @@
+You can use **docsuper** to generate documentation from the command-line interface or manually parsing, converting or rendering content in a Node application.
 
-## Getting started
-
-You can use **docsuper** to generate documentation from the command-line interface or [manually](#the-library) parsing, converting or rendering content in a Node application.
-
-### The CLI
+## The CLI
 
 Install globally by running:
 
@@ -29,7 +26,7 @@ Then put a script in the `package.json`, so you can do `npm run docs` every buil
 }
 ```
 
-### The library
+## The library
 
 Install as dev dependency:
 
@@ -55,4 +52,4 @@ const rendering = generator.render({
 });
 ```
 
-See [Main](#main) for service detail and [Options](#options) for more options.
+See [[Main]] for service detail and [[Options]] for more options.

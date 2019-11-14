@@ -1,4 +1,4 @@
-<section id="head" data-src="true" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+<section id="head" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
 
 # @lamnhan/docsuper
 
@@ -21,7 +21,7 @@
 
 </section>
 
-<section id="tocx" data-src="true" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+<section id="tocx" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
 
 **Table of content**
 
@@ -389,7 +389,7 @@ Section can also be put in the source file, called [**local section**](#renderin
 
 </section>
 
-<section id="options" data-src="[["Options","SELF",{"title":"Options"}],["Options","SUMMARY_PROPERTIES",{"heading":true}]]" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+<section id="options" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
 
 <h2><a name="options" href="https://lamnhan.com/docsuper/api/interfaces/options.html"><p>Options</p>
 </a></h2>
@@ -419,7 +419,7 @@ Options can be provided in 3 ways:
 
 </section>
 
-<section id="main" data-src="<a data-sref=""Main","FULL",{"title":"The Module"}">"Main","FULL",{"title":"The Module"}</a>" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+<section id="main" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
 
 <h2><a name="main" href="https://lamnhan.com/docsuper/api/classes/main.html"><p>The Module</p>
 </a></h2>
@@ -542,7 +542,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 </section>
 
-<section id="declaration" data-src="<a data-sref=""Declaration","FULL",{"title":"Declaration"}">"Declaration","FULL",{"title":"Declaration"}</a>" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+<section id="declaration" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
 
 <h2><a name="declaration" href="https://lamnhan.com/docsuper/api/classes/declaration.html"><p>Declaration</p>
 </a></h2>
@@ -794,7 +794,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 </section>
 
-<section id="parser" data-src="<a data-sref=""ParseService","FULL",{"title":"Parsing"}">"ParseService","FULL",{"title":"Parsing"}</a>" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+<section id="parser" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
 
 <h2><a name="parseservice" href="https://lamnhan.com/docsuper/api/classes/parseservice.html"><p>Parsing</p>
 </a></h2>
@@ -827,7 +827,7 @@ The default folder is **/docs**. You can change the output folder by providing t
 
 </section>
 
-<section id="converter" data-src="<a data-sref=""ConvertService","FULL",{"title":"Converting"}">"ConvertService","FULL",{"title":"Converting"}</a>" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+<section id="converter" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
 
 <h2><a name="convertservice" href="https://lamnhan.com/docsuper/api/classes/convertservice.html"><p>Converting</p>
 </a></h2>
@@ -902,7 +902,7 @@ Provide options with the third item of a rendering input:
 
 </section>
 
-<section id="renderer" data-src="<a data-sref=""RenderService","FULL",{"title":"Rendering"}">"RenderService","FULL",{"title":"Rendering"}</a>" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+<section id="renderer" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
 
 <h2><a name="renderservice" href="https://lamnhan.com/docsuper/api/classes/renderservice.html"><p>Rendering</p>
 </a></h2>
@@ -951,10 +951,10 @@ Builtin sections:
 
 **Parameters**
 
-| Param         | Type                                                                                                                    | Description |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------- |
-| **rendering** | <code><a href="https://lamnhan.com/docsuper/api/interfaces/rendering.html" target="_blank">Rendering</a></code>         |             |
-| renderOptions | <code><a href="https://lamnhan.com/docsuper/api/interfaces/renderoptions.html" target="_blank">RenderOptions</a></code> |             |
+| Param         | Type                                                                                                                            | Description |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| **rendering** | <code><a href="https://lamnhan.com/docsuper/api/interfaces/rendering.html" target="_blank">Rendering</a></code>                 |             |
+| renderOptions | <code><a href="https://lamnhan.com/docsuper/api/interfaces/renderwithoptions.html" target="_blank">RenderWithOptions</a></code> |             |
 
 **Returns**
 
@@ -983,7 +983,7 @@ Builtin sections:
 
 </section>
 
-<section id="license" data-src="true" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+<section id="license" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
 
 ## License
 

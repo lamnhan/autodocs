@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>How it works?</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://lamnhan.com/docsuper/assets/main.css"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="https://lamnhan.com/docsuper"
+        >@lamnhan/docsuper documentation</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"></li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="https://lamnhan.com">Homepage</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/lamnhan/docsuper"
+              >Github</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container-fluid main">
+      <div class="row">
+        <aside class="col-3 menu">
+          <div><strong>Table of content</strong></div>
+          <ul>
+            <li>
+              <a href="https://lamnhan.com/docsuper/introduction.html"
+                >Introduction</a
+              >
+              <ul>
+                <li><a href="#use-cases">Use cases</a></li>
+                <li><a href="#what-the-benefits">What the benefits?</a></li>
+                <li><a href="#the-workflow">The workflow</a></li>
+              </ul>
+            </li>
+            <li>
+              Getting started
+              <ul>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/getting-started/installation.html"
+                    >Installation</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="active"
+                    href="https://lamnhan.com/docsuper/getting-started/how-it-works.html"
+                    >How it works?</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/getting-started/the-source-code.html"
+                    >Understand the source code</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/getting-started/custom-sections.html"
+                    >Custom sections</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/getting-started/options.html"
+                    >Options</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </aside>
+
+        <article class="col-9 content">
+          <section
+            id="content"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <p>
+              <strong>docsuper</strong> recieve the render input and returns the
+              content, simple that is.
+            </p>
+            <p>
+              A render input can be
+              <strong>a path to a .md file</strong> (<code>file</code>),
+              <strong>a template name</strong> (<code>template</code>),
+              <strong>a rendering</strong> (<code>rendering</code>), or one of
+              the input with
+              <a
+                data-sref="RenderWithOptions"
+                href="https://lamnhan.com/docsuper/api/interfaces/renderwithoptions.html"
+                >options</a
+              >.
+            </p>
+            <p>
+              The CLI load configuration from <code>package.json</code> or
+              <code>docsuper.config.js</code>. See
+              <a href="#options">Options</a> section for detail. Using the API,
+              config can be provided directly when init the module.
+            </p>
+            <p>Open <code>package.json</code> and add:</p>
+            <pre><code class="language-json">{
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"my-package"</span>,
+  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"My package description."</span>,
+  <span class="hljs-attr">"@lamnhan/docsuper"</span>: {
+    <span class="hljs-attr">"files"</span>: {
+      <span class="hljs-attr">"TEST.md"</span>: {
+        <span class="hljs-attr">"head"</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">"s1"</span>: [<span class="hljs-string">"Main"</span>, <span class="hljs-string">"SELF"</span>]
+      }
+    }
+  }
+}</code></pre>
+            <p>
+              With the configuration above, you tell the CLI to create a file
+              named <code>TEST.md</code> with two sections:
+            </p>
+            <ul>
+              <li>
+                The <code>head</code> section: a
+                <a href="#renderer">built-in</a> section that display the
+                package name and description.
+              </li>
+              <li>
+                The <code>s1</code> section: a
+                <a href="#rendering-input">rendering</a> section that display
+                the source code element title and description.
+              </li>
+            </ul>
+            <p>The <code>TEST.md</code> content would be:</p>
+            <pre><code class="language-md"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">\section</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"head"</span>&gt;</span></span>
+
+\# my-package
+
+<span class="hljs-strong">**My package description.**</span>
+
+<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span>&gt;</span></span>
+
+<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"s1"</span>&gt;</span></span>
+
+\## The <span class="hljs-code">`Main`</span> class
+
+<span class="hljs-strong">**This is a Class element named `Main`**</span>
+
+And this is the <span class="hljs-code">`Main`</span> element detail.
+
+Supports Markdown content.
+
+<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span>&gt;</span></span></code></pre>
+          </section>
+        </article>
+      </div>
+    </div>
+
+    <div class="container-fluid footer">
+      <div class="row">
+        <div class="col-12">
+          <p>
+            ⚡️ This document is generated automatically using
+            <a href="https://github.com/lamnhan/docsuper" target="_blank"
+              >@lamnhan/docsuper</a
+            >.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-css-extras.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-powershell.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-json.min.js"></script>
+  </body>
+</html>

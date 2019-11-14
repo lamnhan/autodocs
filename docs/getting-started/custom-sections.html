@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Custom sections</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://lamnhan.com/docsuper/assets/main.css"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="https://lamnhan.com/docsuper"
+        >@lamnhan/docsuper documentation</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"></li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="https://lamnhan.com">Homepage</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/lamnhan/docsuper"
+              >Github</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container-fluid main">
+      <div class="row">
+        <aside class="col-3 menu">
+          <div><strong>Table of content</strong></div>
+          <ul>
+            <li>
+              <a href="https://lamnhan.com/docsuper/introduction.html"
+                >Introduction</a
+              >
+              <ul>
+                <li><a href="#use-cases">Use cases</a></li>
+                <li><a href="#what-the-benefits">What the benefits?</a></li>
+                <li><a href="#the-workflow">The workflow</a></li>
+              </ul>
+            </li>
+            <li>
+              Getting started
+              <ul>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/getting-started/installation.html"
+                    >Installation</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/getting-started/how-it-works.html"
+                    >How it works?</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/getting-started/the-source-code.html"
+                    >Understand the source code</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="active"
+                    href="https://lamnhan.com/docsuper/getting-started/custom-sections.html"
+                    >Custom sections</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/getting-started/options.html"
+                    >Options</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </aside>
+
+        <article class="col-9 content">
+          <section
+            id="content"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <p>
+              You can add any custom sections to a document file.
+              <a href="#the-cli">The CLI</a> will replace any section exists in
+              the configuration with generated content and keep others as is.
+            </p>
+            <p>
+              You must wrap content inside the HTML <code>section</code> tag
+              with a <strong>unique id</strong>.
+            </p>
+            <pre><code class="language-md"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">\section</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"xxx"</span>&gt;</span></span>
+
+Any markdown content goes here!
+
+<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span>&gt;</span></span></code></pre>
+            <p>
+              Section can also be put in the source file, called
+              <a href="#rendering"><strong>local section</strong></a
+              >.
+            </p>
+            <p>
+              <strong>IMPORTANT</strong>: If the content has these structures,
+              you must escape them to avoid conflicts:
+            </p>
+            <ul>
+              <li>
+                <code
+                  >&lt;\section id=&quot;xxx&quot;&gt;...&lt;/\section&gt;</code
+                >
+                (HTML sections with an id)
+              </li>
+              <li>
+                <code>\# A heading</code> (Markdown headings, but
+                <strong>not intended</strong> to be headings)
+              </li>
+              <li>
+                <code>&lt;\h1&gt;A heading&lt;/\h1&gt;</code> (HTML headings,
+                but <strong>not intended</strong> to be headings)
+              </li>
+            </ul>
+          </section>
+        </article>
+      </div>
+    </div>
+
+    <div class="container-fluid footer">
+      <div class="row">
+        <div class="col-12">
+          <p>
+            ⚡️ This document is generated automatically using
+            <a href="https://github.com/lamnhan/docsuper" target="_blank"
+              >@lamnhan/docsuper</a
+            >.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-css-extras.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-powershell.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-json.min.js"></script>
+  </body>
+</html>

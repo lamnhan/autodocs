@@ -85,6 +85,7 @@ export class Renderer {
   
   private getWebMenuHeadings() {
     const result: HeadingBlock[] = [];
+    let activeCategory: undefined | string;
     Object.keys(this.heading).forEach(path => {
       const [category] = path.indexOf('/') !== -1
         ? path.split('/')
@@ -97,8 +98,9 @@ export class Renderer {
         undefined,
         this.fileUrl(path)
       );
-      // save data
-      if (!!category) {
+      // save category
+      if (!!category && activeCategory !== category) {
+        activeCategory = category;
         const {
           webRender: {
             categories: websiteCategories = {}
@@ -110,6 +112,7 @@ export class Renderer {
         );
         result.push(categoryBlock);
       }
+      // save heading
       result.push(headingBlock);
       // child menu
       if (deepMenu) {

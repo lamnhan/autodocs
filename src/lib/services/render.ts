@@ -311,12 +311,13 @@ export class RenderService {
   private processRenderInput(renderInput: RenderInput) {
     let rendering: Rendering = {};
     let renderOptions: RenderWithOptions = {};
+    const srcFile = (str: string) => str.replace('@', 'src/');
     // file input
     if (
       typeof renderInput === 'string' &&
       renderInput.indexOf('.') !== -1 // a file
     ) {
-      rendering = { content: renderInput.replace('@', 'src/') };
+      rendering = { content: srcFile(renderInput) };
     }
     // template
     else if (typeof renderInput === 'string') {
@@ -327,7 +328,8 @@ export class RenderService {
     // rendering
     else if (
       !renderInput.template &&
-      !renderInput.rendering
+      !renderInput.rendering &&
+      !renderInput.file
     ) {
       rendering = renderInput as Rendering;
     }
@@ -342,7 +344,7 @@ export class RenderService {
           )
         : !!renderInput.file
         ? // file
-          { content: renderInput.file }
+          { content: srcFile(renderInput.file as string) }
         : // rendering
           renderInput.rendering as Rendering;
       // set options

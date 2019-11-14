@@ -1,7 +1,8 @@
+**docsuper** recieve the render input and returns the content, simple that is.
 
-### Configuration
+A render input can be **a path to a .md file** (`file`), **a template name** (`template`), **a rendering** (`rendering`), or one of the input with [[RenderWithOptions | options]].
 
-The CLI load configuration from `package.json` or `docsuper.config.js`. See [Options](#options) section for detail.
+The CLI load configuration from `package.json` or `docsuper.config.js`. See [Options](#options) section for detail. Using the API, config can be provided directly when init the module.
 
 Open `package.json` and add:
 

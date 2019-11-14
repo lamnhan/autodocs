@@ -26,18 +26,34 @@ module.exports = {
   webRender: {
     categories: {
       'getting-started': 'Getting started',
+      'render': 'Render',
     },
     files: {
       'introduction.html': {
         pageTitle: 'Introduction',
-        rendering: {
-          license: true
-        }
+        deepMenu: true,
+        file: '@doc/introduction.md'
       },
-      'getting-started/the-cli.html': {
-        pageTitle: 'The CLI',
+      'getting-started/installation.html': {
+        pageTitle: 'Installation',
+        file: '@doc/getting-started/installation.md'
+      },
+      'getting-started/how-it-works.html': {
+        pageTitle: 'How it works?',
+        file: '@doc/getting-started/how-it-works.md'
+      },
+      'getting-started/the-source-code.html': {
+        pageTitle: 'Understand the source code',
+        file: '@doc/getting-started/the-source-code.md'
+      },
+      'getting-started/custom-sections.html': {
+        pageTitle: 'Custom sections',
+        file: '@doc/getting-started/custom-sections.md'
+      },
+      'getting-started/options.html': {
+        pageTitle: 'Options',
         rendering: {
-          license: true
+          options: ['Options', 'FULL']
         }
       }
     }

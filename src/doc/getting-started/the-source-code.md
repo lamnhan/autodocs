@@ -1,6 +1,3 @@
-
-### Understand the source code
-
 A Typescript project source code contains many elements with different kinds: `Variable/Property`, `Function/Method`, `Interface`, `Class`, ...
 
 Imagine your source code has 3 files: `file1.ts`, `file2.ts`, `file3.ts`. Each file exports certain elements.
