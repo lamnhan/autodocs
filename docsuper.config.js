@@ -26,7 +26,8 @@ module.exports = {
   webRender: {
     categories: {
       'getting-started': 'Getting started',
-      'render': 'Render',
+      'rendering': 'Rendering',
+      'advanced': 'Advanced'
     },
     files: {
       'introduction.html': {
@@ -43,7 +44,7 @@ module.exports = {
         file: '@doc/getting-started/how-it-works.md'
       },
       'getting-started/the-source-code.html': {
-        pageTitle: 'Understand the source code',
+        pageTitle: 'Understand the code',
         file: '@doc/getting-started/the-source-code.md'
       },
       'getting-started/custom-sections.html': {
@@ -51,9 +52,48 @@ module.exports = {
         file: '@doc/getting-started/custom-sections.md'
       },
       'getting-started/options.html': {
-        pageTitle: 'Options',
+        pageTitle: 'Options list',
         rendering: {
-          options: ['Options', 'FULL']
+          options: ['Options', 'FULL'],
+          webrender: ['WebRender', 'FULL']
+        }
+      },
+      'rendering/render-file.html': {
+        pageTitle: 'Render file',
+        rendering: {
+          renderfile: ['RenderService', 'SECTION:render-file'],
+          renderfileoptions: ['FileRenderOptions', 'SUMMARY_PROPERTIES']
+        }
+      },
+      'rendering/render-template.html': {
+        pageTitle: 'Render template',
+        rendering: {
+          rendertemplate: ['RenderService', 'SECTION:render-template'],
+          rendertemplateoptions: ['TemplateRenderOptions', 'SUMMARY_PROPERTIES']
+        }
+      },
+      'rendering/render-rendering.html': {
+        pageTitle: 'Render rendering',
+        rendering: {
+          renderrendering: ['RenderService', 'SECTION:render-rendering']
+        }
+      },
+      'rendering/render-options.html': {
+        pageTitle: 'More render options',
+        rendering: {
+          localoptions: ['LocalRenderOptions', 'FULL'],
+          weboptions: ['WebRenderOptions', 'FULL']
+        }
+      },
+      'the-cli.html': {
+        pageTitle: 'The CLI',
+        template: 'cli'
+      },
+      'the-library.html': {
+        pageTitle: 'The library',
+        rendering: {
+          init: ['main', 'FULL'],
+          main: ['Main', 'FULL'],
         }
       }
     }

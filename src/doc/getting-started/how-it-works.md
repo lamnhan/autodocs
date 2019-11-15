@@ -14,7 +14,7 @@ Open `package.json` and add:
     "files": {
       "TEST.md": {
         "head": true,
-        "s1": ["Main", "SELF"]
+        "section1": ["Main", "SELF"]
       }
     }
   }
@@ -24,7 +24,7 @@ Open `package.json` and add:
 With the configuration above, you tell the CLI to create a file named `TEST.md` with two sections:
 
 - The `head` section: a [built-in](#renderer) section that display the package name and description.
-- The `s1` section: a [rendering](#rendering-input) section that display the source code element title and description.
+- The `section1` section: a [rendering](#rendering-input) section that display the source code element title and description.
 
 The `TEST.md` content would be:
 
@@ -37,7 +37,7 @@ The `TEST.md` content would be:
 
 </\section>
 
-</\section id="s1">
+</\section id="section1">
 
 \## The `Main` class
 

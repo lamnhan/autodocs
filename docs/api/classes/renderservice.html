@@ -67,15 +67,81 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The Renderer turns a rendering input into the final content</p>
+						<p>Turns a render input into the final content</p>
 					</div>
-					<p>Builtin sections:</p>
-					<ul>
-						<li><code>head</code>: Package name &amp; description</li>
-						<li><code>toc</code>: Table of content</li>
-						<li><code>tocx</code>: Table of content, with detail API reference link</li>
-						<li><code>license</code>: License information</li>
-					</ul>
+					<section id="builtin-sections">
+						<a href="#builtin-sections" id="builtin-sections" style="color: inherit; text-decoration: none;">
+							<h3>Builtin sections</h3>
+						</a>
+						<ul>
+							<li><code>head</code>: Package name &amp; description</li>
+							<li><code>toc</code>: Table of content</li>
+							<li><code>tocx</code>: Table of content, with detail API reference link</li>
+							<li><code>license</code>: License information</li>
+						</ul>
+					</section>
+					<section id="render-file">
+						<a href="#render-direct-files" id="render-direct-files" style="color: inherit; text-decoration: none;">
+							<h3>Render direct files</h3>
+						</a>
+						<p>To render a file (markdown), just provide the path, <code>@</code> will be replaced with <code>src/</code>:</p>
+						<pre><code class="language-ts">{
+   <span class="hljs-string">'TEST.md'</span>: <span class="hljs-string">'src/doc/test.md'</span>,
+   <span class="hljs-string">'TEST2.md'</span>: <span class="hljs-string">'@doc/test.md'</span>,
+}</code></pre>
+						<a href="#render-file-with-options" id="render-file-with-options" style="color: inherit; text-decoration: none;">
+							<h3>Render file with options</h3>
+						</a>
+						<p>You can render a file with options, see <a href="../interfaces/filerenderoptions.html">FileRenderOptions</a> for the list.</p>
+						<p>{
+							&#39;TEST.md&#39;: {
+							file: &#39;@doc/test.md&#39;,
+							// options
+							}
+						}</p>
+					</section>
+					<section id="render-template">
+						<a href="#render-direct-template" id="render-direct-template" style="color: inherit; text-decoration: none;">
+							<h3>Render direct template</h3>
+						</a>
+						<p>To render a template, just provide the template name:</p>
+						<pre><code class="language-ts">{
+   <span class="hljs-string">'TEST.md'</span>: <span class="hljs-string">'mini'</span>,
+}</code></pre>
+						<a href="#render-template-with-options" id="render-template-with-options" style="color: inherit; text-decoration: none;">
+							<h3>Render template with options</h3>
+						</a>
+						<p>You can render a template with options, see <a href="../interfaces/templaterenderoptions.html">TemplateRenderOptions</a> for the list.</p>
+						<p>{
+							&#39;TEST.md&#39;: {
+							template: &#39;mini&#39;,
+							// options
+							}
+						}</p>
+					</section>
+					<section id="render-rendering">
+						<a href="#render-direct-rendering" id="render-direct-rendering" style="color: inherit; text-decoration: none;">
+							<h3>Render direct rendering</h3>
+						</a>
+						<p>To render a rendering (custom sections):</p>
+						<pre><code class="language-ts">{
+   <span class="hljs-string">'TEST.md'</span>: {
+     section1: [<span class="hljs-string">'Main'</span>, <span class="hljs-string">'SELF'</span>]
+   },
+}</code></pre>
+						<a href="#render-rendering-with-options" id="render-rendering-with-options" style="color: inherit; text-decoration: none;">
+							<h3>Render rendering with options</h3>
+						</a>
+						<p>You can render a rendering with options.</p>
+						<p>{
+							&#39;TEST.md&#39;: {
+							rendering: {
+							section1: [&#39;Main&#39;, &#39;SELF&#39;]
+							},
+							// options
+							}
+						}</p>
+					</section>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -119,7 +185,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/e9e852d/src/lib/services/render.ts#L87">lib/services/render.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/921f8d5/src/lib/services/render.ts#L171">lib/services/render.ts:171</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -163,7 +229,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/e9e852d/src/lib/services/render.ts#L129">lib/services/render.ts:129</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/921f8d5/src/lib/services/render.ts#L208">lib/services/render.ts:208</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -192,7 +258,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/e9e852d/src/lib/services/render.ts#L227">lib/services/render.ts:227</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/921f8d5/src/lib/services/render.ts#L306">lib/services/render.ts:306</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -223,14 +289,9 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/e9e852d/src/lib/services/render.ts#L104">lib/services/render.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/921f8d5/src/lib/services/render.ts#L183">lib/services/render.ts:183</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Render content based on configuration.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

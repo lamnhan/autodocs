@@ -907,23 +907,16 @@ Provide options with the third item of a rendering input:
 <h2><a name="renderservice" href="https://lamnhan.com/docsuper/api/classes/renderservice.html"><p>Rendering</p>
 </a></h2>
 
-**The Renderer turns a rendering input into the final content**
-
-Builtin sections:
-
-- `head`: Package name & description
-- `toc`: Table of content
-- `tocx`: Table of content, with detail API reference link
-- `license`: License information
+**Turns a render input into the final content**
 
 <h3><a name="renderservice-methods"><p>RenderService methods</p>
 </a></h3>
 
-| Function                                                                         | Returns type                                                                                                                  | Description                            |
-| -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| [getData(path, renderInput, currentContent?)](#renderservice-getdata-0)          | <code><a href="https://lamnhan.com/docsuper/api/interfaces/rendererfiledata.html" target="_blank">RendererFileData</a></code> |                                        |
-| [getRenderingData(rendering, renderOptions?)](#renderservice-getrenderingdata-0) | <code>object</code>                                                                                                           |                                        |
-| [render(batchRender, batchCurrentContent?, webOutput?)](#renderservice-render-0) | <code><a href="https://lamnhan.com/docsuper/api/classes/renderer.html" target="_blank">Renderer</a></code>                    | Render content based on configuration. |
+| Function                                                                         | Returns type                                                                                                                  | Description |
+| -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [getData(path, renderInput, currentContent?)](#renderservice-getdata-0)          | <code><a href="https://lamnhan.com/docsuper/api/interfaces/rendererfiledata.html" target="_blank">RendererFileData</a></code> |             |
+| [getRenderingData(rendering, renderOptions?)](#renderservice-getrenderingdata-0) | <code>object</code>                                                                                                           |             |
+| [render(batchRender, batchCurrentContent?, webOutput?)](#renderservice-render-0) | <code><a href="https://lamnhan.com/docsuper/api/classes/renderer.html" target="_blank">Renderer</a></code>                    |             |
 
 <h4><a name="renderservice-getdata-0" href="https://lamnhan.com/docsuper/api/classes/renderservice.html#getdata"><p><code>getData(path, renderInput, currentContent?)</code></p>
 </a></h4>
@@ -965,7 +958,7 @@ Builtin sections:
 <h4><a name="renderservice-render-0" href="https://lamnhan.com/docsuper/api/classes/renderservice.html#render"><p><code>render(batchRender, batchCurrentContent?, webOutput?)</code></p>
 </a></h4>
 
-**Render content based on configuration.**
+**The `render` call signature.**
 
 **Parameters**
 

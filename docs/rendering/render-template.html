@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>How it works?</title>
+    <title>Render template</title>
 
     <link
       rel="stylesheet"
@@ -94,7 +94,6 @@
                 </li>
                 <li>
                   <a
-                    class="active"
                     href="https://lamnhan.com/docsuper/getting-started/how-it-works.html"
                     >How it works?</a
                   >
@@ -130,6 +129,7 @@
                 </li>
                 <li>
                   <a
+                    class="active"
                     href="https://lamnhan.com/docsuper/rendering/render-template.html"
                     >Render template</a
                   >
@@ -160,82 +160,105 @@
         </aside>
 
         <article class="col-9 content">
-          <div class="title"><h1>How it works?</h1></div>
+          <div class="title"><h1>Render template</h1></div>
           <section
-            id="content"
+            id="rendertemplate"
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
-            <p>
-              <strong>docsuper</strong> recieve the render input and returns the
-              content, simple that is.
-            </p>
-            <p>
-              A render input can be
-              <strong>a path to a .md file</strong> (<code>file</code>),
-              <strong>a template name</strong> (<code>template</code>),
-              <strong>a rendering</strong> (<code>rendering</code>), or one of
-              the input with
-              <a
-                data-sref="RenderWithOptions"
-                href="https://lamnhan.com/docsuper/api/interfaces/renderwithoptions.html"
-                >options</a
-              >.
-            </p>
-            <p>
-              The CLI load configuration from <code>package.json</code> or
-              <code>docsuper.config.js</code>. See
-              <a href="#options">Options</a> section for detail. Using the API,
-              config can be provided directly when init the module.
-            </p>
-            <p>Open <code>package.json</code> and add:</p>
-            <pre><code class="language-json">{
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"my-package"</span>,
-  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"My package description."</span>,
-  <span class="hljs-attr">"@lamnhan/docsuper"</span>: {
-    <span class="hljs-attr">"files"</span>: {
-      <span class="hljs-attr">"TEST.md"</span>: {
-        <span class="hljs-attr">"head"</span>: <span class="hljs-literal">true</span>,
-        <span class="hljs-attr">"section1"</span>: [<span class="hljs-string">"Main"</span>, <span class="hljs-string">"SELF"</span>]
-      }
-    }
-  }
+            <a
+              href="#render-direct-template"
+              id="render-direct-template"
+              style="color: inherit; text-decoration: none;"
+            >
+              <h2>Render direct template</h2>
+            </a>
+            <p>To render a template, just provide the template name:</p>
+            <pre><code class="language-ts">{
+   <span class="hljs-string">'TEST.md'</span>: <span class="hljs-string">'mini'</span>,
 }</code></pre>
+
+            <a
+              href="#render-template-with-options"
+              id="render-template-with-options"
+              style="color: inherit; text-decoration: none;"
+            >
+              <h2>Render template with options</h2>
+            </a>
             <p>
-              With the configuration above, you tell the CLI to create a file
-              named <code>TEST.md</code> with two sections:
+              You can render a template with options, see
+              <a
+                data-sref="TemplateRenderOptions"
+                href="https://lamnhan.com/docsuper/api/interfaces/templaterenderoptions.html"
+                >TemplateRenderOptions</a
+              >
+              for the list.
             </p>
-            <ul>
-              <li>
-                The <code>head</code> section: a
-                <a href="#renderer">built-in</a> section that display the
-                package name and description.
-              </li>
-              <li>
-                The <code>section1</code> section: a
-                <a href="#rendering-input">rendering</a> section that display
-                the source code element title and description.
-              </li>
-            </ul>
-            <p>The <code>TEST.md</code> content would be:</p>
-            <pre><code class="language-md"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">\section</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"head"</span>&gt;</span></span>
+            <p>
+              { &#39;TEST.md&#39;: { template: &#39;mini&#39;, // options } }
+            </p>
+          </section>
 
-\# my-package
-
-<span class="hljs-strong">**My package description.**</span>
-
-<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span>&gt;</span></span>
-
-<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"section1"</span>&gt;</span></span>
-
-\## The <span class="hljs-code">`Main`</span> class
-
-<span class="hljs-strong">**This is a Class element named `Main`**</span>
-
-And this is the <span class="hljs-code">`Main`</span> element detail.
-
-Supports Markdown content.
-
-<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span>&gt;</span></span></code></pre>
+          <section
+            id="rendertemplateoptions"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/docsuper/api/interfaces/templaterenderoptions.html#bottomsecs"
+                      >bottomSecs?</a
+                    >
+                  </td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/docsuper/api/interfaces/rendering.html"
+                        target="_blank"
+                        >Rendering</a
+                      ></code
+                    >
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/docsuper/api/interfaces/templaterenderoptions.html#convertings"
+                      >convertings?</a
+                    >
+                  </td>
+                  <td><code>object</code></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/docsuper/api/interfaces/templaterenderoptions.html#topsecs"
+                      >topSecs?</a
+                    >
+                  </td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/docsuper/api/interfaces/rendering.html"
+                        target="_blank"
+                        >Rendering</a
+                      ></code
+                    >
+                  </td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
           </section>
         </article>
       </div>
