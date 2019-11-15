@@ -18,7 +18,6 @@ export class Renderer {
 
   private webOutput: boolean;
   private heading: {[path: string]: HeadingBlock[]} = {};
-  private webMenuHeadings: HeadingBlock[] = [];
   private content: {[path: string]: string} = {};
   private option: {[path: string]: RenderWithOptions} = {};
 
@@ -39,25 +38,21 @@ export class Renderer {
       this.content[path] = content;
       this.option[path] = options;
     });
-    // save global heading
-    this.webMenuHeadings = this.getWebMenuHeadings();
   }
 
   getResult(path: string) {
     const { pageTitle, webData = {} } = this.option[path] || {};
-    // content
-    let content = this.content[path];
-    content = this.renderLinks(path, content);
-    content = this.modifyHtml(content);
-    // menu
-    const activeLink = this.fileUrl(path);
-    const menu = this.contentService
-      .md2Html(this.contentService.renderTOC(this.webMenuHeadings, 1))
-      .replace(new RegExp(`href="${activeLink}"`), `class="active" $&`);
-    // result
-    return this.webOutput
-      ? this.webService.buildPage(content, menu, pageTitle, webData)
-      : content;
+    // finalize content
+    const content = this.renderLinks(path, this.content[path]);
+    // for stanalone file
+    if (!this.webOutput) {
+      return content;
+    }
+    // for web
+    else {
+      const menu = this.getWebMenu(path);
+      return this.webService.buildPage(content, menu, pageTitle, webData);
+    }
   }
 
   getResultAll() {
@@ -82,8 +77,18 @@ export class Renderer {
     const { url } = this.projectService.OPTIONS;
     return url + '/' + path;
   }
+
+  private getWebMenu(path: string) {
+    // get headings
+    const menuHeadings = this.getWebMenuHeadings(path);
+    // render menu
+    const activeLink = this.fileUrl(path);
+    return this.contentService
+      .md2Html(this.contentService.renderTOC(menuHeadings, 1))
+      .replace(new RegExp(`href="${activeLink}"`), `class="active" $&`);
+  }
   
-  private getWebMenuHeadings() {
+  private getWebMenuHeadings(currentPath: string) {
     const result: HeadingBlock[] = [];
     let activeCategory: undefined | string;
     Object.keys(this.heading).forEach(path => {
@@ -118,9 +123,16 @@ export class Renderer {
       if (deepMenu) {
         this.heading[path].forEach(block => {
           if (block.data.level === 2) {
+            // down level if has category
             if (!!category) {
               ++block.data.level;
             }
+            // modify deep links
+            if (path !== currentPath) {
+              block.data.link = this.fileUrl(path) + '#' + block.data.id;
+              block.data.id = undefined;
+            }
+            // add block
             result.push(block);
           }
         });
@@ -171,11 +183,6 @@ export class Renderer {
         }
       }
     );
-  }
-
-  private modifyHtml(content: string) {
-    return content
-      .replace(/<table>/g, '<table class="table">');
   }
 
 }

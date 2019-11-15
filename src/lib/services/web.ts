@@ -50,7 +50,7 @@ export class WebService {
     let result = theme
       .replace('{{ title }}', title)
       .replace('{{ menu }}', menu)
-      .replace('{{ content }}', content);
+      .replace('{{ content }}', this.modifyHtml(title, content));
     // extra data
     data = { ...this.getVendorData(), ...data };
     Object.keys(data).forEach(
@@ -70,6 +70,12 @@ export class WebService {
     if (pathExistsSync(assetsPath)) {
       copySync(assetsPath, outPath);
     }
+  }
+
+  private modifyHtml(title: string, content: string) {
+    content = `<div class="title"><h1>${title}</h1></div>` + content;
+    return content
+      .replace(/<table>/g, '<table class="table">');
   }
 
   private getTheme() {
