@@ -75,8 +75,6 @@ export interface RenderResult {
 
 /**
  * Turns a render input into the final content
- *
- * <section id="builtin-sections">
  * 
  * ### Builtin sections
  *
@@ -84,88 +82,6 @@ export interface RenderResult {
  * - `toc`: Table of content
  * - `tocx`: Table of content, with detail API reference link
  * - `license`: License information
- * 
- * </section>
- * 
- * <section id="render-file">
- * 
- * ### Render direct files
- * 
- * To render a file (markdown), just provide the path, `@` will be replaced with `src/`:
- * 
- * ```ts
- * {
- *    'TEST.md': 'src/doc/test.md',
- *    'TEST2.md': '@doc/test.md',
- * }
- * ```
- * 
- * ### Render file with options
- * 
- * You can render a file with options, see [[FileRenderOptions]] for the list.
- * 
- * {
- *    'TEST.md': {
- *      file: '@doc/test.md',
- *      // options
- *    }
- * }
- * 
- * </section>
- * 
- * <section id="render-template">
- * 
- * ### Render direct template
- * 
- * To render a template, just provide the template name:
- * 
- * ```ts
- * {
- *    'TEST.md': 'mini',
- * }
- * ```
- *  
- * ### Render template with options
- * 
- * You can render a template with options, see [[TemplateRenderOptions]] for the list.
- * 
- * {
- *    'TEST.md': {
- *      template: 'mini',
- *      // options
- *    }
- * }
- * 
- * </section>
- *
- * <section id="render-rendering">
- * 
- * ### Render direct rendering
- * 
- * To render a rendering (custom sections):
- * 
- * ```ts
- * {
- *    'TEST.md': {
- *      section1: ['Main', 'SELF']
- *    },
- * }
- * ```
- *  
- * ### Render rendering with options
- * 
- * You can render a rendering with options.
- * 
- * {
- *    'TEST.md': {
- *      rendering: {
- *        section1: ['Main', 'SELF']
- *      },
- *      // options
- *    }
- * }
- * 
- * </section>
  */
 export class RenderService {
   private tocPlaceholder = '[TOC]';

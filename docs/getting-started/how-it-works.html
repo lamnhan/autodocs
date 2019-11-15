@@ -107,43 +107,20 @@
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/docsuper/getting-started/custom-sections.html"
-                    >Custom sections</a
+                    href="https://lamnhan.com/docsuper/getting-started/basic-use.html"
+                    >Basic use</a
                   >
                 </li>
                 <li>
                   <a
                     href="https://lamnhan.com/docsuper/getting-started/options.html"
-                    >Options list</a
-                  >
-                </li>
-              </ul>
-            </li>
-            <li>
-              Rendering
-              <ul>
-                <li>
-                  <a
-                    href="https://lamnhan.com/docsuper/rendering/render-file.html"
-                    >Render file</a
+                    >Options</a
                   >
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/docsuper/rendering/render-template.html"
-                    >Render template</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://lamnhan.com/docsuper/rendering/render-rendering.html"
-                    >Render rendering</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://lamnhan.com/docsuper/rendering/render-options.html"
-                    >More render options</a
+                    href="https://lamnhan.com/docsuper/getting-started/custom-sections.html"
+                    >Custom sections</a
                   >
                 </li>
               </ul>
@@ -173,26 +150,29 @@
               A render input can be
               <strong>a path to a .md file</strong> (<code>file</code>),
               <strong>a template name</strong> (<code>template</code>),
-              <strong>a rendering</strong> (<code>rendering</code>), or one of
-              the input with
-              <a
-                data-sref="RenderWithOptions"
-                href="https://lamnhan.com/docsuper/api/interfaces/renderwithoptions.html"
-                >options</a
-              >.
+              <strong>a custom rendering</strong> (<code>rendering</code>).
             </p>
             <p>
               The CLI load configuration from <code>package.json</code> or
               <code>docsuper.config.js</code>. See
-              <a href="#options">Options</a> section for detail. Using the API,
-              config can be provided directly when init the module.
+              <a
+                data-sref="Options"
+                href="https://lamnhan.com/docsuper/getting-started/options.html#options"
+                >Options</a
+              >
+              section for detail. Using the API, config can be provided directly
+              when init the module.
             </p>
-            <p>Open <code>package.json</code> and add:</p>
+            <p>
+              For example, my project has the <code>package.json</code> like
+              this:
+            </p>
             <pre><code class="language-json">{
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"my-package"</span>,
   <span class="hljs-attr">"description"</span>: <span class="hljs-string">"My package description."</span>,
   <span class="hljs-attr">"@lamnhan/docsuper"</span>: {
-    <span class="hljs-attr">"files"</span>: {
+    <span class="hljs-attr">"url"</span>: <span class="hljs-string">"https://docs.example.com"</span>,
+    <span class="hljs-attr">"fileRender"</span>: {
       <span class="hljs-attr">"TEST.md"</span>: {
         <span class="hljs-attr">"head"</span>: <span class="hljs-literal">true</span>,
         <span class="hljs-attr">"section1"</span>: [<span class="hljs-string">"Main"</span>, <span class="hljs-string">"SELF"</span>]
@@ -201,8 +181,9 @@
   }
 }</code></pre>
             <p>
-              With the configuration above, you tell the CLI to create a file
-              named <code>TEST.md</code> with two sections:
+              With the configuration above (inside the
+              <code>@lamnhan/docsuper</code> key), you tell the CLI to create a
+              file named <code>TEST.md</code> with two sections:
             </p>
             <ul>
               <li>

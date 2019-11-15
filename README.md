@@ -909,6 +909,13 @@ Provide options with the third item of a rendering input:
 
 **Turns a render input into the final content**
 
+### Builtin sections
+
+- `head`: Package name & description
+- `toc`: Table of content
+- `tocx`: Table of content, with detail API reference link
+- `license`: License information
+
 <h3><a name="renderservice-methods"><p>RenderService methods</p>
 </a></h3>
 

@@ -25,9 +25,7 @@ module.exports = {
   },
   webRender: {
     categories: {
-      'getting-started': 'Getting started',
-      'rendering': 'Rendering',
-      'advanced': 'Advanced'
+      'getting-started': 'Getting started'
     },
     files: {
       'introduction.html': {
@@ -47,43 +45,20 @@ module.exports = {
         pageTitle: 'Understand the code',
         file: '@doc/getting-started/the-source-code.md'
       },
-      'getting-started/custom-sections.html': {
-        pageTitle: 'Custom sections',
-        file: '@doc/getting-started/custom-sections.md'
+      'getting-started/basic-use.html': {
+        pageTitle: 'Basic use',
+        file: '@doc/getting-started/basic-use.md'
       },
       'getting-started/options.html': {
-        pageTitle: 'Options list',
+        pageTitle: 'Options',
         rendering: {
           options: ['Options', 'FULL'],
           webrender: ['WebRender', 'FULL']
         }
       },
-      'rendering/render-file.html': {
-        pageTitle: 'Render file',
-        rendering: {
-          renderfile: ['RenderService', 'SECTION:render-file'],
-          renderfileoptions: ['FileRenderOptions', 'SUMMARY_PROPERTIES']
-        }
-      },
-      'rendering/render-template.html': {
-        pageTitle: 'Render template',
-        rendering: {
-          rendertemplate: ['RenderService', 'SECTION:render-template'],
-          rendertemplateoptions: ['TemplateRenderOptions', 'SUMMARY_PROPERTIES']
-        }
-      },
-      'rendering/render-rendering.html': {
-        pageTitle: 'Render rendering',
-        rendering: {
-          renderrendering: ['RenderService', 'SECTION:render-rendering']
-        }
-      },
-      'rendering/render-options.html': {
-        pageTitle: 'More render options',
-        rendering: {
-          localoptions: ['LocalRenderOptions', 'FULL'],
-          weboptions: ['WebRenderOptions', 'FULL']
-        }
+      'getting-started/custom-sections.html': {
+        pageTitle: 'Custom sections',
+        file: '@doc/getting-started/custom-sections.md'
       },
       'the-cli.html': {
         pageTitle: 'The CLI',
