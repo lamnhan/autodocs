@@ -271,7 +271,7 @@ export class ContentService {
     );
   }
 
-  convertLinks(content: string, buildLink: (id: string) => string) {
+  convertLinks(content: string, buildLink: (id: string) => undefined | string) {
     // turns template into 'a' tag
     content = content
       .replace(/\[\[([^\]]*) \|[ ]*([^\]]*)\]\]/g, '<a data-sref="$1">$2</a>')

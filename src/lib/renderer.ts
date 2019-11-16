@@ -160,26 +160,32 @@ export class Renderer {
         );
       }
     });
+    const getAvailableHeadingLink = (id: string) => {
+      let link: undefined | string;
+      // local
+      if (!!localHeadings[id]) {
+        link = '#' + id;
+      }
+      // peer
+      else if (!!peerHeadings[id]) {
+        link = this.fileUrl(peerHeadings[id]) + '#' + id
+      }
+      return link;
+    };
     // render
     return this.contentService.convertLinks(
       content,
       input => {
-        try {
-          const { ID, LINK } = this.parseService.parse(input);
-          // local
-          if (!!localHeadings[ID]) {
-            return '#' + ID;
+        const headingLink = getAvailableHeadingLink(input);
+        if (!!headingLink) {
+          return headingLink;
+        } else {
+          try {
+            const { ID, LINK } = this.parseService.parse(input);
+            return getAvailableHeadingLink(ID) || LINK;
+          } catch (error) {
+            return undefined;
           }
-          // peer
-          else if (!!peerHeadings[ID]) {
-            return this.fileUrl(peerHeadings[ID]) + '#' + ID
-          }
-          // api
-          else {
-            return LINK;
-          }
-        } catch (error) {
-          return '';
         }
       }
     );
