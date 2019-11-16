@@ -47,6 +47,7 @@ module.exports = {
       },
       'getting-started/basic-use.html': {
         pageTitle: 'Basic use',
+        autoTOC: true,
         file: '@doc/getting-started/basic-use.md'
       },
       'getting-started/options.html': {
@@ -62,11 +63,13 @@ module.exports = {
       },
       'the-cli.html': {
         pageTitle: 'The CLI',
+        topSecs: { toc: true },
         template: 'cli'
       },
       'the-library.html': {
         pageTitle: 'The library',
         rendering: {
+          toc: true,
           init: ['main', 'FULL'],
           main: ['Main', 'FULL'],
         }

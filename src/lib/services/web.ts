@@ -73,7 +73,10 @@ export class WebService {
   }
 
   private modifyHtml(title: string, content: string) {
-    content = `<div class="title"><h1>${title}</h1></div>` + content;
+    content =
+      `<div class="title"><h1>${title}</h1></div>`
+      + this.contentService.EOL2X
+      + content;
     return content
       .replace(/<table>/g, '<table class="table">');
   }

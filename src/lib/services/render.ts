@@ -62,6 +62,7 @@ export interface WebRenderOptions {
 
 export interface FileRenderOptions {
   headingOffset?: number;
+  autoTOC?: boolean;
 }
 
 export interface BatchRender {
@@ -136,6 +137,12 @@ export class RenderService {
     const data: {
       [section: string]: string | RenderResult;
     } = {
+      // auto toc for file
+      ...(
+        renderOptions.autoTOC
+        ? { toc: {src: 'true', value: []} }
+        : {}
+      ),
       // current content from file
       ...(
         !!localCleanOutput || // local = true
@@ -200,12 +207,12 @@ export class RenderService {
     let content = this.contentService.renderText(contentStack);
     // add the toc
     if (!!data.toc || !!data.tocx) {
-      const toc = this.contentService.renderContent(
+      const tocContent = this.contentService.renderContent(
         !!data.tocx
         ? this.getDataTOCX(headings)
         : this.getDataTOC(headings)
       );
-      content = content.replace(this.tocPlaceholder, toc);
+      content = content.replace(this.tocPlaceholder, tocContent);
     }
     // result
     return {
@@ -391,12 +398,7 @@ export class RenderService {
   private getDataTOC(blocks: ContentBlock[]) {
     const tocContent = this.contentService.renderTOC(blocks);
     return [
-      this.contentService.blockText(
-        [
-          `**Table of content**`,
-          tocContent
-        ]
-      ),
+      this.contentService.blockText(tocContent),
     ];
   }
 
