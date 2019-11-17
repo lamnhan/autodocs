@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>The CLI</title>
+    <title>Basic advanced rendering</title>
 
     <link
       rel="stylesheet"
@@ -130,6 +130,7 @@
                 </li>
                 <li>
                   <a
+                    class="active"
                     href="https://lamnhan.com/docsuper/getting-started/basic-advanced-rendering.html"
                     >Basic advanced rendering</a
                   >
@@ -143,9 +144,7 @@
               </ul>
             </li>
             <li>
-              <a class="active" href="https://lamnhan.com/docsuper/the-cli.html"
-                >The CLI</a
-              >
+              <a href="https://lamnhan.com/docsuper/the-cli.html">The CLI</a>
             </li>
             <li>
               <a href="https://lamnhan.com/docsuper/the-library.html"
@@ -156,109 +155,24 @@
         </aside>
 
         <article class="col-9 content">
-          <div class="title"><h1>The CLI</h1></div>
+          <div class="title"><h1>Basic advanced rendering</h1></div>
 
           <section
-            id="toc"
+            id="content"
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
-            <ul>
-              <li><a href="#commands">Commands</a></li>
-              <li>
-                <a href="#reference">Reference</a>
-                <ul>
-                  <li>
-                    <a href="#command-generate"><code>generate</code></a>
-                  </li>
-                  <li>
-                    <a href="#command-preview"><code>preview</code></a>
-                  </li>
-                  <li>
-                    <a href="#command-show"><code>show</code></a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </section>
-
-          <section
-            id="commands"
-            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
-          >
-            <h2>
-              <a name="commands"><p>Commands</p> </a>
-            </h2>
-
-            <ul>
-              <li>
-                <a href="#command-generate"
-                  ><code
-                    >generate [path] --config [value] --package [value]
-                    --template [value]</code
-                  ></a
-                >
-              </li>
-              <li>
-                <a href="#command-preview"
-                  ><code>preview [input] [output] [params...]</code></a
-                >
-              </li>
-              <li>
-                <a href="#command-show"><code>show [input]</code></a>
-              </li>
-            </ul>
-            <h2>
-              <a name="reference"><p>Reference</p> </a>
-            </h2>
-
-            <h3>
-              <a name="command-generate"
-                ><p><code>generate</code></p>
-              </a>
-            </h3>
-
-            <p>Generate the documentation.</p>
-            <p><strong>Parameters</strong></p>
-            <ul>
-              <li><code>[path]</code>: Path to the output file</li>
-            </ul>
-            <p><strong>Options</strong></p>
-            <ul>
-              <li>
-                <code>-c, --config [value]</code>: Path to custom config file.
-              </li>
-              <li>
-                <code>-p, --package [value]</code>: Path to custom package file.
-              </li>
-              <li>
-                <code>-t, --template [value]</code>: Use this template for the
-                [path] param.
-              </li>
-            </ul>
-            <h3>
-              <a name="command-preview"
-                ><p><code>preview</code></p>
-              </a>
-            </h3>
-
-            <p>Preview a rendering.</p>
-            <p><strong>Parameters</strong></p>
-            <ul>
-              <li><code>[input]</code>: The rendering input</li>
-              <li><code>[output]</code>: The converting output</li>
-              <li><code>[params...]</code>: The convert options</li>
-            </ul>
-            <h3>
-              <a name="command-show"
-                ><p><code>show</code></p>
-              </a>
-            </h3>
-
-            <p>Show Declaration info.</p>
-            <p><strong>Parameters</strong></p>
-            <ul>
-              <li><code>[input]</code>: The rendering input</li>
-            </ul>
+            <p>
+              If you wish more control over rendering, you can use the advanced
+              rendering format.
+            </p>
+            <p>
+              Advaned rendering allows you to defined more sections with
+              specific config.
+            </p>
+            <pre><code class="language-ts">{
+  section1: [<span class="hljs-string">'Options'</span>],
+  section2: [<span class="hljs-string">'Main'</span>],
+}</code></pre>
           </section>
         </article>
       </div>

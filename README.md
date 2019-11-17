@@ -392,13 +392,7 @@ Section can also be put in the source file, called [**local section**](#renderin
 <h2><a name="options" href="https://lamnhan.com/docsuper/api/interfaces/options.html"><p>Options</p>
 </a></h2>
 
-**Custom generator options**
-
-Options can be provided in 3 ways:
-
-- Under the **@lamnhan/docsuper** property of `package.json` file
-- The `docsuper.config.js` file for more advanced config
-- By the `options` param when init new <a data-sref="docsuper">`docsuper(options?)`</a> instance.
+**The `Options` interface.**
 
 <h2><a name="options-properties"><p>Options properties</p>
 </a></h2>
@@ -830,67 +824,27 @@ The default folder is **/docs**. You can change the output folder by providing t
 <h2><a name="convertservice" href="https://lamnhan.com/docsuper/api/classes/convertservice.html"><p>Converting</p>
 </a></h2>
 
-**The Converter turns a <a data-sref="Declaration" href="#declaration">Declaration</a> into <a data-sref="ContentBlock">content blocks</a>**
-
-### Converter output
-
-A <a data-sref="Declaration" href="#declaration">Declaration</a> supports certain convert output depended on its kind. You can also provide your custom converts output, use the `converts` field of <a data-sref="Options" href="#options">Options</a>.
-
-Here the list of default output:
-
-| Output                 | Kinds                  | Options                                                                              | Description                                                                             |
-| ---------------------- | ---------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
-| **SECTION:`ID`**       | any                    | <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>                                                                | A local section                                                                         |
-| **VALUE**              | `Variable`, `Property` | <a data-sref="ValueOptions" href="https://lamnhan.com/docsuper/api/interfaces/valueoptions.html">ValueOptions</a>                                                                     | Default value                                                                           |
-| **SELF**               | any                    | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="HeadingOptions">HeadingOptions</a>                    | Title, description, content WITHOUT local sections, parameters & returns (for function) |
-| **FULL**               | any                    | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="HeadingOptions">HeadingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a> | All content (with headings)                                                             |
-| **SUMMARY_VARIABLES**  | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of variables                                                              |
-| **DETAIL_VARIABLES**   | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of variables                                                                |
-| **FULL_VARIABLES**     | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of variables                                                |
-| **SUMMARY_FUNCTIONS**  | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of functions                                                              |
-| **DETAIL_FUNCTIONS**   | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of functions                                                                |
-| **FULL_FUNCTIONS**     | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of functions                                                |
-| **SUMMARY_PROPERTIES** | `Interface`, `Class`   | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of properties                                                             |
-| **DETAIL_PROPERTIES**  | `Interface`, `Class`   | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of properties                                                               |
-| **FULL_PROPERTIES**    | `Interface`, `Class`   | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of properties                                               |
-| **SUMMARY_METHODS**    | `Class`                | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of methods                                                                |
-| **DETAIL_METHODS**     | `Class`                | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of methods                                                                  |
-| **FULL_METHODS**       | `Class`                | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of methods                                                  |
-| **SUMMARY_INTERFACES** | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of interfaces                                                             |
-| **DETAIL_INTERFACES**  | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of interfaces                                                               |
-| **FULL_INTERFACES**    | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of interfaces                                               |
-| **SUMMARY_CLASSES**    | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table of classes                                                                |
-| **DETAIL_CLASSES**     | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Detail list of classes                                                                  |
-| **FULL_CLASSES**       | `Collection`           | <a data-sref="DeclarationOptions" href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html">DeclarationOptions</a>, <a data-sref="ConvertingOptions" href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html">ConvertingOptions</a>, <a data-sref="FilterOptions">FilterOptions</a>                     | Summary table & detail list of classes                                                  |
-
-Provide options with the third item of a rendering input:
-
-- Declaration id: `{ id }`
-- **SELF** header: `{ title, link }`
-- Raw object: `{ raw: true }`
-- Level: `{ level }`
-- Use the default heading: `{ heading: true }`
-- Use local anchors (instead of detail links): `{ local: true }`
+**The `ConvertService` class.**
 
 <h3><a name="convertservice-methods"><p>ConvertService methods</p>
 </a></h3>
 
-| Function                                                             | Returns type                                                                                                                                                                                                                                                                                                                                                                                                                                | Description                                |
-| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
-| [convert(declaration, output?, options?)](#convertservice-convert-0) | <code><a href="https://lamnhan.com/docsuper/api/interfaces/headingblock.html" target="_blank">HeadingBlock</a> \| <a href="https://lamnhan.com/docsuper/api/interfaces/textblock.html" target="_blank">TextBlock</a> \| <a href="https://lamnhan.com/docsuper/api/interfaces/listblock.html" target="_blank">ListBlock</a> \| <a href="https://lamnhan.com/docsuper/api/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code> | Convert a declaration into content blocks. |
+| Function                                                             | Returns type                                                                                                                                                                                                                                                                                                                                                                                                                                | Description                                                                       |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| [convert(declaration, output?, options?)](#convertservice-convert-0) | <code><a href="https://lamnhan.com/docsuper/api/interfaces/headingblock.html" target="_blank">HeadingBlock</a> \| <a href="https://lamnhan.com/docsuper/api/interfaces/textblock.html" target="_blank">TextBlock</a> \| <a href="https://lamnhan.com/docsuper/api/interfaces/listblock.html" target="_blank">ListBlock</a> \| <a href="https://lamnhan.com/docsuper/api/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code> | The Converter turns a <a data-sref="Declaration" href="#declaration">Declaration</a> into <a data-sref="ContentBlock \| content blocks">ContentBlock \| content blocks</a> |
 
 <h4><a name="convertservice-convert-0" href="https://lamnhan.com/docsuper/api/classes/convertservice.html#convert"><p><code>convert(declaration, output?, options?)</code></p>
 </a></h4>
 
-**Convert a declaration into content blocks.**
+**The Converter turns a <a data-sref="Declaration" href="#declaration">Declaration</a> into <a data-sref="ContentBlock">content blocks</a>**
 
 **Parameters**
 
-| Param           | Type                                                                                                                      | Description                             |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| **declaration** | <code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a></code>          | The declaration                         |
-| output          | <code>string</code>                                                                                                       | Expected output, see <a data-sref="ConvertService" href="#convertservice">ConvertService</a> |
-| options         | <code><a href="https://lamnhan.com/docsuper/api/interfaces/convertoptions.html" target="_blank">ConvertOptions</a></code> | Custom convertion options               |
+| Param           | Type                                                                                                                      | Description         |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| **declaration** | <code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a></code>          | The <a data-sref="Declaration" href="#declaration">Declaration</a> |
+| output          | <code>string</code>                                                                                                       | The output          |
+| options         | <code><a href="https://lamnhan.com/docsuper/api/interfaces/convertoptions.html" target="_blank">ConvertOptions</a></code> | Convert options     |
 
 **Returns**
 

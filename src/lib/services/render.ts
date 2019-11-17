@@ -257,7 +257,9 @@ export class RenderService {
       // file
       else if (typeof sectionRendering === 'string') {
         const { headingOffset } = renderOptions as FileRenderOptions;
-        let content = this.contentService.readFileSync(sectionRendering);
+        let content = this.contentService.readFileSync(
+          sectionRendering.replace('@', 'src/')
+        );
         if (!!headingOffset) {
           content = this.contentService.modifyHeadings(content, headingOffset);
         }
@@ -313,13 +315,12 @@ export class RenderService {
   private processRenderInput(renderInput: RenderInput) {
     let rendering: Rendering = {};
     let renderOptions: RenderWithOptions = {};
-    const srcFile = (str: string) => str.replace('@', 'src/');
     // file input
     if (
       typeof renderInput === 'string' &&
       renderInput.indexOf('.') !== -1 // a file
     ) {
-      rendering = { content: srcFile(renderInput) };
+      rendering = { content: renderInput };
     }
     // template
     else if (typeof renderInput === 'string') {
@@ -346,7 +347,7 @@ export class RenderService {
           )
         : !!renderInput.file
         ? // file
-          { content: srcFile(renderInput.file as string) }
+          { content: renderInput.file }
         : // rendering
           renderInput.rendering as Rendering;
       // set options

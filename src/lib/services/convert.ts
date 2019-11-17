@@ -52,49 +52,6 @@ export interface AdditionalConverts {
   [output: string]: AdditionalConvert;
 }
 
-/**
- * The Converter turns a [[Declaration]] into {@link ContentBlock | content blocks}
- *
- * ### Converter output
- *
- * A [[Declaration]] supports certain convert output depended on its kind. You can also provide your custom converts output, use the `converts` field of [[Options]]. 
- *
- * Here the list of default output:
- * 
- * | Output | Kinds | Options | Description |
- * | --- | --- | --- | --- |
- * | __SECTION:`ID`__ | any | [[ConvertingOptions]] | A local section |
- * | __VALUE__ | `Variable`, `Property` | [[ValueOptions]] | Default value |
- * | __SELF__ | any | [[DeclarationOptions]], [[ConvertingOptions]], [[HeadingOptions]] | Title, description, content WITHOUT local sections, parameters & returns (for function) |
- * | __FULL__ | any | [[DeclarationOptions]], [[ConvertingOptions]], [[HeadingOptions]], [[FilterOptions]] | All content (with headings) |
- * | __SUMMARY_VARIABLES__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Summary table of variables |
- * | __DETAIL_VARIABLES__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Detail list of variables |
- * | __FULL_VARIABLES__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Summary table & detail list of variables |
- * | __SUMMARY_FUNCTIONS__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Summary table of functions |
- * | __DETAIL_FUNCTIONS__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Detail list of functions |
- * | __FULL_FUNCTIONS__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Summary table & detail list of functions |
- * | __SUMMARY_PROPERTIES__ | `Interface`, `Class` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Summary table of properties |
- * | __DETAIL_PROPERTIES__ | `Interface`, `Class` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Detail list of properties |
- * | __FULL_PROPERTIES__ | `Interface`, `Class` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Summary table & detail list of properties |
- * | __SUMMARY_METHODS__ | `Class` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Summary table of methods |
- * | __DETAIL_METHODS__ | `Class` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Detail list of methods |
- * | __FULL_METHODS__ | `Class` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Summary table & detail list of methods |
- * | __SUMMARY_INTERFACES__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Summary table of interfaces |
- * | __DETAIL_INTERFACES__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Detail list of interfaces |
- * | __FULL_INTERFACES__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Summary table & detail list of interfaces |
- * | __SUMMARY_CLASSES__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Summary table of classes |
- * | __DETAIL_CLASSES__ | `Collection`| [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Detail list of classes |
- * | __FULL_CLASSES__ | `Collection` | [[DeclarationOptions]], [[ConvertingOptions]], [[FilterOptions]] | Summary table & detail list of classes |
- *
- * Provide options with the third item of a rendering input:
- *
- * - Declaration id: `{ id }`
- * - **SELF** header: `{ title, link }`
- * - Raw object: `{ raw: true }`
- * - Level: `{ level }`
- * - Use the default heading: `{ heading: true }`
- * - Use local anchors (instead of detail links): `{ local: true }`
- */
 export class ConvertService {
 
   constructor(
@@ -103,10 +60,10 @@ export class ConvertService {
   ) {}
 
   /**
-   * Convert a declaration into content blocks.
-   * @param declaration - The declaration
-   * @param output - Expected output, see [[ConvertService]]
-   * @param options - Custom convertion options
+   * The Converter turns a [[Declaration]] into {@link ContentBlock | content blocks}
+   * @param declaration - The [[Declaration]]
+   * @param output - The output
+   * @param options - Convert options
    */
   convert(
     declaration: Declaration,
@@ -130,6 +87,9 @@ export class ConvertService {
       // value
       case 'VALUE':
         return this.getValue(declaration, options);
+      // content
+      case 'CONTENT':
+        return this.getContent(declaration, options);
       // variables & properties
       case 'SUMMARY_VARIABLES':
       case 'SUMMARY_PROPERTIES':
@@ -323,7 +283,7 @@ export class ConvertService {
     options: ConvertingOptions = {}
   ) {
     const { level = 2 } = options;
-    const offset = level - 3;
+    const offset = level - 2;
     const {[sectionId]: sectionContent = ''} = declaration.SECTIONS;
     const content = this.contentService.blockText(
       !!offset
@@ -334,8 +294,20 @@ export class ConvertService {
     return [content] as ContentBlock[];
   }
 
-  private getValue(declaration: Declaration, valueOptions: ValueOptions = {}) {
-    const { raw: rawObject } = valueOptions;
+  private getContent(declaration: Declaration, options: ConvertingOptions = {}) {
+    const { level = 2 } = options;
+    const offset = level - 3;
+    const content = this.contentService.blockText(
+      !!offset
+      ? this.contentService
+        .modifyHeadings(declaration.TEXT, offset)
+      : declaration.TEXT
+    );
+    return [content] as ContentBlock[];
+  }
+
+  private getValue(declaration: Declaration, options: ValueOptions = {}) {
+    const { raw: rawObject } = options;
     const { DEFAULT_VALUE } = declaration;
     // converter
     const convertValue = (value: DefaultValue) => {

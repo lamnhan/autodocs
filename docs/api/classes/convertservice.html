@@ -64,169 +64,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>The Converter turns a <a href="declaration.html">Declaration</a> into {@link ContentBlock | content blocks}</p>
-					</div>
-					<a href="#converter-output" id="converter-output" style="color: inherit; text-decoration: none;">
-						<h3>Converter output</h3>
-					</a>
-					<p>A <a href="declaration.html">Declaration</a> supports certain convert output depended on its kind. You can also provide your custom converts output, use the <code>converts</code> field of <a href="../interfaces/options.html">Options</a>.</p>
-					<p>Here the list of default output:</p>
-					<table>
-						<thead>
-							<tr>
-								<th>Output</th>
-								<th>Kinds</th>
-								<th>Options</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-								<td><strong>SECTION:<code>ID</code></strong></td>
-								<td>any</td>
-								<td><a href="../interfaces/convertingoptions.html">ConvertingOptions</a></td>
-								<td>A local section</td>
-							</tr>
-							<tr>
-								<td><strong>VALUE</strong></td>
-								<td><code>Variable</code>, <code>Property</code></td>
-								<td><a href="../interfaces/valueoptions.html">ValueOptions</a></td>
-								<td>Default value</td>
-							</tr>
-							<tr>
-								<td><strong>SELF</strong></td>
-								<td>any</td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/headingoptions.html">HeadingOptions</a></td>
-								<td>Title, description, content WITHOUT local sections, parameters &amp; returns (for function)</td>
-							</tr>
-							<tr>
-								<td><strong>FULL</strong></td>
-								<td>any</td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/headingoptions.html">HeadingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>All content (with headings)</td>
-							</tr>
-							<tr>
-								<td><strong>SUMMARY_VARIABLES</strong></td>
-								<td><code>Collection</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Summary table of variables</td>
-							</tr>
-							<tr>
-								<td><strong>DETAIL_VARIABLES</strong></td>
-								<td><code>Collection</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Detail list of variables</td>
-							</tr>
-							<tr>
-								<td><strong>FULL_VARIABLES</strong></td>
-								<td><code>Collection</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Summary table &amp; detail list of variables</td>
-							</tr>
-							<tr>
-								<td><strong>SUMMARY_FUNCTIONS</strong></td>
-								<td><code>Collection</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Summary table of functions</td>
-							</tr>
-							<tr>
-								<td><strong>DETAIL_FUNCTIONS</strong></td>
-								<td><code>Collection</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Detail list of functions</td>
-							</tr>
-							<tr>
-								<td><strong>FULL_FUNCTIONS</strong></td>
-								<td><code>Collection</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Summary table &amp; detail list of functions</td>
-							</tr>
-							<tr>
-								<td><strong>SUMMARY_PROPERTIES</strong></td>
-								<td><code>Interface</code>, <code>Class</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Summary table of properties</td>
-							</tr>
-							<tr>
-								<td><strong>DETAIL_PROPERTIES</strong></td>
-								<td><code>Interface</code>, <code>Class</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Detail list of properties</td>
-							</tr>
-							<tr>
-								<td><strong>FULL_PROPERTIES</strong></td>
-								<td><code>Interface</code>, <code>Class</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Summary table &amp; detail list of properties</td>
-							</tr>
-							<tr>
-								<td><strong>SUMMARY_METHODS</strong></td>
-								<td><code>Class</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Summary table of methods</td>
-							</tr>
-							<tr>
-								<td><strong>DETAIL_METHODS</strong></td>
-								<td><code>Class</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Detail list of methods</td>
-							</tr>
-							<tr>
-								<td><strong>FULL_METHODS</strong></td>
-								<td><code>Class</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Summary table &amp; detail list of methods</td>
-							</tr>
-							<tr>
-								<td><strong>SUMMARY_INTERFACES</strong></td>
-								<td><code>Collection</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Summary table of interfaces</td>
-							</tr>
-							<tr>
-								<td><strong>DETAIL_INTERFACES</strong></td>
-								<td><code>Collection</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Detail list of interfaces</td>
-							</tr>
-							<tr>
-								<td><strong>FULL_INTERFACES</strong></td>
-								<td><code>Collection</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Summary table &amp; detail list of interfaces</td>
-							</tr>
-							<tr>
-								<td><strong>SUMMARY_CLASSES</strong></td>
-								<td><code>Collection</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Summary table of classes</td>
-							</tr>
-							<tr>
-								<td><strong>DETAIL_CLASSES</strong></td>
-								<td><code>Collection</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Detail list of classes</td>
-							</tr>
-							<tr>
-								<td><strong>FULL_CLASSES</strong></td>
-								<td><code>Collection</code></td>
-								<td><a href="../interfaces/declarationoptions.html">DeclarationOptions</a>, <a href="../interfaces/convertingoptions.html">ConvertingOptions</a>, <a href="../interfaces/filteroptions.html">FilterOptions</a></td>
-								<td>Summary table &amp; detail list of classes</td>
-							</tr>
-					</tbody></table>
-					<p>Provide options with the third item of a rendering input:</p>
-					<ul>
-						<li>Declaration id: <code>{ id }</code></li>
-						<li><strong>SELF</strong> header: <code>{ title, link }</code></li>
-						<li>Raw object: <code>{ raw: true }</code></li>
-						<li>Level: <code>{ level }</code></li>
-						<li>Use the default heading: <code>{ heading: true }</code></li>
-						<li>Use local anchors (instead of detail links): <code>{ local: true }</code></li>
-					</ul>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -266,7 +103,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/0c9ccd7/src/lib/services/convert.ts#L98">lib/services/convert.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/024c796/src/lib/services/convert.ts#L55">lib/services/convert.ts:55</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -295,12 +132,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/0c9ccd7/src/lib/services/convert.ts#L111">lib/services/convert.ts:111</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/docsuper/blob/024c796/src/lib/services/convert.ts#L68">lib/services/convert.ts:68</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Convert a declaration into content blocks.</p>
+									<p>The Converter turns a <a href="declaration.html">Declaration</a> into {@link ContentBlock | content blocks}</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -308,19 +145,19 @@
 								<li>
 									<h5>declaration: <a href="declaration.html" class="tsd-signature-type">Declaration</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The declaration</p>
+										<p>The <a href="declaration.html">Declaration</a></p>
 									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> output: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;SELF&quot;</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Expected output, see <a href="convertservice.html">ConvertService</a></p>
+										<p>The output</p>
 									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/convertoptions.html" class="tsd-signature-type">ConvertOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Custom convertion options</p>
+										<p>Convert options</p>
 									</div>
 								</li>
 							</ul>

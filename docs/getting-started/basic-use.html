@@ -119,6 +119,24 @@
                 </li>
                 <li>
                   <a
+                    href="https://lamnhan.com/docsuper/getting-started/templates.html"
+                    >Built-in templates</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/getting-started/convert-outputs.html"
+                    >Convert outputs</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/getting-started/basic-advanced-rendering.html"
+                    >Basic advanced rendering</a
+                  >
+                </li>
+                <li>
+                  <a
                     href="https://lamnhan.com/docsuper/getting-started/custom-sections.html"
                     >Custom sections</a
                   >
@@ -204,7 +222,7 @@
             <pre><code class="language-js"><span class="hljs-comment">// docsuper.config.js</span>
 <span class="hljs-built_in">module</span>.exports = {
   <span class="hljs-attr">fileRender</span>: {
-    <span class="hljs-string">"README.md"</span>: <span class="hljs-string">"mini"</span>
+    <span class="hljs-string">"README.md"</span>: <span class="hljs-string">"basic"</span>
   }
 };</code></pre>
 
@@ -242,7 +260,7 @@
             </a>
             <p>
               A render input is what appears after the file name, for above
-              configs, those are <code>mini</code>, <code>@doc/file1.md</code>,
+              configs, those are <code>basic</code>, <code>@doc/file1.md</code>,
               and <code>{ section1: [...], ... }</code>.
             </p>
             <p>
@@ -279,7 +297,7 @@
             </p>
             <p>To render using a template, just provide the template name:</p>
             <pre><code class="language-ts">{
-  <span class="hljs-string">'TEST.md'</span>: <span class="hljs-string">'mini'</span>,
+  <span class="hljs-string">'TEST.md'</span>: <span class="hljs-string">'basic'</span>,
 }</code></pre>
 
             <a
@@ -289,7 +307,7 @@
             >
               <h3>Advanced rendering</h3>
             </a>
-            <p>To render a advanced rendering (custom sections):</p>
+            <p>To render an advanced rendering (custom sections):</p>
             <pre><code class="language-ts">{
   <span class="hljs-string">'TEST.md'</span>: {
     section1: [<span class="hljs-string">'Main'</span>, <span class="hljs-string">'SELF'</span>]

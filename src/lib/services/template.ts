@@ -3,7 +3,7 @@ import { Rendering, TemplateRenderOptions } from './render';
 import { ContentBlock } from './content';
 
 export type BuiltinTemplate =
-  | 'mini' | 'minix'
+  | 'basic' | 'basicx'
   | 'full' | 'fullx'
   | 'angular' | 'angularx'
   | 'cli' | 'clix';
@@ -11,15 +11,15 @@ export type BuiltinTemplate =
 export class TemplateService {
 
   constructor() {}
-  
+
   getTemplate(name: BuiltinTemplate, options: TemplateRenderOptions = {}) {
     const { topSecs = {}, bottomSecs = {} } = options;
     // get template
     let templateSecs: Rendering;
     switch (name) {
-      case 'mini':
-      case 'minix':
-        templateSecs = this.getMiniTemplate(options, name === 'minix');
+      case 'basic':
+      case 'basicx':
+        templateSecs = this.getBasicTemplate(options, name === 'basicx');
       break;
       case 'full':
       case 'fullx':
@@ -44,7 +44,7 @@ export class TemplateService {
     };
   }
 
-  private getMiniTemplate(options: TemplateRenderOptions = {}, extra = false) {
+  private getBasicTemplate(options: TemplateRenderOptions = {}, extra = false) {
     const { convertings = {} } = options;
     const sections: Rendering = {
       options: ['Options', 'FULL', convertings['options'] || {}],

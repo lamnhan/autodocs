@@ -25,16 +25,19 @@ module.exports = {
   },
   webRender: {
     categories: {
-      'getting-started': 'Getting started'
+      'getting-started': 'Getting started',
+      'advanced': 'Advanced topics'
     },
     files: {
       'introduction.html': {
         pageTitle: 'Introduction',
         deepMenu: true,
+        autoTOC: true,
         file: '@doc/introduction.md'
       },
       'getting-started/installation.html': {
         pageTitle: 'Installation',
+        autoTOC: true,
         file: '@doc/getting-started/installation.md'
       },
       'getting-started/how-it-works.html': {
@@ -53,9 +56,22 @@ module.exports = {
       'getting-started/options.html': {
         pageTitle: 'Options',
         rendering: {
+          optionsintro: '@doc/getting-started/options.md',
           options: ['Options', 'FULL'],
           webrender: ['WebRender', 'FULL']
         }
+      },
+      'getting-started/templates.html': {
+        pageTitle: 'Built-in templates',
+        file: '@doc/getting-started/templates.md'
+      },
+      'getting-started/convert-outputs.html': {
+        pageTitle: 'Convert outputs',
+        file: '@doc/getting-started/convert-outputs.md'
+      },
+      'getting-started/basic-advanced-rendering.html': {
+        pageTitle: 'Basic advanced rendering',
+        file: '@doc/getting-started/basic-advanced-rendering.md'
       },
       'getting-started/custom-sections.html': {
         pageTitle: 'Custom sections',

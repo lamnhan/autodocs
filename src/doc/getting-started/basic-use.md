@@ -14,7 +14,7 @@ Put your config under the `fileRender` key of the [[Options]].
 // docsuper.config.js
 module.exports = {
   fileRender: {
-    'README.md': 'mini'
+    'README.md': 'basic'
   }
 };
 ```
@@ -42,7 +42,7 @@ module.exports = {
 
 ## Render input
 
-A render input is what appears after the file name, for above configs, those are `mini`, `@doc/file1.md`, and `{ section1: [...], ... }`.
+A render input is what appears after the file name, for above configs, those are `basic`, `@doc/file1.md`, and `{ section1: [...], ... }`.
 
 These render inputs provide instructions for the renderer to build the final content for the file.
 
@@ -66,13 +66,13 @@ To render using a template, just provide the template name:
 
 ```ts
 {
-  'TEST.md': 'mini',
+  'TEST.md': 'basic',
 }
 ```
 
 ### Advanced rendering
 
-To render a advanced rendering (custom sections):
+To render an advanced rendering (custom sections):
 
 ```ts
 {
