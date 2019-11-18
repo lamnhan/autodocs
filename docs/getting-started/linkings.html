@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Built-in templates</title>
+    <title>Content linkings</title>
 
     <link
       rel="stylesheet"
@@ -118,7 +118,6 @@
                 </li>
                 <li>
                   <a
-                    class="active"
                     href="https://lamnhan.com/docsuper/getting-started/templates.html"
                     >Built-in templates</a
                   >
@@ -143,6 +142,7 @@
                 </li>
                 <li>
                   <a
+                    class="active"
                     href="https://lamnhan.com/docsuper/getting-started/linkings.html"
                     >Content linkings</a
                   >
@@ -208,34 +208,34 @@
         </aside>
 
         <article class="col-9 content">
-          <div class="title"><h1>Built-in templates</h1></div>
+          <div class="title"><h1>Content linkings</h1></div>
 
           <section
             id="content"
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
             <p>
-              List of built-in templates, add the <code>x</code> suffix for
-              extra builtin section (head, tocx, license):
+              You can link to any source code element or a content heading
+              without worry where they located by using the Typedoc linking
+              syntax or the TSDoc syntax.
             </p>
             <ul>
               <li>
-                <code>basic</code>/<code>basicx</code>: Show
-                <code>Options</code> &amp; <code>Main</code> for a
-                <strong>seminjecto</strong> library.
+                <code>\[\[Main]]</code> (without <code>\</code>): link to
+                <code>Main</code>
               </li>
               <li>
-                <code>full</code>/<code>fullx</code>: Show all
-                <code>functions</code>, <code>interfaces</code>,
-                <code>classes</code>.
+                <code>\[\[Main | the Main class]]</code> (without
+                <code>\</code>): link to <code>Main</code> with custom title
               </li>
               <li>
-                <code>angular</code>/<code>angularx</code>: Listing modules,
-                services, components, pipes for an Angular lib.
+                <code>\{\@link a-heading}</code> (without <code>\</code>): link
+                to the heading with id <code>a-heading</code>
               </li>
               <li>
-                <code>cli</code>/<code>clix</code>: Listing commands for a
-                <strong>seminjecto</strong> CLI app.
+                <code>\{\@link a-heading | A heading}</code> (without
+                <code>\</code>): link to the heading with id
+                <code>a-heading</code>
               </li>
             </ul>
           </section>

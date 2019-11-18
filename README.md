@@ -392,7 +392,7 @@ Section can also be put in the source file, called [**local section**](#renderin
 <h2><a name="options" href="https://lamnhan.com/docsuper/api/interfaces/options.html"><p>Options</p>
 </a></h2>
 
-**The `Options` interface.**
+**Complete module options**
 
 <h2><a name="options-properties"><p>Options properties</p>
 </a></h2>
@@ -829,22 +829,22 @@ The default folder is **/docs**. You can change the output folder by providing t
 <h3><a name="convertservice-methods"><p>ConvertService methods</p>
 </a></h3>
 
-| Function                                                             | Returns type                                                                                                                                                                                                                                                                                                                                                                                                                                | Description                                                                       |
-| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| [convert(declaration, output?, options?)](#convertservice-convert-0) | <code><a href="https://lamnhan.com/docsuper/api/interfaces/headingblock.html" target="_blank">HeadingBlock</a> \| <a href="https://lamnhan.com/docsuper/api/interfaces/textblock.html" target="_blank">TextBlock</a> \| <a href="https://lamnhan.com/docsuper/api/interfaces/listblock.html" target="_blank">ListBlock</a> \| <a href="https://lamnhan.com/docsuper/api/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code> | The Converter turns a <a data-sref="Declaration" href="#declaration">Declaration</a> into <a data-sref="ContentBlock \| content blocks">ContentBlock \| content blocks</a> |
+| Function                                                             | Returns type                                                                                                                                                                                                                                                                                                                                                                                                                                | Description |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [convert(declaration, output?, options?)](#convertservice-convert-0) | <code><a href="https://lamnhan.com/docsuper/api/interfaces/headingblock.html" target="_blank">HeadingBlock</a> \| <a href="https://lamnhan.com/docsuper/api/interfaces/textblock.html" target="_blank">TextBlock</a> \| <a href="https://lamnhan.com/docsuper/api/interfaces/listblock.html" target="_blank">ListBlock</a> \| <a href="https://lamnhan.com/docsuper/api/interfaces/tableblock.html" target="_blank">TableBlock</a>[]</code> |             |
 
 <h4><a name="convertservice-convert-0" href="https://lamnhan.com/docsuper/api/classes/convertservice.html#convert"><p><code>convert(declaration, output?, options?)</code></p>
 </a></h4>
 
-**The Converter turns a <a data-sref="Declaration" href="#declaration">Declaration</a> into <a data-sref="ContentBlock">content blocks</a>**
+**The `convert` call signature.**
 
 **Parameters**
 
-| Param           | Type                                                                                                                      | Description         |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| **declaration** | <code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a></code>          | The <a data-sref="Declaration" href="#declaration">Declaration</a> |
-| output          | <code>string</code>                                                                                                       | The output          |
-| options         | <code><a href="https://lamnhan.com/docsuper/api/interfaces/convertoptions.html" target="_blank">ConvertOptions</a></code> | Convert options     |
+| Param           | Type                                                                                                                      | Description |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| **declaration** | <code><a href="https://lamnhan.com/docsuper/api/classes/declaration.html" target="_blank">Declaration</a></code>          |             |
+| output          | <code>string</code>                                                                                                       |             |
+| options         | <code><a href="https://lamnhan.com/docsuper/api/interfaces/convertoptions.html" target="_blank">ConvertOptions</a></code> |             |
 
 **Returns**
 

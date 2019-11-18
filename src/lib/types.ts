@@ -3,6 +3,9 @@ import { TypedocConfigs, TypedocService } from './services/typedoc';
 import { AdditionalConverts } from './services/convert';
 import { BatchRender } from './services/render';
 
+/**
+ * Complete module options
+ */
 export interface Options {
   /**
    * Docs homepage url, default to the Github Pages repo url
@@ -21,10 +24,6 @@ export interface Options {
    */
   typedocConfigs?: TypedocConfigs;
   /**
-   * Global clean output, can be overridden per file
-   */
-  cleanOutput?: boolean;
-  /**
    * No generator footer attribution
    */
   noAttr?: boolean;
@@ -39,11 +38,16 @@ export interface Options {
   /**
    * Additional converts
    */
-  converts?: AdditionalConverts;
+  converts?: AdditionalConverts;  
+  /**
+   * Global clean output, can be overridden per file
+   */
+  cleanOutput?: boolean;
 }
 
-export type CustomApiGenerator = (typedocService: TypedocService, out: string) => void;
-
+/**
+ * Specific config for render as a website
+ */
 export interface WebRender {
   /**
    * List of files
@@ -68,3 +72,5 @@ export interface WebRender {
    */
   index?: string;
 }
+
+export type CustomApiGenerator = (typedocService: TypedocService, out: string) => void;

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Built-in templates</title>
+    <title>More render options</title>
 
     <link
       rel="stylesheet"
@@ -118,7 +118,6 @@
                 </li>
                 <li>
                   <a
-                    class="active"
                     href="https://lamnhan.com/docsuper/getting-started/templates.html"
                     >Built-in templates</a
                   >
@@ -174,6 +173,7 @@
                 </li>
                 <li>
                   <a
+                    class="active"
                     href="https://lamnhan.com/docsuper/advanced/more-options.html"
                     >More render options</a
                   >
@@ -208,36 +208,128 @@
         </aside>
 
         <article class="col-9 content">
-          <div class="title"><h1>Built-in templates</h1></div>
+          <div class="title"><h1>More render options</h1></div>
 
           <section
-            id="content"
+            id="localrenderoptions"
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
+            <h2>
+              <a
+                name="localrenderoptions"
+                href="https://lamnhan.com/docsuper/api/interfaces/localrenderoptions.html"
+                ><p>The <code>LocalRenderOptions</code> interface</p>
+              </a>
+            </h2>
+
             <p>
-              List of built-in templates, add the <code>x</code> suffix for
-              extra builtin section (head, tocx, license):
+              <strong
+                >Local options override any corresponding global options</strong
+              >
             </p>
-            <ul>
-              <li>
-                <code>basic</code>/<code>basicx</code>: Show
-                <code>Options</code> &amp; <code>Main</code> for a
-                <strong>seminjecto</strong> library.
-              </li>
-              <li>
-                <code>full</code>/<code>fullx</code>: Show all
-                <code>functions</code>, <code>interfaces</code>,
-                <code>classes</code>.
-              </li>
-              <li>
-                <code>angular</code>/<code>angularx</code>: Listing modules,
-                services, components, pipes for an Angular lib.
-              </li>
-              <li>
-                <code>cli</code>/<code>clix</code>: Listing commands for a
-                <strong>seminjecto</strong> CLI app.
-              </li>
-            </ul>
+            <h3>
+              <a name="localrenderoptions-properties"
+                ><p>LocalRenderOptions properties</p>
+              </a>
+            </h3>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/docsuper/api/interfaces/localrenderoptions.html#cleanoutput"
+                      >cleanOutput?</a
+                    >
+                  </td>
+                  <td><code>boolean</code></td>
+                  <td>
+                    Ignore global sections (current content will be replaced)
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section
+            id="webrenderoptions"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <h2>
+              <a
+                name="webrenderoptions"
+                href="https://lamnhan.com/docsuper/api/interfaces/webrenderoptions.html"
+                ><p>The <code>WebRenderOptions</code> interface</p>
+              </a>
+            </h2>
+
+            <p>
+              <strong
+                >Web options provides more information for a web page</strong
+              >
+            </p>
+            <h3>
+              <a name="webrenderoptions-properties"
+                ><p>WebRenderOptions properties</p>
+              </a>
+            </h3>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/docsuper/api/interfaces/webrenderoptions.html#deepmenu"
+                      >deepMenu?</a
+                    >
+                  </td>
+                  <td><code>boolean</code></td>
+                  <td>Show top level headings in the menu</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/docsuper/api/interfaces/webrenderoptions.html#pagetitle"
+                      >pageTitle?</a
+                    >
+                  </td>
+                  <td><code>string</code></td>
+                  <td>The page title</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/docsuper/api/interfaces/webrenderoptions.html#webdata"
+                      >webData?</a
+                    >
+                  </td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/docsuper/api/interfaces/webdata.html"
+                        target="_blank"
+                        >WebData</a
+                      ></code
+                    >
+                  </td>
+                  <td>Data used in the webpage</td>
+                </tr>
+              </tbody>
+            </table>
           </section>
         </article>
       </div>

@@ -59,12 +59,6 @@ export class ConvertService {
     private contentService: ContentService
   ) {}
 
-  /**
-   * The Converter turns a [[Declaration]] into {@link ContentBlock | content blocks}
-   * @param declaration - The [[Declaration]]
-   * @param output - The output
-   * @param options - Convert options
-   */
   convert(
     declaration: Declaration,
     output = 'SELF',

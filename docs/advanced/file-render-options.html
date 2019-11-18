@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Built-in templates</title>
+    <title>File render options</title>
 
     <link
       rel="stylesheet"
@@ -118,7 +118,6 @@
                 </li>
                 <li>
                   <a
-                    class="active"
                     href="https://lamnhan.com/docsuper/getting-started/templates.html"
                     >Built-in templates</a
                   >
@@ -162,6 +161,7 @@
               <ul>
                 <li>
                   <a
+                    class="active"
                     href="https://lamnhan.com/docsuper/advanced/file-render-options.html"
                     >File render options</a
                   >
@@ -208,36 +208,58 @@
         </aside>
 
         <article class="col-9 content">
-          <div class="title"><h1>Built-in templates</h1></div>
+          <div class="title"><h1>File render options</h1></div>
 
           <section
-            id="content"
+            id="filerenderoptions"
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
-            <p>
-              List of built-in templates, add the <code>x</code> suffix for
-              extra builtin section (head, tocx, license):
-            </p>
-            <ul>
-              <li>
-                <code>basic</code>/<code>basicx</code>: Show
-                <code>Options</code> &amp; <code>Main</code> for a
-                <strong>seminjecto</strong> library.
-              </li>
-              <li>
-                <code>full</code>/<code>fullx</code>: Show all
-                <code>functions</code>, <code>interfaces</code>,
-                <code>classes</code>.
-              </li>
-              <li>
-                <code>angular</code>/<code>angularx</code>: Listing modules,
-                services, components, pipes for an Angular lib.
-              </li>
-              <li>
-                <code>cli</code>/<code>clix</code>: Listing commands for a
-                <strong>seminjecto</strong> CLI app.
-              </li>
-            </ul>
+            <h2>
+              <a
+                name="filerenderoptions"
+                href="https://lamnhan.com/docsuper/api/interfaces/filerenderoptions.html"
+                ><p>The <code>FileRenderOptions</code> interface</p>
+              </a>
+            </h2>
+
+            <p><strong>Additional option for file rendering</strong></p>
+            <h3>
+              <a name="filerenderoptions-properties"
+                ><p>FileRenderOptions properties</p>
+              </a>
+            </h3>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/docsuper/api/interfaces/filerenderoptions.html#autotoc"
+                      >autoTOC?</a
+                    >
+                  </td>
+                  <td><code>boolean</code></td>
+                  <td>Extract all headings</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/docsuper/api/interfaces/filerenderoptions.html#headingoffset"
+                      >headingOffset?</a
+                    >
+                  </td>
+                  <td><code>number</code></td>
+                  <td>Offset all the headings</td>
+                </tr>
+              </tbody>
+            </table>
           </section>
         </article>
       </div>

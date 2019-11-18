@@ -1,3 +1,5 @@
+import { pathExistsSync } from 'fs-extra';
+
 import { ProjectService } from './project';
 import { ContentBySections, ContentBlock, ContentService, HeadingBlock } from './content';
 import { LoadService } from './load';
@@ -43,26 +45,65 @@ export interface RenderWithOptions
     file?: string;
     rendering?: Rendering;
 }
-  
+
+/**
+ * Local options override any corresponding global options
+ */
 export interface LocalRenderOptions {
+  /**
+   * Ignore global sections (current content will be replaced) 
+   */
   cleanOutput?: boolean;
 }
 
-export interface TemplateRenderOptions {
-  convertings?: {[section: string]: ConvertOptions};
-  topSecs?: Rendering;
-  bottomSecs?: Rendering;
-}
-
+/**
+ * Web options provides more information for a web page
+ */
 export interface WebRenderOptions {
+  /**
+   * The page title
+   */
   pageTitle?: string;
+  /**
+   * Show top level headings in the menu 
+   */
   deepMenu?: boolean;
+  /**
+   * Data used in the webpage
+   */
   webData?: WebData;
 }
 
+/**
+ * Additional option for file rendering
+ */
 export interface FileRenderOptions {
+  /**
+   * Offset all the headings
+   */
   headingOffset?: number;
+  /**
+   * Extract all headings
+   */
   autoTOC?: boolean;
+}
+
+/**
+ * Additional option for template rendering
+ */
+export interface TemplateRenderOptions {
+  /**
+   * Custom convert options by sections
+   */
+  convertings?: {[section: string]: ConvertOptions};
+  /**
+   * Sections to be appended before template sections
+   */
+  topSecs?: Rendering;
+  /**
+   * Sections to be appended after template sections
+   */
+  bottomSecs?: Rendering;
 }
 
 export interface BatchRender {
@@ -257,11 +298,13 @@ export class RenderService {
       // file
       else if (typeof sectionRendering === 'string') {
         const { headingOffset } = renderOptions as FileRenderOptions;
-        let content = this.contentService.readFileSync(
-          sectionRendering.replace('@', 'src/')
-        );
-        if (!!headingOffset) {
-          content = this.contentService.modifyHeadings(content, headingOffset);
+        const filePath = sectionRendering.replace('@', 'src/');
+        let content = 'TODO';
+        if (pathExistsSync(filePath)) {
+          content = this.contentService.readFileSync(filePath);
+          if (!!headingOffset) {
+            content = this.contentService.modifyHeadings(content, headingOffset);
+          }
         }
         sectionResult = {
           src: sectionRendering,

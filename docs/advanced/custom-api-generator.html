@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Built-in templates</title>
+    <title>Custom API generator</title>
 
     <link
       rel="stylesheet"
@@ -118,7 +118,6 @@
                 </li>
                 <li>
                   <a
-                    class="active"
                     href="https://lamnhan.com/docsuper/getting-started/templates.html"
                     >Built-in templates</a
                   >
@@ -186,6 +185,7 @@
                 </li>
                 <li>
                   <a
+                    class="active"
                     href="https://lamnhan.com/docsuper/advanced/custom-api-generator.html"
                     >Custom API generator</a
                   >
@@ -208,36 +208,18 @@
         </aside>
 
         <article class="col-9 content">
-          <div class="title"><h1>Built-in templates</h1></div>
+          <div class="title"><h1>Custom API generator</h1></div>
 
           <section
             id="content"
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
-            <p>
-              List of built-in templates, add the <code>x</code> suffix for
-              extra builtin section (head, tocx, license):
-            </p>
-            <ul>
-              <li>
-                <code>basic</code>/<code>basicx</code>: Show
-                <code>Options</code> &amp; <code>Main</code> for a
-                <strong>seminjecto</strong> library.
-              </li>
-              <li>
-                <code>full</code>/<code>fullx</code>: Show all
-                <code>functions</code>, <code>interfaces</code>,
-                <code>classes</code>.
-              </li>
-              <li>
-                <code>angular</code>/<code>angularx</code>: Listing modules,
-                services, components, pipes for an Angular lib.
-              </li>
-              <li>
-                <code>cli</code>/<code>clix</code>: Listing commands for a
-                <strong>seminjecto</strong> CLI app.
-              </li>
-            </ul>
+            <p>You can provide a custom detail API reference:</p>
+            <pre><code class="language-js">{
+  <span class="hljs-attr">apiGenerator</span>: <span class="hljs-function">(<span class="hljs-params">typedocService, out</span>) =&gt;</span> {
+    <span class="hljs-comment">// generate cde goes here</span>
+  };
+}</code></pre>
           </section>
         </article>
       </div>

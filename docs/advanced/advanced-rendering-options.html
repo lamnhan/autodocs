@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Options</title>
+    <title>Advanced rendering options</title>
 
     <link
       rel="stylesheet"
@@ -112,7 +112,6 @@
                 </li>
                 <li>
                   <a
-                    class="active"
                     href="https://lamnhan.com/docsuper/getting-started/options.html"
                     >Options</a
                   >
@@ -180,6 +179,7 @@
                 </li>
                 <li>
                   <a
+                    class="active"
                     href="https://lamnhan.com/docsuper/advanced/advanced-rendering-options.html"
                     >Advanced rendering options</a
                   >
@@ -208,43 +208,23 @@
         </aside>
 
         <article class="col-9 content">
-          <div class="title"><h1>Options</h1></div>
+          <div class="title"><h1>Advanced rendering options</h1></div>
 
           <section
-            id="optionsintro"
-            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
-          >
-            <p>Options can be provided in 3 ways:</p>
-            <ul>
-              <li>
-                Under the <strong>@lamnhan/docsuper</strong> property of
-                <code>package.json</code> file
-              </li>
-              <li>
-                The <code>docsuper.config.js</code> file for more advanced
-                config
-              </li>
-              <li>
-                By the <code>options</code> param when init new
-                <a data-sref="docsuper"><code>docsuper(options?)</code></a>
-                instance.
-              </li>
-            </ul>
-          </section>
-
-          <section
-            id="options"
+            id="declarationoptions"
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
             <h2>
               <a
-                name="options"
-                href="https://lamnhan.com/docsuper/api/interfaces/options.html"
-                ><p>The <code>Options</code> interface</p>
+                name="declarationoptions"
+                href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html"
+                ><p>The <code>DeclarationOptions</code> interface</p>
               </a>
             </h2>
 
-            <p><strong>Complete module options</strong></p>
+            <p>
+              <strong>The <code>DeclarationOptions</code> interface.</strong>
+            </p>
             <table class="table">
               <thead>
                 <tr>
@@ -257,155 +237,32 @@
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/docsuper/api/interfaces/options.html#apigenerator"
-                      >apiGenerator?</a
-                    >
-                  </td>
-                  <td>
-                    <code
-                      >"none" | "typedoc" |
-                      <a
-                        href="https://lamnhan.com/docsuper/api/index.html#customapigenerator"
-                        target="_blank"
-                        >CustomApiGenerator</a
-                      ></code
-                    >
-                  </td>
-                  <td>Detail API generator, default to &#39;typedoc&#39;</td>
-                </tr>
-                <tr>
-                  <td>
-                    <a
-                      href="https://lamnhan.com/docsuper/api/interfaces/options.html#cleanoutput"
-                      >cleanOutput?</a
-                    >
-                  </td>
-                  <td><code>boolean</code></td>
-                  <td>Global clean output, can be overridden per file</td>
-                </tr>
-                <tr>
-                  <td>
-                    <a
-                      href="https://lamnhan.com/docsuper/api/interfaces/options.html#converts"
-                      >converts?</a
-                    >
-                  </td>
-                  <td>
-                    <code
-                      ><a
-                        href="https://lamnhan.com/docsuper/api/interfaces/additionalconverts.html"
-                        target="_blank"
-                        >AdditionalConverts</a
-                      ></code
-                    >
-                  </td>
-                  <td>Additional converts</td>
-                </tr>
-                <tr>
-                  <td>
-                    <a
-                      href="https://lamnhan.com/docsuper/api/interfaces/options.html#filerender"
-                      >fileRender?</a
-                    >
-                  </td>
-                  <td>
-                    <code
-                      ><a
-                        href="https://lamnhan.com/docsuper/api/interfaces/batchrender.html"
-                        target="_blank"
-                        >BatchRender</a
-                      ></code
-                    >
-                  </td>
-                  <td>Output as standalone file</td>
-                </tr>
-                <tr>
-                  <td>
-                    <a
-                      href="https://lamnhan.com/docsuper/api/interfaces/options.html#noattr"
-                      >noAttr?</a
-                    >
-                  </td>
-                  <td><code>boolean</code></td>
-                  <td>No generator footer attribution</td>
-                </tr>
-                <tr>
-                  <td>
-                    <a
-                      href="https://lamnhan.com/docsuper/api/interfaces/options.html#srcpath"
-                      >srcPath?</a
+                      href="https://lamnhan.com/docsuper/api/interfaces/declarationoptions.html#id"
+                      >id?</a
                     >
                   </td>
                   <td><code>string</code></td>
-                  <td>Path to the source code, default to <code>src</code></td>
-                </tr>
-                <tr>
-                  <td>
-                    <a
-                      href="https://lamnhan.com/docsuper/api/interfaces/options.html#typedocconfigs"
-                      >typedocConfigs?</a
-                    >
-                  </td>
-                  <td>
-                    <code
-                      ><a
-                        href="https://lamnhan.com/docsuper/api/interfaces/typedocconfigs.html"
-                        target="_blank"
-                        >TypedocConfigs</a
-                      ></code
-                    >
-                  </td>
-                  <td>
-                    Custom <a href="https://typedoc.org">Typedoc</a> configs
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a
-                      href="https://lamnhan.com/docsuper/api/interfaces/options.html#url"
-                      >url?</a
-                    >
-                  </td>
-                  <td><code>string</code></td>
-                  <td>
-                    Docs homepage url, default to the Github Pages repo url
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a
-                      href="https://lamnhan.com/docsuper/api/interfaces/options.html#webrender"
-                      >webRender?</a
-                    >
-                  </td>
-                  <td>
-                    <code
-                      ><a
-                        href="https://lamnhan.com/docsuper/api/interfaces/webrender.html"
-                        target="_blank"
-                        >WebRender</a
-                      ></code
-                    >
-                  </td>
-                  <td>Output as a website</td>
+                  <td></td>
                 </tr>
               </tbody>
             </table>
           </section>
 
           <section
-            id="webrender"
+            id="headingoptions"
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
             <h2>
               <a
-                name="webrender"
-                href="https://lamnhan.com/docsuper/api/interfaces/webrender.html"
-                ><p>The <code>WebRender</code> interface</p>
+                name="headingoptions"
+                href="https://lamnhan.com/docsuper/api/interfaces/headingoptions.html"
+                ><p>The <code>HeadingOptions</code> interface</p>
               </a>
             </h2>
 
-            <p><strong>Specific config for render as a website</strong></p>
+            <p>
+              <strong>The <code>HeadingOptions</code> interface.</strong>
+            </p>
             <table class="table">
               <thead>
                 <tr>
@@ -418,65 +275,210 @@
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/docsuper/api/interfaces/webrender.html#categories"
-                      >categories?</a
+                      href="https://lamnhan.com/docsuper/api/interfaces/headingoptions.html#link"
+                      >link?</a
                     >
                   </td>
-                  <td><code>object</code></td>
-                  <td>Website article grouping</td>
+                  <td><code>string</code></td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/docsuper/api/interfaces/webrender.html#files"
-                      ><strong>files</strong></a
+                      href="https://lamnhan.com/docsuper/api/interfaces/headingoptions.html#title"
+                      >title?</a
+                    >
+                  </td>
+                  <td><code>string</code></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section
+            id="valueoptions"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <h2>
+              <a
+                name="valueoptions"
+                href="https://lamnhan.com/docsuper/api/interfaces/valueoptions.html"
+                ><p>The <code>ValueOptions</code> interface</p>
+              </a>
+            </h2>
+
+            <p>
+              <strong>The <code>ValueOptions</code> interface.</strong>
+            </p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/docsuper/api/interfaces/valueoptions.html#raw"
+                      >raw?</a
+                    >
+                  </td>
+                  <td><code>boolean</code></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section
+            id="convertingoptions"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <h2>
+              <a
+                name="convertingoptions"
+                href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html"
+                ><p>The <code>ConvertingOptions</code> interface</p>
+              </a>
+            </h2>
+
+            <p>
+              <strong>The <code>ConvertingOptions</code> interface.</strong>
+            </p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html#heading"
+                      >heading?</a
+                    >
+                  </td>
+                  <td><code>boolean</code></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html#level"
+                      >level?</a
+                    >
+                  </td>
+                  <td><code>number</code></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/docsuper/api/interfaces/convertingoptions.html#local"
+                      >local?</a
+                    >
+                  </td>
+                  <td><code>boolean</code></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section
+            id="filteroptions"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <h2>
+              <a
+                name="filteroptions"
+                href="https://lamnhan.com/docsuper/api/interfaces/filteroptions.html"
+                ><p>The <code>FilterOptions</code> interface</p>
+              </a>
+            </h2>
+
+            <p>
+              <strong>The <code>FilterOptions</code> interface.</strong>
+            </p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/docsuper/api/interfaces/filteroptions.html#filter"
+                      >filter?</a
                     >
                   </td>
                   <td>
                     <code
                       ><a
-                        href="https://lamnhan.com/docsuper/api/interfaces/batchrender.html"
+                        href="https://lamnhan.com/docsuper/api/index.html#declarationfilter"
                         target="_blank"
-                        >BatchRender</a
+                        >DeclarationFilter</a
                       ></code
                     >
                   </td>
-                  <td>List of files</td>
+                  <td></td>
                 </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section
+            id="customconvertoptions"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <h2>
+              <a
+                name="customconvertoptions"
+                href="https://lamnhan.com/docsuper/api/interfaces/customconvertoptions.html"
+                ><p>The <code>CustomConvertOptions</code> interface</p>
+              </a>
+            </h2>
+
+            <p>
+              <strong>The <code>CustomConvertOptions</code> interface.</strong>
+            </p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/docsuper/api/interfaces/webrender.html#index"
-                      >index?</a
+                      href="https://lamnhan.com/docsuper/api/interfaces/customconvertoptions.html#convert"
+                      >convert?</a
                     >
                   </td>
-                  <td><code>string</code></td>
                   <td>
-                    Custom website index.html, default to a page that redirects
-                    to the first article
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a
-                      href="https://lamnhan.com/docsuper/api/interfaces/webrender.html#out"
-                      >out?</a
+                    <code
+                      ><a
+                        href="https://lamnhan.com/docsuper/api/index.html#additionalconvert"
+                        target="_blank"
+                        >AdditionalConvert</a
+                      ></code
                     >
                   </td>
-                  <td><code>string</code></td>
-                  <td>Website output dir</td>
-                </tr>
-                <tr>
-                  <td>
-                    <a
-                      href="https://lamnhan.com/docsuper/api/interfaces/webrender.html#theme"
-                      >theme?</a
-                    >
-                  </td>
-                  <td><code>string</code></td>
-                  <td>
-                    Name of or path to a website theme, built-in themes: default
-                  </td>
+                  <td></td>
                 </tr>
               </tbody>
             </table>

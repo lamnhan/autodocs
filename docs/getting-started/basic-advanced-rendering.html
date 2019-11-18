@@ -141,6 +141,12 @@
                     >Custom sections</a
                   >
                 </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/getting-started/linkings.html"
+                    >Content linkings</a
+                  >
+                </li>
               </ul>
             </li>
             <li>
@@ -150,6 +156,53 @@
               <a href="https://lamnhan.com/docsuper/the-library.html"
                 >The library</a
               >
+            </li>
+            <li>
+              Advanced topics
+              <ul>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/advanced/file-render-options.html"
+                    >File render options</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/advanced/template-render-options.html"
+                    >Template render options</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/advanced/more-options.html"
+                    >More render options</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/advanced/advanced-rendering-options.html"
+                    >Advanced rendering options</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/advanced/custom-api-generator.html"
+                    >Custom API generator</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/advanced/web-theming.html"
+                    >Web theming</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/docsuper/advanced/web-categories.html"
+                    >Web categories</a
+                  >
+                </li>
+              </ul>
             </li>
           </ul>
         </aside>
@@ -166,12 +219,89 @@
               rendering format.
             </p>
             <p>
-              Advaned rendering allows you to defined more sections with
+              Advanced rendering allows you to defined more sections with
               specific config.
             </p>
             <pre><code class="language-ts">{
   section1: [<span class="hljs-string">'Options'</span>],
-  section2: [<span class="hljs-string">'Main'</span>],
+  section2: [<span class="hljs-string">'Main'</span>, <span class="hljs-string">'FULL'</span>]
+}</code></pre>
+
+            <a
+              href="#the-3-parts"
+              id="the-3-parts"
+              style="color: inherit; text-decoration: none;"
+            >
+              <h2>The 3 parts</h2>
+            </a>
+            <p>The smallest unit of the advanced rendering has of 3 parts:</p>
+            <ul>
+              <li>The <strong>WHAT</strong>: what the target?</li>
+              <li>
+                The <strong>HOW</strong> (optional): how to output the WHAT,
+                default to <code>SELF</code>.
+              </li>
+              <li>The extra (optional): more rendering options.</li>
+            </ul>
+            <p>
+              For the WHAT part, use this format to target a source code
+              element:
+            </p>
+            <ul>
+              <li>
+                Direct element: provide its name, ex. <code>Options</code>,
+                &#39;function1&#39;, ...
+              </li>
+              <li>
+                Indirect element: its parent name and its name with
+                <code>.</code> in between, ex. <code>Main.method1</code>, ...
+              </li>
+              <li>
+                Custom source: list of path, ex.
+                <code>[path1.ts,path2.ts]</code>
+              </li>
+            </ul>
+
+            <a
+              href="#advanced-rendering-variants"
+              id="advanced-rendering-variants"
+              style="color: inherit; text-decoration: none;"
+            >
+              <h2>Advanced rendering variants</h2>
+            </a>
+            <ul>
+              <li>Builtin sections, <code>[name]: true</code>:</li>
+            </ul>
+            <pre><code class="language-ts">{
+  head: <span class="hljs-literal">true</span>,
+}</code></pre>
+            <ul>
+              <li>Content from a file, provide the file path:</li>
+            </ul>
+            <pre><code class="language-ts">{
+  section1: <span class="hljs-string">"@docs/file1.md"</span>;
+}</code></pre>
+            <ul>
+              <li>Custom content block:</li>
+            </ul>
+            <pre><code class="language-ts">{
+  section1: {
+    <span class="hljs-keyword">type</span>: <span class="hljs-string">'text'</span>,
+    data: <span class="hljs-string">'Some text ...'</span>
+  }
+}</code></pre>
+            <ul>
+              <li>Multiple blocks for one section:</li>
+            </ul>
+            <pre><code class="language-ts">{
+  section1: [
+    {
+      <span class="hljs-keyword">type</span>: <span class="hljs-string">"text"</span>,
+      data: <span class="hljs-string">"Some text ..."</span>
+    },
+    [<span class="hljs-string">"Options"</span>, <span class="hljs-string">"SELF"</span>],
+    [<span class="hljs-string">"Options"</span>, <span class="hljs-string">"SUMMARY_PROPERTIES"</span>]
+  ];
 }</code></pre>
           </section>
         </article>

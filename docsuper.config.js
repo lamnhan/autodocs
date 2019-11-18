@@ -57,8 +57,14 @@ module.exports = {
         pageTitle: 'Options',
         rendering: {
           optionsintro: '@doc/getting-started/options.md',
-          options: ['Options', 'FULL'],
-          webrender: ['WebRender', 'FULL']
+          options: [
+            ['Options', 'SELF'],
+            ['Options', 'SUMMARY_PROPERTIES']
+          ],
+          webrender: [
+            ['WebRender', 'SELF'],
+            ['WebRender', 'SUMMARY_PROPERTIES']
+          ]
         }
       },
       'getting-started/templates.html': {
@@ -77,6 +83,10 @@ module.exports = {
         pageTitle: 'Custom sections',
         file: '@doc/getting-started/custom-sections.md'
       },
+      'getting-started/linkings.html': {
+        pageTitle: 'Content linkings',
+        file: '@doc/getting-started/linkings.md'
+      },
       'the-cli.html': {
         pageTitle: 'The CLI',
         topSecs: { toc: true },
@@ -89,7 +99,67 @@ module.exports = {
           init: ['main', 'FULL'],
           main: ['Main', 'FULL'],
         }
-      }
+      },
+      'advanced/file-render-options.html': {
+        pageTitle: 'File render options',
+        rendering: {
+          filerenderoptions: ['FileRenderOptions', 'FULL'],
+        }
+      },
+      'advanced/template-render-options.html': {
+        pageTitle: 'Template render options',
+        rendering: {
+          templaterenderoptions: ['TemplateRenderOptions', 'FULL']
+        }
+      },
+      'advanced/more-options.html': {
+        pageTitle: 'More render options',
+        rendering: {
+          localrenderoptions: ['LocalRenderOptions', 'FULL'],
+          webrenderoptions: ['WebRenderOptions', 'FULL']
+        }
+      },
+      'advanced/advanced-rendering-options.html': {
+        pageTitle: 'Advanced rendering options',
+        rendering: {
+          declarationoptions: [
+            ['DeclarationOptions', 'SELF'],
+            ['DeclarationOptions', 'SUMMARY_PROPERTIES']
+          ],
+          headingoptions: [
+            ['HeadingOptions', 'SELF'],
+            ['HeadingOptions', 'SUMMARY_PROPERTIES']
+          ],
+          valueoptions: [
+            ['ValueOptions', 'SELF'],
+            ['ValueOptions', 'SUMMARY_PROPERTIES']
+          ],
+          convertingoptions: [
+            ['ConvertingOptions', 'SELF'],
+            ['ConvertingOptions', 'SUMMARY_PROPERTIES']
+          ],
+          filteroptions: [
+            ['FilterOptions', 'SELF'],
+            ['FilterOptions', 'SUMMARY_PROPERTIES']
+          ],
+          customconvertoptions: [
+            ['CustomConvertOptions', 'SELF'],
+            ['CustomConvertOptions', 'SUMMARY_PROPERTIES']
+          ],
+        }
+      },
+      'advanced/custom-api-generator.html': {
+        pageTitle: 'Custom API generator',
+        file: '@doc/advanced/custom-api-generator.md'
+      },
+      'advanced/web-theming.html': {
+        pageTitle: 'Web theming',
+        file: '@doc/advanced/web-theming.md'
+      },
+      'advanced/web-categories.html': {
+        pageTitle: 'Web categories',
+        file: '@doc/advanced/web-categories.md'
+      },
     }
   }
 };

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Built-in templates</title>
+    <title>Web categories</title>
 
     <link
       rel="stylesheet"
@@ -118,7 +118,6 @@
                 </li>
                 <li>
                   <a
-                    class="active"
                     href="https://lamnhan.com/docsuper/getting-started/templates.html"
                     >Built-in templates</a
                   >
@@ -198,6 +197,7 @@
                 </li>
                 <li>
                   <a
+                    class="active"
                     href="https://lamnhan.com/docsuper/advanced/web-categories.html"
                     >Web categories</a
                   >
@@ -208,36 +208,31 @@
         </aside>
 
         <article class="col-9 content">
-          <div class="title"><h1>Built-in templates</h1></div>
+          <div class="title"><h1>Web categories</h1></div>
 
           <section
             id="content"
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
             <p>
-              List of built-in templates, add the <code>x</code> suffix for
-              extra builtin section (head, tocx, license):
+              You may want to group some articles into one category by create
+              the category and put any file under the category id:
             </p>
-            <ul>
-              <li>
-                <code>basic</code>/<code>basicx</code>: Show
-                <code>Options</code> &amp; <code>Main</code> for a
-                <strong>seminjecto</strong> library.
-              </li>
-              <li>
-                <code>full</code>/<code>fullx</code>: Show all
-                <code>functions</code>, <code>interfaces</code>,
-                <code>classes</code>.
-              </li>
-              <li>
-                <code>angular</code>/<code>angularx</code>: Listing modules,
-                services, components, pipes for an Angular lib.
-              </li>
-              <li>
-                <code>cli</code>/<code>clix</code>: Listing commands for a
-                <strong>seminjecto</strong> CLI app.
-              </li>
-            </ul>
+            <pre><code class="language-ts">{
+  webRender: {
+    categories: {
+      cat1: <span class="hljs-string">'Category 1'</span>
+    },
+    files: {
+      <span class="hljs-string">'cat1/file1.html'</span>: <span class="hljs-string">'basic'</span>,
+      <span class="hljs-string">'cat1/file2.html'</span>: <span class="hljs-string">'@doc/file2.md'</span>
+    }
+  }
+}</code></pre>
+            <p>
+              Any files under a category id will be render as they are children
+              of the category.
+            </p>
           </section>
         </article>
       </div>
