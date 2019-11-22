@@ -108,7 +108,6 @@ export class ProjectService {
       apiGenerator: 'typedoc',
       typedocConfigs: {},
       cleanOutput: false,
-      noAttr: false,
       fileRender: {},
       converts: {},
       ...options,

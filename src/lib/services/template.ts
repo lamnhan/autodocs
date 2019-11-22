@@ -156,13 +156,14 @@ export class TemplateService {
   private getCLITemplate(options: TemplateRenderOptions = {}, extra = false) {
     const { convertings = {} } = options;
     const customConvert: AdditionalConvert = (declaration, options, contentService) => {
+      const commanderProp = declaration.getChild('commander');
+      const [ commanderCmd, commanderDescription ] = commanderProp.DEFAULT_VALUE;
       // get command defs
       const commands = declaration.getVariablesOrProperties(
         decl => decl.NAME.endsWith('CommandDef')
       );
       // build blocks
       const result: ContentBlock[] = [];
-      // 
       const summaryArr: string[] = [];
       const detailBlocks : ContentBlock[] = [];
       commands.forEach(decl => {
@@ -172,7 +173,7 @@ export class TemplateService {
         const strOpts = cmdOptions
           .map(([ opt ]) => opt.indexOf(', ') !== -1 ? opt.split(', ').pop() : opt)
           .join(' ');
-        const fullCommand = (command + ' ' + strOpts).trim();
+        const fullCommand = (commanderCmd + ' ' + command + ' ' + strOpts).trim();
         // summary
         summaryArr.push(`- [\`${fullCommand}\`](#${commandId})`);
         // detail
@@ -204,9 +205,10 @@ export class TemplateService {
         }
       });
       // push blocks
-      result.push(contentService.blockHeading('Commands', 2, 'commands'));
+      result.push(contentService.blockHeading('Command overview', 2, 'command-overview'));
+      result.push(contentService.blockText(commanderDescription));
       result.push(contentService.blockText(summaryArr.join(contentService.EOL)));
-      result.push(contentService.blockHeading('Reference', 2, 'reference'));
+      result.push(contentService.blockHeading('Command reference', 2, 'command-reference'));
       result.push(...detailBlocks);
       // result
       return result;
@@ -214,7 +216,7 @@ export class TemplateService {
     const sections: Rendering = {
       commands: [
         'Cli',
-        'CUSTOM',
+        'CUSTOM_CLI',
         {
           ...(convertings['commands'] || {}),
           convert: customConvert,

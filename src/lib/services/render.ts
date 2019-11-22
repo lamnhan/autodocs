@@ -284,10 +284,6 @@ export class RenderService {
         else if (sectionName === 'license') {
           sectionBlocks = this.getDataLicense();
         }
-        // attr
-        else if (sectionName === 'attr') {
-          sectionBlocks = this.getDataAttr();
-        }
         // toc, tocx ...
         else {
           sectionBlocks = [];
@@ -423,17 +419,6 @@ export class RenderService {
         [
           '## License',
           `**${name}** is released under the [${license}](${licenseUrl}) license.`,
-        ]
-      ),
-    ];
-  }
-
-  private getDataAttr() {
-    return [
-      this.contentService.blockText(
-        [
-          '---',
-          `⚡️ This document is generated automatically using [@lamnhan/docsuper](https://github.com/lamnhan/docsuper).`,
         ]
       ),
     ];

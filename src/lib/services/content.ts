@@ -40,7 +40,7 @@ export interface TableBlock {
 }
 
 export class ContentService {
-  EOL = '\r\n';
+  EOL = '\n';
   EOL2X = this.EOL.repeat(2);
 
   constructor(private projectService: ProjectService) {}

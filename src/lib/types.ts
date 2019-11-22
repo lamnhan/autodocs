@@ -24,10 +24,6 @@ export interface Options {
    */
   typedocConfigs?: TypedocConfigs;
   /**
-   * No generator footer attribution
-   */
-  noAttr?: boolean;
-  /**
    * Output as standalone file
    */
   fileRender?: BatchRender;
