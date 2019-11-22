@@ -2,11 +2,11 @@ Documentation is a crucial part of every great open-source projects. But making 
 
 Since [Typescript](https://www.typescriptlang.org) is an self documenting language, we can leverage its power to extract the source code information. This library is based on [Typedoc](https://typedoc.org), one of the best tool for generating Typescript documentation.
 
-**docsuper** is a tool for generating documentation directly from the source code. It can be used to generate standalone markdown files or a full documentation website.
+**ayedocs** is a tool for generating documentation directly from the source code. It can be used to generate standalone markdown files or a full documentation website.
 
 ## Use cases
 
-We can always manually create files with content. But for some situations, using **docsuper** can be very helpful.
+We can always manually create files with content. But for some situations, using **ayedocs** can be very helpful.
 
 ### Listing options
 
@@ -22,7 +22,7 @@ interface Options {
 
 You may document it by copy the source code, because it is Typescript so any developer can understand what you mean.
 
-Or, using **docsuper** you can output a beautiful table listing the options with a simple config:
+Or, using **ayedocs** you can output a beautiful table listing the options with a simple config:
 
 ```ts
 {
@@ -71,8 +71,8 @@ Use the `angular` template to listing all modules, services, components, pipes o
 
 ## The workflow
 
-Adding **docsuper** to any project in 3 simple steps:
+Adding **ayedocs** to any project in 3 simple steps:
 
 1. (Optional) Documenting the source code with [TSdoc](https://github.com/microsoft/tsdoc)
-2. Add **configuration** to `package.json` or `docsuper.config.js`
-3. Run `docsuper generate` to generate content
+2. Add **configuration** to `package.json` or `ayedocs.config.js`
+3. Run `ayedocs generate` to generate content

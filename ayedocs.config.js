@@ -1,5 +1,5 @@
 module.exports = {
-  url: 'https://lamnhan.com/docsuper',
+  url: 'https://lamnhan.com/ayedocs',
   typedocConfigs: {
     readme: 'none',
   },

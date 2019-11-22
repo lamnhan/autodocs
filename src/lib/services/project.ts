@@ -17,7 +17,7 @@ interface PackageJson {
     url: string;
   };
   // options
-  '@lamnhan/docsuper': Options;
+  '@lamnhan/ayedocs': Options;
 }
 
 type ProjectOptions = {
@@ -25,7 +25,7 @@ type ProjectOptions = {
 };
 
 export class ProjectService {
-  private defaultConfigPath = 'docsuper.config.js';
+  private defaultConfigPath = 'ayedocs.config.js';
   private defaultPackagePath = 'package.json';
 
   private package: PackageJson;
@@ -71,7 +71,7 @@ export class ProjectService {
     return this.getOptions(
       pathExistsSync(this.defaultConfigPath)
       ? this.defaultConfigPath
-      : this.package['@lamnhan/docsuper'] || {}
+      : this.package['@lamnhan/ayedocs'] || {}
     );
   }
 

@@ -1,8 +1,8 @@
-**docsuper** recieve the render input and returns the content, simple that is.
+**ayedocs** recieve the render input and returns the content, simple that is.
 
 A render input can be **a path to a .md file** (`file`), **a template name** (`template`), **a custom rendering** (`rendering`).
 
-The CLI load configuration from `package.json` or `docsuper.config.js`. See [[Options]] section for detail. Using the API, config can be provided directly when init the module.
+The CLI load configuration from `package.json` or `ayedocs.config.js`. See [[Options]] section for detail. Using the API, config can be provided directly when init the module.
 
 For example, my project has the `package.json` like this:
 
@@ -10,7 +10,7 @@ For example, my project has the `package.json` like this:
 {
   "name": "my-package",
   "description": "My package description.",
-  "@lamnhan/docsuper": {
+  "@lamnhan/ayedocs": {
     "url": "https://docs.example.com",
     "fileRender": {
       "TEST.md": {
@@ -22,7 +22,7 @@ For example, my project has the `package.json` like this:
 }
 ```
 
-With the configuration above (inside the `@lamnhan/docsuper` key), you tell the CLI to create a file named `TEST.md` with two sections:
+With the configuration above (inside the `@lamnhan/ayedocs` key), you tell the CLI to create a file named `TEST.md` with two sections:
 
 - The `head` section: a [built-in](#renderer) section that display the package name and description.
 - The `section1` section: a [rendering](#rendering-input) section that display the source code element title and description.

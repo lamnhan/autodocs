@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import * as commander from 'commander';
-import { docsuper, DocsuperModule } from '../public-api';
+import { ayedocs, DocsuperModule } from '../public-api';
 
 import { GenerateCommand } from './commands/generate';
 import { ShowCommand } from './commands/show';
@@ -15,7 +15,7 @@ export class Cli {
   private showCommand: ShowCommand;
   private previewCommand: PreviewCommand;
 
-  commander = ['docsuper', 'Document generator for Typescript projects.'];
+  commander = ['ayedocs', 'Document generator for Typescript projects.'];
 
   /**
    * @params [input] - The rendering input
@@ -45,7 +45,7 @@ export class Cli {
   ];
 
   constructor() {
-    this.docsuperModule = docsuper();
+    this.docsuperModule = ayedocs();
     this.generateCommand = new GenerateCommand(this.docsuperModule);
     this.showCommand = new ShowCommand(this.docsuperModule.Parse);
     this.previewCommand = new PreviewCommand(

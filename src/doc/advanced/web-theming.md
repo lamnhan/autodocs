@@ -8,7 +8,7 @@ You can provide custom theme for render website.
 }
 ```
 
-A **docsuper** theme may contains:
+A **ayedocs** theme may contains:
 
 - `.html`: the main template file
 - `assets` (optional): custom assets folder

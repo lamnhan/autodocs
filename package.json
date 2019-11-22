@@ -1,14 +1,14 @@
 {
-  "name": "@lamnhan/docsuper",
+  "name": "@lamnhan/ayedocs",
   "version": "0.0.3",
-  "description": "Document generator for Typescript projects.",
+  "description": "A Docs-o-matic document generator for Typescript projects.",
   "author": "Lam Nhan",
   "homepage": "https://lamnhan.com",
   "license": "MIT",
   "main": "./src/public-api.js",
   "typings": "./src/public-api.d.ts",
   "bin": {
-    "docsuper": "./src/index.js"
+    "ayedocs": "./src/index.js"
   },
   "files": [
     "src",
@@ -20,7 +20,7 @@
     "lint": "gts check",
     "fix": "gts fix",
     "build": "npm run compile && npm i -g",
-    "docs": "docsuper generate",
+    "docs": "ayedocs generate",
     "test": "npm run compile && nyc --cache false mocha test/**/*.js",
     "coverage": "nyc --cache false report --reporter=text-lcov | coveralls"
   },
@@ -31,10 +31,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/lamnhan/docsuper.git"
+    "url": "https://github.com/lamnhan/ayedocs.git"
   },
   "bugs": {
-    "url": "https://github.com/lamnhan/docsuper/issues"
+    "url": "https://github.com/lamnhan/ayedocs/issues"
   },
   "dependencies": {
     "app-root-path": "^3.0.0",

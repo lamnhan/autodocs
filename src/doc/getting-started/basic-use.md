@@ -11,7 +11,7 @@ To render one or more standalone files, great for markdown files such as `README
 Put your config under the `fileRender` key of the [[Options]].
 
 ```js
-// docsuper.config.js
+// ayedocs.config.js
 module.exports = {
   fileRender: {
     'README.md': 'basic'
@@ -26,7 +26,7 @@ To render all files as a website, great for the `docs` site for Github pages.
 Put rendering config under the `webRender` key.
 
 ```js
-// docsuper.config.js
+// ayedocs.config.js
 module.exports = {
   webRender: {
     files: {

@@ -11,7 +11,7 @@ import { TemplateService } from './services/template';
 import { WebService } from './services/web';
 
 /**
- * The Docsuper module
+ * The Ayedocs module
  */
 export class Main {
   private projectService: ProjectService;

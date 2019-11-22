@@ -1,6 +1,6 @@
 export * from './lib/types';
 export { Main as DocsuperModule } from './lib/main';
-export { main as docsuper } from './lib/index';
+export { main as ayedocs } from './lib/index';
 
 export * from './lib/declaration';
 
