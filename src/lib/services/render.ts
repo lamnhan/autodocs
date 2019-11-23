@@ -11,45 +11,57 @@ import { WebData, WebService } from './web';
 import { RendererData, RendererFileData, Renderer } from '../renderer';
 
 /**
- * Rendering unit
+ * Advanced rendering unit
  * 
  * true = builtin
  * string = file path
- * SectionRendering = single/multile block rendering
+ * SectionRender = single/multile block rendering
  */
-export interface Rendering {
-  [section: string]: true | string | SectionRendering;
+export interface AdvancedRendering {
+  [section: string]: SectionRender;
 }
 
-export type SectionRendering =
-  | BlockRendering // single
-  | BlockRendering[]; // multiple
+export type DeclarationRender = [string, string?, ConvertOptions?];
 
-export type BlockRendering = ContentBlock | DeclarationRendering;
+export type BlockRender = ContentBlock | DeclarationRender;
 
-export type DeclarationRendering = [string, string?, ConvertOptions?];
+export type SectionRender =
+  | true // builtin
+  | string // direct file
+  | DeclarationRender // direct declaration
+  | BlockRender[] // multiple blocks
+  | SectionRenderWithOptions; // with options
 
-export type RenderInput = 
+export interface SectionRenderWithOptions
+  extends
+  RenderFileOptions {
+  file?: string;
+}
+
+/**
+ * Input for a file
+ */
+export type FileRender = 
   | string // direct file
   | BuiltinTemplate // direct template
-  | Rendering // direct rendering
-  | RenderWithOptions; // with options
+  | AdvancedRendering // direct advanced rendering
+  | FileRenderWithOptions; // with options
 
-export interface RenderWithOptions
+export interface FileRenderWithOptions
   extends
-  LocalRenderOptions,
-  TemplateRenderOptions,
-  WebRenderOptions,
-  FileRenderOptions {
+  RenderLocalOptions,
+  RenderWebOptions,
+  RenderTemplateOptions,
+  RenderFileOptions {
     template?: BuiltinTemplate;
     file?: string;
-    rendering?: Rendering;
+    rendering?: AdvancedRendering;
 }
 
 /**
  * Local options override any corresponding global options
  */
-export interface LocalRenderOptions {
+export interface RenderLocalOptions {
   /**
    * Ignore global sections (current content will be replaced) 
    */
@@ -59,7 +71,7 @@ export interface LocalRenderOptions {
 /**
  * Web options provides more information for a web page
  */
-export interface WebRenderOptions {
+export interface RenderWebOptions {
   /**
    * The page title
    */
@@ -77,7 +89,7 @@ export interface WebRenderOptions {
 /**
  * Additional option for file rendering
  */
-export interface FileRenderOptions {
+export interface RenderFileOptions {
   /**
    * Offset all the headings
    */
@@ -91,7 +103,7 @@ export interface FileRenderOptions {
 /**
  * Additional option for template rendering
  */
-export interface TemplateRenderOptions {
+export interface RenderTemplateOptions {
   /**
    * Custom convert options by sections
    */
@@ -99,15 +111,15 @@ export interface TemplateRenderOptions {
   /**
    * Sections to be appended before template sections
    */
-  topSecs?: Rendering;
+  topSecs?: AdvancedRendering;
   /**
    * Sections to be appended after template sections
    */
-  bottomSecs?: Rendering;
+  bottomSecs?: AdvancedRendering;
 }
 
 export interface BatchRender {
-  [path: string]: RenderInput;
+  [path: string]: FileRender;
 }
 
 export interface RenderResult {
@@ -165,14 +177,14 @@ export class RenderService {
 
   getData(
     path: string,
-    renderInput: RenderInput,
+    renderInput: FileRender,
     currentContent: ContentBySections = {}
   ) {
     const { cleanOutput: globalCleanOutput } = this.projectService.OPTIONS;
     // process input
     const { rendering, renderOptions } = this.processRenderInput(renderInput);
     // get data by rendering
-    const renderingData = this.getRenderingData(rendering, renderOptions);
+    const renderingData = this.getRenderingData(rendering);
     // merge data
     const { cleanOutput: localCleanOutput } = renderOptions;
     const data: {
@@ -267,14 +279,23 @@ export class RenderService {
     } as RendererFileData;
   }
 
-  getRenderingData(rendering: Rendering, renderOptions: RenderWithOptions = {}) {
+  getRenderingData(rendering: AdvancedRendering) {
     const result: {[section: string]: RenderResult} = {};
     // get data for every section
     Object.keys(rendering).forEach(sectionName => {
-      const sectionRendering = rendering[sectionName];
       let sectionResult: RenderResult;
-      // build-in sections
-      if (sectionRendering === true) {
+      // process section rendering
+      let renderValue = rendering[sectionName];
+      let renderOptions: RenderFileOptions = {};
+      // file with options
+      if (renderValue instanceof Object && !(renderValue instanceof Array)) {
+        if (!!renderValue.file) {
+          renderOptions = renderValue;
+          renderValue = renderValue.file;
+        }
+      }
+      // build-in
+      if (renderValue === true) {
         let sectionBlocks: ContentBlock[] = [];
         // head
         if (sectionName === 'head') {
@@ -292,18 +313,19 @@ export class RenderService {
         sectionResult = { src: 'true', value: sectionBlocks };
       }
       // file
-      else if (typeof sectionRendering === 'string') {
-        const { headingOffset } = renderOptions as FileRenderOptions;
-        const filePath = sectionRendering.replace('@', 'src/');
+      else if (typeof renderValue === 'string') {
+        const filePath = renderValue.replace('@', 'src/');
         let content = 'TODO';
         if (pathExistsSync(filePath)) {
           content = this.contentService.readFileSync(filePath);
+          // modifications
+          const { headingOffset } = renderOptions;
           if (!!headingOffset) {
             content = this.contentService.modifyHeadings(content, headingOffset);
           }
         }
         sectionResult = {
-          src: sectionRendering,
+          src: renderValue,
           value: content,
         };
       }
@@ -312,12 +334,12 @@ export class RenderService {
         const declarationBlocks: ContentBlock[] = [];
         // turn single block rendering to multiple
         const blockRenderings =
-          sectionRendering instanceof Array &&
-          sectionRendering[0] instanceof Object // array or object
+          renderValue instanceof Array &&
+          renderValue[0] instanceof Object // array or object
             ? // blocks or multi declarations
-              (sectionRendering as BlockRendering[])
+              (renderValue as BlockRender[])
             : // a block or single declaration
-              [sectionRendering as BlockRendering];
+              [renderValue as DeclarationRender];
         // get section blocks
         blockRenderings.forEach(blockRendering => {
           // declaration
@@ -351,9 +373,9 @@ export class RenderService {
     return result;
   }
 
-  private processRenderInput(renderInput: RenderInput) {
-    let rendering: Rendering = {};
-    let renderOptions: RenderWithOptions = {};
+  private processRenderInput(renderInput: FileRender) {
+    let rendering: AdvancedRendering = {};
+    let renderOptions: FileRenderWithOptions = {};
     // file input
     if (
       typeof renderInput === 'string' &&
@@ -373,7 +395,7 @@ export class RenderService {
       !renderInput.rendering &&
       !renderInput.file
     ) {
-      rendering = renderInput as Rendering;
+      rendering = renderInput as AdvancedRendering;
     }
     // with options
     else {
@@ -382,13 +404,13 @@ export class RenderService {
         ? // template
           this.templateService.getTemplate(
             renderInput.template as BuiltinTemplate,
-            renderInput as TemplateRenderOptions,
+            renderInput as RenderTemplateOptions,
           )
         : !!renderInput.file
         ? // file
           { content: renderInput.file }
         : // rendering
-          renderInput.rendering as Rendering;
+          renderInput.rendering as AdvancedRendering;
       // set options
       renderOptions = renderInput;
     }

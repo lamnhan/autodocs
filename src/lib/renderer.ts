@@ -1,7 +1,7 @@
 import { ProjectService } from './services/project';
 import { HeadingBlock, ContentService } from './services/content';
 import { ParseService } from './services/parse';
-import { RenderWithOptions } from './services/render';
+import { FileRenderWithOptions } from './services/render';
 import { WebService } from './services/web';
 
 export interface RendererData {
@@ -11,7 +11,7 @@ export interface RendererData {
 export interface RendererFileData {
   headings: HeadingBlock[];
   content: string;
-  options: RenderWithOptions;
+  options: FileRenderWithOptions;
 }
 
 export class Renderer {
@@ -19,7 +19,7 @@ export class Renderer {
   private webOutput: boolean;
   private heading: {[path: string]: HeadingBlock[]} = {};
   private content: {[path: string]: string} = {};
-  private option: {[path: string]: RenderWithOptions} = {};
+  private option: {[path: string]: FileRenderWithOptions} = {};
 
   constructor(
     private projectService: ProjectService,

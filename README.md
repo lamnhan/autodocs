@@ -39,6 +39,28 @@ You may want to put a script in the `package.json`, so you can do `npm run docs`
 
 See the documentation at: <https://lamnhan.com/ayedocs>
 
+## What & how?
+
+**@lamnhan/ayedocs** is mainly used to extract content & generate document from a Typescript source code, you start by providing instructions in the configuration.
+
+An example configuration:
+
+```js
+module.exports = {
+  fileRender: {
+    'README.md': {
+      head: true,
+      main: ["Main", "FULL"]
+      license: true
+    }
+  }
+}
+```
+
+With the above config, you can run `ayedocs generate`, the result will be a `README.md` file with 3 sections as described in the config. Simple that is!
+
+See some useful [use cases](https://lamnhan.com/ayedocs/introduction.html#use-cases) to see if it fits your need.
+
 </section>
 
 <section id="license" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">

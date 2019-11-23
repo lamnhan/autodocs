@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>FileRenderOptions | @lamnhan/ayedocs</title>
+	<title>RenderLocalOptions | @lamnhan/ayedocs</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../index.html">Globals</a>
 				</li>
 				<li>
-					<a href="filerenderoptions.html">FileRenderOptions</a>
+					<a href="renderlocaloptions.html">RenderLocalOptions</a>
 				</li>
 			</ul>
-			<h1>Interface FileRenderOptions</h1>
+			<h1>Interface RenderLocalOptions</h1>
 		</div>
 	</div>
 </header>
@@ -67,7 +67,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Additional option for file rendering</p>
+						<p>Local options override any corresponding global options</p>
 					</div>
 				</div>
 			</section>
@@ -75,10 +75,10 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">FileRenderOptions</span>
+						<span class="target">RenderLocalOptions</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<a href="renderwithoptions.html" class="tsd-signature-type">RenderWithOptions</a>
+								<a href="filerenderwithoptions.html" class="tsd-signature-type">FileRenderWithOptions</a>
 							</li>
 						</ul>
 					</li>
@@ -91,8 +91,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filerenderoptions.html#autotoc" class="tsd-kind-icon">autoTOC</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="filerenderoptions.html#headingoffset" class="tsd-kind-icon">heading<wbr>Offset</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="renderlocaloptions.html#cleanoutput" class="tsd-kind-icon">clean<wbr>Output</a></li>
 							</ul>
 						</section>
 					</div>
@@ -101,32 +100,17 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="autotoc" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> autoTOC</h3>
-					<div class="tsd-signature tsd-kind-icon">autoTOC<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="cleanoutput" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> clean<wbr>Output</h3>
+					<div class="tsd-signature tsd-kind-icon">clean<wbr>Output<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/32dd572/src/lib/services/render.ts#L88">lib/services/render.ts:88</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/e6401fc/src/lib/services/render.ts#L68">lib/services/render.ts:68</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Extract all headings</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="headingoffset" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> heading<wbr>Offset</h3>
-					<div class="tsd-signature tsd-kind-icon">heading<wbr>Offset<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/32dd572/src/lib/services/render.ts#L84">lib/services/render.ts:84</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Offset all the headings</p>
+							<p>Ignore global sections (current content will be replaced)</p>
 						</div>
 					</div>
 				</section>
@@ -145,13 +129,10 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="filerenderoptions.html" class="tsd-kind-icon">File<wbr>Render<wbr>Options</a>
+						<a href="renderlocaloptions.html" class="tsd-kind-icon">Render<wbr>Local<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="filerenderoptions.html#autotoc" class="tsd-kind-icon">autoTOC</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="filerenderoptions.html#headingoffset" class="tsd-kind-icon">heading<wbr>Offset</a>
+								<a href="renderlocaloptions.html#cleanoutput" class="tsd-kind-icon">clean<wbr>Output</a>
 							</li>
 						</ul>
 					</li>

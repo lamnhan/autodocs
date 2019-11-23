@@ -1,16 +1,13 @@
 import chalk from 'chalk';
 import * as commander from 'commander';
-import { ayedocs, DocsuperModule } from '../public-api';
 
+import { ayedocs, DocsuperModule } from '../public-api';
 import { GenerateCommand } from './commands/generate';
 import { ShowCommand } from './commands/show';
 import { PreviewCommand } from './commands/preview';
 
-type CommandDef = [string, string, ...Array<[string, string]>];
-
 export class Cli {
   private docsuperModule: DocsuperModule;
-
   private generateCommand: GenerateCommand;
   private showCommand: ShowCommand;
   private previewCommand: PreviewCommand;
@@ -65,14 +62,18 @@ export class Cli {
     // show
     (() => {
       const [command, description] = this.showCommandDef;
-      commander.command(command).description(description)
+      commander
+        .command(command)
+        .description(description)
         .action(input => this.showCommand.run(input));
     })();
 
     // preview
     (() => {
       const [command, description] = this.previewCommandDef;
-      commander.command(command).description(description)
+      commander
+        .command(command)
+        .description(description)
         .action((input, output, params) => this.previewCommand.run(input, output, params));
     })();
 
@@ -85,18 +86,22 @@ export class Cli {
         packageOpt,
         templateOpt
       ] = this.generateCommandDef;
-      commander.command(command).description(description)
+      commander
+        .command(command)
+        .description(description)
         .option(...configOpt) // -c, --config
         .option(...packageOpt) // -c, --package
         .option(...templateOpt) // -t, --template
         .action((path, options) => this.generateCommand.run(path, options));
     })();
 
+    // help
     commander
       .command('help')
       .description('Display help.')
       .action(() => commander.outputHelp());
 
+    // *
     commander
       .command('*')
       .description('Any other command is not supported.')
@@ -108,3 +113,5 @@ export class Cli {
   }
 
 }
+
+type CommandDef = [string, string, ...Array<[string, string]>];

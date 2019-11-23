@@ -93,20 +93,20 @@ module.exports = {
       'advanced/file-render-options.html': {
         pageTitle: 'File render options',
         rendering: {
-          filerenderoptions: ['FileRenderOptions', 'FULL'],
+          renderfileoptions: ['RenderFileOptions', 'FULL'],
         }
       },
       'advanced/template-render-options.html': {
         pageTitle: 'Template render options',
         rendering: {
-          templaterenderoptions: ['TemplateRenderOptions', 'FULL']
+          rendertemplateoptions: ['RenderTemplateOptions', 'FULL']
         }
       },
       'advanced/more-options.html': {
         pageTitle: 'More render options',
         rendering: {
-          localrenderoptions: ['LocalRenderOptions', 'FULL'],
-          webrenderoptions: ['WebRenderOptions', 'FULL']
+          renderlocaloptions: ['RenderLocalOptions', 'FULL'],
+          renderweboptions: ['RenderWebOptions', 'FULL']
         }
       },
       'advanced/advanced-rendering-options.html': {

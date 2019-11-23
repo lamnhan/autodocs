@@ -6,7 +6,7 @@ import { ContentService } from './services/content';
 import { LoadService } from './services/load';
 import { ParseService } from './services/parse';
 import { ConvertService } from './services/convert';
-import { RenderInput, RenderService } from './services/render';
+import { FileRender, RenderService } from './services/render';
 import { TemplateService } from './services/template';
 import { WebService } from './services/web';
 
@@ -116,7 +116,7 @@ export class Main {
    * @param path - Path to file
    * @param renderInput - Render input
    */
-  render(path: string, renderInput: RenderInput) {
+  render(path: string, renderInput: FileRender) {
     return this.renderService
       .render({
         [path]: renderInput
@@ -139,7 +139,7 @@ export class Main {
    * @param path - Path to the document
    * @param renderInput - Render input
    */
-  output(path: string, renderInput: RenderInput) {
+  output(path: string, renderInput: FileRender) {
     const content = this.render(path, renderInput);
     return this.contentService.writeFileSync(path, content);
   }

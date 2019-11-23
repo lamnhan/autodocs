@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>LocalRenderOptions | @lamnhan/ayedocs</title>
+	<title>RenderTemplateOptions | @lamnhan/ayedocs</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../index.html">Globals</a>
 				</li>
 				<li>
-					<a href="localrenderoptions.html">LocalRenderOptions</a>
+					<a href="rendertemplateoptions.html">RenderTemplateOptions</a>
 				</li>
 			</ul>
-			<h1>Interface LocalRenderOptions</h1>
+			<h1>Interface RenderTemplateOptions</h1>
 		</div>
 	</div>
 </header>
@@ -67,7 +67,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Local options override any corresponding global options</p>
+						<p>Additional option for template rendering</p>
 					</div>
 				</div>
 			</section>
@@ -75,10 +75,10 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">LocalRenderOptions</span>
+						<span class="target">RenderTemplateOptions</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<a href="renderwithoptions.html" class="tsd-signature-type">RenderWithOptions</a>
+								<a href="filerenderwithoptions.html" class="tsd-signature-type">FileRenderWithOptions</a>
 							</li>
 						</ul>
 					</li>
@@ -91,7 +91,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="localrenderoptions.html#cleanoutput" class="tsd-kind-icon">clean<wbr>Output</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rendertemplateoptions.html#bottomsecs" class="tsd-kind-icon">bottom<wbr>Secs</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rendertemplateoptions.html#convertings" class="tsd-kind-icon">convertings</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="rendertemplateoptions.html#topsecs" class="tsd-kind-icon">top<wbr>Secs</a></li>
 							</ul>
 						</section>
 					</div>
@@ -100,17 +102,55 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="cleanoutput" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> clean<wbr>Output</h3>
-					<div class="tsd-signature tsd-kind-icon">clean<wbr>Output<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="bottomsecs" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> bottom<wbr>Secs</h3>
+					<div class="tsd-signature tsd-kind-icon">bottom<wbr>Secs<span class="tsd-signature-symbol">:</span> <a href="advancedrendering.html" class="tsd-signature-type">AdvancedRendering</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/32dd572/src/lib/services/render.ts#L56">lib/services/render.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/e6401fc/src/lib/services/render.ts#L118">lib/services/render.ts:118</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Ignore global sections (current content will be replaced)</p>
+							<p>Sections to be appended after template sections</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="convertings" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> convertings</h3>
+					<div class="tsd-signature tsd-kind-icon">convertings<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/e6401fc/src/lib/services/render.ts#L110">lib/services/render.ts:110</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Custom convert options by sections</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-index-signature">
+								<h5><span class="tsd-signature-symbol">[</span>section: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="convertoptions.html" class="tsd-signature-type">ConvertOptions</a></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="topsecs" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> top<wbr>Secs</h3>
+					<div class="tsd-signature tsd-kind-icon">top<wbr>Secs<span class="tsd-signature-symbol">:</span> <a href="advancedrendering.html" class="tsd-signature-type">AdvancedRendering</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/e6401fc/src/lib/services/render.ts#L114">lib/services/render.ts:114</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Sections to be appended before template sections</p>
 						</div>
 					</div>
 				</section>
@@ -129,10 +169,16 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="localrenderoptions.html" class="tsd-kind-icon">Local<wbr>Render<wbr>Options</a>
+						<a href="rendertemplateoptions.html" class="tsd-kind-icon">Render<wbr>Template<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="localrenderoptions.html#cleanoutput" class="tsd-kind-icon">clean<wbr>Output</a>
+								<a href="rendertemplateoptions.html#bottomsecs" class="tsd-kind-icon">bottom<wbr>Secs</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="rendertemplateoptions.html#convertings" class="tsd-kind-icon">convertings</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="rendertemplateoptions.html#topsecs" class="tsd-kind-icon">top<wbr>Secs</a>
 							</li>
 						</ul>
 					</li>

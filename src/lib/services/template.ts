@@ -1,5 +1,5 @@
 import { AdditionalConvert } from './convert';
-import { Rendering, TemplateRenderOptions } from './render';
+import { AdvancedRendering, RenderTemplateOptions } from './render';
 import { ContentBlock } from './content';
 
 export type BuiltinTemplate =
@@ -12,10 +12,10 @@ export class TemplateService {
 
   constructor() {}
 
-  getTemplate(name: BuiltinTemplate, options: TemplateRenderOptions = {}) {
+  getTemplate(name: BuiltinTemplate, options: RenderTemplateOptions = {}) {
     const { topSecs = {}, bottomSecs = {} } = options;
     // get template
-    let templateSecs: Rendering;
+    let templateSecs: AdvancedRendering;
     switch (name) {
       case 'basic':
       case 'basicx':
@@ -44,18 +44,18 @@ export class TemplateService {
     };
   }
 
-  private getBasicTemplate(options: TemplateRenderOptions = {}, extra = false) {
+  private getBasicTemplate(options: RenderTemplateOptions = {}, extra = false) {
     const { convertings = {} } = options;
-    const sections: Rendering = {
+    const sections: AdvancedRendering = {
       options: ['Options', 'FULL', convertings['options'] || {}],
       main: ['Main', 'FULL', convertings['main'] || {}],
     };
     return this.createRendering(sections, extra);
   }
 
-  private getFullTemplate(options: TemplateRenderOptions = {}, extra = false) {
+  private getFullTemplate(options: RenderTemplateOptions = {}, extra = false) {
     const { convertings = {} } = options;
-    const sections: Rendering = {
+    const sections: AdvancedRendering = {
       functions: ['*', 'FULL_FUNCTIONS', convertings['functions'] || {}],
       interfaces: [
         '*',
@@ -70,9 +70,9 @@ export class TemplateService {
     return this.createRendering(sections, extra);
   }
 
-  private getAngularTemplate(options: TemplateRenderOptions = {}, extra = false) {
+  private getAngularTemplate(options: RenderTemplateOptions = {}, extra = false) {
     const { convertings = {} } = options;
-    const sections: Rendering = {
+    const sections: AdvancedRendering = {
       modules: [
         {
           type: 'heading',
@@ -153,7 +153,7 @@ export class TemplateService {
     return this.createRendering(sections, extra);
   }
 
-  private getCLITemplate(options: TemplateRenderOptions = {}, extra = false) {
+  private getCLITemplate(options: RenderTemplateOptions = {}, extra = false) {
     const { convertings = {} } = options;
     const customConvert: AdditionalConvert = (declaration, options, contentService) => {
       const commanderProp = declaration.getChild('commander');
@@ -213,7 +213,7 @@ export class TemplateService {
       // result
       return result;
     };
-    const sections: Rendering = {
+    const sections: AdvancedRendering = {
       commands: [
         'Cli',
         'CUSTOM_CLI',
@@ -226,7 +226,7 @@ export class TemplateService {
     return this.createRendering(sections, extra);
   }
 
-  private createRendering(rendering: Rendering = {}, extra = false) {
+  private createRendering(rendering: AdvancedRendering = {}, extra = false) {
     const sections = Object.keys(rendering);
     // extra
     if (extra) {
@@ -234,7 +234,7 @@ export class TemplateService {
       sections.push('license');
     }
     // build template
-    const result: Rendering = {};
+    const result: AdvancedRendering = {};
     sections.forEach(name => result[name] = rendering[name] || true);
     // result
     return result;
