@@ -337,7 +337,11 @@
             </p>
             <p>The source file should puts top headings at level 2.</p>
             <pre><code class="language-ts">{
-  <span class="hljs-string">'TEST.md'</span>: <span class="hljs-string">'src/doc/test.md'</span>, <span class="hljs-comment">// or `@doc/test.md`</span>
+  <span class="hljs-string">'TEST.md'</span>: <span class="hljs-string">'src/doc/test.md'</span>, <span class="hljs-comment">// or @doc/test.md</span>
+}</code></pre>
+            <p>You can also use default file path:</p>
+            <pre><code class="language-ts">{
+  <span class="hljs-string">'file1.html'</span>: <span class="hljs-literal">true</span> <span class="hljs-comment">// true = @doc/file1.md = src/doc/file1.md</span>
 }</code></pre>
 
             <a

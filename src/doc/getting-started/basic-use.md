@@ -54,7 +54,15 @@ The source file should puts top headings at level 2.
 
 ```ts
 {
-  'TEST.md': 'src/doc/test.md', // or `@doc/test.md`
+  'TEST.md': 'src/doc/test.md', // or @doc/test.md
+}
+```
+
+You can also use default file path:
+
+```ts
+{
+  'file1.html': true // true = @doc/file1.md = src/doc/file1.md
 }
 ```
 

@@ -20,28 +20,28 @@ module.exports = {
     },
     files: {
       'introduction.html': {
+        file: true,
         pageTitle: 'Introduction',
         deepMenu: true,
-        autoTOC: true,
-        file: '@doc/introduction.md'
+        autoTOC: true
       },
       'getting-started/installation.html': {
+        file: true,
         pageTitle: 'Installation',
         autoTOC: true,
-        file: '@doc/getting-started/installation.md'
       },
       'getting-started/how-it-works.html': {
-        pageTitle: 'How it works?',
-        file: '@doc/getting-started/how-it-works.md'
+        file: true,
+        pageTitle: 'How it works?'
       },
       'getting-started/the-source-code.html': {
-        pageTitle: 'Understand the code',
-        file: '@doc/getting-started/the-source-code.md'
+        file: true,
+        pageTitle: 'Understand the code'
       },
       'getting-started/basic-use.html': {
+        file: true,
         pageTitle: 'Basic use',
-        autoTOC: true,
-        file: '@doc/getting-started/basic-use.md'
+        autoTOC: true
       },
       'getting-started/options.html': {
         pageTitle: 'Options',
@@ -58,28 +58,28 @@ module.exports = {
         }
       },
       'getting-started/templates.html': {
-        pageTitle: 'Built-in templates',
-        file: '@doc/getting-started/templates.md'
+        file: true,
+        pageTitle: 'Built-in templates'
       },
       'getting-started/convert-outputs.html': {
-        pageTitle: 'Convert outputs',
-        file: '@doc/getting-started/convert-outputs.md'
+        file: true,
+        pageTitle: 'Convert outputs'
       },
       'getting-started/basic-advanced-rendering.html': {
-        pageTitle: 'Basic advanced rendering',
-        file: '@doc/getting-started/basic-advanced-rendering.md'
+        file: true,
+        pageTitle: 'Basic advanced rendering'
       },
       'getting-started/custom-sections.html': {
-        pageTitle: 'Custom sections',
-        file: '@doc/getting-started/custom-sections.md'
+        file: true,
+        pageTitle: 'Custom sections'
       },
       'getting-started/linkings.html': {
-        pageTitle: 'Content linkings',
-        file: '@doc/getting-started/linkings.md'
+        file: true,
+        pageTitle: 'Content linkings'
       },
       'getting-started/inline-render.html': {
-        pageTitle: 'Inline render',
-        file: '@doc/getting-started/inline-render.md'
+        file: true,
+        pageTitle: 'Inline render'
       },
       'the-cli.html': {
         pageTitle: 'The CLI',
@@ -143,16 +143,16 @@ module.exports = {
         }
       },
       'advanced/custom-api-generator.html': {
-        pageTitle: 'Custom API generator',
-        file: '@doc/advanced/custom-api-generator.md'
+        file: true,
+        pageTitle: 'Custom API generator'
       },
       'advanced/web-theming.html': {
-        pageTitle: 'Web theming',
-        file: '@doc/advanced/web-theming.md'
+        file: true,
+        pageTitle: 'Web theming'
       },
       'advanced/web-categories.html': {
-        pageTitle: 'Web categories',
-        file: '@doc/advanced/web-categories.md'
+        file: true,
+        pageTitle: 'Web categories'
       },
     }
   }

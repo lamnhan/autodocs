@@ -42,6 +42,7 @@ export interface SectionRenderWithOptions
  * Input for a file
  */
 export type FileRender = 
+  | true // default file
   | string // direct file
   | BuiltinTemplate // direct template
   | AdvancedRendering // direct advanced rendering
@@ -54,7 +55,7 @@ export interface FileRenderWithOptions
   RenderTemplateOptions,
   RenderFileOptions {
     template?: BuiltinTemplate;
-    file?: string;
+    file?: true | string;
     rendering?: AdvancedRendering;
 }
 
@@ -182,7 +183,7 @@ export class RenderService {
   ) {
     const { cleanOutput: globalCleanOutput } = this.projectService.OPTIONS;
     // process input
-    const { rendering, renderOptions } = this.processRenderInput(renderInput);
+    const { rendering, renderOptions } = this.processRenderInput(renderInput, path);
     // get data by rendering
     const renderingData = this.getRenderingData(rendering);
     // merge data
@@ -400,11 +401,16 @@ export class RenderService {
     return content;
   }
 
-  private processRenderInput(renderInput: FileRender) {
+  private processRenderInput(renderInput: FileRender, path: string) {
     let rendering: AdvancedRendering = {};
     let renderOptions: FileRenderWithOptions = {};
+    // default file
+    const defaultFile = '@doc' + '/' + path.replace('.html', '.md');
+    if (renderInput === true) {
+      rendering = { content: defaultFile };
+    }
     // file input
-    if (
+    else if (
       typeof renderInput === 'string' &&
       renderInput.indexOf('.') !== -1 // a file
     ) {
@@ -435,7 +441,7 @@ export class RenderService {
           )
         : !!renderInput.file
         ? // file
-          { content: renderInput.file }
+          { content: renderInput.file === true ? defaultFile : renderInput.file }
         : // rendering
           renderInput.rendering as AdvancedRendering;
       // set options
