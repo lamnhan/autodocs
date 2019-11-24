@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Understand the code</title>
+    <title>Inline render</title>
 
     <link
       rel="stylesheet"
@@ -97,7 +97,6 @@
                 </li>
                 <li>
                   <a
-                    class="active"
                     href="https://lamnhan.com/ayedocs/getting-started/the-source-code.html"
                     >Understand the code</a
                   >
@@ -146,6 +145,7 @@
                 </li>
                 <li>
                   <a
+                    class="active"
                     href="https://lamnhan.com/ayedocs/getting-started/inline-render.html"
                     >Inline render</a
                   >
@@ -211,101 +211,33 @@
         </aside>
 
         <article class="col-9 content">
-          <div class="title"><h1>Understand the code</h1></div>
+          <div class="title"><h1>Inline render</h1></div>
 
           <section
             id="content"
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
             <p>
-              A Typescript project source code contains many elements with
-              different kinds: <code>Variable/Property</code>,
-              <code>Function/Method</code>, <code>Interface</code>,
-              <code>Class</code>, ...
-            </p>
-            <p>
-              Imagine your source code has 3 files: <code>file1.ts</code>,
-              <code>file2.ts</code>, <code>file3.ts</code>. Each file exports
-              certain elements.
-            </p>
-            <p>
-              But you can see your whole source code as a single flattened file
-              like this:
-            </p>
-            <pre><code class="language-ts"><span class="hljs-comment">// ================== file1.ts ==================</span>
-
-<span class="hljs-comment">/**
- * This is a Variable element named `PI`
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> PI = <span class="hljs-number">3.14</span>;
-
-<span class="hljs-comment">// ================== file2.ts ==================</span>
-
-<span class="hljs-comment">/**
- * This is a Function element named `doSomething`
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSomething</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
-}
-
-<span class="hljs-comment">// ================== file3.ts ==================</span>
-
-<span class="hljs-comment">/**
- * This is an Interface element named `Options`
- *
- * And this is the `Options` element detail.
- *
- * Supports Markdown content.
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> Options {
-  <span class="hljs-comment">/**
-   * This is a Property element named `prop1`
-   */</span>
-  prop1?: <span class="hljs-built_in">string</span>;
-  prop2?: <span class="hljs-built_in">number</span>;
-}
-
-<span class="hljs-comment">/**
- * This is a Class element named `Main`
- *
- * And this is the `Main` element detail.
- *
- * Supports Markdown content.
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Main {
-  property = <span class="hljs-string">"a property"</span>;
-  <span class="hljs-keyword">constructor</span>(<span class="hljs-params"></span>) {}
-  <span class="hljs-comment">/**
-   * This is a Method element named `method1`
-   */</span>
-  method1() {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">"a method"</span>;
-  }
-}</code></pre>
-            <p>
-              To get information, we turn any element of the source code into a
-              <a
-                data-sref="Declaration"
-                href="https://lamnhan.com/ayedocs/api/classes/declaration.html"
-                >Declaration</a
-              >
-              (a source code unit). There are 2 types of
-              <a
-                data-sref="Declaration"
-                href="https://lamnhan.com/ayedocs/api/classes/declaration.html"
-                >Declaration</a
-              >:
+              You can include declaration render inline by using these formats:
             </p>
             <ul>
               <li>
-                <strong>Direct</strong>: for top level elements, such as:
-                <code>Variable</code>, <code>Function</code>,
-                <code>Interface</code>, <code>Class</code> and a
-                <code>Collection</code> of any top level elements.
+                <a data-sref="[Main">[Main</a>] (without <code>\</code>): equals
+                <code>[&quot;Main&quot;]</code>
               </li>
               <li>
-                <strong>Indirect</strong>: for child elements of a top level
-                element, such as: <code>Property</code> and <code>Method</code>.
+                <a data-sref="[Options | FULL"
+                  >{&quot;title&quot;:&quot;The Options&quot;}</a
+                >] (without <code>\</code>): equals
+                <code
+                  >[&quot;Options&quot;, &quot;FULL&quot;, { title: &#39;The
+                  Options&#39; }]</code
+                >
+              </li>
+              <li>{@render Main} (without <code>\</code>)</li>
+              <li>
+                {@render Options | FULL | {&quot;title&quot;:&quot;The
+                Options&quot;}} (without <code>\</code>)
               </li>
             </ul>
           </section>

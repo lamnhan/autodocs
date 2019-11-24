@@ -77,6 +77,10 @@ module.exports = {
         pageTitle: 'Content linkings',
         file: '@doc/getting-started/linkings.md'
       },
+      'getting-started/inline-render.html': {
+        pageTitle: 'Inline render',
+        file: '@doc/getting-started/inline-render.md'
+      },
       'the-cli.html': {
         pageTitle: 'The CLI',
         topSecs: { toc: true },

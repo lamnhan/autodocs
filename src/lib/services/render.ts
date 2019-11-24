@@ -318,6 +318,8 @@ export class RenderService {
         let content = 'TODO';
         if (pathExistsSync(filePath)) {
           content = this.contentService.readFileSync(filePath);
+          // render inline
+          content = this.renderInline(content);
           // modifications
           const { headingOffset } = renderOptions;
           if (!!headingOffset) {
@@ -371,6 +373,31 @@ export class RenderService {
     });
     // result
     return result;
+  }
+
+  private renderInline(content: string) {
+    ([
+      ...(content.match(/\[\[\[[^\]]*\]\]\]/g) || []),
+      ...(content.match(/\{\@render .*\}/g) || [])
+    ]).forEach(item => {
+      const matched1Item = ((/\[\[\[([^\]]*)\]\]\]/.exec(item) || []).pop() || '');
+      const matched2Item = ((/\{\@render (.*)\}/.exec(item) || []).pop() || '');
+      const [
+        input,
+        output = 'SELF',
+        optionsStr
+      ] = (matched1Item || matched2Item).split('|').map(x => x.trim());
+      const declaration = this.parseService.parse(input);
+      const blocks = this.convertService.convert(
+        declaration,
+        output,
+        !!optionsStr ? JSON.parse(optionsStr) : {}
+      );
+      const renderContent = this.contentService.renderContent(blocks);
+      // replace
+      content = content.replace(item, renderContent);
+    });
+    return content;
   }
 
   private processRenderInput(renderInput: FileRender) {
