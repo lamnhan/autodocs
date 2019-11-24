@@ -220,25 +220,21 @@
             <p>
               You can link to any source code element or a content heading
               without worry where they located by using the Typedoc linking
-              syntax or the TSDoc syntax.
+              syntax or the TSDoc syntax (without <code>\</code>).
             </p>
             <ul>
+              <li><code>\[\[Main]]</code>: link to <code>Main</code></li>
               <li>
-                <code>\[\[Main]]</code> (without <code>\</code>): link to
-                <code>Main</code>
+                Or <code>\[\[Main | the Main class]]</code>: link to
+                <code>Main</code> with custom title
               </li>
               <li>
-                <code>\[\[Main | the Main class]]</code> (without
-                <code>\</code>): link to <code>Main</code> with custom title
-              </li>
-              <li>
-                <code>\{\@link a-heading}</code> (without <code>\</code>): link
-                to the heading with id <code>a-heading</code>
-              </li>
-              <li>
-                <code>\{\@link a-heading | A heading}</code> (without
-                <code>\</code>): link to the heading with id
+                Or <code>\{\@link a-heading}</code>: link to the heading with id
                 <code>a-heading</code>
+              </li>
+              <li>
+                Or <code>\{\@link a-heading | A heading}</code>: link to the
+                heading with id <code>a-heading</code>
               </li>
             </ul>
           </section>

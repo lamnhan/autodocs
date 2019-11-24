@@ -218,26 +218,32 @@
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
             <p>
-              You can include declaration render inline by using these formats:
+              You can include declaration render inline by using these formats
+              (without <code>\</code>):
             </p>
             <ul>
               <li>
-                <a data-sref="[Main">[Main</a>] (without <code>\</code>): equals
+                <code>\[\[\[Main]]]</code>: equals
                 <code>[&quot;Main&quot;]</code>
               </li>
               <li>
-                <a data-sref="[Options | FULL"
-                  >{&quot;title&quot;:&quot;The Options&quot;}</a
-                >] (without <code>\</code>): equals
+                Or
+                <code
+                  >\[\[\[Options | FULL | {&quot;title&quot;:&quot;The
+                  Options&quot;}]]]</code
+                >: equals
                 <code
                   >[&quot;Options&quot;, &quot;FULL&quot;, { title: &#39;The
                   Options&#39; }]</code
                 >
               </li>
-              <li>{@render Main} (without <code>\</code>)</li>
+              <li>Or <code>\{\@render Main}</code></li>
               <li>
-                {@render Options | FULL | {&quot;title&quot;:&quot;The
-                Options&quot;}} (without <code>\</code>)
+                Or
+                <code
+                  >\{\@render Options | FULL | {&quot;title&quot;:&quot;The
+                  Options&quot;}}</code
+                >
               </li>
             </ul>
           </section>

@@ -1,6 +1,6 @@
-You can include declaration render inline by using these formats:
+You can include declaration render inline by using these formats (without `\`):
 
-- \[\[\[Main]]] (without `\`): equals `["Main"]`
-- \[\[\[Options | FULL | {"title":"The Options"}]]] (without `\`): equals `["Options", "FULL", { title: 'The Options' }]`
-- \{\@render Main} (without `\`)
-- \{\@render Options | FULL | {"title":"The Options"}} (without `\`)
+- `\[\[\[Main]]]`: equals `["Main"]`
+- Or `\[\[\[Options | FULL | {"title":"The Options"}]]]`: equals `["Options", "FULL", { title: 'The Options' }]`
+- Or `\{\@render Main}`
+- Or `\{\@render Options | FULL | {"title":"The Options"}}`
