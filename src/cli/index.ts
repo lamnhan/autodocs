@@ -1,13 +1,13 @@
 import chalk from 'chalk';
 import * as commander from 'commander';
 
-import { ayedocs, DocsuperModule } from '../public-api';
+import { ayedocs, AyedocsModule } from '../public-api';
 import { GenerateCommand } from './commands/generate';
 import { ShowCommand } from './commands/show';
 import { PreviewCommand } from './commands/preview';
 
 export class Cli {
-  private docsuperModule: DocsuperModule;
+  private ayedocsModule: AyedocsModule;
   private generateCommand: GenerateCommand;
   private showCommand: ShowCommand;
   private previewCommand: PreviewCommand;
@@ -42,13 +42,13 @@ export class Cli {
   ];
 
   constructor() {
-    this.docsuperModule = ayedocs();
-    this.generateCommand = new GenerateCommand(this.docsuperModule);
-    this.showCommand = new ShowCommand(this.docsuperModule.Parse);
+    this.ayedocsModule = ayedocs();
+    this.generateCommand = new GenerateCommand(this.ayedocsModule);
+    this.showCommand = new ShowCommand(this.ayedocsModule.Parse);
     this.previewCommand = new PreviewCommand(
-      this.docsuperModule.Content,
-      this.docsuperModule.Convert,
-      this.docsuperModule.Parse,
+      this.ayedocsModule.Content,
+      this.ayedocsModule.Convert,
+      this.ayedocsModule.Parse,
     );
   }
 

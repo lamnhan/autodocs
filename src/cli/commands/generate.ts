@@ -1,4 +1,4 @@
-import { DocsuperModule, BuiltinTemplate } from '../../public-api';
+import { AyedocsModule, BuiltinTemplate } from '../../public-api';
 
 export interface GenerateCommandOptions {
   config?: string;
@@ -9,23 +9,23 @@ export interface GenerateCommandOptions {
 export class GenerateCommand {
 
   constructor(
-    private docsuperModule: DocsuperModule
+    private ayedocsModule: AyedocsModule
   ) {}
 
   run(path?: string, options: GenerateCommandOptions = {}) {
     const { config, package: packagePath, template = 'mini' } = options;
     // path + template
     if (!!path) {
-      this.docsuperModule.output(path, template);
+      this.ayedocsModule.output(path, template);
     } else {
       // get instance
-      const docsuperModule = !config
-        ? this.docsuperModule
-        : this.docsuperModule.extend(config, packagePath);
+      const ayedocsModule = !config
+        ? this.ayedocsModule
+        : this.ayedocsModule.extend(config, packagePath);
       // generate files
-      docsuperModule.outputLocal();
+      ayedocsModule.outputLocal();
       // generate detail api
-      docsuperModule.generateDocs();
+      ayedocsModule.generateDocs();
     }
   }
 
