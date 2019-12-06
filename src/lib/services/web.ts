@@ -111,7 +111,11 @@ export class WebService {
   }
 
   private themesDir() {
-    const appRoot = '' + APP_ROOT;
+    const localPath = resolve('node_modules', '@lamnhan', 'ayedocs');
+    const appRoot = 
+      pathExistsSync(localPath)
+      ? localPath
+      : ('' + APP_ROOT);
     return resolve(appRoot, 'src', 'lib', 'themes');
   }
 

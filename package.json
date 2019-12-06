@@ -1,6 +1,6 @@
 {
   "name": "@lamnhan/ayedocs",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A Docs-o-matic document generator for Typescript projects.",
   "author": "Lam Nhan",
   "homepage": "https://lamnhan.com",
@@ -38,27 +38,27 @@
   },
   "dependencies": {
     "app-root-path": "^3.0.0",
-    "chalk": "^2.4.2",
-    "commander": "^3.0.2",
+    "chalk": "^3.0.0",
+    "commander": "^4.0.1",
     "fs-extra": "^8.1.0",
     "marked": "^0.7.0",
-    "prettier": "^1.18.2",
-    "tty-table": "^2.8.0",
-    "typedoc": "^0.15.0"
+    "prettier": "^1.19.1",
+    "tty-table": "^2.8.3",
+    "typedoc": "^0.15.3"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.3",
-    "@types/fs-extra": "^8.0.0",
-    "@types/marked": "^0.6.5",
+    "@types/chai": "^4.2.6",
+    "@types/fs-extra": "^8.0.1",
+    "@types/marked": "^0.7.2",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.12",
-    "@types/prettier": "^1.18.3",
+    "@types/node": "^12.12.14",
+    "@types/prettier": "^1.19.0",
     "chai": "^4.2.0",
-    "coveralls": "^3.0.7",
-    "gts": "^1.1.0",
-    "mocha": "^6.2.1",
+    "coveralls": "^3.0.9",
+    "gts": "^1.1.2",
+    "mocha": "^6.2.2",
     "nyc": "^14.1.1",
-    "tslint": "^5.20.0",
-    "typescript": "^3.6.4"
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.3"
   }
 }

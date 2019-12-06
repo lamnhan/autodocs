@@ -1,5 +1,5 @@
 // tslint:disable: no-any
-import chalk from 'chalk';
+import { yellow, green } from 'chalk';
 
 import { ParseService, ConvertService, ContentService } from '../../public-api';
 
@@ -35,8 +35,8 @@ export class PreviewCommand {
           ),
       ']'
     ].join('');
-    console.log(`\nPreview content for ${chalk.yellow(convertInput)}:\n`);
-    console.log(chalk.green(previewContent));
+    console.log(`\nPreview content for ${yellow(convertInput)}:\n`);
+    console.log(green(previewContent));
   }
 
   private extractOptions(params: string[]): {[key: string]: any} {
