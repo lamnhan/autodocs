@@ -1,6 +1,6 @@
 {
   "name": "@lamnhan/ayedocs",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A Docs-o-matic document generator for Typescript projects.",
   "author": "Lam Nhan",
   "homepage": "https://lamnhan.com",

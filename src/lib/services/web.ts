@@ -30,7 +30,7 @@ export class WebService {
     // path
     const indexPath = !websiteIndex
       ? this.defaultIndexPath()
-      : websiteIndex;
+      : this.localPath(websiteIndex);
     // load content
     return this.contentService
       .readFileSync(indexPath)
@@ -134,7 +134,7 @@ export class WebService {
       }
     } = this.projectService.OPTIONS;
     return websiteTheme.substr(-5) === '.html'
-      ? resolve(websiteTheme)
+      ? this.localPath(websiteTheme)
       : this.vendorThemePath(websiteTheme);
   }
 
@@ -142,6 +142,14 @@ export class WebService {
     const paths = this.getThemePath().split(sep);
     paths.pop(); // remove file name
     return paths.join(sep) + sep + 'assets';
+  }
+
+  private localPath(path: string) {
+    return resolve(
+      path
+      .replace('@', 'src/')
+      .replace('~', 'node_modules/')
+    );
   }
 
 }
