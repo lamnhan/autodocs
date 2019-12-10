@@ -1,8 +1,5 @@
 module.exports = {
   url: 'https://lamnhan.com/ayedocs',
-  typedocConfigs: {
-    readme: 'none',
-  },
   cleanOutput: true,
   fileRender: {
     'README.md': {

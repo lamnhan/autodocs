@@ -101,16 +101,22 @@ export class ProjectService {
       files: {},
       ...(options.webRender || {})
     };
+    // typedoc
+    // tslint:disable-next-line: no-any
+    const typedocConfigs: {[key: string]: any} = {};
+    if (!!Object.keys(webRender.files).length) {
+      typedocConfigs['readme'] = 'none';
+    }
     // options
     return {
       url,
       srcPath: 'src',
       apiGenerator: 'typedoc',
-      typedocConfigs: {},
       cleanOutput: false,
       fileRender: {},
       converts: {},
       ...options,
+      typedocConfigs,
       webRender,
     } as ProjectOptions;
   }
