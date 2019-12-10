@@ -189,8 +189,8 @@
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/advanced/custom-api-generator.html"
-                    >Custom API generator</a
+                    href="https://lamnhan.com/ayedocs/advanced/custom-reference-generator.html"
+                    >Custom reference generator</a
                   >
                 </li>
                 <li>
@@ -241,7 +241,7 @@
             <h2>
               <a
                 name="options"
-                href="https://lamnhan.com/ayedocs/api/interfaces/options.html"
+                href="https://lamnhan.com/ayedocs/reference/interfaces/options.html"
                 ><p>The <code>Options</code> interface</p>
               </a>
             </h2>
@@ -259,26 +259,7 @@
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/api/interfaces/options.html#apigenerator"
-                      >apiGenerator?</a
-                    >
-                  </td>
-                  <td>
-                    <code
-                      >"none" | "typedoc" |
-                      <a
-                        href="https://lamnhan.com/ayedocs/api/index.html#customapigenerator"
-                        target="_blank"
-                        >CustomApiGenerator</a
-                      ></code
-                    >
-                  </td>
-                  <td>Detail API generator, default to &#39;typedoc&#39;</td>
-                </tr>
-                <tr>
-                  <td>
-                    <a
-                      href="https://lamnhan.com/ayedocs/api/interfaces/options.html#cleanoutput"
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#cleanoutput"
                       >cleanOutput?</a
                     >
                   </td>
@@ -288,14 +269,14 @@
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/api/interfaces/options.html#converts"
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#converts"
                       >converts?</a
                     >
                   </td>
                   <td>
                     <code
                       ><a
-                        href="https://lamnhan.com/ayedocs/api/interfaces/additionalconverts.html"
+                        href="https://lamnhan.com/ayedocs/reference/interfaces/additionalconverts.html"
                         target="_blank"
                         >AdditionalConverts</a
                       ></code
@@ -306,14 +287,14 @@
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/api/interfaces/options.html#filerender"
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#filerender"
                       >fileRender?</a
                     >
                   </td>
                   <td>
                     <code
                       ><a
-                        href="https://lamnhan.com/ayedocs/api/interfaces/batchrender.html"
+                        href="https://lamnhan.com/ayedocs/reference/interfaces/batchrender.html"
                         target="_blank"
                         >BatchRender</a
                       ></code
@@ -324,7 +305,28 @@
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/api/interfaces/options.html#srcpath"
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#refgenerator"
+                      >refGenerator?</a
+                    >
+                  </td>
+                  <td>
+                    <code
+                      >"none" | "typedoc" |
+                      <a
+                        href="https://lamnhan.com/ayedocs/reference/index.html#customreferencegenerator"
+                        target="_blank"
+                        >CustomReferenceGenerator</a
+                      ></code
+                    >
+                  </td>
+                  <td>
+                    Detail reference generator, default to &#39;typedoc&#39;
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#srcpath"
                       >srcPath?</a
                     >
                   </td>
@@ -334,14 +336,32 @@
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/api/interfaces/options.html#typedocconfigs"
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#templates"
+                      >templates?</a
+                    >
+                  </td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/ayedocs/reference/interfaces/additionaltemplates.html"
+                        target="_blank"
+                        >AdditionalTemplates</a
+                      ></code
+                    >
+                  </td>
+                  <td>Additional templates</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#typedocconfigs"
                       >typedocConfigs?</a
                     >
                   </td>
                   <td>
                     <code
                       ><a
-                        href="https://lamnhan.com/ayedocs/api/interfaces/typedocconfigs.html"
+                        href="https://lamnhan.com/ayedocs/reference/interfaces/typedocconfigs.html"
                         target="_blank"
                         >TypedocConfigs</a
                       ></code
@@ -354,7 +374,7 @@
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/api/interfaces/options.html#url"
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#url"
                       >url?</a
                     >
                   </td>
@@ -366,14 +386,14 @@
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/api/interfaces/options.html#webrender"
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#webrender"
                       >webRender?</a
                     >
                   </td>
                   <td>
                     <code
                       ><a
-                        href="https://lamnhan.com/ayedocs/api/interfaces/webrender.html"
+                        href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html"
                         target="_blank"
                         >WebRender</a
                       ></code
@@ -392,7 +412,7 @@
             <h2>
               <a
                 name="webrender"
-                href="https://lamnhan.com/ayedocs/api/interfaces/webrender.html"
+                href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html"
                 ><p>The <code>WebRender</code> interface</p>
               </a>
             </h2>
@@ -410,7 +430,7 @@
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/api/interfaces/webrender.html#categories"
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html#categories"
                       >categories?</a
                     >
                   </td>
@@ -420,14 +440,14 @@
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/api/interfaces/webrender.html#files"
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html#files"
                       ><strong>files</strong></a
                     >
                   </td>
                   <td>
                     <code
                       ><a
-                        href="https://lamnhan.com/ayedocs/api/interfaces/batchrender.html"
+                        href="https://lamnhan.com/ayedocs/reference/interfaces/batchrender.html"
                         target="_blank"
                         >BatchRender</a
                       ></code
@@ -438,7 +458,7 @@
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/api/interfaces/webrender.html#index"
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html#index"
                       >index?</a
                     >
                   </td>
@@ -451,7 +471,7 @@
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/api/interfaces/webrender.html#out"
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html#out"
                       >out?</a
                     >
                   </td>
@@ -461,7 +481,7 @@
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/api/interfaces/webrender.html#theme"
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html#theme"
                       >theme?</a
                     >
                   </td>
