@@ -214,11 +214,10 @@ export class TemplateService {
       return result;
     };
     const sections: AdvancedRendering = {
-      commands: [
+      cli: [
         'Cli',
-        'CUSTOM_CLI',
         {
-          ...(convertings['commands'] || {}),
+          ...(convertings['cli'] || {}),
           convert: customConvert,
         }
       ]

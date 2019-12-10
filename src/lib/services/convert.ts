@@ -73,7 +73,7 @@ export class ConvertService {
     if (!!directCustomConvert) {
       return directCustomConvert(declaration, options, this.contentService);
     }
-    // convert
+    // convert based on the output
     switch (output) {
       // full
       case 'FULL':

@@ -21,7 +21,7 @@ export interface AdvancedRendering {
   [section: string]: SectionRender;
 }
 
-export type DeclarationRender = [string, string?, ConvertOptions?];
+export type DeclarationRender = [string, (string | ConvertOptions)?, ConvertOptions?];
 
 export type BlockRender = ContentBlock | DeclarationRender;
 
@@ -381,7 +381,15 @@ export class RenderService {
         blockRenderings.forEach(blockRendering => {
           // declaration
           if (blockRendering instanceof Array) {
-            const [input, output = 'SELF', options = {}] = blockRendering;
+            const [input, outputOrOptions, originOptions] = blockRendering;
+            const output = (!outputOrOptions || typeof outputOrOptions === 'string')
+              ? outputOrOptions
+              : undefined;
+            const options = originOptions || (
+              outputOrOptions instanceof Object
+              ? outputOrOptions
+              : {}
+            );
             // parsing & converting
             const declaration = this.parseService.parse(input);
             const blocks = this.convertService.convert(
