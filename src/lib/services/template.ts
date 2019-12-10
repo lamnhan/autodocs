@@ -1,3 +1,4 @@
+import { ProjectService } from './project';
 import { AdditionalConvert } from './convert';
 import { AdvancedRendering, RenderTemplateOptions } from './render';
 import { ContentBlock } from './content';
@@ -8,9 +9,17 @@ export type BuiltinTemplate =
   | 'angular' | 'angularx'
   | 'cli' | 'clix';
 
+export type AdditionalTemplate = () => AdvancedRendering;
+
+export interface AdditionalTemplates {
+  [name: string]: AdditionalTemplate;
+}
+
 export class TemplateService {
 
-  constructor() {}
+  constructor(
+    private projectService: ProjectService,
+  ) {}
 
   getTemplate(name: BuiltinTemplate, options: RenderTemplateOptions = {}) {
     const { topSecs = {}, bottomSecs = {} } = options;
@@ -33,8 +42,15 @@ export class TemplateService {
       case 'clix':
         templateSecs = this.getCLITemplate(options, name === 'clix');
       break;
+      // custom
       default:
-        throw new Error('No template name ' + name);
+        const { templates = {} } = this.projectService.OPTIONS;
+        const customTemplate = templates[name];
+        if (!customTemplate) {
+          throw new Error('No template: ' + name);
+        }
+        templateSecs = customTemplate();
+      break;
     }
     // result
     return {

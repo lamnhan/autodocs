@@ -2,6 +2,7 @@
 import { TypedocConfigs, TypedocService } from './services/typedoc';
 import { AdditionalConverts } from './services/convert';
 import { BatchRender } from './services/render';
+import { AdditionalTemplates } from './services/template';
 
 /**
  * Complete module options
@@ -16,9 +17,9 @@ export interface Options {
    */
   srcPath?: string;
   /**
-   * Detail API generator, default to 'typedoc'
+   * Detail reference generator, default to 'typedoc'
    */
-  apiGenerator?: 'none' | 'typedoc' | CustomApiGenerator;
+  refGenerator?: 'none' | 'typedoc' | CustomReferenceGenerator;
   /**
    * Custom [Typedoc](https://typedoc.org) configs
    */
@@ -34,7 +35,11 @@ export interface Options {
   /**
    * Additional converts
    */
-  converts?: AdditionalConverts;  
+  converts?: AdditionalConverts;
+  /**
+   * Additional templates
+   */
+  templates?: AdditionalTemplates;
   /**
    * Global clean output, can be overridden per file
    */
@@ -69,4 +74,4 @@ export interface WebRender {
   index?: string;
 }
 
-export type CustomApiGenerator = (typedocService: TypedocService, out: string) => void;
+export type CustomReferenceGenerator = (typedocService: TypedocService, out: string) => void;

@@ -38,7 +38,7 @@ export class Main {
       this.projectService,
       this.contentService
     );
-    this.templateService = new TemplateService();
+    this.templateService = new TemplateService(this.projectService);
     this.webService = new WebService(
       this.projectService,
       this.contentService,
@@ -166,22 +166,22 @@ export class Main {
   }
 
   /**
-   * Generate the API reference using Typedoc.
+   * Generate the reference using Typedoc.
    *
    * The default folder is __/docs__. You can change the output folder by providing the `out` property of [[Options]].
    */
   generateRef() {
-    const { apiGenerator, webRender } = this.projectService.OPTIONS;
+    const { refGenerator, webRender } = this.projectService.OPTIONS;
     // reference output, default to 'docs', 
     const apiOut = this.projectService.hasWebOutput()
       ? resolve(webRender.out as string, 'reference')
       : resolve('docs');
     // custom
-    if (apiGenerator instanceof Function) {
-      apiGenerator(this.typedocService, apiOut);
+    if (refGenerator instanceof Function) {
+      refGenerator(this.typedocService, apiOut);
     }
     // typedoc
-    else if (apiGenerator === 'typedoc') {
+    else if (refGenerator === 'typedoc') {
       this.typedocService.generateDocs(apiOut);
     }
     // none

@@ -111,10 +111,11 @@ export class ProjectService {
     return {
       url,
       srcPath: 'src',
-      apiGenerator: 'typedoc',
+      refGenerator: 'typedoc',
       cleanOutput: false,
       fileRender: {},
       converts: {},
+      templates: {},
       ...options,
       typedocConfigs,
       webRender,

@@ -139,9 +139,9 @@ module.exports = {
           ],
         }
       },
-      'advanced/custom-api-generator.html': {
+      'advanced/custom-reference-generator.html': {
         file: true,
-        pageTitle: 'Custom API generator'
+        pageTitle: 'Custom reference generator'
       },
       'advanced/web-theming.html': {
         file: true,

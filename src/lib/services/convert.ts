@@ -73,6 +73,10 @@ export class ConvertService {
     if (!!directCustomConvert) {
       return directCustomConvert(declaration, options, this.contentService);
     }
+    // local section
+    if (output.indexOf('SECTION:') !== -1) {
+      return this.getSection(declaration, output.replace('SECTION:', ''), options);
+    }
     // convert based on the output
     switch (output) {
       // full
@@ -123,11 +127,6 @@ export class ConvertService {
         return this.getSelf(declaration, options);
       // custom
       default:
-        // local section
-        if (output.indexOf('SECTION:') !== -1) {
-          return this.getSection(declaration, output.replace('SECTION:', ''), options);
-        }
-        // custom convertion
         const { converts = {} } = this.projectService.OPTIONS;
         const customConvert = converts[output];
         if (!customConvert) {
