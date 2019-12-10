@@ -28,13 +28,16 @@ export type BlockRender = ContentBlock | DeclarationRender;
 export type SectionRender =
   | true // builtin
   | string // direct file
+  | BuiltinTemplate // direct template
   | DeclarationRender // direct declaration
   | BlockRender[] // multiple blocks
   | SectionRenderWithOptions; // with options
 
 export interface SectionRenderWithOptions
   extends
+  RenderTemplateOptions,
   RenderFileOptions {
+  template?: BuiltinTemplate;
   file?: string;
 }
 
@@ -106,9 +109,9 @@ export interface RenderFileOptions {
  */
 export interface RenderTemplateOptions {
   /**
-   * Custom convert options by sections
+   * Offset all the headings
    */
-  convertings?: {[section: string]: ConvertOptions};
+  headingOffset?: number;
   /**
    * Sections to be appended before template sections
    */
@@ -117,6 +120,10 @@ export interface RenderTemplateOptions {
    * Sections to be appended after template sections
    */
   bottomSecs?: AdvancedRendering;
+  /**
+   * Custom convert options by sections
+   */
+  convertings?: {[section: string]: ConvertOptions};
 }
 
 export interface BatchRender {
@@ -286,17 +293,22 @@ export class RenderService {
     Object.keys(rendering).forEach(sectionName => {
       let sectionResult: RenderResult;
       // process section rendering
-      let renderValue = rendering[sectionName];
-      let renderOptions: RenderFileOptions = {};
-      // file with options
-      if (renderValue instanceof Object && !(renderValue instanceof Array)) {
-        if (!!renderValue.file) {
-          renderOptions = renderValue;
-          renderValue = renderValue.file;
-        }
+      let renderValue: undefined | SectionRender = rendering[sectionName];
+      let renderOptions: RenderFileOptions | RenderTemplateOptions = {};
+      // with options
+      if (
+        renderValue instanceof Object
+        && !(renderValue instanceof Array)
+      ) {
+        renderOptions = { ...renderValue };
+        renderValue = renderValue.template || renderValue.file;
+      }
+      // invalid
+      if (!renderValue) {
+        throw new Error('Invalid render value.');
       }
       // build-in
-      if (renderValue === true) {
+      else if (renderValue === true) {
         let sectionBlocks: ContentBlock[] = [];
         // head
         if (sectionName === 'head') {
@@ -314,7 +326,10 @@ export class RenderService {
         sectionResult = { src: 'true', value: sectionBlocks };
       }
       // file
-      else if (typeof renderValue === 'string') {
+      else if (
+        typeof renderValue === 'string'
+        && renderValue.indexOf('.') !== -1 // a file
+      ) {
         const filePath = renderValue.replace('@', 'src/');
         let content = 'TODO';
         if (pathExistsSync(filePath)) {
@@ -326,6 +341,25 @@ export class RenderService {
           if (!!headingOffset) {
             content = this.contentService.modifyHeadings(content, headingOffset);
           }
+        }
+        sectionResult = {
+          src: renderValue,
+          value: content,
+        };
+      }
+      // template
+      else if (typeof renderValue === 'string') {
+        const advancedRendering = this.templateService.getTemplate(
+          renderValue as BuiltinTemplate
+        );
+        const contentBySections = this.getRenderingData(advancedRendering);
+        let content = Object.keys(contentBySections)
+          .map(section => contentBySections[section])
+          .join(this.contentService.EOL2X);
+        // modifications
+        const { headingOffset } = renderOptions;
+        if (!!headingOffset) {
+          content = this.contentService.modifyHeadings(content, headingOffset);
         }
         sectionResult = {
           src: renderValue,
