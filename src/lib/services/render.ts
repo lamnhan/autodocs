@@ -487,13 +487,13 @@ export class RenderService {
   }
 
   private getDataTOCX(blocks: ContentBlock[]) {
-    const apiRef = this.contentService.blockHeading(
+    const ref = this.contentService.blockHeading(
       'Detail API reference',
       2,
       undefined,
-      this.projectService.API_URL,
+      this.projectService.REF_URL,
     );
-    blocks.push(apiRef); // add api ref link
+    blocks.push(ref); // add api ref link
     return this.getDataTOC(blocks);
   }
 }

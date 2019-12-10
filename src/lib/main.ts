@@ -170,11 +170,11 @@ export class Main {
    *
    * The default folder is __/docs__. You can change the output folder by providing the `out` property of [[Options]].
    */
-  generateDocs() {
+  generateRef() {
     const { apiGenerator, webRender } = this.projectService.OPTIONS;
-    // api output, default to 'docs', 
+    // reference output, default to 'docs', 
     const apiOut = this.projectService.hasWebOutput()
-      ? resolve(webRender.out as string, 'api')
+      ? resolve(webRender.out as string, 'reference')
       : resolve('docs');
     // custom
     if (apiGenerator instanceof Function) {

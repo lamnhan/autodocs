@@ -24,8 +24,8 @@ export class GenerateCommand {
         : this.ayedocsModule.extend(config, packagePath);
       // generate files
       ayedocsModule.outputLocal();
-      // generate detail api
-      ayedocsModule.generateDocs();
+      // generate reference
+      ayedocsModule.generateRef();
     }
   }
 

@@ -209,7 +209,7 @@ export class TypedocService {
       link = `${home}.html`;
     }
     // result
-    return this.projectService.API_URL + '/' + link;
+    return this.projectService.REF_URL + '/' + link;
   }
 
   private getLink(reflection: Reflection) {

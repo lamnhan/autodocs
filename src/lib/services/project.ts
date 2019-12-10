@@ -53,9 +53,9 @@ export class ProjectService {
     return this.options;
   }
 
-  get API_URL() {
+  get REF_URL() {
     const { url } = this.options;
-    return url + (this.hasWebOutput() ? '/api' : '');
+    return url + (this.hasWebOutput() ? '/reference' : '');
   }
 
   hasWebOutput() {
@@ -85,7 +85,7 @@ export class ProjectService {
       typeof optionsInput === 'string'
       ? require(resolve(optionsInput)) // from path
       : optionsInput; // by input
-    // api url
+    // url
     let url = options.url;
     if (!url) {
       const { repository: { url: repoUrl } } = this.package;
