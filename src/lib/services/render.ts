@@ -354,7 +354,7 @@ export class RenderService {
         );
         const contentBySections = this.getRenderingData(advancedRendering);
         let content = Object.keys(contentBySections)
-          .map(section => contentBySections[section])
+          .map(section => contentBySections[section].value)
           .join(this.contentService.EOL2X);
         // modifications
         const { headingOffset } = renderOptions;
