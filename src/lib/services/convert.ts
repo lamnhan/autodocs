@@ -40,7 +40,7 @@ export type CustomConvert = (
   declaration: Declaration,
   options: ConvertOptions,
   contentService: ContentService
-) => ContentBlock[];
+) => string | ContentBlock[];
 
 export class ConvertService {
 
@@ -60,7 +60,12 @@ export class ConvertService {
     }
     // custom convert
     if (output instanceof Function) {
-      return output(declaration, options, this.contentService);
+      const customResult = output(declaration, options, this.contentService);
+      return (
+        typeof customResult === 'string'
+        ? [ this.contentService.blockText(customResult) ]
+        : customResult
+      );
     }
     // local section
     if (output.substr(0, 8) === 'SECTION:') {
