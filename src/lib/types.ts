@@ -1,8 +1,6 @@
 // tslint:disable: no-any
 import { TypedocConfigs, TypedocService } from './services/typedoc';
-import { AdditionalConverts } from './services/convert';
 import { BatchRender } from './services/render';
-import { AdditionalTemplates } from './services/template';
 
 /**
  * Complete module options
@@ -32,14 +30,6 @@ export interface Options {
    * Output as a website
    */
   webRender?: WebRender;
-  /**
-   * Additional converts
-   */
-  converts?: AdditionalConverts;
-  /**
-   * Additional templates
-   */
-  templates?: AdditionalTemplates;
   /**
    * Global clean output, can be overridden per file
    */

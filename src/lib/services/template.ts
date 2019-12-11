@@ -1,5 +1,4 @@
-import { ProjectService } from './project';
-import { AdditionalConvert } from './convert';
+import { CustomConvert } from './convert';
 import { AdvancedRendering, RenderTemplateOptions } from './render';
 import { ContentBlock } from './content';
 
@@ -9,48 +8,50 @@ export type BuiltinTemplate =
   | 'angular' | 'angularx'
   | 'cli' | 'clix';
 
-export type AdditionalTemplate = () => AdvancedRendering;
-
-export interface AdditionalTemplates {
-  [name: string]: AdditionalTemplate;
-}
+export type CustomTemplate = () => AdvancedRendering;
 
 export class TemplateService {
 
-  constructor(
-    private projectService: ProjectService,
-  ) {}
+  constructor() {}
 
-  getTemplate(name: BuiltinTemplate, options: RenderTemplateOptions = {}) {
+  getTemplate(
+    template: BuiltinTemplate | CustomTemplate,
+    options: RenderTemplateOptions = {}
+  ) {
     const { topSecs = {}, bottomSecs = {} } = options;
     // get template
-    let templateSecs: AdvancedRendering;
-    switch (name) {
-      case 'basic':
-      case 'basicx':
-        templateSecs = this.getBasicTemplate(options, name === 'basicx');
-      break;
-      case 'full':
-      case 'fullx':
-        templateSecs = this.getFullTemplate(options, name === 'fullx');
-      break;
-      case 'angular':
-      case 'angularx':
-        templateSecs = this.getAngularTemplate(options, name === 'angularx');
-      break;
-      case 'cli':
-      case 'clix':
-        templateSecs = this.getCLITemplate(options, name === 'clix');
-      break;
-      // custom
-      default:
-        const { templates = {} } = this.projectService.OPTIONS;
-        const customTemplate = templates[name];
-        if (!customTemplate) {
-          throw new Error('No template: ' + name);
-        }
-        templateSecs = customTemplate();
-      break;
+    let templateSecs: undefined | AdvancedRendering;
+    // custom
+    if (template instanceof Function) {
+      templateSecs = template();
+    }
+    // builtin
+    else {
+      switch (template) {
+        case 'basic':
+        case 'basicx':
+          templateSecs = this.getBasicTemplate(options, template === 'basicx');
+        break;
+        case 'full':
+        case 'fullx':
+          templateSecs = this.getFullTemplate(options, template === 'fullx');
+        break;
+        case 'angular':
+        case 'angularx':
+          templateSecs = this.getAngularTemplate(options, template === 'angularx');
+        break;
+        case 'cli':
+        case 'clix':
+          templateSecs = this.getCLITemplate(options, template === 'clix');
+        break;
+        // invalid
+        default:
+        break;
+      }
+    }
+    // invalid
+    if (!templateSecs) {
+      throw new Error('Invalid templating!');
     }
     // result
     return {
@@ -171,7 +172,7 @@ export class TemplateService {
 
   private getCLITemplate(options: RenderTemplateOptions = {}, extra = false) {
     const { convertings = {} } = options;
-    const customConvert: AdditionalConvert = (declaration, options, contentService) => {
+    const customConvert: CustomConvert = (declaration, options, contentService) => {
       const commanderProp = declaration.getChild('commander');
       const [ commanderCmd, commanderDescription ] = commanderProp.DEFAULT_VALUE;
       // get command defs
@@ -232,10 +233,8 @@ export class TemplateService {
     const sections: AdvancedRendering = {
       cli: [
         'Cli',
-        {
-          ...(convertings['cli'] || {}),
-          convert: customConvert,
-        }
+        customConvert,
+        convertings['cli'] || {}
       ]
     };
     return this.createRendering(sections, extra);

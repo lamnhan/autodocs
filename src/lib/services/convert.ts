@@ -1,4 +1,3 @@
-import { ProjectService } from './project';
 import { DefaultValue } from './typedoc';
 import { ContentBlock, ContentService } from './content';
 
@@ -27,54 +26,44 @@ export interface FilterOptions {
   filter?: DeclarationFilter;
 }
 
-export interface CustomConvertOptions {
-  convert?: AdditionalConvert;
-}
-
 export interface ConvertOptions
   extends DeclarationOptions,
     HeadingOptions,
     ValueOptions,
     ConvertingOptions,
-    FilterOptions,
-    CustomConvertOptions {
+    FilterOptions {
   // tslint:disable-next-line: no-any
   [key: string]: any;
 }
 
-export type AdditionalConvert = (
+export type CustomConvert = (
   declaration: Declaration,
   options: ConvertOptions,
   contentService: ContentService
 ) => ContentBlock[];
 
-export interface AdditionalConverts {
-  [output: string]: AdditionalConvert;
-}
-
 export class ConvertService {
 
   constructor(
-    private projectService: ProjectService,
     private contentService: ContentService
   ) {}
 
   convert(
     declaration: Declaration,
-    output = 'SELF',
+    output: string | CustomConvert = 'SELF',
     options: ConvertOptions = {}
   ) {
-    const { id, convert: directCustomConvert } = options;
+    const { id } = options;
     // override id
     if (!!id) {
       declaration.setId(id);
     }
-    // direct custom convert
-    if (!!directCustomConvert) {
-      return directCustomConvert(declaration, options, this.contentService);
+    // custom convert
+    if (output instanceof Function) {
+      return output(declaration, options, this.contentService);
     }
     // local section
-    if (output.indexOf('SECTION:') !== -1) {
+    if (output.substr(0, 8) === 'SECTION:') {
       return this.getSection(declaration, output.replace('SECTION:', ''), options);
     }
     // convert based on the output
@@ -125,14 +114,9 @@ export class ConvertService {
       // self
       case 'SELF':
         return this.getSelf(declaration, options);
-      // custom
+      // invalid
       default:
-        const { converts = {} } = this.projectService.OPTIONS;
-        const customConvert = converts[output];
-        if (!customConvert) {
-          throw new Error('No output: ' + output);
-        }
-        return customConvert(declaration, options, this.contentService) || [];
+        throw new Error('Invalid output!');
     }
   }
 

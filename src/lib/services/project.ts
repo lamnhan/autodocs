@@ -114,8 +114,6 @@ export class ProjectService {
       refGenerator: 'typedoc',
       cleanOutput: false,
       fileRender: {},
-      converts: {},
-      templates: {},
       ...options,
       typedocConfigs,
       webRender,

@@ -132,11 +132,7 @@ module.exports = {
           filteroptions: [
             ['FilterOptions', 'SELF'],
             ['FilterOptions', 'SUMMARY_PROPERTIES']
-          ],
-          customconvertoptions: [
-            ['CustomConvertOptions', 'SELF'],
-            ['CustomConvertOptions', 'SUMMARY_PROPERTIES']
-          ],
+          ]
         }
       },
       'advanced/custom-reference-generator.html': {

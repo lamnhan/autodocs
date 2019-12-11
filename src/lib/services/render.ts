@@ -4,8 +4,8 @@ import { ProjectService } from './project';
 import { ContentBySections, ContentBlock, ContentService, HeadingBlock } from './content';
 import { LoadService } from './load';
 import { ParseService } from './parse';
-import { ConvertOptions, ConvertService } from './convert';
-import { BuiltinTemplate, TemplateService } from './template';
+import { ConvertOptions, CustomConvert, ConvertService } from './convert';
+import { BuiltinTemplate, CustomTemplate, TemplateService } from './template';
 import { WebData, WebService } from './web';
 
 import { RendererData, RendererFileData, Renderer } from '../renderer';
@@ -21,7 +21,7 @@ export interface AdvancedRendering {
   [section: string]: SectionRender;
 }
 
-export type DeclarationRender = [string, (string | ConvertOptions)?, ConvertOptions?];
+export type DeclarationRender = [string, (string | CustomConvert)?, ConvertOptions?];
 
 export type BlockRender = ContentBlock | DeclarationRender;
 
@@ -29,6 +29,7 @@ export type SectionRender =
   | true // builtin
   | string // direct file
   | BuiltinTemplate // direct template
+  | CustomTemplate // custom template
   | DeclarationRender // direct declaration
   | BlockRender[] // multiple blocks
   | SectionRenderWithOptions; // with options
@@ -37,7 +38,7 @@ export interface SectionRenderWithOptions
   extends
   RenderTemplateOptions,
   RenderFileOptions {
-  template?: BuiltinTemplate;
+  template?: BuiltinTemplate | CustomTemplate;
   file?: string;
 }
 
@@ -48,6 +49,7 @@ export type FileRender =
   | true // default file
   | string // direct file
   | BuiltinTemplate // direct template
+  | CustomTemplate // custom template
   | AdvancedRendering // direct advanced rendering
   | FileRenderWithOptions; // with options
 
@@ -57,7 +59,7 @@ export interface FileRenderWithOptions
   RenderWebOptions,
   RenderTemplateOptions,
   RenderFileOptions {
-    template?: BuiltinTemplate;
+    template?: BuiltinTemplate | CustomTemplate;
     file?: true | string;
     rendering?: AdvancedRendering;
 }
@@ -298,6 +300,7 @@ export class RenderService {
       // with options
       if (
         renderValue instanceof Object
+        && !(renderValue instanceof Function)
         && !(renderValue instanceof Array)
       ) {
         renderOptions = { ...renderValue };
@@ -348,9 +351,12 @@ export class RenderService {
         };
       }
       // template
-      else if (typeof renderValue === 'string') {
+      else if (
+        typeof renderValue === 'string'
+        || renderValue instanceof Function
+      ) {
         const advancedRendering = this.templateService.getTemplate(
-          renderValue as BuiltinTemplate
+          renderValue as (BuiltinTemplate | CustomTemplate)
         );
         const contentBySections = this.getRenderingData(advancedRendering);
         let content = Object.keys(contentBySections)
@@ -362,7 +368,7 @@ export class RenderService {
           content = this.contentService.modifyHeadings(content, headingOffset);
         }
         sectionResult = {
-          src: renderValue,
+          src: typeof renderValue === 'string' ? renderValue : 'custom_template',
           value: content,
         };
       }
@@ -381,15 +387,7 @@ export class RenderService {
         blockRenderings.forEach(blockRendering => {
           // declaration
           if (blockRendering instanceof Array) {
-            const [input, outputOrOptions, originOptions] = blockRendering;
-            const output = (!outputOrOptions || typeof outputOrOptions === 'string')
-              ? outputOrOptions
-              : undefined;
-            const options = originOptions || (
-              outputOrOptions instanceof Object
-              ? outputOrOptions
-              : {}
-            );
+            const [input, output = 'SELF', options = {}] = blockRendering;
             // parsing & converting
             const declaration = this.parseService.parse(input);
             const blocks = this.convertService.convert(
@@ -459,9 +457,12 @@ export class RenderService {
       rendering = { content: renderInput };
     }
     // template
-    else if (typeof renderInput === 'string') {
+    else if (
+      typeof renderInput === 'string'
+      || renderInput instanceof Function
+    ) {
       rendering = this.templateService.getTemplate(
-        renderInput as BuiltinTemplate
+        renderInput as (BuiltinTemplate | CustomTemplate)
       );
     }
     // rendering
@@ -478,7 +479,7 @@ export class RenderService {
         !!renderInput.template
         ? // template
           this.templateService.getTemplate(
-            renderInput.template as BuiltinTemplate,
+            renderInput.template as (BuiltinTemplate | CustomTemplate),
             renderInput as RenderTemplateOptions,
           )
         : !!renderInput.file

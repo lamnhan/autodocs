@@ -126,7 +126,7 @@ export class TypedocService {
           what
         );
     if (!reflection) {
-      throw new Error('No reflection found.');
+      throw new Error('No reflection found: ' + what);
     }
     return reflection;
   }
@@ -134,7 +134,7 @@ export class TypedocService {
   getChildReflection(container: Reflection, name: string) {
     const reflection = container.getChildByName(name);
     if (!reflection) {
-      throw new Error('No child.');
+      throw new Error('No child: ' + name);
     }
     return reflection;
   }

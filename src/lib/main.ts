@@ -34,11 +34,8 @@ export class Main {
       this.typedocService,
       this.contentService
     );
-    this.convertService = new ConvertService(
-      this.projectService,
-      this.contentService
-    );
-    this.templateService = new TemplateService(this.projectService);
+    this.convertService = new ConvertService(this.contentService);
+    this.templateService = new TemplateService();
     this.webService = new WebService(
       this.projectService,
       this.contentService,

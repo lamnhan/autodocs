@@ -89,15 +89,12 @@
 						<section class="tsd-index-section ">
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface"><a href="interfaces/additionalconverts.html" class="tsd-kind-icon">Additional<wbr>Converts</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/additionaltemplates.html" class="tsd-kind-icon">Additional<wbr>Templates</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/advancedrendering.html" class="tsd-kind-icon">Advanced<wbr>Rendering</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/batchrender.html" class="tsd-kind-icon">Batch<wbr>Render</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/contentbysections.html" class="tsd-kind-icon">Content<wbr>BySections</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/contentheading.html" class="tsd-kind-icon">Content<wbr>Heading</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/convertoptions.html" class="tsd-kind-icon">Convert<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/convertingoptions.html" class="tsd-kind-icon">Converting<wbr>Options</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/customconvertoptions.html" class="tsd-kind-icon">Custom<wbr>Convert<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/declarationoptions.html" class="tsd-kind-icon">Declaration<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/filerenderwithoptions.html" class="tsd-kind-icon">File<wbr>Render<wbr>With<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/filteroptions.html" class="tsd-kind-icon">Filter<wbr>Options</a></li>
@@ -126,15 +123,15 @@
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias"><a href="index.html#additionalconvert" class="tsd-kind-icon">Additional<wbr>Convert</a></li>
-								<li class="tsd-kind-type-alias"><a href="index.html#additionaltemplate" class="tsd-kind-icon">Additional<wbr>Template</a></li>
 								<li class="tsd-kind-type-alias"><a href="index.html#blockrender" class="tsd-kind-icon">Block<wbr>Render</a></li>
 								<li class="tsd-kind-type-alias"><a href="index.html#builtintemplate" class="tsd-kind-icon">Builtin<wbr>Template</a></li>
 								<li class="tsd-kind-type-alias"><a href="index.html#contentblock" class="tsd-kind-icon">Content<wbr>Block</a></li>
 								<li class="tsd-kind-type-alias"><a href="index.html#contentlist" class="tsd-kind-icon">Content<wbr>List</a></li>
 								<li class="tsd-kind-type-alias"><a href="index.html#contenttable" class="tsd-kind-icon">Content<wbr>Table</a></li>
 								<li class="tsd-kind-type-alias"><a href="index.html#contenttext" class="tsd-kind-icon">Content<wbr>Text</a></li>
+								<li class="tsd-kind-type-alias"><a href="index.html#customconvert" class="tsd-kind-icon">Custom<wbr>Convert</a></li>
 								<li class="tsd-kind-type-alias"><a href="index.html#customreferencegenerator" class="tsd-kind-icon">Custom<wbr>Reference<wbr>Generator</a></li>
+								<li class="tsd-kind-type-alias"><a href="index.html#customtemplate" class="tsd-kind-icon">Custom<wbr>Template</a></li>
 								<li class="tsd-kind-type-alias"><a href="index.html#declarationfilter" class="tsd-kind-icon">Declaration<wbr>Filter</a></li>
 								<li class="tsd-kind-type-alias"><a href="index.html#declarationrender" class="tsd-kind-icon">Declaration<wbr>Render</a></li>
 								<li class="tsd-kind-type-alias"><a href="index.html#defaultvalue" class="tsd-kind-icon">Default<wbr>Value</a></li>
@@ -158,12 +155,72 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
-					<a name="additionalconvert" class="tsd-anchor"></a>
-					<h3>Additional<wbr>Convert</h3>
-					<div class="tsd-signature tsd-kind-icon">Additional<wbr>Convert<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<a name="blockrender" class="tsd-anchor"></a>
+					<h3>Block<wbr>Render</h3>
+					<div class="tsd-signature tsd-kind-icon">Block<wbr>Render<span class="tsd-signature-symbol">:</span> <a href="index.html#contentblock" class="tsd-signature-type">ContentBlock</a><span class="tsd-signature-symbol"> | </span><a href="index.html#declarationrender" class="tsd-signature-type">DeclarationRender</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/services/convert.ts#L45">lib/services/convert.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/services/render.ts#L26">lib/services/render.ts:26</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="builtintemplate" class="tsd-anchor"></a>
+					<h3>Builtin<wbr>Template</h3>
+					<div class="tsd-signature tsd-kind-icon">Builtin<wbr>Template<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"basic"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"basicx"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"full"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fullx"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"angular"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"angularx"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"cli"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"clix"</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/services/template.ts#L5">lib/services/template.ts:5</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="contentblock" class="tsd-anchor"></a>
+					<h3>Content<wbr>Block</h3>
+					<div class="tsd-signature tsd-kind-icon">Content<wbr>Block<span class="tsd-signature-symbol">:</span> <a href="interfaces/headingblock.html" class="tsd-signature-type">HeadingBlock</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/textblock.html" class="tsd-signature-type">TextBlock</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/listblock.html" class="tsd-signature-type">ListBlock</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/tableblock.html" class="tsd-signature-type">TableBlock</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/services/content.ts#L11">lib/services/content.ts:11</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="contentlist" class="tsd-anchor"></a>
+					<h3>Content<wbr>List</h3>
+					<div class="tsd-signature tsd-kind-icon">Content<wbr>List<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/services/content.ts#L30">lib/services/content.ts:30</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="contenttable" class="tsd-anchor"></a>
+					<h3>Content<wbr>Table</h3>
+					<div class="tsd-signature tsd-kind-icon">Content<wbr>Table<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/services/content.ts#L36">lib/services/content.ts:36</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="contenttext" class="tsd-anchor"></a>
+					<h3>Content<wbr>Text</h3>
+					<div class="tsd-signature tsd-kind-icon">Content<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/services/content.ts#L24">lib/services/content.ts:24</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="customconvert" class="tsd-anchor"></a>
+					<h3>Custom<wbr>Convert</h3>
+					<div class="tsd-signature tsd-kind-icon">Custom<wbr>Convert<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/services/convert.ts#L39">lib/services/convert.ts:39</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -195,97 +252,12 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
-					<a name="additionaltemplate" class="tsd-anchor"></a>
-					<h3>Additional<wbr>Template</h3>
-					<div class="tsd-signature tsd-kind-icon">Additional<wbr>Template<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/services/template.ts#L12">lib/services/template.ts:12</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/advancedrendering.html" class="tsd-signature-type">AdvancedRendering</a></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-returns-title">Returns <a href="interfaces/advancedrendering.html" class="tsd-signature-type">AdvancedRendering</a></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias">
-					<a name="blockrender" class="tsd-anchor"></a>
-					<h3>Block<wbr>Render</h3>
-					<div class="tsd-signature tsd-kind-icon">Block<wbr>Render<span class="tsd-signature-symbol">:</span> <a href="index.html#contentblock" class="tsd-signature-type">ContentBlock</a><span class="tsd-signature-symbol"> | </span><a href="index.html#declarationrender" class="tsd-signature-type">DeclarationRender</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/services/render.ts#L26">lib/services/render.ts:26</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias">
-					<a name="builtintemplate" class="tsd-anchor"></a>
-					<h3>Builtin<wbr>Template</h3>
-					<div class="tsd-signature tsd-kind-icon">Builtin<wbr>Template<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"basic"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"basicx"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"full"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"fullx"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"angular"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"angularx"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"cli"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"clix"</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/services/template.ts#L6">lib/services/template.ts:6</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias">
-					<a name="contentblock" class="tsd-anchor"></a>
-					<h3>Content<wbr>Block</h3>
-					<div class="tsd-signature tsd-kind-icon">Content<wbr>Block<span class="tsd-signature-symbol">:</span> <a href="interfaces/headingblock.html" class="tsd-signature-type">HeadingBlock</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/textblock.html" class="tsd-signature-type">TextBlock</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/listblock.html" class="tsd-signature-type">ListBlock</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/tableblock.html" class="tsd-signature-type">TableBlock</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/services/content.ts#L11">lib/services/content.ts:11</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias">
-					<a name="contentlist" class="tsd-anchor"></a>
-					<h3>Content<wbr>List</h3>
-					<div class="tsd-signature tsd-kind-icon">Content<wbr>List<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/services/content.ts#L30">lib/services/content.ts:30</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias">
-					<a name="contenttable" class="tsd-anchor"></a>
-					<h3>Content<wbr>Table</h3>
-					<div class="tsd-signature tsd-kind-icon">Content<wbr>Table<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/services/content.ts#L36">lib/services/content.ts:36</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias">
-					<a name="contenttext" class="tsd-anchor"></a>
-					<h3>Content<wbr>Text</h3>
-					<div class="tsd-signature tsd-kind-icon">Content<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/services/content.ts#L24">lib/services/content.ts:24</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="customreferencegenerator" class="tsd-anchor"></a>
 					<h3>Custom<wbr>Reference<wbr>Generator</h3>
 					<div class="tsd-signature tsd-kind-icon">Custom<wbr>Reference<wbr>Generator<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/types.ts#L77">lib/types.ts:77</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/types.ts#L67">lib/types.ts:67</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -314,12 +286,37 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="customtemplate" class="tsd-anchor"></a>
+					<h3>Custom<wbr>Template</h3>
+					<div class="tsd-signature tsd-kind-icon">Custom<wbr>Template<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/services/template.ts#L11">lib/services/template.ts:11</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/advancedrendering.html" class="tsd-signature-type">AdvancedRendering</a></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-returns-title">Returns <a href="interfaces/advancedrendering.html" class="tsd-signature-type">AdvancedRendering</a></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="declarationfilter" class="tsd-anchor"></a>
 					<h3>Declaration<wbr>Filter</h3>
 					<div class="tsd-signature tsd-kind-icon">Declaration<wbr>Filter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/declaration.ts#L11">lib/declaration.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/declaration.ts#L11">lib/declaration.ts:11</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -347,10 +344,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="declarationrender" class="tsd-anchor"></a>
 					<h3>Declaration<wbr>Render</h3>
-					<div class="tsd-signature tsd-kind-icon">Declaration<wbr>Render<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/convertoptions.html" class="tsd-signature-type">ConvertOptions</a><span class="tsd-signature-symbol">, </span><a href="interfaces/convertoptions.html" class="tsd-signature-type">ConvertOptions</a><span class="tsd-signature-symbol">]</span></div>
+					<div class="tsd-signature tsd-kind-icon">Declaration<wbr>Render<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">, </span><a href="interfaces/convertoptions.html" class="tsd-signature-type">ConvertOptions</a><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/services/render.ts#L24">lib/services/render.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/services/render.ts#L24">lib/services/render.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -360,17 +357,17 @@
 					<div class="tsd-signature tsd-kind-icon">Default<wbr>Value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/services/typedoc.ts#L16">lib/services/typedoc.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/services/typedoc.ts#L16">lib/services/typedoc.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="filerender" class="tsd-anchor"></a>
 					<h3>File<wbr>Render</h3>
-					<div class="tsd-signature tsd-kind-icon">File<wbr>Render<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="index.html#builtintemplate" class="tsd-signature-type">BuiltinTemplate</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/advancedrendering.html" class="tsd-signature-type">AdvancedRendering</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/filerenderwithoptions.html" class="tsd-signature-type">FileRenderWithOptions</a></div>
+					<div class="tsd-signature tsd-kind-icon">File<wbr>Render<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="index.html#builtintemplate" class="tsd-signature-type">BuiltinTemplate</a><span class="tsd-signature-symbol"> | </span><a href="index.html#customtemplate" class="tsd-signature-type">CustomTemplate</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/advancedrendering.html" class="tsd-signature-type">AdvancedRendering</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/filerenderwithoptions.html" class="tsd-signature-type">FileRenderWithOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/services/render.ts#L47">lib/services/render.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/services/render.ts#L48">lib/services/render.ts:48</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -385,7 +382,7 @@
 					<div class="tsd-signature tsd-kind-icon">Iteration<wbr>Formatter&lt;Data&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/services/typedoc.ts#L59">lib/services/typedoc.ts:59</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/services/typedoc.ts#L59">lib/services/typedoc.ts:59</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -422,7 +419,7 @@
 					<div class="tsd-signature tsd-kind-icon">Iteration<wbr>Handler&lt;Item, Data&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/services/typedoc.ts#L55">lib/services/typedoc.ts:55</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/services/typedoc.ts#L55">lib/services/typedoc.ts:55</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -462,7 +459,7 @@
 					<div class="tsd-signature tsd-kind-icon">Kind<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">keyof ReflectionKind</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/services/typedoc.ts#L14">lib/services/typedoc.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/services/typedoc.ts#L14">lib/services/typedoc.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -472,17 +469,17 @@
 					<div class="tsd-signature tsd-kind-icon">Options<wbr>Input<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/options.html" class="tsd-signature-type">Options</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/services/project.ts#L6">lib/services/project.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/services/project.ts#L6">lib/services/project.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="sectionrender" class="tsd-anchor"></a>
 					<h3>Section<wbr>Render</h3>
-					<div class="tsd-signature tsd-kind-icon">Section<wbr>Render<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="index.html#builtintemplate" class="tsd-signature-type">BuiltinTemplate</a><span class="tsd-signature-symbol"> | </span><a href="index.html#declarationrender" class="tsd-signature-type">DeclarationRender</a><span class="tsd-signature-symbol"> | </span><a href="index.html#blockrender" class="tsd-signature-type">BlockRender</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/sectionrenderwithoptions.html" class="tsd-signature-type">SectionRenderWithOptions</a></div>
+					<div class="tsd-signature tsd-kind-icon">Section<wbr>Render<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="index.html#builtintemplate" class="tsd-signature-type">BuiltinTemplate</a><span class="tsd-signature-symbol"> | </span><a href="index.html#customtemplate" class="tsd-signature-type">CustomTemplate</a><span class="tsd-signature-symbol"> | </span><a href="index.html#declarationrender" class="tsd-signature-type">DeclarationRender</a><span class="tsd-signature-symbol"> | </span><a href="index.html#blockrender" class="tsd-signature-type">BlockRender</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/sectionrenderwithoptions.html" class="tsd-signature-type">SectionRenderWithOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/services/render.ts#L28">lib/services/render.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/services/render.ts#L28">lib/services/render.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -499,7 +496,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/8ec7fc4/src/lib/index.ts#L4">lib/index.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/cecc6b2/src/lib/index.ts#L4">lib/index.ts:4</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -573,12 +570,6 @@
 						<a href="classes/webservice.html" class="tsd-kind-icon">Web<wbr>Service</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/additionalconverts.html" class="tsd-kind-icon">Additional<wbr>Converts</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/additionaltemplates.html" class="tsd-kind-icon">Additional<wbr>Templates</a>
-					</li>
-					<li class=" tsd-kind-interface">
 						<a href="interfaces/advancedrendering.html" class="tsd-kind-icon">Advanced<wbr>Rendering</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -595,9 +586,6 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/convertingoptions.html" class="tsd-kind-icon">Converting<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/customconvertoptions.html" class="tsd-kind-icon">Custom<wbr>Convert<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/declarationoptions.html" class="tsd-kind-icon">Declaration<wbr>Options</a>
@@ -669,12 +657,6 @@
 						<a href="interfaces/webrender.html" class="tsd-kind-icon">Web<wbr>Render</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="index.html#additionalconvert" class="tsd-kind-icon">Additional<wbr>Convert</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="index.html#additionaltemplate" class="tsd-kind-icon">Additional<wbr>Template</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
 						<a href="index.html#blockrender" class="tsd-kind-icon">Block<wbr>Render</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
@@ -693,7 +675,13 @@
 						<a href="index.html#contenttext" class="tsd-kind-icon">Content<wbr>Text</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
+						<a href="index.html#customconvert" class="tsd-kind-icon">Custom<wbr>Convert</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
 						<a href="index.html#customreferencegenerator" class="tsd-kind-icon">Custom<wbr>Reference<wbr>Generator</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="index.html#customtemplate" class="tsd-kind-icon">Custom<wbr>Template</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="index.html#declarationfilter" class="tsd-kind-icon">Declaration<wbr>Filter</a>
