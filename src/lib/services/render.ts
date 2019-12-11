@@ -5,7 +5,7 @@ import { ContentBySections, ContentBlock, ContentService, HeadingBlock } from '.
 import { LoadService } from './load';
 import { ParseService } from './parse';
 import { ConvertOptions, CustomConvert, ConvertService } from './convert';
-import { BuiltinTemplate, CustomTemplate, TemplateService } from './template';
+import { BuiltinTemplate, CustomTemplate, TemplateOptions, TemplateService } from './template';
 import { WebData, WebService } from './web';
 
 import { RendererData, RendererFileData, Renderer } from '../renderer';
@@ -109,23 +109,11 @@ export interface RenderFileOptions {
 /**
  * Additional option for template rendering
  */
-export interface RenderTemplateOptions {
+export interface RenderTemplateOptions extends TemplateOptions {
   /**
    * Offset all the headings
    */
   headingOffset?: number;
-  /**
-   * Sections to be appended before template sections
-   */
-  topSecs?: AdvancedRendering;
-  /**
-   * Sections to be appended after template sections
-   */
-  bottomSecs?: AdvancedRendering;
-  /**
-   * Custom convert options by sections
-   */
-  convertings?: {[section: string]: ConvertOptions};
 }
 
 export interface BatchRender {

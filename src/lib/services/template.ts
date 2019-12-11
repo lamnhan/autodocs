@@ -1,5 +1,6 @@
-import { CustomConvert } from './convert';
-import { AdvancedRendering, RenderTemplateOptions } from './render';
+import { ProjectService } from './project';
+import { CustomConvert, ConvertOptions } from './convert';
+import { AdvancedRendering } from './render';
 import { ContentBlock } from './content';
 
 export type BuiltinTemplate =
@@ -8,22 +9,33 @@ export type BuiltinTemplate =
   | 'angular' | 'angularx'
   | 'cli' | 'clix';
 
-export type CustomTemplate = () => AdvancedRendering;
+export interface TemplateOptions {
+  topSecs?: AdvancedRendering;
+  bottomSecs?: AdvancedRendering;
+  convertings?: {[section: string]: ConvertOptions};
+}
+
+export type CustomTemplate = (
+  options: TemplateOptions,
+  projectService: ProjectService
+) => AdvancedRendering;
 
 export class TemplateService {
 
-  constructor() {}
+  constructor(
+    private projectService: ProjectService
+  ) {}
 
   getTemplate(
     template: BuiltinTemplate | CustomTemplate,
-    options: RenderTemplateOptions = {}
+    options: TemplateOptions = {}
   ) {
     const { topSecs = {}, bottomSecs = {} } = options;
     // get template
     let templateSecs: undefined | AdvancedRendering;
     // custom
     if (template instanceof Function) {
-      templateSecs = template();
+      templateSecs = template(options, this.projectService);
     }
     // builtin
     else {
@@ -61,7 +73,7 @@ export class TemplateService {
     };
   }
 
-  private getBasicTemplate(options: RenderTemplateOptions = {}, extra = false) {
+  private getBasicTemplate(options: TemplateOptions = {}, extra = false) {
     const { convertings = {} } = options;
     const sections: AdvancedRendering = {
       options: ['Options', 'FULL', convertings['options'] || {}],
@@ -70,7 +82,7 @@ export class TemplateService {
     return this.createRendering(sections, extra);
   }
 
-  private getFullTemplate(options: RenderTemplateOptions = {}, extra = false) {
+  private getFullTemplate(options: TemplateOptions = {}, extra = false) {
     const { convertings = {} } = options;
     const sections: AdvancedRendering = {
       functions: ['*', 'FULL_FUNCTIONS', convertings['functions'] || {}],
@@ -87,7 +99,7 @@ export class TemplateService {
     return this.createRendering(sections, extra);
   }
 
-  private getAngularTemplate(options: RenderTemplateOptions = {}, extra = false) {
+  private getAngularTemplate(options: TemplateOptions = {}, extra = false) {
     const { convertings = {} } = options;
     const sections: AdvancedRendering = {
       modules: [
@@ -170,7 +182,7 @@ export class TemplateService {
     return this.createRendering(sections, extra);
   }
 
-  private getCLITemplate(options: RenderTemplateOptions = {}, extra = false) {
+  private getCLITemplate(options: TemplateOptions = {}, extra = false) {
     const { convertings = {} } = options;
     const customConvert: CustomConvert = (declaration, options, contentService) => {
       const commanderProp = declaration.getChild('commander');
