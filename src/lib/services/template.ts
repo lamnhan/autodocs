@@ -1,7 +1,7 @@
 import { ProjectService } from './project';
 import { CustomConvert, ConvertOptions } from './convert';
 import { AdvancedRendering } from './render';
-import { ContentBlock } from './content';
+import { ContentBlock, ContentService } from './content';
 
 export type BuiltinTemplate =
   | 'basic' | 'basicx'
@@ -17,13 +17,15 @@ export interface TemplateOptions {
 
 export type CustomTemplate = (
   options: TemplateOptions,
+  contentService: ContentService,
   projectService: ProjectService
 ) => AdvancedRendering;
 
 export class TemplateService {
 
   constructor(
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private contentService: ContentService
   ) {}
 
   getTemplate(
@@ -35,7 +37,7 @@ export class TemplateService {
     let templateSecs: undefined | AdvancedRendering;
     // custom
     if (template instanceof Function) {
-      templateSecs = template(options, this.projectService);
+      templateSecs = template(options, this.contentService, this.projectService);
     }
     // builtin
     else {

@@ -36,7 +36,8 @@ export class Main {
     );
     this.convertService = new ConvertService(this.contentService);
     this.templateService = new TemplateService(
-      this.projectService
+      this.projectService,
+      this.contentService,
     );
     this.webService = new WebService(
       this.projectService,
