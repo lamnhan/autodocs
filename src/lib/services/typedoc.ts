@@ -48,6 +48,7 @@ export interface ReflectionData
     DefaultValueData,
     CommentData,
     SourceData {
+  reflection: Reflection;
   name: string;
   link: string;
 }
@@ -126,7 +127,7 @@ export class TypedocService {
           what
         );
     if (!reflection) {
-      throw new Error('No reflection found: ' + what);
+      throw new Error('No reflection: ' + what);
     }
     return reflection;
   }
@@ -149,6 +150,7 @@ export class TypedocService {
     const sourceData = this.getSource(reflection);
     // result
     return {
+      reflection,
       name,
       link,
       ...typeData,

@@ -272,12 +272,20 @@ export class ContentService {
   }
 
   convertLinks(content: string, buildLink: (id: string) => undefined | string) {
+    const formatSrefValue = (rawValue: string) =>
+      rawValue
+      .replace(/\\/g, '') // may ascape the |
+      .trim();
     // turns template into 'a' tag
     content = content
-      .replace(/\[\[([^\]]*) \|[ ]*([^\]]*)\]\]/g, '<a data-sref="$1">$2</a>')
-      .replace(/\[\[([^\]]*)\]\]/g, '<a data-sref="$1">$1</a>')
-      .replace(/\{\@link ([^\}]*) \|[ ]*([^\}]*)\}/g, '<a data-sref="$1">$2</a>')
-      .replace(/\{\@link ([^\}]*)\}/g, '<a data-sref="$1">$1</a>');
+      .replace(
+        /\[\[([^\]]*)[ ]*\|[ ]*([^\]]*)\]\]/g,
+        '<a data-sref="' + formatSrefValue('$1') + '">' + this.md2Html('$2') + '</a>')
+      .replace(/\[\[([^\]]*)\]\]/g, '<a data-sref="$1"><code>$1</code></a>')
+      .replace(
+        /\{\@link ([^\}]*)[ ]*\|[ ]*([^\}]*)\}/g,
+        '<a data-sref="' + formatSrefValue('$1') + '">' + this.md2Html('$2') + '</a>')
+      .replace(/\{\@link ([^\}]*)\}/g, '<a data-sref="$1"><code>$1</code></a>');
     // render link tag
     (content.match(/<a data-sref=".*">.*<\/a>/g) || []).forEach(item => {
       const id = ((/<a data-sref="(.*?)">/.exec(item) || []).pop() || '')
