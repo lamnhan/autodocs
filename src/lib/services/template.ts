@@ -3,6 +3,8 @@ import { CustomConvert, ConvertOptions } from './convert';
 import { AdvancedRendering } from './render';
 import { ContentBlock, ContentService } from './content';
 
+import { Declaration } from '../declaration';
+
 export type BuiltinTemplate =
   | 'basic' | 'basicx'
   | 'full' | 'fullx'
@@ -17,6 +19,7 @@ export interface TemplateOptions {
 
 export type CustomTemplate = (
   options: TemplateOptions,
+  templateService: TemplateService,
   contentService: ContentService,
   projectService: ProjectService
 ) => AdvancedRendering;
@@ -37,7 +40,7 @@ export class TemplateService {
     let templateSecs: undefined | AdvancedRendering;
     // custom
     if (template instanceof Function) {
-      templateSecs = template(options, this.contentService, this.projectService);
+      templateSecs = template(options, this, this.contentService, this.projectService);
     }
     // builtin
     else {
@@ -73,6 +76,20 @@ export class TemplateService {
       ...templateSecs,
       ...bottomSecs,
     };
+  }
+
+  createRendering(rendering: AdvancedRendering = {}, extra = false) {
+    const sections = Object.keys(rendering);
+    // extra
+    if (extra) {
+      sections.unshift('head', 'tocx');
+      sections.push('license');
+    }
+    // build template
+    const result: AdvancedRendering = {};
+    sections.forEach(name => result[name] = rendering[name] || true);
+    // result
+    return result;
   }
 
   private getBasicTemplate(options: TemplateOptions = {}, extra = false) {
@@ -193,6 +210,8 @@ export class TemplateService {
       const commands = declaration.getVariablesOrProperties(
         decl => decl.NAME.endsWith('CommandDef')
       );
+      // add mocked help command def
+      commands.push({ DEFAULT_VALUE: ['help', 'Display help.'] } as Declaration);
       // build blocks
       const result: ContentBlock[] = [];
       const summaryArr: string[] = [];
@@ -254,17 +273,4 @@ export class TemplateService {
     return this.createRendering(sections, extra);
   }
 
-  private createRendering(rendering: AdvancedRendering = {}, extra = false) {
-    const sections = Object.keys(rendering);
-    // extra
-    if (extra) {
-      sections.unshift('head', 'tocx');
-      sections.push('license');
-    }
-    // build template
-    const result: AdvancedRendering = {};
-    sections.forEach(name => result[name] = rendering[name] || true);
-    // result
-    return result;
-  }
 }
