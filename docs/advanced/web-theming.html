@@ -115,8 +115,8 @@
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/getting-started/templates.html"
-                    >Built-in templates</a
+                    href="https://lamnhan.com/ayedocs/getting-started/use-templates.html"
+                    >Use templates</a
                   >
                 </li>
                 <li>
@@ -127,8 +127,8 @@
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/getting-started/basic-advanced-rendering.html"
-                    >Basic advanced rendering</a
+                    href="https://lamnhan.com/ayedocs/getting-started/advanced-rendering.html"
+                    >Advanced rendering</a
                   >
                 </li>
                 <li>
@@ -152,44 +152,35 @@
               </ul>
             </li>
             <li>
-              <a href="https://lamnhan.com/ayedocs/the-cli.html">The CLI</a>
-            </li>
-            <li>
-              <a href="https://lamnhan.com/ayedocs/the-library.html"
-                >The library</a
-              >
-            </li>
-            <li>
               Advanced topics
               <ul>
                 <li>
-                  <a
-                    href="https://lamnhan.com/ayedocs/advanced/file-render-options.html"
-                    >File render options</a
+                  <a href="https://lamnhan.com/ayedocs/advanced/the-cli.html"
+                    >The CLI</a
                   >
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/advanced/template-render-options.html"
-                    >Template render options</a
+                    href="https://lamnhan.com/ayedocs/advanced/the-library.html"
+                    >The library</a
                   >
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/advanced/more-options.html"
-                    >More render options</a
+                    href="https://lamnhan.com/ayedocs/advanced/render-options.html"
+                    >Render options</a
                   >
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/advanced/advanced-rendering-options.html"
-                    >Advanced rendering options</a
+                    href="https://lamnhan.com/ayedocs/advanced/convert-options.html"
+                    >Convert options</a
                   >
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/advanced/custom-reference-generator.html"
-                    >Custom reference generator</a
+                    href="https://lamnhan.com/ayedocs/advanced/reference-generator.html"
+                    >Reference generator</a
                   >
                 </li>
                 <li>
@@ -197,6 +188,11 @@
                     class="active"
                     href="https://lamnhan.com/ayedocs/advanced/web-theming.html"
                     >Web theming</a
+                  >
+                </li>
+                <li>
+                  <a href="https://lamnhan.com/ayedocs/advanced/web-index.html"
+                    >Web index</a
                   >
                 </li>
                 <li>
@@ -220,9 +216,14 @@
             <p>You can provide custom theme for render website.</p>
             <pre><code class="language-ts">{
   webRender: {
-    theme: <span class="hljs-string">'path/to/html'</span>,
+    theme: &#39;path/to/html&#39;,
   }
 }</code></pre>
+            <p>For shorter path, use:</p>
+            <ul>
+              <li><code>@</code>: equals <strong>src/</strong></li>
+              <li><code>~</code>: equals <strong>node_modules/</strong></li>
+            </ul>
             <p>A <strong>ayedocs</strong> theme may contains:</p>
             <ul>
               <li><code>.html</code>: the main template file</li>

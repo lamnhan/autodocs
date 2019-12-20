@@ -8,6 +8,11 @@ You can provide custom theme for render website.
 }
 ```
 
+For shorter path, use:
+
+- `@`: equals **src/**
+- `~`: equals **node_modules/**
+
 A **ayedocs** theme may contains:
 
 - `.html`: the main template file

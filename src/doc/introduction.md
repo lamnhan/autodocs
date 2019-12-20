@@ -22,7 +22,7 @@ interface Options {
 
 You may document it by copy the source code, because it is Typescript so any developer can understand what you mean.
 
-Or, using **ayedocs** you can output a beautiful table listing the options with a simple config:
+Or, using **ayedocs** you can output a listing table of the options with a simple config:
 
 ```ts
 {

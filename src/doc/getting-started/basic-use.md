@@ -1,4 +1,4 @@
-Now is the time to generate some content.
+Now is the time to generate some content with **the ayedocs CLI**.
 
 ## Output modes
 
@@ -50,31 +50,29 @@ These render inputs provide instructions for the renderer to build the final con
 
 You can input a markdown file by its path path, `@` will be replaced with `src/`.
 
-The source file should puts top headings at level 2.
+The source file should puts highest headings at **level 2**.
 
 ```ts
 {
-  'TEST.md': 'src/doc/test.md', // or @doc/test.md
-}
-```
-
-You can also use default file path:
-
-```ts
-{
-  'file1.html': true // true = @doc/file1.md = src/doc/file1.md
+  'file1.md': 'src/doc/test.md',
+  // or
+  'file2.md': '@doc/test.md',
+  // or default path
+  'file3.html': true, // src/doc/file3.md
 }
 ```
 
 ### Using template
 
-Template is the most easy way to generate content, but you must name the source or structure a project with certain format.
+Template is the most easy way to generate content, but you must name source elements or structure projects with certain formatting, see <https://github.com/lamnhan/seminjecto>.
 
 To render using a template, just provide the template name:
 
 ```ts
 {
   'TEST.md': 'basic',
+  // custom template
+  'TEST2.md': customTemplate,
 }
 ```
 
@@ -88,5 +86,21 @@ To render an advanced rendering (custom sections):
     section1: ['Main', 'SELF']
     // more sections here
   },
+}
+```
+
+### With rendering options
+
+See [[FileRenderWithOptions]] for further customize render.
+
+```ts
+{
+  // input
+  template: '...', // or
+  file: '...', // or
+  rendering: {},
+  // any options
+  // for certain type of rendering input
+  // ...
 }
 ```

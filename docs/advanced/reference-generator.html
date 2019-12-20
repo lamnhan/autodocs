@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Installation</title>
+    <title>Reference generator</title>
 
     <link
       rel="stylesheet"
@@ -62,19 +62,19 @@
               <ul>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/introduction.html#use-cases"
+                    href="https://lamnhan.com/ayedocs/introduction.html#undefined"
                     >Use cases</a
                   >
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/introduction.html#what-the-benefits"
+                    href="https://lamnhan.com/ayedocs/introduction.html#undefined"
                     >What the benefits?</a
                   >
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/introduction.html#the-workflow"
+                    href="https://lamnhan.com/ayedocs/introduction.html#undefined"
                     >The workflow</a
                   >
                 </li>
@@ -85,7 +85,6 @@
               <ul>
                 <li>
                   <a
-                    class="active"
                     href="https://lamnhan.com/ayedocs/getting-started/installation.html"
                     >Installation</a
                   >
@@ -180,6 +179,7 @@
                 </li>
                 <li>
                   <a
+                    class="active"
                     href="https://lamnhan.com/ayedocs/advanced/reference-generator.html"
                     >Reference generator</a
                   >
@@ -207,75 +207,13 @@
         </aside>
 
         <article class="col-9 content">
-          <div class="title"><h1>Installation</h1></div>
-
-          <section
-            id="toc"
-            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
-          >
-            <ul>
-              <li><a href="#the-cli">The CLI</a></li>
-              <li><a href="#the-library">The library</a></li>
-            </ul>
-          </section>
+          <div class="title"><h1>Reference generator</h1></div>
 
           <section
             id="content"
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
-            <p>
-              You can use <strong>ayedocs</strong> to generate documentation
-              from the command-line interface or manually parsing, converting or
-              rendering content in a Node application.
-            </p>
-            <h2 id="the-cli">The CLI</h2>
-            <p>Install globally by running:</p>
-            <pre><code class="language-sh">npm install -g @lamnhan/ayedocs</code></pre>
-            <p>
-              A command now available from the terminal, you can run:
-              <code>ayedocs</code>.
-            </p>
-            <p>
-              If you wish to run the CLI locally, install the package with
-              <code>--save-dev</code> flag:
-            </p>
-            <pre><code class="language-sh">npm install --save-dev @lamnhan/ayedocs</code></pre>
-            <p>
-              Then put a script in the <code>package.json</code>, so you can do
-              <code>npm run docs</code> every build.
-            </p>
-            <pre><code class="language-json">{
-  &quot;scripts&quot;: {
-    &quot;docs&quot;: &quot;ayedocs generate&quot;
-  }
-}</code></pre>
-            <h2 id="the-library">The library</h2>
-            <p>Install as dev dependency:</p>
-            <pre><code class="language-sh">npm install --save-dev @lamnhan/ayedocs</code></pre>
-            <p>Use the library:</p>
-            <pre><code class="language-ts">import { ayedocs } from &quot;@lamnhan/ayedocs&quot;;
-
-// init an instance
-const generator = ayedocs(/* Options */);
-
-// parsing
-const parsing = generator.parse(&quot;Main&quot;);
-
-// rendering
-const rendering = generator.render({
-  section1: [&quot;Options&quot;],
-  section2: [&quot;Main&quot;]
-});</code></pre>
-            <p>
-              See
-              <a
-                data-sref="Main"
-                href="https://lamnhan.com/ayedocs/advanced/the-library.html#main"
-                ><code>Main</code></a
-              >
-              for service detail and
-              <a data-sref="Options"><code>Options</code></a> for more options.
-            </p>
+            <p>TODO</p>
           </section>
         </article>
       </div>

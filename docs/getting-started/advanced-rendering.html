@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Installation</title>
+    <title>Advanced rendering</title>
 
     <link
       rel="stylesheet"
@@ -62,19 +62,19 @@
               <ul>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/introduction.html#use-cases"
+                    href="https://lamnhan.com/ayedocs/introduction.html#undefined"
                     >Use cases</a
                   >
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/introduction.html#what-the-benefits"
+                    href="https://lamnhan.com/ayedocs/introduction.html#undefined"
                     >What the benefits?</a
                   >
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/introduction.html#the-workflow"
+                    href="https://lamnhan.com/ayedocs/introduction.html#undefined"
                     >The workflow</a
                   >
                 </li>
@@ -85,7 +85,6 @@
               <ul>
                 <li>
                   <a
-                    class="active"
                     href="https://lamnhan.com/ayedocs/getting-started/installation.html"
                     >Installation</a
                   >
@@ -128,6 +127,7 @@
                 </li>
                 <li>
                   <a
+                    class="active"
                     href="https://lamnhan.com/ayedocs/getting-started/advanced-rendering.html"
                     >Advanced rendering</a
                   >
@@ -207,15 +207,25 @@
         </aside>
 
         <article class="col-9 content">
-          <div class="title"><h1>Installation</h1></div>
+          <div class="title"><h1>Advanced rendering</h1></div>
 
           <section
             id="toc"
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
             <ul>
-              <li><a href="#the-cli">The CLI</a></li>
-              <li><a href="#the-library">The library</a></li>
+              <li><a href="#builtin-sections">Builtin sections</a></li>
+              <li><a href="#content-from-a-file">Content from a file</a></li>
+              <li><a href="#using-template">Using template</a></li>
+              <li>
+                <a href="#declaration-rendering">Declaration rendering</a>
+              </li>
+              <li><a href="#multiple-blocks">Multiple blocks</a></li>
+              <li>
+                <a href="#template-or-file-with-options"
+                  >Template or file with options</a
+                >
+              </li>
             </ul>
           </section>
 
@@ -224,58 +234,118 @@
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
             <p>
-              You can use <strong>ayedocs</strong> to generate documentation
-              from the command-line interface or manually parsing, converting or
-              rendering content in a Node application.
-            </p>
-            <h2 id="the-cli">The CLI</h2>
-            <p>Install globally by running:</p>
-            <pre><code class="language-sh">npm install -g @lamnhan/ayedocs</code></pre>
-            <p>
-              A command now available from the terminal, you can run:
-              <code>ayedocs</code>.
+              If you wish more control over rendering, you can use the advanced
+              rendering format.
             </p>
             <p>
-              If you wish to run the CLI locally, install the package with
-              <code>--save-dev</code> flag:
+              Advanced rendering allows you to defined more sections with
+              specific config.
             </p>
-            <pre><code class="language-sh">npm install --save-dev @lamnhan/ayedocs</code></pre>
-            <p>
-              Then put a script in the <code>package.json</code>, so you can do
-              <code>npm run docs</code> every build.
-            </p>
-            <pre><code class="language-json">{
-  &quot;scripts&quot;: {
-    &quot;docs&quot;: &quot;ayedocs generate&quot;
-  }
+            <pre><code class="language-ts">{
+  section1: [&#39;Options&#39;],
+  section2: [&#39;Main&#39;, &#39;FULL&#39;]
 }</code></pre>
-            <h2 id="the-library">The library</h2>
-            <p>Install as dev dependency:</p>
-            <pre><code class="language-sh">npm install --save-dev @lamnhan/ayedocs</code></pre>
-            <p>Use the library:</p>
-            <pre><code class="language-ts">import { ayedocs } from &quot;@lamnhan/ayedocs&quot;;
-
-// init an instance
-const generator = ayedocs(/* Options */);
-
-// parsing
-const parsing = generator.parse(&quot;Main&quot;);
-
-// rendering
-const rendering = generator.render({
-  section1: [&quot;Options&quot;],
-  section2: [&quot;Main&quot;]
-});</code></pre>
+            <h2 id="builtin-sections">Builtin sections</h2>
+            <p>
+              Use builtin sections with the format <code>[name]: true</code>:
+            </p>
+            <pre><code class="language-ts">{
+  head: true,
+}</code></pre>
+            <p>List of builtin sections:</p>
+            <ul>
+              <li><code>head</code>: Package name &amp; description</li>
+              <li><code>toc</code>/<code>tocx</code>: Table of content</li>
+              <li><code>license</code>: License information</li>
+            </ul>
+            <h2 id="content-from-a-file">Content from a file</h2>
+            <p>Provide the file path:</p>
+            <pre><code class="language-ts">{
+  section1: &quot;@docs/file1.md&quot;;
+}</code></pre>
+            <h2 id="using-template">Using template</h2>
+            <pre><code class="language-ts">{
+  section1: &#39;basic&#39;, // built-in
+  section2: customTemplate, // custom
+}</code></pre>
+            <h2 id="declaration-rendering">Declaration rendering</h2>
+            <pre><code class="language-ts">{
+  section1: [ &#39;Options&#39;, &#39;SELF&#39; ],
+  section2: [ &#39;Main&#39;, &#39;FULL&#39;, { /* options */ } ]
+  section3: [ &#39;Class1&#39;, customConvert ]
+}</code></pre>
+            <p>
+              A
+              <a
+                data-sref="DeclarationRender"
+                href="https://lamnhan.com/ayedocs/reference/index.html#declarationrender"
+                ><code>DeclarationRender</code></a
+              >
+              has of 3 parts:
+            </p>
+            <ul>
+              <li>The <strong>WHAT</strong>: what the target?</li>
+              <li>
+                The <strong>HOW</strong> (optional): how to output the WHAT,
+                default to <code>SELF</code>.
+              </li>
+              <li>The extra (optional): more rendering options.</li>
+            </ul>
+            <p>
+              For the WHAT part, use this format to target a source code
+              element:
+            </p>
+            <ul>
+              <li>
+                Direct element: provide its name, ex. <code>Options</code>,
+                &#39;function1&#39;, ...
+              </li>
+              <li>
+                Indirect element: its parent name and its name with
+                <code>.</code> in between, ex. <code>Main.method1</code>, ...
+              </li>
+              <li>
+                Custom source: list of path, ex.
+                <code>[path1.ts,path2.ts]</code>
+              </li>
+            </ul>
+            <h2 id="multiple-blocks">Multiple blocks</h2>
+            <p>Multiple blocks for one section:</p>
+            <pre><code class="language-ts">{
+  section1: [
+    // content block
+    {
+      type: &quot;text&quot;,
+      data: &quot;Some text ...&quot;
+    },
+    //
+    [&quot;Options&quot;, &quot;SELF&quot;],
+    [&quot;Options&quot;, &quot;SUMMARY_PROPERTIES&quot;]
+  ];
+}</code></pre>
+            <h2 id="template-or-file-with-options">
+              Template or file with options
+            </h2>
             <p>
               See
               <a
-                data-sref="Main"
-                href="https://lamnhan.com/ayedocs/advanced/the-library.html#main"
-                ><code>Main</code></a
+                data-sref="SectionRenderWithOptions"
+                href="https://lamnhan.com/ayedocs/reference/interfaces/sectionrenderwithoptions.html"
+                ><code>SectionRenderWithOptions</code></a
               >
-              for service detail and
-              <a data-sref="Options"><code>Options</code></a> for more options.
+              for template or file with options:
             </p>
+            <pre><code class="language-ts">{
+  section1: {
+    // input
+    template: &#39;...&#39;, // or
+    file: &#39;...&#39;,
+    // any options
+    // for certain type of input
+    // ...
+  }
+}
+</code></pre>
           </section>
         </article>
       </div>

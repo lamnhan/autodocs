@@ -1,5 +1,7 @@
 A [[Declaration]] supports certain convert output depended on its kind. You can also provide your custom converts output, use the `converts` field of [[Options]]. 
 
+## Default outputs
+
 Here the list of default output:
 
 | Output | Kinds | Options | Description |
@@ -30,9 +32,23 @@ Here the list of default output:
 
 Provide options with the third item of a rendering input:
 
-- Declaration id: `{ id }`
-- **SELF** header: `{ title, link }`
-- Raw object: `{ raw: true }`
-- Level: `{ level }`
-- Use the default heading: `{ heading: true }`
-- Use local anchors (instead of detail links): `{ local: true }`
+- Custom [[Declaration]] id: `{ id }`
+- **SELF** output heading: `{ title, link }`
+- Raw object for default value: `{ raw: true }`
+- Change base level: `{ level }`
+- Show the default headings: `{ heading: true }`
+- Use local anchors (instead of ref links): `{ local: true }`
+- Filter children: `{ filter: [[DeclarationFilter]] }`
+- Any custom key-value pairs
+
+## Custom output
+
+You can also provide your custom convert function, see [[CustomConvert]].
+
+A custom convert function recieves these params:
+
+- [[Declaration]]: the declaration
+- [[ConvertOptions]]: any convert options
+- [[ContentService]]: a content service instance
+
+The result can be a `string` or an array of [[ContentBlock]].

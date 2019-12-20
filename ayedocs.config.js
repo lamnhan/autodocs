@@ -41,30 +41,24 @@ module.exports = {
         autoTOC: true
       },
       'getting-started/options.html': {
-        pageTitle: 'Options',
-        rendering: {
-          optionsintro: '@doc/getting-started/options.md',
-          options: [
-            ['Options', 'SELF'],
-            ['Options', 'SUMMARY_PROPERTIES']
-          ],
-          webrender: [
-            ['WebRender', 'SELF'],
-            ['WebRender', 'SUMMARY_PROPERTIES']
-          ]
-        }
-      },
-      'getting-started/templates.html': {
         file: true,
-        pageTitle: 'Built-in templates'
+        pageTitle: 'Options',
+        autoTOC: true
+      },
+      'getting-started/use-templates.html': {
+        file: true,
+        pageTitle: 'Use templates',
+        autoTOC: true
       },
       'getting-started/convert-outputs.html': {
         file: true,
-        pageTitle: 'Convert outputs'
+        pageTitle: 'Convert outputs',
+        autoTOC: true
       },
-      'getting-started/basic-advanced-rendering.html': {
+      'getting-started/advanced-rendering.html': {
         file: true,
-        pageTitle: 'Basic advanced rendering'
+        pageTitle: 'Advanced rendering',
+        autoTOC: true,
       },
       'getting-started/custom-sections.html': {
         file: true,
@@ -78,12 +72,12 @@ module.exports = {
         file: true,
         pageTitle: 'Inline render'
       },
-      'the-cli.html': {
+      'advanced/the-cli.html': {
         pageTitle: 'The CLI',
-        topSecs: { toc: true },
-        template: 'cli'
+        template: 'cli',
+        topSecs: { toc: true }
       },
-      'the-library.html': {
+      'advanced/the-library.html': {
         pageTitle: 'The library',
         rendering: {
           toc: true,
@@ -91,27 +85,17 @@ module.exports = {
           main: ['Main', 'FULL'],
         }
       },
-      'advanced/file-render-options.html': {
-        pageTitle: 'File render options',
+      'advanced/render-options.html': {
+        pageTitle: 'Render options',
         rendering: {
-          renderfileoptions: ['RenderFileOptions', 'FULL'],
+          local: ['RenderLocalOptions', 'FULL'],
+          web: ['RenderWebOptions', 'FULL'],
+          file: ['RenderFileOptions', 'FULL'],
+          template: ['RenderTemplateOptions', 'FULL']
         }
       },
-      'advanced/template-render-options.html': {
-        pageTitle: 'Template render options',
-        rendering: {
-          rendertemplateoptions: ['RenderTemplateOptions', 'FULL']
-        }
-      },
-      'advanced/more-options.html': {
-        pageTitle: 'More render options',
-        rendering: {
-          renderlocaloptions: ['RenderLocalOptions', 'FULL'],
-          renderweboptions: ['RenderWebOptions', 'FULL']
-        }
-      },
-      'advanced/advanced-rendering-options.html': {
-        pageTitle: 'Advanced rendering options',
+      'advanced/convert-options.html': {
+        pageTitle: 'Convert options',
         rendering: {
           declarationoptions: [
             ['DeclarationOptions', 'SELF'],
@@ -135,13 +119,17 @@ module.exports = {
           ]
         }
       },
-      'advanced/custom-reference-generator.html': {
+      'advanced/reference-generator.html': {
         file: true,
-        pageTitle: 'Custom reference generator'
+        pageTitle: 'Reference generator'
       },
       'advanced/web-theming.html': {
         file: true,
         pageTitle: 'Web theming'
+      },
+      'advanced/web-index.html': {
+        file: true,
+        pageTitle: 'Web index'
       },
       'advanced/web-categories.html': {
         file: true,

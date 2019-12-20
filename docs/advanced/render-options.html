@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Options</title>
+    <title>Render options</title>
 
     <link
       rel="stylesheet"
@@ -109,7 +109,6 @@
                 </li>
                 <li>
                   <a
-                    class="active"
                     href="https://lamnhan.com/ayedocs/getting-started/options.html"
                     >Options</a
                   >
@@ -168,6 +167,7 @@
                 </li>
                 <li>
                   <a
+                    class="active"
                     href="https://lamnhan.com/ayedocs/advanced/render-options.html"
                     >Render options</a
                   >
@@ -207,40 +207,31 @@
         </aside>
 
         <article class="col-9 content">
-          <div class="title"><h1>Options</h1></div>
+          <div class="title"><h1>Render options</h1></div>
 
           <section
-            id="toc"
+            id="local"
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
-            <ul>
-              <li><a href="#options-list">Options list</a></li>
-              <li><a href="#web-options">Web options</a></li>
-            </ul>
-          </section>
+            <h2>
+              <a
+                name="renderlocaloptions"
+                href="https://lamnhan.com/ayedocs/reference/interfaces/renderlocaloptions.html"
+                ><p>The <code>RenderLocalOptions</code> interface</p>
+              </a>
+            </h2>
 
-          <section
-            id="content"
-            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
-          >
-            <p>Options can be provided in 3 ways:</p>
-            <ul>
-              <li>
-                Under the <strong>@lamnhan/ayedocs</strong> property of
-                <code>package.json</code> file
-              </li>
-              <li>
-                The <code>ayedocs.config.js</code> file for more advanced config
-              </li>
-              <li>
-                By the <code>options</code> param when init new
-                <a data-sref="ayedocs "
-                  ><p><code>ayedocs(options?)</code></p>
-                </a>
-                instance.
-              </li>
-            </ul>
-            <h2 id="options-list">Options list</h2>
+            <p>
+              <strong
+                >Local options override any corresponding global options</strong
+              >
+            </p>
+            <h3>
+              <a name="renderlocaloptions-properties"
+                ><p>RenderLocalOptions properties</p>
+              </a>
+            </h3>
+
             <table class="table">
               <thead>
                 <tr>
@@ -253,115 +244,42 @@
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#cleanoutput"
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/renderlocaloptions.html#cleanoutput"
                       >cleanOutput?</a
                     >
                   </td>
                   <td><code>boolean</code></td>
-                  <td>Global clean output, can be overridden per file</td>
-                </tr>
-                <tr>
                   <td>
-                    <a
-                      href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#filerender"
-                      >fileRender?</a
-                    >
+                    Ignore global sections (current content will be replaced)
                   </td>
-                  <td>
-                    <code
-                      ><a
-                        href="https://lamnhan.com/ayedocs/reference/interfaces/batchrender.html"
-                        target="_blank"
-                        >BatchRender</a
-                      ></code
-                    >
-                  </td>
-                  <td>Output as standalone file</td>
-                </tr>
-                <tr>
-                  <td>
-                    <a
-                      href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#refgenerator"
-                      >refGenerator?</a
-                    >
-                  </td>
-                  <td>
-                    <code
-                      >"none" | "typedoc" |
-                      <a
-                        href="https://lamnhan.com/ayedocs/reference/index.html#customreferencegenerator"
-                        target="_blank"
-                        >CustomReferenceGenerator</a
-                      ></code
-                    >
-                  </td>
-                  <td>
-                    Detail reference generator, default to &#39;typedoc&#39;
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a
-                      href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#srcpath"
-                      >srcPath?</a
-                    >
-                  </td>
-                  <td><code>string</code></td>
-                  <td>Path to the source code, default to <code>src</code></td>
-                </tr>
-                <tr>
-                  <td>
-                    <a
-                      href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#typedocconfigs"
-                      >typedocConfigs?</a
-                    >
-                  </td>
-                  <td>
-                    <code
-                      ><a
-                        href="https://lamnhan.com/ayedocs/reference/interfaces/typedocconfigs.html"
-                        target="_blank"
-                        >TypedocConfigs</a
-                      ></code
-                    >
-                  </td>
-                  <td>
-                    Custom <a href="https://typedoc.org">Typedoc</a> configs
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a
-                      href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#url"
-                      >url?</a
-                    >
-                  </td>
-                  <td><code>string</code></td>
-                  <td>
-                    Docs homepage url, default to the Github Pages repo url
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <a
-                      href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#webrender"
-                      >webRender?</a
-                    >
-                  </td>
-                  <td>
-                    <code
-                      ><a
-                        href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html"
-                        target="_blank"
-                        >WebRender</a
-                      ></code
-                    >
-                  </td>
-                  <td>Output as a website</td>
                 </tr>
               </tbody>
             </table>
-            <h2 id="web-options">Web options</h2>
+          </section>
+
+          <section
+            id="web"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <h2>
+              <a
+                name="renderweboptions"
+                href="https://lamnhan.com/ayedocs/reference/interfaces/renderweboptions.html"
+                ><p>The <code>RenderWebOptions</code> interface</p>
+              </a>
+            </h2>
+
+            <p>
+              <strong
+                >Web options provides more information for a web page</strong
+              >
+            </p>
+            <h3>
+              <a name="renderweboptions-properties"
+                ><p>RenderWebOptions properties</p>
+              </a>
+            </h3>
+
             <table class="table">
               <thead>
                 <tr>
@@ -374,65 +292,180 @@
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html#categories"
-                      >categories?</a
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/renderweboptions.html#deepmenu"
+                      >deepMenu?</a
                     >
                   </td>
-                  <td><code>object</code></td>
-                  <td>Website article grouping</td>
+                  <td><code>boolean</code></td>
+                  <td>Show top level headings in the menu</td>
                 </tr>
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html#files"
-                      ><strong>files</strong></a
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/renderweboptions.html#pagetitle"
+                      >pageTitle?</a
+                    >
+                  </td>
+                  <td><code>string</code></td>
+                  <td>The page title</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/renderweboptions.html#webdata"
+                      >webData?</a
                     >
                   </td>
                   <td>
                     <code
                       ><a
-                        href="https://lamnhan.com/ayedocs/reference/interfaces/batchrender.html"
+                        href="https://lamnhan.com/ayedocs/reference/interfaces/webdata.html"
                         target="_blank"
-                        >BatchRender</a
+                        >WebData</a
                       ></code
                     >
                   </td>
-                  <td>List of files</td>
+                  <td>Data used in the webpage</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section
+            id="file"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <h2>
+              <a
+                name="renderfileoptions"
+                href="https://lamnhan.com/ayedocs/reference/interfaces/renderfileoptions.html"
+                ><p>The <code>RenderFileOptions</code> interface</p>
+              </a>
+            </h2>
+
+            <p><strong>Additional option for file rendering</strong></p>
+            <h3>
+              <a name="renderfileoptions-properties"
+                ><p>RenderFileOptions properties</p>
+              </a>
+            </h3>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/renderfileoptions.html#autotoc"
+                      >autoTOC?</a
+                    >
+                  </td>
+                  <td><code>boolean</code></td>
+                  <td>Extract all headings</td>
                 </tr>
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html#index"
-                      >index?</a
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/renderfileoptions.html#headingoffset"
+                      >headingOffset?</a
                     >
                   </td>
-                  <td><code>string</code></td>
+                  <td><code>number</code></td>
+                  <td>Offset all the headings</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section
+            id="template"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <h2>
+              <a
+                name="rendertemplateoptions"
+                href="https://lamnhan.com/ayedocs/reference/interfaces/rendertemplateoptions.html"
+                ><p>The <code>RenderTemplateOptions</code> interface</p>
+              </a>
+            </h2>
+
+            <p><strong>Additional option for template rendering</strong></p>
+            <h3>
+              <a name="rendertemplateoptions-properties"
+                ><p>RenderTemplateOptions properties</p>
+              </a>
+            </h3>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
                   <td>
-                    Custom website index.html, default to a page that redirects
-                    to the first article
+                    <a
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/rendertemplateoptions.html#bottomsecs"
+                      >bottomSecs?</a
+                    >
                   </td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/ayedocs/reference/interfaces/advancedrendering.html"
+                        target="_blank"
+                        >AdvancedRendering</a
+                      ></code
+                    >
+                  </td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html#out"
-                      >out?</a
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/rendertemplateoptions.html#convertings"
+                      >convertings?</a
                     >
                   </td>
-                  <td><code>string</code></td>
-                  <td>Website output dir</td>
+                  <td><code>object</code></td>
+                  <td></td>
                 </tr>
                 <tr>
                   <td>
                     <a
-                      href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html#theme"
-                      >theme?</a
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/rendertemplateoptions.html#headingoffset"
+                      >headingOffset?</a
                     >
                   </td>
-                  <td><code>string</code></td>
+                  <td><code>number</code></td>
+                  <td>Offset all the headings</td>
+                </tr>
+                <tr>
                   <td>
-                    Name of or path to a website theme, built-in themes: default
+                    <a
+                      href="https://lamnhan.com/ayedocs/reference/interfaces/rendertemplateoptions.html#topsecs"
+                      >topSecs?</a
+                    >
                   </td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/ayedocs/reference/interfaces/advancedrendering.html"
+                        target="_blank"
+                        >AdvancedRendering</a
+                      ></code
+                    >
+                  </td>
+                  <td></td>
                 </tr>
               </tbody>
             </table>

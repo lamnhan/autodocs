@@ -10,13 +10,6 @@ import { WebData, WebService } from './web';
 
 import { RendererData, RendererFileData, Renderer } from '../renderer';
 
-/**
- * Advanced rendering unit
- * 
- * true = builtin
- * string = file path
- * SectionRender = single/multile block rendering
- */
 export interface AdvancedRendering {
   [section: string]: SectionRender;
 }
@@ -42,9 +35,6 @@ export interface SectionRenderWithOptions
   file?: string;
 }
 
-/**
- * Input for a file
- */
 export type FileRender = 
   | true // default file
   | string // direct file
@@ -127,13 +117,6 @@ export interface RenderResult {
 
 /**
  * Turns a render input into the final content
- * 
- * ### Builtin sections
- *
- * - `head`: Package name & description
- * - `toc`: Table of content
- * - `tocx`: Table of content, with detail API reference link
- * - `license`: License information
  */
 export class RenderService {
   private tocPlaceholder = '[TOC]';

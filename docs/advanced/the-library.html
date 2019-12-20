@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>The library</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism.min.css"
+    />
+
+    <link rel="stylesheet" href="https://lamnhan.com/ayedocs/assets/main.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="https://lamnhan.com/ayedocs"
+        >@lamnhan/ayedocs documentation</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"></li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="https://lamnhan.com">Homepage</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/lamnhan/ayedocs"
+              >Github</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container-fluid main">
+      <div class="row">
+        <aside class="col-3 menu">
+          <div><strong>Table of content</strong></div>
+          <ul>
+            <li>
+              <a href="https://lamnhan.com/ayedocs/introduction.html"
+                >Introduction</a
+              >
+              <ul>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/introduction.html#undefined"
+                    >Use cases</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/introduction.html#undefined"
+                    >What the benefits?</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/introduction.html#undefined"
+                    >The workflow</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li>
+              Getting started
+              <ul>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/getting-started/installation.html"
+                    >Installation</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/getting-started/how-it-works.html"
+                    >How it works?</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/getting-started/the-source-code.html"
+                    >Understand the code</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/getting-started/basic-use.html"
+                    >Basic use</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/getting-started/options.html"
+                    >Options</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/getting-started/use-templates.html"
+                    >Use templates</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/getting-started/convert-outputs.html"
+                    >Convert outputs</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/getting-started/advanced-rendering.html"
+                    >Advanced rendering</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/getting-started/custom-sections.html"
+                    >Custom sections</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/getting-started/linkings.html"
+                    >Content linkings</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/getting-started/inline-render.html"
+                    >Inline render</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li>
+              Advanced topics
+              <ul>
+                <li>
+                  <a href="https://lamnhan.com/ayedocs/advanced/the-cli.html"
+                    >The CLI</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="active"
+                    href="https://lamnhan.com/ayedocs/advanced/the-library.html"
+                    >The library</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/advanced/render-options.html"
+                    >Render options</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/advanced/convert-options.html"
+                    >Convert options</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/advanced/reference-generator.html"
+                    >Reference generator</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/advanced/web-theming.html"
+                    >Web theming</a
+                  >
+                </li>
+                <li>
+                  <a href="https://lamnhan.com/ayedocs/advanced/web-index.html"
+                    >Web index</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://lamnhan.com/ayedocs/advanced/web-categories.html"
+                    >Web categories</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </aside>
+
+        <article class="col-9 content">
+          <div class="title"><h1>The library</h1></div>
+
+          <section
+            id="toc"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <ul>
+              <li>
+                <a href="#main"><code>main(optionsInput?)</code></a>
+              </li>
+              <li>
+                <a href="#main">The <code>Main</code> class</a>
+                <ul>
+                  <li><a href="#main-properties">Main properties</a></li>
+                  <li>
+                    <a href="#main-methods">Main methods</a>
+                    <ul>
+                      <li>
+                        <a href="#main-extend-0"
+                          ><code>extend(optionsInput?, packagePath?)</code></a
+                        >
+                      </li>
+                      <li>
+                        <a href="#main-generateref-0"
+                          ><code>generateRef()</code></a
+                        >
+                      </li>
+                      <li>
+                        <a href="#main-output-0"
+                          ><code>output(path, renderInput)</code></a
+                        >
+                      </li>
+                      <li>
+                        <a href="#main-outputlocal-0"
+                          ><code>outputLocal()</code></a
+                        >
+                      </li>
+                      <li>
+                        <a href="#main-render-0"
+                          ><code>render(path, renderInput)</code></a
+                        >
+                      </li>
+                      <li>
+                        <a href="#main-renderlocal-0"
+                          ><code>renderLocal()</code></a
+                        >
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+
+          <section
+            id="init"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <h2>
+              <a
+                name="main"
+                href="https://lamnhan.com/ayedocs/reference/index.html#main"
+                ><p><code>main(optionsInput?)</code></p>
+              </a>
+            </h2>
+
+            <p>
+              <strong>The <code>main</code> call signature.</strong>
+            </p>
+            <p><strong>Parameters</strong></p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Param</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>optionsInput</td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/ayedocs/reference/index.html#optionsinput"
+                        target="_blank"
+                        >OptionsInput</a
+                      ></code
+                    >
+                  </td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+            <p><strong>Returns</strong></p>
+            <p>
+              <code
+                ><a
+                  href="https://lamnhan.com/ayedocs/reference/classes/main.html"
+                  target="_blank"
+                  >Main</a
+                ></code
+              >
+            </p>
+          </section>
+
+          <section
+            id="main"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <h2>
+              <a
+                name="main"
+                href="https://lamnhan.com/ayedocs/reference/classes/main.html"
+                ><p>The <code>Main</code> class</p>
+              </a>
+            </h2>
+
+            <p><strong>The Ayedocs module</strong></p>
+            <h3>
+              <a name="main-properties"><p>Main properties</p> </a>
+            </h3>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/ayedocs/reference/classes/main.html#content"
+                      >Content</a
+                    >
+                  </td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/ayedocs/reference/classes/contentservice.html"
+                        target="_blank"
+                        >ContentService</a
+                      ></code
+                    >
+                  </td>
+                  <td>Get the Content service</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/ayedocs/reference/classes/main.html#convert"
+                      >Convert</a
+                    >
+                  </td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/ayedocs/reference/classes/convertservice.html"
+                        target="_blank"
+                        >ConvertService</a
+                      ></code
+                    >
+                  </td>
+                  <td>Get the Convert service</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/ayedocs/reference/classes/main.html#load"
+                      >Load</a
+                    >
+                  </td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/ayedocs/reference/classes/loadservice.html"
+                        target="_blank"
+                        >LoadService</a
+                      ></code
+                    >
+                  </td>
+                  <td>Get the Load service</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/ayedocs/reference/classes/main.html#parse"
+                      >Parse</a
+                    >
+                  </td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/ayedocs/reference/classes/parseservice.html"
+                        target="_blank"
+                        >ParseService</a
+                      ></code
+                    >
+                  </td>
+                  <td>Get the Parse service</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/ayedocs/reference/classes/main.html#project"
+                      >Project</a
+                    >
+                  </td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/ayedocs/reference/classes/projectservice.html"
+                        target="_blank"
+                        >ProjectService</a
+                      ></code
+                    >
+                  </td>
+                  <td>Get the Project service</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/ayedocs/reference/classes/main.html#render"
+                      >Render</a
+                    >
+                  </td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/ayedocs/reference/classes/renderservice.html"
+                        target="_blank"
+                        >RenderService</a
+                      ></code
+                    >
+                  </td>
+                  <td>Get the Render service</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a
+                      href="https://lamnhan.com/ayedocs/reference/classes/main.html#typedoc"
+                      >Typedoc</a
+                    >
+                  </td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/ayedocs/reference/classes/typedocservice.html"
+                        target="_blank"
+                        >TypedocService</a
+                      ></code
+                    >
+                  </td>
+                  <td>Get the Typedoc service</td>
+                </tr>
+              </tbody>
+            </table>
+            <h3>
+              <a name="main-methods"><p>Main methods</p> </a>
+            </h3>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Function</th>
+                  <th>Returns type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <a href="#main-extend-0"
+                      >extend(optionsInput?, packagePath?)</a
+                    >
+                  </td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/ayedocs/reference/classes/main.html"
+                        target="_blank"
+                        >Main</a
+                      ></code
+                    >
+                  </td>
+                  <td>Create a new instance</td>
+                </tr>
+                <tr>
+                  <td><a href="#main-generateref-0">generateRef()</a></td>
+                  <td><code>void</code></td>
+                  <td>Generate the reference using Typedoc.</td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="#main-output-0">output(path, renderInput)</a>
+                  </td>
+                  <td><code>void</code></td>
+                  <td>Render and save a document</td>
+                </tr>
+                <tr>
+                  <td><a href="#main-outputlocal-0">outputLocal()</a></td>
+                  <td><code>void</code></td>
+                  <td>
+                    Render and save documents based on local configuration.
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="#main-render-0">render(path, renderInput)</a>
+                  </td>
+                  <td><code>string</code></td>
+                  <td>Render a file</td>
+                </tr>
+                <tr>
+                  <td><a href="#main-renderlocal-0">renderLocal()</a></td>
+                  <td><code>object</code></td>
+                  <td>Render content based on local configuration.</td>
+                </tr>
+              </tbody>
+            </table>
+            <h4>
+              <a
+                name="main-extend-0"
+                href="https://lamnhan.com/ayedocs/reference/classes/main.html#extend"
+                ><p><code>extend(optionsInput?, packagePath?)</code></p>
+              </a>
+            </h4>
+
+            <p><strong>Create a new instance</strong></p>
+            <p><strong>Parameters</strong></p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Param</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>optionsInput</td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/ayedocs/reference/index.html#optionsinput"
+                        target="_blank"
+                        >OptionsInput</a
+                      ></code
+                    >
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>packagePath</td>
+                  <td><code>string</code></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+            <p><strong>Returns</strong></p>
+            <p>
+              <code
+                ><a
+                  href="https://lamnhan.com/ayedocs/reference/classes/main.html"
+                  target="_blank"
+                  >Main</a
+                ></code
+              >
+            </p>
+            <hr />
+            <h4>
+              <a
+                name="main-generateref-0"
+                href="https://lamnhan.com/ayedocs/reference/classes/main.html#generateref"
+                ><p><code>generateRef()</code></p>
+              </a>
+            </h4>
+
+            <p><strong>Generate the reference using Typedoc.</strong></p>
+            <p>
+              The default folder is <strong>/docs</strong>. You can change the
+              output folder by providing the <code>out</code> property of
+              <a
+                data-sref="Options"
+                href="https://lamnhan.com/ayedocs/reference/interfaces/options.html"
+                ><code>Options</code></a
+              >.
+            </p>
+            <p><strong>Returns</strong></p>
+            <p><code>void</code></p>
+            <hr />
+            <h4>
+              <a
+                name="main-output-0"
+                href="https://lamnhan.com/ayedocs/reference/classes/main.html#output"
+                ><p><code>output(path, renderInput)</code></p>
+              </a>
+            </h4>
+
+            <p><strong>Render and save a document</strong></p>
+            <p><strong>Parameters</strong></p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Param</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>path</strong></td>
+                  <td><code>string</code></td>
+                  <td>Path to the document</td>
+                </tr>
+                <tr>
+                  <td><strong>renderInput</strong></td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/ayedocs/reference/index.html#filerender"
+                        target="_blank"
+                        >FileRender</a
+                      ></code
+                    >
+                  </td>
+                  <td>Render input</td>
+                </tr>
+              </tbody>
+            </table>
+            <p><strong>Returns</strong></p>
+            <p><code>void</code></p>
+            <hr />
+            <h4>
+              <a
+                name="main-outputlocal-0"
+                href="https://lamnhan.com/ayedocs/reference/classes/main.html#outputlocal"
+                ><p><code>outputLocal()</code></p>
+              </a>
+            </h4>
+
+            <p>
+              <strong
+                >Render and save documents based on local configuration.</strong
+              >
+            </p>
+            <p><strong>Returns</strong></p>
+            <p><code>void</code></p>
+            <hr />
+            <h4>
+              <a
+                name="main-render-0"
+                href="https://lamnhan.com/ayedocs/reference/classes/main.html#render"
+                ><p><code>render(path, renderInput)</code></p>
+              </a>
+            </h4>
+
+            <p><strong>Render a file</strong></p>
+            <p><strong>Parameters</strong></p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Param</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>path</strong></td>
+                  <td><code>string</code></td>
+                  <td>Path to file</td>
+                </tr>
+                <tr>
+                  <td><strong>renderInput</strong></td>
+                  <td>
+                    <code
+                      ><a
+                        href="https://lamnhan.com/ayedocs/reference/index.html#filerender"
+                        target="_blank"
+                        >FileRender</a
+                      ></code
+                    >
+                  </td>
+                  <td>Render input</td>
+                </tr>
+              </tbody>
+            </table>
+            <p><strong>Returns</strong></p>
+            <p><code>string</code></p>
+            <hr />
+            <h4>
+              <a
+                name="main-renderlocal-0"
+                href="https://lamnhan.com/ayedocs/reference/classes/main.html#renderlocal"
+                ><p><code>renderLocal()</code></p>
+              </a>
+            </h4>
+
+            <p><strong>Render content based on local configuration.</strong></p>
+            <p><strong>Returns</strong></p>
+            <p><code>object</code></p>
+            <hr />
+          </section>
+        </article>
+      </div>
+    </div>
+
+    <div class="container-fluid footer">
+      <div class="row">
+        <div class="col-12">
+          <p>
+            ⚡️ This document is generated automatically using
+            <a href="https://github.com/lamnhan/ayedocs" target="_blank"
+              >@lamnhan/ayedocs</a
+            >.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-css-extras.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-powershell.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-json.min.js"></script>
+  </body>
+</html>

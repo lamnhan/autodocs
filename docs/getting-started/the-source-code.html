@@ -116,8 +116,8 @@
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/getting-started/templates.html"
-                    >Built-in templates</a
+                    href="https://lamnhan.com/ayedocs/getting-started/use-templates.html"
+                    >Use templates</a
                   >
                 </li>
                 <li>
@@ -128,8 +128,8 @@
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/getting-started/basic-advanced-rendering.html"
-                    >Basic advanced rendering</a
+                    href="https://lamnhan.com/ayedocs/getting-started/advanced-rendering.html"
+                    >Advanced rendering</a
                   >
                 </li>
                 <li>
@@ -153,50 +153,46 @@
               </ul>
             </li>
             <li>
-              <a href="https://lamnhan.com/ayedocs/the-cli.html">The CLI</a>
-            </li>
-            <li>
-              <a href="https://lamnhan.com/ayedocs/the-library.html"
-                >The library</a
-              >
-            </li>
-            <li>
               Advanced topics
               <ul>
                 <li>
-                  <a
-                    href="https://lamnhan.com/ayedocs/advanced/file-render-options.html"
-                    >File render options</a
+                  <a href="https://lamnhan.com/ayedocs/advanced/the-cli.html"
+                    >The CLI</a
                   >
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/advanced/template-render-options.html"
-                    >Template render options</a
+                    href="https://lamnhan.com/ayedocs/advanced/the-library.html"
+                    >The library</a
                   >
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/advanced/more-options.html"
-                    >More render options</a
+                    href="https://lamnhan.com/ayedocs/advanced/render-options.html"
+                    >Render options</a
                   >
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/advanced/advanced-rendering-options.html"
-                    >Advanced rendering options</a
+                    href="https://lamnhan.com/ayedocs/advanced/convert-options.html"
+                    >Convert options</a
                   >
                 </li>
                 <li>
                   <a
-                    href="https://lamnhan.com/ayedocs/advanced/custom-reference-generator.html"
-                    >Custom reference generator</a
+                    href="https://lamnhan.com/ayedocs/advanced/reference-generator.html"
+                    >Reference generator</a
                   >
                 </li>
                 <li>
                   <a
                     href="https://lamnhan.com/ayedocs/advanced/web-theming.html"
                     >Web theming</a
+                  >
+                </li>
+                <li>
+                  <a href="https://lamnhan.com/ayedocs/advanced/web-index.html"
+                    >Web index</a
                   >
                 </li>
                 <li>
@@ -232,54 +228,54 @@
               But you can see your whole source code as a single flattened file
               like this:
             </p>
-            <pre><code class="language-ts"><span class="hljs-comment">// ================== file1.ts ==================</span>
+            <pre><code class="language-ts">// ================== file1.ts ==================
 
-<span class="hljs-comment">/**
+/**
  * This is a Variable element named `PI`
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> PI = <span class="hljs-number">3.14</span>;
+ */
+export const PI = 3.14;
 
-<span class="hljs-comment">// ================== file2.ts ==================</span>
+// ================== file2.ts ==================
 
-<span class="hljs-comment">/**
+/**
  * This is a Function element named `doSomething`
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSomething</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+ */
+export function doSomething() {
+  return true;
 }
 
-<span class="hljs-comment">// ================== file3.ts ==================</span>
+// ================== file3.ts ==================
 
-<span class="hljs-comment">/**
+/**
  * This is an Interface element named `Options`
  *
  * And this is the `Options` element detail.
  *
  * Supports Markdown content.
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> Options {
-  <span class="hljs-comment">/**
+ */
+export interface Options {
+  /**
    * This is a Property element named `prop1`
-   */</span>
-  prop1?: <span class="hljs-built_in">string</span>;
-  prop2?: <span class="hljs-built_in">number</span>;
+   */
+  prop1?: string;
+  prop2?: number;
 }
 
-<span class="hljs-comment">/**
+/**
  * This is a Class element named `Main`
  *
  * And this is the `Main` element detail.
  *
  * Supports Markdown content.
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Main {
-  property = <span class="hljs-string">"a property"</span>;
-  <span class="hljs-keyword">constructor</span>(<span class="hljs-params"></span>) {}
-  <span class="hljs-comment">/**
+ */
+export class Main {
+  property = &quot;a property&quot;;
+  constructor() {}
+  /**
    * This is a Method element named `method1`
-   */</span>
+   */
   method1() {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">"a method"</span>;
+    return &quot;a method&quot;;
   }
 }</code></pre>
             <p>
@@ -287,13 +283,13 @@
               <a
                 data-sref="Declaration"
                 href="https://lamnhan.com/ayedocs/reference/classes/declaration.html"
-                >Declaration</a
+                ><code>Declaration</code></a
               >
               (a source code unit). There are 2 types of
               <a
                 data-sref="Declaration"
                 href="https://lamnhan.com/ayedocs/reference/classes/declaration.html"
-                >Declaration</a
+                ><code>Declaration</code></a
               >:
             </p>
             <ul>

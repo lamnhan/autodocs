@@ -2,9 +2,6 @@
 import { TypedocConfigs, TypedocService } from './services/typedoc';
 import { BatchRender } from './services/render';
 
-/**
- * Complete module options
- */
 export interface Options {
   /**
    * Docs homepage url, default to the Github Pages repo url
