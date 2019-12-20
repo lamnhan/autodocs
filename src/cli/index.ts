@@ -1,25 +1,24 @@
 import { red } from 'chalk';
 import * as commander from 'commander';
+import { AyedocsModule } from '../public-api';
 
-import { ayedocs, AyedocsModule } from '../public-api';
 import { GenerateCommand } from './commands/generate';
 import { ShowCommand } from './commands/show';
 import { PreviewCommand } from './commands/preview';
 
 export class Cli {
   private ayedocsModule: AyedocsModule;
-  private generateCommand: GenerateCommand;
-  private showCommand: ShowCommand;
-  private previewCommand: PreviewCommand;
+
+  generateCommand: GenerateCommand;
+  showCommand: ShowCommand;
+  previewCommand: PreviewCommand;
 
   commander = ['ayedocs', 'Document generator for Typescript projects.'];
 
   /**
    * @params [input] - The rendering input
    */
-  showCommandDef: CommandDef = [
-    'show [input]', 'Show Declaration info.'
-  ];
+  showCommandDef: CommandDef = ['show [input]', 'Show Declaration info.'];
 
   /**
    * @params [input] - The rendering input
@@ -27,7 +26,8 @@ export class Cli {
    * @params [params...] - The convert options
    */
   previewCommandDef: CommandDef = [
-    'preview [input] [output] [params...]', 'Preview a rendering.'
+    'preview [input] [output] [params...]',
+    'Preview a rendering.',
   ];
 
   /**
@@ -38,17 +38,17 @@ export class Cli {
     'Generate the documentation.',
     ['-c, --config [value]', 'Path to custom config file.'],
     ['-p, --package [value]', 'Path to custom package file.'],
-    ['-t, --template [value]', 'Use this template for the [path] param.']
+    ['-t, --template [value]', 'Use this template for the [path] param.'],
   ];
 
   constructor() {
-    this.ayedocsModule = ayedocs();
+    this.ayedocsModule = new AyedocsModule();
     this.generateCommand = new GenerateCommand(this.ayedocsModule);
-    this.showCommand = new ShowCommand(this.ayedocsModule.Parse);
+    this.showCommand = new ShowCommand(this.ayedocsModule.parseService);
     this.previewCommand = new PreviewCommand(
-      this.ayedocsModule.Content,
-      this.ayedocsModule.Convert,
-      this.ayedocsModule.Parse,
+      this.ayedocsModule.contentService,
+      this.ayedocsModule.convertService,
+      this.ayedocsModule.parseService
     );
   }
 
@@ -74,7 +74,9 @@ export class Cli {
       commander
         .command(command)
         .description(description)
-        .action((input, output, params) => this.previewCommand.run(input, output, params));
+        .action((input, output, params) =>
+          this.previewCommand.run(input, output, params)
+        );
     })();
 
     // generate
@@ -84,7 +86,7 @@ export class Cli {
         description,
         configOpt,
         packageOpt,
-        templateOpt
+        templateOpt,
       ] = this.generateCommandDef;
       commander
         .command(command)
@@ -105,13 +107,10 @@ export class Cli {
     commander
       .command('*')
       .description('Any other command is not supported.')
-      .action((cmd: string) =>
-        console.error(red(`Unknown command '${cmd}'`))
-      );
+      .action((cmd: string) => console.error(red(`Unknown command '${cmd}'`)));
 
     return commander;
   }
-
 }
 
 type CommandDef = [string, string, ...Array<[string, string]>];

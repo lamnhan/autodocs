@@ -7,10 +7,7 @@ export interface GenerateCommandOptions {
 }
 
 export class GenerateCommand {
-
-  constructor(
-    private ayedocsModule: AyedocsModule
-  ) {}
+  constructor(private ayedocsModule: AyedocsModule) {}
 
   run(path?: string, options: GenerateCommandOptions = {}) {
     const { config, package: packagePath, template = 'mini' } = options;
@@ -28,5 +25,4 @@ export class GenerateCommand {
       ayedocsModule.generateRef();
     }
   }
-
 }

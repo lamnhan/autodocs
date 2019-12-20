@@ -6,15 +6,19 @@ import { ContentBlock, ContentService } from './content';
 import { Declaration } from '../declaration';
 
 export type BuiltinTemplate =
-  | 'basic' | 'basicx'
-  | 'full' | 'fullx'
-  | 'angular' | 'angularx'
-  | 'cli' | 'clix';
+  | 'basic'
+  | 'basicx'
+  | 'full'
+  | 'fullx'
+  | 'angular'
+  | 'angularx'
+  | 'cli'
+  | 'clix';
 
 export interface TemplateOptions {
   topSecs?: AdvancedRendering;
   bottomSecs?: AdvancedRendering;
-  convertings?: {[section: string]: ConvertOptions};
+  convertings?: { [section: string]: ConvertOptions };
 }
 
 export type CustomTemplate = (
@@ -25,7 +29,6 @@ export type CustomTemplate = (
 ) => AdvancedRendering;
 
 export class TemplateService {
-
   constructor(
     private projectService: ProjectService,
     private contentService: ContentService
@@ -40,7 +43,12 @@ export class TemplateService {
     let templateSecs: undefined | AdvancedRendering;
     // custom
     if (template instanceof Function) {
-      templateSecs = template(options, this, this.contentService, this.projectService);
+      templateSecs = template(
+        options,
+        this,
+        this.contentService,
+        this.projectService
+      );
     }
     // builtin
     else {
@@ -48,22 +56,25 @@ export class TemplateService {
         case 'basic':
         case 'basicx':
           templateSecs = this.getBasicTemplate(options, template === 'basicx');
-        break;
+          break;
         case 'full':
         case 'fullx':
           templateSecs = this.getFullTemplate(options, template === 'fullx');
-        break;
+          break;
         case 'angular':
         case 'angularx':
-          templateSecs = this.getAngularTemplate(options, template === 'angularx');
-        break;
+          templateSecs = this.getAngularTemplate(
+            options,
+            template === 'angularx'
+          );
+          break;
         case 'cli':
         case 'clix':
           templateSecs = this.getCLITemplate(options, template === 'clix');
-        break;
+          break;
         // invalid
         default:
-        break;
+          break;
       }
     }
     // invalid
@@ -87,7 +98,7 @@ export class TemplateService {
     }
     // build template
     const result: AdvancedRendering = {};
-    sections.forEach(name => result[name] = rendering[name] || true);
+    sections.forEach(name => (result[name] = rendering[name] || true));
     // result
     return result;
   }
@@ -111,7 +122,7 @@ export class TemplateService {
         {
           ...(convertings['interfaces'] || {}),
           heading: true,
-        }
+        },
       ],
       classes: ['*', 'FULL_CLASSES', convertings['classes'] || {}],
     };
@@ -128,20 +139,19 @@ export class TemplateService {
             title: 'Modules',
             id: 'modules',
             level: 2,
-          }
+          },
         },
         [
           '*',
           'SUMMARY_CLASSES',
           {
             ...(convertings['modules'] || {}),
-            filter: declaration => (
+            filter: declaration =>
               declaration.NAME.endsWith('Module') &&
               !declaration.NAME.endsWith('ComponentModule') &&
-              !declaration.NAME.endsWith('PipeModule')
-            )
-          }
-        ]
+              !declaration.NAME.endsWith('PipeModule'),
+          },
+        ],
       ],
       components: [
         {
@@ -150,16 +160,16 @@ export class TemplateService {
             title: 'Components',
             id: 'components',
             level: 2,
-          }
+          },
         },
         [
           '*',
           'SUMMARY_CLASSES',
           {
             ...(convertings['components'] || {}),
-            filter: declaration => declaration.NAME.endsWith('Component')
-          }
-        ]
+            filter: declaration => declaration.NAME.endsWith('Component'),
+          },
+        ],
       ],
       services: [
         {
@@ -168,16 +178,16 @@ export class TemplateService {
             title: 'Services',
             id: 'services',
             level: 2,
-          }
+          },
         },
         [
           '*',
           'SUMMARY_CLASSES',
           {
             ...(convertings['services'] || {}),
-            filter: declaration => declaration.NAME.endsWith('Service')
-          }
-        ]
+            filter: declaration => declaration.NAME.endsWith('Service'),
+          },
+        ],
       ],
       pipes: [
         {
@@ -186,16 +196,16 @@ export class TemplateService {
             title: 'Pipes',
             id: 'pipes',
             level: 2,
-          }
+          },
         },
         [
           '*',
           'SUMMARY_CLASSES',
           {
             ...(convertings['pipes'] || {}),
-            filter: declaration => declaration.NAME.endsWith('Pipe')
-          }
-        ]
+            filter: declaration => declaration.NAME.endsWith('Pipe'),
+          },
+        ],
       ],
     };
     return this.createRendering(sections, extra);
@@ -203,36 +213,56 @@ export class TemplateService {
 
   private getCLITemplate(options: TemplateOptions = {}, extra = false) {
     const { convertings = {} } = options;
-    const customConvert: CustomConvert = (declaration, options, contentService) => {
+    const customConvert: CustomConvert = (
+      declaration,
+      options,
+      contentService
+    ) => {
       const commanderProp = declaration.getChild('commander');
-      const [ commanderCmd, commanderDescription ] = commanderProp.DEFAULT_VALUE;
+      const [commanderCmd, commanderDescription] = commanderProp.DEFAULT_VALUE;
       // get command defs
-      const commands = declaration.getVariablesOrProperties(
-        decl => decl.NAME.endsWith('CommandDef')
+      const commands = declaration.getVariablesOrProperties(decl =>
+        decl.NAME.endsWith('CommandDef')
       );
       // add mocked help command def
-      commands.push({ DEFAULT_VALUE: ['help', 'Display help.'] } as Declaration);
+      commands.push({
+        DEFAULT_VALUE: ['help', 'Display help.'],
+      } as Declaration);
       // build blocks
       const result: ContentBlock[] = [];
       const summaryArr: string[] = [];
-      const detailBlocks : ContentBlock[] = [];
+      const detailBlocks: ContentBlock[] = [];
       commands.forEach(decl => {
-        const [command, description, ...cmdOptions] = decl.DEFAULT_VALUE as [string, string, ...Array<[string, string]>];
-        const [ cmd, ...params ] = command.split(' ');
+        const [command, description, ...cmdOptions] = decl.DEFAULT_VALUE as [
+          string,
+          string,
+          ...Array<[string, string]>
+        ];
+        const [cmd, ...params] = command.split(' ');
         const commandId = 'command-' + cmd;
         const strOpts = cmdOptions
-          .map(([ opt ]) => opt.indexOf(', ') !== -1 ? opt.split(', ').pop() : opt)
+          .map(([opt]) =>
+            opt.indexOf(', ') !== -1 ? opt.split(', ').pop() : opt
+          )
           .join(' ');
-        const fullCommand = (commanderCmd + ' ' + command + ' ' + strOpts).trim();
+        const fullCommand = (
+          commanderCmd +
+          ' ' +
+          command +
+          ' ' +
+          strOpts
+        ).trim();
         // summary
         summaryArr.push(`- [\`${fullCommand}\`](#${commandId})`);
         // detail
-        detailBlocks.push(contentService.blockHeading(`\`${cmd}\``, 3, commandId));
+        detailBlocks.push(
+          contentService.blockHeading(`\`${cmd}\``, 3, commandId)
+        );
         detailBlocks.push(contentService.blockText(description));
         // parameters
         if (!!params.length) {
           // extract param descriptions
-          const paramTags: {[key: string]: string} = {};
+          const paramTags: { [key: string]: string } = {};
           if (!!decl.REFLECTION.comment) {
             (decl.REFLECTION.comment.tags || []).forEach(({ text }) => {
               const [k, desc] = text.split('-').map(x => x.trim());
@@ -240,37 +270,43 @@ export class TemplateService {
             });
           }
           detailBlocks.push(contentService.blockText(`**Parameters**`));
-          detailBlocks.push(contentService.blockList(
-            params.map(param =>
-              [`\`${param}\``, paramTags[param] || `The \`${param}\` parameter.`]
+          detailBlocks.push(
+            contentService.blockList(
+              params.map(param => [
+                `\`${param}\``,
+                paramTags[param] || `The \`${param}\` parameter.`,
+              ])
             )
-          ));
+          );
         }
         // options
         if (!!cmdOptions.length) {
           detailBlocks.push(contentService.blockText(`**Options**`));
-          detailBlocks.push(contentService.blockList(
-            cmdOptions.map(([ v1, v2 ]) => [`\`${v1}\``, v2])
-          ));
+          detailBlocks.push(
+            contentService.blockList(
+              cmdOptions.map(([v1, v2]) => [`\`${v1}\``, v2])
+            )
+          );
         }
       });
       // push blocks
-      result.push(contentService.blockHeading('Command overview', 2, 'command-overview'));
+      result.push(
+        contentService.blockHeading('Command overview', 2, 'command-overview')
+      );
       result.push(contentService.blockText(commanderDescription));
-      result.push(contentService.blockText(summaryArr.join(contentService.EOL)));
-      result.push(contentService.blockHeading('Command reference', 2, 'command-reference'));
+      result.push(
+        contentService.blockText(summaryArr.join(contentService.EOL))
+      );
+      result.push(
+        contentService.blockHeading('Command reference', 2, 'command-reference')
+      );
       result.push(...detailBlocks);
       // result
       return result;
     };
     const sections: AdvancedRendering = {
-      cli: [
-        'Cli',
-        customConvert,
-        convertings['cli'] || {}
-      ]
+      cli: ['Cli', customConvert, convertings['cli'] || {}],
     };
     return this.createRendering(sections, extra);
   }
-
 }

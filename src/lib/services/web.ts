@@ -12,30 +12,29 @@ export interface WebData {
   homeUrl?: string;
   repoUrl?: string;
   [key: string]: any;
-};
+}
 
 export class WebService {
-
   constructor(
     private projectService: ProjectService,
-    private contentService: ContentService,
+    private contentService: ContentService
   ) {}
 
   getIndex(redirectUrl: string) {
     const {
-      webRender: {
-        index: websiteIndex
-      }
+      webRender: { index: websiteIndex },
     } = this.projectService.OPTIONS;
     // path
     const indexPath = !websiteIndex
       ? this.defaultIndexPath()
       : this.localPath(websiteIndex);
     // load content
-    return this.contentService
-      .readFileSync(indexPath)
-      // default
-      .replace('{{ redirectUrl }}', redirectUrl);
+    return (
+      this.contentService
+        .readFileSync(indexPath)
+        // default
+        .replace('{{ redirectUrl }}', redirectUrl)
+    );
   }
 
   buildPage(
@@ -54,10 +53,8 @@ export class WebService {
     // extra data
     data = { ...this.getVendorData(), ...data };
     Object.keys(data).forEach(
-      key => result = result.replace(
-        new RegExp(`{{ ${key} }}`, 'g'),
-        data[key]
-      )
+      key =>
+        (result = result.replace(new RegExp(`{{ ${key} }}`, 'g'), data[key]))
     );
     // result
     return this.contentService.formatHtml(result);
@@ -74,17 +71,14 @@ export class WebService {
 
   private modifyHtml(title: string, content: string) {
     content =
-      `<div class="title"><h1>${title}</h1></div>`
-      + this.contentService.EOL2X
-      + content;
-    return content
-      .replace(/<table>/g, '<table class="table">');
+      `<div class="title"><h1>${title}</h1></div>` +
+      this.contentService.EOL2X +
+      content;
+    return content.replace(/<table>/g, '<table class="table">');
   }
 
   private getTheme() {
-    return this.contentService.readFileSync(
-      this.getThemePath()
-    );
+    return this.contentService.readFileSync(this.getThemePath());
   }
 
   private getVendorData() {
@@ -92,7 +86,7 @@ export class WebService {
     const {
       name: pkgName,
       homepage,
-      repository: { url: repoUrl } = { url: undefined }
+      repository: { url: repoUrl } = { url: undefined },
     } = this.projectService.PACKAGE;
     const { url } = this.projectService.OPTIONS;
     if (!!pkgName) {
@@ -112,10 +106,7 @@ export class WebService {
 
   private themesDir() {
     const localPath = resolve('node_modules', '@lamnhan', 'ayedocs');
-    const appRoot = 
-      pathExistsSync(localPath)
-      ? localPath
-      : ('' + APP_ROOT);
+    const appRoot = pathExistsSync(localPath) ? localPath : '' + APP_ROOT;
     return resolve(appRoot, 'src', 'lib', 'themes');
   }
 
@@ -126,12 +117,10 @@ export class WebService {
   private vendorThemePath(themeName: string) {
     return resolve(this.themesDir(), themeName, `${themeName}.html`);
   }
-  
+
   private getThemePath() {
     const {
-      webRender: {
-        theme: websiteTheme = 'default'
-      }
+      webRender: { theme: websiteTheme = 'default' },
     } = this.projectService.OPTIONS;
     return websiteTheme.substr(-5) === '.html'
       ? this.localPath(websiteTheme)
@@ -145,11 +134,6 @@ export class WebService {
   }
 
   private localPath(path: string) {
-    return resolve(
-      path
-      .replace('@', 'src/')
-      .replace('~', 'node_modules/')
-    );
+    return resolve(path.replace('@', 'src/').replace('~', 'node_modules/'));
   }
-
 }

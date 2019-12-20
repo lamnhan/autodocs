@@ -31,10 +31,7 @@ export class ProjectService {
   private package: PackageJson;
   private options: ProjectOptions;
 
-  constructor(
-    optionsInput?: OptionsInput,
-    packagePath?: string
-  ) {
+  constructor(optionsInput?: OptionsInput, packagePath?: string) {
     // set package
     this.package = !!packagePath
       ? this.getPackage(packagePath)
@@ -70,8 +67,8 @@ export class ProjectService {
   private getLocalOptions() {
     return this.getOptions(
       pathExistsSync(this.defaultConfigPath)
-      ? this.defaultConfigPath
-      : this.package['@lamnhan/ayedocs'] || {}
+        ? this.defaultConfigPath
+        : this.package['@lamnhan/ayedocs'] || {}
     );
   }
 
@@ -83,12 +80,14 @@ export class ProjectService {
     // get options
     const options: Options =
       typeof optionsInput === 'string'
-      ? require(resolve(optionsInput)) // from path
-      : optionsInput; // by input
+        ? require(resolve(optionsInput)) // from path
+        : optionsInput; // by input
     // url
     let url = options.url;
     if (!url) {
-      const { repository: { url: repoUrl } } = this.package;
+      const {
+        repository: { url: repoUrl },
+      } = this.package;
       const [, org, repo] = repoUrl
         .replace('https://', '')
         .replace('.git', '')
@@ -99,11 +98,11 @@ export class ProjectService {
     const webRender: WebRender = {
       out: 'docs',
       files: {},
-      ...(options.webRender || {})
+      ...(options.webRender || {}),
     };
     // typedoc
     // tslint:disable-next-line: no-any
-    const typedocConfigs: {[key: string]: any} = {};
+    const typedocConfigs: { [key: string]: any } = {};
     if (!!Object.keys(webRender.files).length) {
       typedocConfigs['readme'] = 'none';
     }
@@ -119,5 +118,4 @@ export class ProjectService {
       webRender,
     } as ProjectOptions;
   }
-
 }

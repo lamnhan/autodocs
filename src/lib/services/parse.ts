@@ -10,7 +10,7 @@ import { Declaration } from '../declaration';
  * The `Parser` turns source code into [[Declaration]]
  */
 export class ParseService {
-  private cache: {[input: string]: Declaration} = {};
+  private cache: { [input: string]: Declaration } = {};
 
   constructor(
     private projectService: ProjectService,
@@ -67,17 +67,15 @@ export class ParseService {
     let child: undefined | string;
     if (!input || input === '*') {
       what = undefined;
-    } else if (
-      input.charAt(0) === '[' &&
-      input.substr(-1) === ']'
-    ) {
+    } else if (input.charAt(0) === '[' && input.substr(-1) === ']') {
       what = input
         .substring(1, input.length - 1)
         .split(',')
         .map(x =>
-          x.trim()
-          .replace(/\@/g, 'src/')
-          .replace(/'|"/g, '')
+          x
+            .trim()
+            .replace(/\@/g, 'src/')
+            .replace(/'|"/g, '')
         );
     } else {
       const inputSplit = input.split('.');

@@ -184,8 +184,7 @@ export class Declaration {
       this.typedocService,
       this.contentService,
       reflection
-    )
-    .setId(this.getChildId(reflection.name));
+    ).setId(this.getChildId(reflection.name));
   }
 
   getVariablesOrProperties(filter?: DeclarationFilter) {
@@ -205,16 +204,15 @@ export class Declaration {
         return accessor;
       });
     return [...variablesOrProperties, ...accessors]
-    .map(item =>
-      new Declaration(
-        this.projectService,
-        this.typedocService,
-        this.contentService,
-        item
+      .map(item =>
+        new Declaration(
+          this.projectService,
+          this.typedocService,
+          this.contentService,
+          item
+        ).setId(this.getChildId(item.name))
       )
-      .setId(this.getChildId(item.name))
-    )
-    .filter(item => !filter ? true : filter(item));
+      .filter(item => (!filter ? true : filter(item)));
   }
 
   getFunctionsOrMethods(filter?: DeclarationFilter) {
@@ -229,18 +227,17 @@ export class Declaration {
         item.getAllSignatures().forEach((signature, i) =>
           result.push(
             new Declaration(
-              this.projectService, 
+              this.projectService,
               this.typedocService,
               this.contentService,
               // tslint:disable-next-line: no-any
               signature as any
-            )
-            .setId(this.getChildId(signature.name) + '-' + i)
+            ).setId(this.getChildId(signature.name) + '-' + i)
           )
         )
       );
     // result
-    return result.filter(item => !filter ? true : filter(item));
+    return result.filter(item => (!filter ? true : filter(item)));
   }
 
   getInterfaces(filter?: DeclarationFilter) {
@@ -249,15 +246,16 @@ export class Declaration {
     }
     return this.typedocService
       .getReflections('Interface', this.reflection)
-      .map(item =>
-        new Declaration(
-          this.projectService, 
-          this.typedocService,
-          this.contentService,
-          item
-        )
+      .map(
+        item =>
+          new Declaration(
+            this.projectService,
+            this.typedocService,
+            this.contentService,
+            item
+          )
       )
-      .filter(item => !filter ? true : filter(item));
+      .filter(item => (!filter ? true : filter(item)));
   }
 
   getClasses(filter?: DeclarationFilter) {
@@ -266,13 +264,15 @@ export class Declaration {
     }
     return this.typedocService
       .getReflections('Class', this.reflection)
-      .map(item =>
-        new Declaration(this.projectService, 
-          this.typedocService,
-          this.contentService,
-          item
-        )
+      .map(
+        item =>
+          new Declaration(
+            this.projectService,
+            this.typedocService,
+            this.contentService,
+            item
+          )
       )
-      .filter(item => !filter ? true : filter(item));
+      .filter(item => (!filter ? true : filter(item)));
   }
 }

@@ -220,10 +220,8 @@ export class TypedocService {
     // interface/class props
     if (
       !!parent &&
-      (
-        parent.kind === ReflectionKind.Interface ||
-        parent.kind === ReflectionKind.Class
-      )
+      (parent.kind === ReflectionKind.Interface ||
+        parent.kind === ReflectionKind.Class)
     ) {
       return this.getTypeLink(parent.name, parent.kind) + '#' + fragment;
     }
@@ -240,10 +238,7 @@ export class TypedocService {
       );
     }
     // function
-    else if (
-      !!parent &&
-      parent.kind === ReflectionKind.Function
-    ) {
+    else if (!!parent && parent.kind === ReflectionKind.Function) {
       return this.getTypeLink(name, ReflectionKind.Function);
     }
     // interface | class | globals

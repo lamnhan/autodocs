@@ -61,4 +61,7 @@ export interface WebRender {
   index?: string;
 }
 
-export type CustomReferenceGenerator = (typedocService: TypedocService, out: string) => void;
+export type CustomReferenceGenerator = (
+  typedocService: TypedocService,
+  out: string
+) => void;

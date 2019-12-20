@@ -1,6 +1,6 @@
 export * from './lib/types';
-export { Main as AyedocsModule } from './lib/main';
-export { main as ayedocs } from './lib/index';
+export { Main as AyedocsModule } from './lib/index';
+export { Cli as AyedocsCliModule } from './cli/index';
 
 export * from './lib/declaration';
 
@@ -12,3 +12,4 @@ export * from './lib/services/project';
 export * from './lib/services/render';
 export * from './lib/services/template';
 export * from './lib/services/typedoc';
+export * from './lib/services/web';

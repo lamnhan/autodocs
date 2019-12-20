@@ -1,11 +1,21 @@
 import { pathExistsSync } from 'fs-extra';
 
 import { ProjectService } from './project';
-import { ContentBySections, ContentBlock, ContentService, HeadingBlock } from './content';
+import {
+  ContentBySections,
+  ContentBlock,
+  ContentService,
+  HeadingBlock,
+} from './content';
 import { LoadService } from './load';
 import { ParseService } from './parse';
 import { ConvertOptions, CustomConvert, ConvertService } from './convert';
-import { BuiltinTemplate, CustomTemplate, TemplateOptions, TemplateService } from './template';
+import {
+  BuiltinTemplate,
+  CustomTemplate,
+  TemplateOptions,
+  TemplateService,
+} from './template';
 import { WebData, WebService } from './web';
 
 import { RendererData, RendererFileData, Renderer } from '../renderer';
@@ -14,7 +24,11 @@ export interface AdvancedRendering {
   [section: string]: SectionRender;
 }
 
-export type DeclarationRender = [string, (string | CustomConvert)?, ConvertOptions?];
+export type DeclarationRender = [
+  string,
+  (string | CustomConvert)?,
+  ConvertOptions?
+];
 
 export type BlockRender = ContentBlock | DeclarationRender;
 
@@ -28,14 +42,13 @@ export type SectionRender =
   | SectionRenderWithOptions; // with options
 
 export interface SectionRenderWithOptions
-  extends
-  RenderTemplateOptions,
-  RenderFileOptions {
+  extends RenderTemplateOptions,
+    RenderFileOptions {
   template?: BuiltinTemplate | CustomTemplate;
   file?: string;
 }
 
-export type FileRender = 
+export type FileRender =
   | true // default file
   | string // direct file
   | BuiltinTemplate // direct template
@@ -44,14 +57,13 @@ export type FileRender =
   | FileRenderWithOptions; // with options
 
 export interface FileRenderWithOptions
-  extends
-  RenderLocalOptions,
-  RenderWebOptions,
-  RenderTemplateOptions,
-  RenderFileOptions {
-    template?: BuiltinTemplate | CustomTemplate;
-    file?: true | string;
-    rendering?: AdvancedRendering;
+  extends RenderLocalOptions,
+    RenderWebOptions,
+    RenderTemplateOptions,
+    RenderFileOptions {
+  template?: BuiltinTemplate | CustomTemplate;
+  file?: true | string;
+  rendering?: AdvancedRendering;
 }
 
 /**
@@ -59,7 +71,7 @@ export interface FileRenderWithOptions
  */
 export interface RenderLocalOptions {
   /**
-   * Ignore global sections (current content will be replaced) 
+   * Ignore global sections (current content will be replaced)
    */
   cleanOutput?: boolean;
 }
@@ -73,7 +85,7 @@ export interface RenderWebOptions {
    */
   pageTitle?: string;
   /**
-   * Show top level headings in the menu 
+   * Show top level headings in the menu
    */
   deepMenu?: boolean;
   /**
@@ -128,23 +140,19 @@ export class RenderService {
     private parseService: ParseService,
     private convertService: ConvertService,
     private templateService: TemplateService,
-    private webService: WebService,
+    private webService: WebService
   ) {}
 
   render(
     batchRender: BatchRender,
-    batchCurrentContent: {[path: string]: ContentBySections} = {},
-    webOutput = false,
+    batchCurrentContent: { [path: string]: ContentBySections } = {},
+    webOutput = false
   ) {
     const rendererData: RendererData = {};
     Object.keys(batchRender).forEach(path => {
       const renderInput = batchRender[path];
       const currentContent = batchCurrentContent[path] || {};
-      rendererData[path] = this.getData(
-        path,
-        renderInput,
-        currentContent,
-      );
+      rendererData[path] = this.getData(path, renderInput, currentContent);
     });
     return new Renderer(
       this.projectService,
@@ -152,7 +160,7 @@ export class RenderService {
       this.parseService,
       this.webService,
       rendererData,
-      webOutput,
+      webOutput
     );
   }
 
@@ -163,7 +171,10 @@ export class RenderService {
   ) {
     const { cleanOutput: globalCleanOutput } = this.projectService.OPTIONS;
     // process input
-    const { rendering, renderOptions } = this.processRenderInput(renderInput, path);
+    const { rendering, renderOptions } = this.processRenderInput(
+      renderInput,
+      path
+    );
     // get data by rendering
     const renderingData = this.getRenderingData(rendering);
     // merge data
@@ -172,21 +183,13 @@ export class RenderService {
       [section: string]: string | RenderResult;
     } = {
       // auto toc for file
-      ...(
-        renderOptions.autoTOC
-        ? { toc: {src: 'true', value: []} }
-        : {}
-      ),
+      ...(renderOptions.autoTOC ? { toc: { src: 'true', value: [] } } : {}),
       // current content from file
-      ...(
-        !!localCleanOutput || // local = true
-        (
-          !!globalCleanOutput && // global = true
-          localCleanOutput === undefined // local not provided
-        )
+      ...(!!localCleanOutput || // local = true
+      (!!globalCleanOutput && // global = true
+        localCleanOutput === undefined) // local not provided
         ? {}
-        : this.loadService.load(path)
-      ),
+        : this.loadService.load(path)),
       // current content by arg
       ...currentContent,
       // rendering content
@@ -199,7 +202,7 @@ export class RenderService {
       const sectionData = data[sectionName];
       // process section data
       let sectionContent: string;
-      const sectionAttrs: {[attr: string]: string} = {};
+      const sectionAttrs: { [attr: string]: string } = {};
       let sectionHeadings: string | HeadingBlock[] = [];
       // current content
       if (typeof sectionData === 'string') {
@@ -209,17 +212,19 @@ export class RenderService {
       else {
         const { value } = sectionData;
         // attrs
-        sectionAttrs['data-note'] = 'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!';
+        sectionAttrs['data-note'] =
+          'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!';
         // content
         if (typeof value === 'string') {
           sectionContent = sectionHeadings = value;
         } else {
           sectionContent =
             sectionName === 'toc' || sectionName === 'tocx'
-            ? this.tocPlaceholder
-            : this.contentService.renderContent(value);
-          sectionHeadings = value
-            .filter(block => block.type === 'heading') as HeadingBlock[];
+              ? this.tocPlaceholder
+              : this.contentService.renderContent(value);
+          sectionHeadings = value.filter(
+            block => block.type === 'heading'
+          ) as HeadingBlock[];
         }
       }
       // save content to the stack
@@ -230,11 +235,9 @@ export class RenderService {
       );
       // save headings for toc
       headings.push(
-        ...(
-          typeof sectionHeadings === 'string'
+        ...(typeof sectionHeadings === 'string'
           ? this.contentService.extractHeadings(sectionHeadings)
-          : sectionHeadings
-        )
+          : sectionHeadings)
       );
     });
     // render the content stack
@@ -242,26 +245,23 @@ export class RenderService {
     // add the toc
     if (!!data.toc || !!data.tocx) {
       const tocContent = this.contentService.renderContent(
-        !!data.tocx
-        ? this.getDataTOCX(headings)
-        : this.getDataTOC(headings)
+        !!data.tocx ? this.getDataTOCX(headings) : this.getDataTOC(headings)
       );
       content = content.replace(this.tocPlaceholder, tocContent);
     }
     // result
     return {
       headings,
-      content: (
+      content:
         path.substr(-5) === '.html'
-        ? this.contentService.md2Html(content)
-        : content
-      ),
+          ? this.contentService.md2Html(content)
+          : content,
       options: renderOptions,
     } as RendererFileData;
   }
 
   getRenderingData(rendering: AdvancedRendering) {
-    const result: {[section: string]: RenderResult} = {};
+    const result: { [section: string]: RenderResult } = {};
     // get data for every section
     Object.keys(rendering).forEach(sectionName => {
       let sectionResult: RenderResult;
@@ -270,9 +270,9 @@ export class RenderService {
       let renderOptions: RenderFileOptions | RenderTemplateOptions = {};
       // with options
       if (
-        renderValue instanceof Object
-        && !(renderValue instanceof Function)
-        && !(renderValue instanceof Array)
+        renderValue instanceof Object &&
+        !(renderValue instanceof Function) &&
+        !(renderValue instanceof Array)
       ) {
         renderOptions = { ...renderValue };
         renderValue = renderValue.template || renderValue.file;
@@ -301,8 +301,8 @@ export class RenderService {
       }
       // file
       else if (
-        typeof renderValue === 'string'
-        && renderValue.indexOf('.') !== -1 // a file
+        typeof renderValue === 'string' &&
+        renderValue.indexOf('.') !== -1 // a file
       ) {
         const filePath = renderValue.replace('@', 'src/');
         let content = 'TODO';
@@ -313,7 +313,10 @@ export class RenderService {
           // modifications
           const { headingOffset } = renderOptions;
           if (!!headingOffset) {
-            content = this.contentService.modifyHeadings(content, headingOffset);
+            content = this.contentService.modifyHeadings(
+              content,
+              headingOffset
+            );
           }
         }
         sectionResult = {
@@ -323,11 +326,11 @@ export class RenderService {
       }
       // template
       else if (
-        typeof renderValue === 'string'
-        || renderValue instanceof Function
+        typeof renderValue === 'string' ||
+        renderValue instanceof Function
       ) {
         const advancedRendering = this.templateService.getTemplate(
-          renderValue as (BuiltinTemplate | CustomTemplate)
+          renderValue as BuiltinTemplate | CustomTemplate
         );
         const contentBySections = this.getRenderingData(advancedRendering);
         let content = Object.keys(contentBySections)
@@ -339,7 +342,8 @@ export class RenderService {
           content = this.contentService.modifyHeadings(content, headingOffset);
         }
         sectionResult = {
-          src: typeof renderValue === 'string' ? renderValue : 'custom_template',
+          src:
+            typeof renderValue === 'string' ? renderValue : 'custom_template',
           value: content,
         };
       }
@@ -348,8 +352,7 @@ export class RenderService {
         const declarationBlocks: ContentBlock[] = [];
         // turn single block rendering to multiple
         const blockRenderings =
-          renderValue instanceof Array &&
-          renderValue[0] instanceof Object // array or object
+          renderValue instanceof Array && renderValue[0] instanceof Object // array or object
             ? // blocks or multi declarations
               (renderValue as BlockRender[])
             : // a block or single declaration
@@ -388,17 +391,18 @@ export class RenderService {
   }
 
   private renderInline(content: string) {
-    ([
+    [
       ...(content.match(/\[\[\[[^\]]*\]\]\]/g) || []),
-      ...(content.match(/\{\@render .*\}/g) || [])
-    ]).forEach(item => {
-      const matched1Item = ((/\[\[\[([^\]]*)\]\]\]/.exec(item) || []).pop() || '');
-      const matched2Item = ((/\{\@render (.*)\}/.exec(item) || []).pop() || '');
-      const [
-        input,
-        output = 'SELF',
-        optionsStr
-      ] = (matched1Item || matched2Item).split('|').map(x => x.trim());
+      ...(content.match(/\{\@render .*\}/g) || []),
+    ].forEach(item => {
+      const matched1Item =
+        (/\[\[\[([^\]]*)\]\]\]/.exec(item) || []).pop() || '';
+      const matched2Item = (/\{\@render (.*)\}/.exec(item) || []).pop() || '';
+      const [input, output = 'SELF', optionsStr] = (
+        matched1Item || matched2Item
+      )
+        .split('|')
+        .map(x => x.trim());
       const declaration = this.parseService.parse(input);
       const blocks = this.convertService.convert(
         declaration,
@@ -429,11 +433,11 @@ export class RenderService {
     }
     // template
     else if (
-      typeof renderInput === 'string'
-      || renderInput instanceof Function
+      typeof renderInput === 'string' ||
+      renderInput instanceof Function
     ) {
       rendering = this.templateService.getTemplate(
-        renderInput as (BuiltinTemplate | CustomTemplate)
+        renderInput as BuiltinTemplate | CustomTemplate
       );
     }
     // rendering
@@ -446,18 +450,19 @@ export class RenderService {
     }
     // with options
     else {
-      rendering =
-        !!renderInput.template
+      rendering = !!renderInput.template
         ? // template
           this.templateService.getTemplate(
-            renderInput.template as (BuiltinTemplate | CustomTemplate),
-            renderInput as RenderTemplateOptions,
+            renderInput.template as BuiltinTemplate | CustomTemplate,
+            renderInput as RenderTemplateOptions
           )
         : !!renderInput.file
         ? // file
-          { content: renderInput.file === true ? defaultFile : renderInput.file }
+          {
+            content: renderInput.file === true ? defaultFile : renderInput.file,
+          }
         : // rendering
-          renderInput.rendering as AdvancedRendering;
+          (renderInput.rendering as AdvancedRendering);
       // set options
       renderOptions = renderInput;
     }
@@ -466,14 +471,7 @@ export class RenderService {
 
   private getDataHead() {
     const { name, description } = this.projectService.PACKAGE;
-    return [
-      this.contentService.blockText(
-        [
-          `# ${name}`,
-          `**${description}**`
-        ]
-      )
-    ];
+    return [this.contentService.blockText([`# ${name}`, `**${description}**`])];
   }
 
   private getDataLicense() {
@@ -484,20 +482,16 @@ export class RenderService {
     } = this.projectService.PACKAGE;
     const licenseUrl = repoUrl.replace('.git', '') + '/blob/master/LICENSE';
     return [
-      this.contentService.blockText(
-        [
-          '## License',
-          `**${name}** is released under the [${license}](${licenseUrl}) license.`,
-        ]
-      ),
+      this.contentService.blockText([
+        '## License',
+        `**${name}** is released under the [${license}](${licenseUrl}) license.`,
+      ]),
     ];
   }
 
   private getDataTOC(blocks: ContentBlock[]) {
     const tocContent = this.contentService.renderTOC(blocks);
-    return [
-      this.contentService.blockText(tocContent),
-    ];
+    return [this.contentService.blockText(tocContent)];
   }
 
   private getDataTOCX(blocks: ContentBlock[]) {
@@ -505,7 +499,7 @@ export class RenderService {
       'Detail API reference',
       2,
       undefined,
-      this.projectService.REF_URL,
+      this.projectService.REF_URL
     );
     blocks.push(ref); // add api ref link
     return this.getDataTOC(blocks);

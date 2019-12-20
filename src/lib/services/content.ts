@@ -97,15 +97,14 @@ export class ContentService {
       if (heading.charAt(0) === '<') {
         const level = Number(heading.charAt(2));
         if (!isNaN(level) && level < 7) {
-          const title =
-            ((/<h[^>]*>([\s\S]*?)<\/h[^>]*>/.exec(heading) || []).pop() || '')
-            .replace(/(<([^>]+)>)/ig, '');
+          const title = (
+            (/<h[^>]*>([\s\S]*?)<\/h[^>]*>/.exec(heading) || []).pop() || ''
+          ).replace(/(<([^>]+)>)/gi, '');
           if (!!title) {
             const id =
               ((/<a[^>]* name="(.*?)">/.exec(heading) || []).pop() || '')
-              .split('"')
-              .shift() ||
-              this.buildId(title);
+                .split('"')
+                .shift() || this.buildId(title);
             const link = (/<a[^>]* href="(.*?)">/.exec(heading) || []).pop();
             headings.push(this.blockHeading(title, level, id, link));
           }
@@ -153,8 +152,11 @@ export class ContentService {
       }
     });
     // modification
-    replacement.forEach(({ mdOriginal, mdNew, htmlOriginal, htmlNew }) => 
-      content = content.replace(mdOriginal, mdNew).replace(htmlOriginal, htmlNew)
+    replacement.forEach(
+      ({ mdOriginal, mdNew, htmlOriginal, htmlNew }) =>
+        (content = content
+          .replace(mdOriginal, mdNew)
+          .replace(htmlOriginal, htmlNew))
     );
     // result
     return content;
@@ -164,7 +166,7 @@ export class ContentService {
     const { url } = this.projectService.OPTIONS;
     return marked(mdContent, {
       baseUrl: url,
-      ...markedOptions
+      ...markedOptions,
     });
   }
 
@@ -190,7 +192,7 @@ export class ContentService {
   }
 
   blockTable(headers: string[], rows: string[][]) {
-    const table = [ headers, ...rows ];
+    const table = [headers, ...rows];
     return { type: 'table', data: table } as TableBlock;
   }
 
@@ -200,9 +202,8 @@ export class ContentService {
       if (type === 'heading') {
         const { title, level, id, link } = data as ContentHeading;
         const spaces = '    '.repeat(level - offset);
-        const displayTitle = !id && !link
-          ? title
-          : `[${title}](${!!id ? '#' + id : link})`;
+        const displayTitle =
+          !id && !link ? title : `[${title}](${!!id ? '#' + id : link})`;
         rows.push(`${spaces}- ${displayTitle}`);
       }
     });
@@ -274,17 +275,27 @@ export class ContentService {
   convertLinks(content: string, buildLink: (id: string) => undefined | string) {
     const formatSrefValue = (rawValue: string) =>
       rawValue
-      .replace(/\\/g, '') // may ascape the |
-      .trim();
+        .replace(/\\/g, '') // may ascape the |
+        .trim();
     // turns template into 'a' tag
     content = content
       .replace(
         /\[\[([^\]]*)[ ]*\|[ ]*([^\]]*)\]\]/g,
-        '<a data-sref="' + formatSrefValue('$1') + '">' + this.md2Html('$2') + '</a>')
+        '<a data-sref="' +
+          formatSrefValue('$1') +
+          '">' +
+          this.md2Html('$2') +
+          '</a>'
+      )
       .replace(/\[\[([^\]]*)\]\]/g, '<a data-sref="$1"><code>$1</code></a>')
       .replace(
         /\{\@link ([^\}]*)[ ]*\|[ ]*([^\}]*)\}/g,
-        '<a data-sref="' + formatSrefValue('$1') + '">' + this.md2Html('$2') + '</a>')
+        '<a data-sref="' +
+          formatSrefValue('$1') +
+          '">' +
+          this.md2Html('$2') +
+          '</a>'
+      )
       .replace(/\{\@link ([^\}]*)\}/g, '<a data-sref="$1"><code>$1</code></a>');
     // render link tag
     (content.match(/<a data-sref=".*">.*<\/a>/g) || []).forEach(item => {

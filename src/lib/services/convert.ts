@@ -43,10 +43,7 @@ export type CustomConvert = (
 ) => string | ContentBlock[];
 
 export class ConvertService {
-
-  constructor(
-    private contentService: ContentService
-  ) {}
+  constructor(private contentService: ContentService) {}
 
   convert(
     declaration: Declaration,
@@ -61,15 +58,17 @@ export class ConvertService {
     // custom convert
     if (output instanceof Function) {
       const customResult = output(declaration, options, this.contentService);
-      return (
-        typeof customResult === 'string'
-        ? [ this.contentService.blockText(customResult) ]
-        : customResult
-      );
+      return typeof customResult === 'string'
+        ? [this.contentService.blockText(customResult)]
+        : customResult;
     }
     // local section
     if (output.substr(0, 8) === 'SECTION:') {
-      return this.getSection(declaration, output.replace('SECTION:', ''), options);
+      return this.getSection(
+        declaration,
+        output.replace('SECTION:', ''),
+        options
+      );
     }
     // convert based on the output
     switch (output) {
@@ -142,7 +141,11 @@ export class ConvertService {
     // variables or properties
     if (declaration.hasVariablesOrProperties()) {
       result.push(
-        ...this.getVariablesOrProperties(declaration, 'summary', childrenOptions)
+        ...this.getVariablesOrProperties(
+          declaration,
+          'summary',
+          childrenOptions
+        )
       );
     }
     // functions or methods
@@ -153,15 +156,11 @@ export class ConvertService {
     }
     // interfaces
     if (declaration.hasInterfaces()) {
-      result.push(
-        ...this.getInterfaces(declaration, 'full', childrenOptions)
-      );
+      result.push(...this.getInterfaces(declaration, 'full', childrenOptions));
     }
     // classes
     if (declaration.hasClasses()) {
-      result.push(
-        ...this.getClasses(declaration, 'full', childrenOptions)
-      );
+      result.push(...this.getClasses(declaration, 'full', childrenOptions));
     }
     // result
     return result;
@@ -266,24 +265,25 @@ export class ConvertService {
   ) {
     const { level = 2 } = options;
     const offset = level - 2;
-    const {[sectionId]: sectionContent = ''} = declaration.SECTIONS;
+    const { [sectionId]: sectionContent = '' } = declaration.SECTIONS;
     const content = this.contentService.blockText(
       !!offset
-      ? this.contentService
-        .modifyHeadings(sectionContent, offset)
-      : sectionContent
+        ? this.contentService.modifyHeadings(sectionContent, offset)
+        : sectionContent
     );
     return [content] as ContentBlock[];
   }
 
-  private getContent(declaration: Declaration, options: ConvertingOptions = {}) {
+  private getContent(
+    declaration: Declaration,
+    options: ConvertingOptions = {}
+  ) {
     const { level = 2 } = options;
     const offset = level - 3;
     const content = this.contentService.blockText(
       !!offset
-      ? this.contentService
-        .modifyHeadings(declaration.TEXT, offset)
-      : declaration.TEXT
+        ? this.contentService.modifyHeadings(declaration.TEXT, offset)
+        : declaration.TEXT
     );
     return [content] as ContentBlock[];
   }
@@ -348,7 +348,8 @@ export class ConvertService {
     options: ConvertingOptions & FilterOptions = {}
   ) {
     const { level = 2, heading, local, filter } = options;
-    const withHeading = heading === undefined && mode === 'full' ? true : heading;
+    const withHeading =
+      heading === undefined && mode === 'full' ? true : heading;
     const localLinking = local === undefined && mode === 'full' ? true : local;
     // process level
     const headingLevel = level - (withHeading ? 0 : 1);
@@ -362,10 +363,8 @@ export class ConvertService {
       if (withHeading) {
         const headingTitle = declaration.isRoot()
           ? 'Variables'
-          : (
-              declaration.NAME +
-              (declaration.isKind('Global') ? ' variables' : ' properties')
-            );
+          : declaration.NAME +
+            (declaration.isKind('Global') ? ' variables' : ' properties');
         const heading = this.contentService.blockHeading(
           headingTitle,
           headingLevel,
@@ -433,7 +432,8 @@ export class ConvertService {
     options: ConvertingOptions & FilterOptions = {}
   ) {
     const { level = 2, heading, local, filter } = options;
-    const withHeading = heading === undefined && mode === 'full' ? true : heading;
+    const withHeading =
+      heading === undefined && mode === 'full' ? true : heading;
     const localLinking = local === undefined && mode === 'full' ? true : local;
     // process level
     const headingLevel = level - (withHeading ? 0 : 1);
@@ -447,10 +447,8 @@ export class ConvertService {
       if (withHeading) {
         const headingTitle = declaration.isRoot()
           ? 'Functions'
-          : (
-              declaration.NAME +
-              (declaration.isKind('Global') ? ' functions' : ' methods')
-            );
+          : declaration.NAME +
+            (declaration.isKind('Global') ? ' functions' : ' methods');
         const heading = this.contentService.blockHeading(
           headingTitle,
           headingLevel,
@@ -508,7 +506,8 @@ export class ConvertService {
     options: ConvertingOptions & FilterOptions = {}
   ) {
     const { level = 2, heading, local, filter } = options;
-    const withHeading = heading === undefined && mode === 'full' ? true : heading;
+    const withHeading =
+      heading === undefined && mode === 'full' ? true : heading;
     const localLinking = local === undefined && mode === 'full' ? true : local;
     // process level
     const headingLevel = level - (withHeading ? 0 : 1);
@@ -569,7 +568,8 @@ export class ConvertService {
     options: ConvertingOptions & FilterOptions = {}
   ) {
     const { level = 2, heading, local, filter } = options;
-    const withHeading = heading === undefined && mode === 'full' ? true : heading;
+    const withHeading =
+      heading === undefined && mode === 'full' ? true : heading;
     const localLinking = local === undefined && mode === 'full' ? true : local;
     // process level
     const headingLevel = level - (withHeading ? 0 : 1);

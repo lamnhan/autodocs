@@ -15,11 +15,10 @@ export interface RendererFileData {
 }
 
 export class Renderer {
-
   private webOutput: boolean;
-  private heading: {[path: string]: HeadingBlock[]} = {};
-  private content: {[path: string]: string} = {};
-  private option: {[path: string]: FileRenderWithOptions} = {};
+  private heading: { [path: string]: HeadingBlock[] } = {};
+  private content: { [path: string]: string } = {};
+  private option: { [path: string]: FileRenderWithOptions } = {};
 
   constructor(
     private projectService: ProjectService,
@@ -56,18 +55,16 @@ export class Renderer {
   }
 
   getResultAll() {
-    const result: {[path: string]: string} = {};
+    const result: { [path: string]: string } = {};
     const paths: string[] = [];
     // pages
     Object.keys(this.content).forEach(path => {
       paths.push(path);
-      result[path] = this.getResult(path)
+      result[path] = this.getResult(path);
     });
     // index.html
     if (this.webOutput && !result['index.html']) {
-      result['index.html'] = this.webService.getIndex(
-        this.fileUrl(paths[0])
-      );
+      result['index.html'] = this.webService.getIndex(this.fileUrl(paths[0]));
     }
     // result
     return result;
@@ -87,14 +84,13 @@ export class Renderer {
       .md2Html(this.contentService.renderTOC(menuHeadings, 1))
       .replace(new RegExp(`href="${activeLink}"`), `class="active" $&`);
   }
-  
+
   private getWebMenuHeadings(currentPath: string) {
     const result: HeadingBlock[] = [];
     let activeCategory: undefined | string;
     Object.keys(this.heading).forEach(path => {
-      const [category] = path.indexOf('/') !== -1
-        ? path.split('/')
-        : [undefined, path];
+      const [category] =
+        path.indexOf('/') !== -1 ? path.split('/') : [undefined, path];
       // build heading
       const { pageTitle, deepMenu } = this.option[path] || {};
       const headingBlock = this.contentService.blockHeading(
@@ -107,13 +103,11 @@ export class Renderer {
       if (!!category && activeCategory !== category) {
         activeCategory = category;
         const {
-          webRender: {
-            categories: websiteCategories = {}
-          }
+          webRender: { categories: websiteCategories = {} },
         } = this.projectService.OPTIONS;
         const categoryBlock = this.contentService.blockHeading(
           websiteCategories[category] || category,
-          1,
+          1
         );
         result.push(categoryBlock);
       }
@@ -143,20 +137,20 @@ export class Renderer {
   }
 
   private renderLinks(currentPath: string, content: string) {
-    const localHeadings: {[id: string]: true} = {};
-    const peerHeadings: {[id: string]: string} = {};
+    const localHeadings: { [id: string]: true } = {};
+    const peerHeadings: { [id: string]: string } = {};
     // build heading list
     Object.keys(this.heading).forEach(path => {
       // local
       if (currentPath === path) {
         this.heading[path].forEach(
-          block => localHeadings[block.data.id as string] = true
+          block => (localHeadings[block.data.id as string] = true)
         );
       }
       // peer
       else {
         this.heading[path].forEach(
-          block => peerHeadings[block.data.id as string] = path
+          block => (peerHeadings[block.data.id as string] = path)
         );
       }
     });
@@ -168,27 +162,23 @@ export class Renderer {
       }
       // peer
       else if (!!peerHeadings[id]) {
-        link = this.fileUrl(peerHeadings[id]) + '#' + id
+        link = this.fileUrl(peerHeadings[id]) + '#' + id;
       }
       return link;
     };
     // render
-    return this.contentService.convertLinks(
-      content,
-      input => {
-        const headingLink = getAvailableHeadingLink(input);
-        if (!!headingLink) {
-          return headingLink;
-        } else {
-          try {
-            const { ID, LINK } = this.parseService.parse(input);
-            return getAvailableHeadingLink(ID) || LINK;
-          } catch (error) {
-            return undefined;
-          }
+    return this.contentService.convertLinks(content, input => {
+      const headingLink = getAvailableHeadingLink(input);
+      if (!!headingLink) {
+        return headingLink;
+      } else {
+        try {
+          const { ID, LINK } = this.parseService.parse(input);
+          return getAvailableHeadingLink(ID) || LINK;
+        } catch (error) {
+          return undefined;
         }
       }
-    );
+    });
   }
-
 }
