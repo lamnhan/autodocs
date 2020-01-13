@@ -6,6 +6,8 @@ import {
   ContainerReflection,
   ProjectReflection,
   DeclarationReflection,
+  TypeDocReader,
+  TSConfigReader,
 } from 'typedoc';
 import { ReferenceType, ArrayType, UnionType } from 'typedoc/dist/lib/models';
 
@@ -177,7 +179,14 @@ export class TypedocService {
       ...localConfigs,
     };
     // create app
-    return new Application({ ...typedocOptions, ...configs });
+    const app = new Application();
+    // Support loading tsconfig.json + typedoc.json
+    app.options.addReader(new TypeDocReader());
+    app.options.addReader(new TSConfigReader());
+    // TypeDoc handles properties with the wrong type correctly, so this cast is safe.
+    // It might be better to refactor in order to accept the same argument type as bootstrap does.
+    app.bootstrap({ ...typedocOptions, ...configs } as any);
+    return app;
   }
 
   private createProject(app: Application, src: string[]) {
