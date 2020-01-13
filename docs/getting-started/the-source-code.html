@@ -228,54 +228,54 @@
               But you can see your whole source code as a single flattened file
               like this:
             </p>
-            <pre><code class="language-ts">// ================== file1.ts ==================
+            <pre><code class="language-ts"><span class="hljs-comment">// ================== file1.ts ==================</span>
 
-/**
+<span class="hljs-comment">/**
  * This is a Variable element named `PI`
- */
-export const PI = 3.14;
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> PI = <span class="hljs-number">3.14</span>;
 
-// ================== file2.ts ==================
+<span class="hljs-comment">// ================== file2.ts ==================</span>
 
-/**
+<span class="hljs-comment">/**
  * This is a Function element named `doSomething`
- */
-export function doSomething() {
-  return true;
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSomething</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
 }
 
-// ================== file3.ts ==================
+<span class="hljs-comment">// ================== file3.ts ==================</span>
 
-/**
+<span class="hljs-comment">/**
  * This is an Interface element named `Options`
  *
  * And this is the `Options` element detail.
  *
  * Supports Markdown content.
- */
-export interface Options {
-  /**
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> Options {
+  <span class="hljs-comment">/**
    * This is a Property element named `prop1`
-   */
-  prop1?: string;
-  prop2?: number;
+   */</span>
+  prop1?: <span class="hljs-built_in">string</span>;
+  prop2?: <span class="hljs-built_in">number</span>;
 }
 
-/**
+<span class="hljs-comment">/**
  * This is a Class element named `Main`
  *
  * And this is the `Main` element detail.
  *
  * Supports Markdown content.
- */
-export class Main {
-  property = &quot;a property&quot;;
-  constructor() {}
-  /**
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Main {
+  property = <span class="hljs-string">"a property"</span>;
+  <span class="hljs-keyword">constructor</span>(<span class="hljs-params"></span>) {}
+  <span class="hljs-comment">/**
    * This is a Method element named `method1`
-   */
+   */</span>
   method1() {
-    return &quot;a method&quot;;
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"a method"</span>;
   }
 }</code></pre>
             <p>

@@ -37,10 +37,10 @@ npm install --save-dev @lamnhan/ayedocs
 Use the library:
 
 ```ts
-import { ayedocs } from "@lamnhan/ayedocs";
+import { AyedocsModule } from "@lamnhan/ayedocs";
 
 // init an instance
-const generator = ayedocs(/* Options */);
+const generator = new AyedocsModule(/* Options */);
 
 // parsing
 const parsing = generator.parse("Main");

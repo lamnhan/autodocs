@@ -240,7 +240,14 @@
                 instance.
               </li>
             </ul>
-            <h2 id="options-list">Options list</h2>
+
+            <a
+              href="#options-list"
+              id="options-list"
+              style="color: inherit; text-decoration: none;"
+            >
+              <h2>Options list</h2>
+            </a>
             <table class="table">
               <thead>
                 <tr>
@@ -257,7 +264,7 @@
                       >cleanOutput?</a
                     >
                   </td>
-                  <td><code>boolean</code></td>
+                  <td><code>undefined | false | true</code></td>
                   <td>Global clean output, can be overridden per file</td>
                 </tr>
                 <tr>
@@ -306,7 +313,7 @@
                       >srcPath?</a
                     >
                   </td>
-                  <td><code>string</code></td>
+                  <td><code>undefined | string</code></td>
                   <td>Path to the source code, default to <code>src</code></td>
                 </tr>
                 <tr>
@@ -336,7 +343,7 @@
                       >url?</a
                     >
                   </td>
-                  <td><code>string</code></td>
+                  <td><code>undefined | string</code></td>
                   <td>
                     Docs homepage url, default to the Github Pages repo url
                   </td>
@@ -361,7 +368,14 @@
                 </tr>
               </tbody>
             </table>
-            <h2 id="web-options">Web options</h2>
+
+            <a
+              href="#web-options"
+              id="web-options"
+              style="color: inherit; text-decoration: none;"
+            >
+              <h2>Web options</h2>
+            </a>
             <table class="table">
               <thead>
                 <tr>
@@ -378,7 +392,7 @@
                       >categories?</a
                     >
                   </td>
-                  <td><code>object</code></td>
+                  <td><code>undefined | object</code></td>
                   <td>Website article grouping</td>
                 </tr>
                 <tr>
@@ -406,7 +420,7 @@
                       >index?</a
                     >
                   </td>
-                  <td><code>string</code></td>
+                  <td><code>undefined | string</code></td>
                   <td>
                     Custom website index.html, default to a page that redirects
                     to the first article
@@ -419,7 +433,7 @@
                       >out?</a
                     >
                   </td>
-                  <td><code>string</code></td>
+                  <td><code>undefined | string</code></td>
                   <td>Website output dir</td>
                 </tr>
                 <tr>
@@ -429,7 +443,7 @@
                       >theme?</a
                     >
                   </td>
-                  <td><code>string</code></td>
+                  <td><code>undefined | string</code></td>
                   <td>
                     Name of or path to a website theme, built-in themes: default
                   </td>

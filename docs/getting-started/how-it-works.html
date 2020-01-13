@@ -239,14 +239,14 @@
               this:
             </p>
             <pre><code class="language-json">{
-  &quot;name&quot;: &quot;my-package&quot;,
-  &quot;description&quot;: &quot;My package description.&quot;,
-  &quot;@lamnhan/ayedocs&quot;: {
-    &quot;url&quot;: &quot;https://docs.example.com&quot;,
-    &quot;fileRender&quot;: {
-      &quot;TEST.md&quot;: {
-        &quot;head&quot;: true,
-        &quot;section1&quot;: [&quot;Main&quot;, &quot;SELF&quot;]
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"my-package"</span>,
+  <span class="hljs-attr">"description"</span>: <span class="hljs-string">"My package description."</span>,
+  <span class="hljs-attr">"@lamnhan/ayedocs"</span>: {
+    <span class="hljs-attr">"url"</span>: <span class="hljs-string">"https://docs.example.com"</span>,
+    <span class="hljs-attr">"fileRender"</span>: {
+      <span class="hljs-attr">"TEST.md"</span>: {
+        <span class="hljs-attr">"head"</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">"section1"</span>: [<span class="hljs-string">"Main"</span>, <span class="hljs-string">"SELF"</span>]
       }
     }
   }
@@ -269,25 +269,25 @@
               </li>
             </ul>
             <p>The <code>TEST.md</code> content would be:</p>
-            <pre><code class="language-md">&lt;\section id=&quot;head&quot;&gt;
+            <pre><code class="language-md"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">\section</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"head"</span>&gt;</span></span>
 
 \# my-package
 
-**My package description.**
+<span class="hljs-strong">**My package description.**</span>
 
-&lt;/\section&gt;
+<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span>&gt;</span></span>
 
-&lt;/\section id=&quot;section1&quot;&gt;
+<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"section1"</span>&gt;</span></span>
 
-\## The `Main` class
+\## The <span class="hljs-code">`Main`</span> class
 
-**This is a Class element named `Main`**
+<span class="hljs-strong">**This is a Class element named `Main`**</span>
 
-And this is the `Main` element detail.
+And this is the <span class="hljs-code">`Main`</span> element detail.
 
 Supports Markdown content.
 
-&lt;/\section&gt;</code></pre>
+<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span>&gt;</span></span></code></pre>
           </section>
         </article>
       </div>

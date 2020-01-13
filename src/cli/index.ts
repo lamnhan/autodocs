@@ -27,7 +27,7 @@ export class Cli {
    */
   previewCommandDef: CommandDef = [
     'preview [input] [output] [params...]',
-    'Preview a rendering.',
+    'Preview a rendering.'
   ];
 
   /**
@@ -38,7 +38,7 @@ export class Cli {
     'Generate the documentation.',
     ['-c, --config [value]', 'Path to custom config file.'],
     ['-p, --package [value]', 'Path to custom package file.'],
-    ['-t, --template [value]', 'Use this template for the [path] param.'],
+    ['-t, --template [value]', 'Use this template for the [path] param.']
   ];
 
   constructor() {
