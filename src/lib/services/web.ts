@@ -1,16 +1,17 @@
-// tslint:disable: no-any
-import { resolve, sep } from 'path';
-import { pathExistsSync, copySync } from 'fs-extra';
+import {resolve, sep} from 'path';
+import {pathExistsSync, copySync} from 'fs-extra';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const APP_ROOT = require('app-root-path');
 
-import { ProjectService } from './project';
-import { ContentService } from './content';
+import {ProjectService} from './project';
+import {ContentService} from './content';
 
 export interface WebData {
   siteName?: string;
   siteUrl?: string;
   homeUrl?: string;
   repoUrl?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
@@ -22,7 +23,7 @@ export class WebService {
 
   getIndex(redirectUrl: string) {
     const {
-      webRender: { index: websiteIndex },
+      webRender: {index: websiteIndex},
     } = this.projectService.OPTIONS;
     // path
     const indexPath = !websiteIndex
@@ -51,7 +52,7 @@ export class WebService {
       .replace('{{ menu }}', menu)
       .replace('{{ content }}', this.modifyHtml(title, content));
     // extra data
-    data = { ...this.getVendorData(), ...data };
+    data = {...this.getVendorData(), ...data};
     Object.keys(data).forEach(
       key =>
         (result = result.replace(new RegExp(`{{ ${key} }}`, 'g'), data[key]))
@@ -61,7 +62,7 @@ export class WebService {
   }
 
   copyThemeAssets() {
-    const { webRender } = this.projectService.OPTIONS;
+    const {webRender} = this.projectService.OPTIONS;
     const assetsPath = this.getAssetsPath();
     const outPath = resolve(webRender.out as string, 'assets');
     if (pathExistsSync(assetsPath)) {
@@ -86,19 +87,19 @@ export class WebService {
     const {
       name: pkgName,
       homepage,
-      repository: { url: repoUrl } = { url: undefined },
+      repository: {url: repoUrl} = {url: undefined},
     } = this.projectService.PACKAGE;
-    const { url } = this.projectService.OPTIONS;
-    if (!!pkgName) {
+    const {url} = this.projectService.OPTIONS;
+    if (pkgName) {
       data['siteName'] = pkgName + ' documentation';
     }
-    if (!!url) {
+    if (url) {
       data['siteUrl'] = url;
     }
-    if (!!homepage) {
+    if (homepage) {
       data['homeUrl'] = homepage || url;
     }
-    if (!!repoUrl) {
+    if (repoUrl) {
       data['repoUrl'] = repoUrl.replace('.git', '');
     }
     return data;
@@ -120,7 +121,7 @@ export class WebService {
 
   private getThemePath() {
     const {
-      webRender: { theme: websiteTheme = 'default' },
+      webRender: {theme: websiteTheme = 'default'},
     } = this.projectService.OPTIONS;
     return websiteTheme.substr(-5) === '.html'
       ? this.localPath(websiteTheme)

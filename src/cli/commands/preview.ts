@@ -1,6 +1,6 @@
-// tslint:disable: no-any
-import { yellow, green } from 'chalk';
-import { ParseService, ConvertService, ContentService } from '../../public-api';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {yellow, green} from 'chalk';
+import {ParseService, ConvertService, ContentService} from '../../public-api';
 
 export class PreviewCommand {
   constructor(
@@ -35,7 +35,7 @@ export class PreviewCommand {
     console.log(green(previewContent));
   }
 
-  private extractOptions(params: string[]): { [key: string]: any } {
+  private extractOptions(params: string[]): {[key: string]: any} {
     const parseValue = (value: any) => {
       if ((value + '').toLowerCase() === 'true') {
         // TRUE

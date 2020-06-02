@@ -1,9 +1,9 @@
-import { ProjectService } from './project';
-import { CustomConvert, ConvertOptions } from './convert';
-import { AdvancedRendering } from './render';
-import { ContentBlock, ContentService } from './content';
+import {ProjectService} from './project';
+import {CustomConvert, ConvertOptions} from './convert';
+import {AdvancedRendering} from './render';
+import {ContentBlock, ContentService} from './content';
 
-import { Declaration } from '../declaration';
+import {Declaration} from '../declaration';
 
 export type BuiltinTemplate =
   | 'basic'
@@ -18,7 +18,7 @@ export type BuiltinTemplate =
 export interface TemplateOptions {
   topSecs?: AdvancedRendering;
   bottomSecs?: AdvancedRendering;
-  convertings?: { [section: string]: ConvertOptions };
+  convertings?: {[section: string]: ConvertOptions};
 }
 
 export type CustomTemplate = (
@@ -38,7 +38,7 @@ export class TemplateService {
     template: BuiltinTemplate | CustomTemplate,
     options: TemplateOptions = {}
   ) {
-    const { topSecs = {}, bottomSecs = {} } = options;
+    const {topSecs = {}, bottomSecs = {}} = options;
     // get template
     let templateSecs: undefined | AdvancedRendering;
     // custom
@@ -104,16 +104,16 @@ export class TemplateService {
   }
 
   private getBasicTemplate(options: TemplateOptions = {}, extra = false) {
-    const { convertings = {} } = options;
+    const {convertings = {}} = options;
     const sections: AdvancedRendering = {
       options: ['Options', 'FULL', convertings['options'] || {}],
-      main: ['Main', 'FULL', convertings['main'] || {}],
+      main: ['Lib', 'FULL', convertings['main'] || {}],
     };
     return this.createRendering(sections, extra);
   }
 
   private getFullTemplate(options: TemplateOptions = {}, extra = false) {
-    const { convertings = {} } = options;
+    const {convertings = {}} = options;
     const sections: AdvancedRendering = {
       functions: ['*', 'FULL_FUNCTIONS', convertings['functions'] || {}],
       interfaces: [
@@ -130,7 +130,7 @@ export class TemplateService {
   }
 
   private getAngularTemplate(options: TemplateOptions = {}, extra = false) {
-    const { convertings = {} } = options;
+    const {convertings = {}} = options;
     const sections: AdvancedRendering = {
       modules: [
         {
@@ -212,7 +212,7 @@ export class TemplateService {
   }
 
   private getCLITemplate(options: TemplateOptions = {}, extra = false) {
-    const { convertings = {} } = options;
+    const {convertings = {}} = options;
     const customConvert: CustomConvert = (
       declaration,
       options,
@@ -260,16 +260,16 @@ export class TemplateService {
         );
         detailBlocks.push(contentService.blockText(description));
         // parameters
-        if (!!params.length) {
+        if (params.length) {
           // extract param descriptions
-          const paramTags: { [key: string]: string } = {};
-          if (!!decl.REFLECTION.comment) {
-            (decl.REFLECTION.comment.tags || []).forEach(({ text }) => {
+          const paramTags: {[key: string]: string} = {};
+          if (decl.REFLECTION.comment) {
+            (decl.REFLECTION.comment.tags || []).forEach(({text}) => {
               const [k, desc] = text.split('-').map(x => x.trim());
               paramTags[k] = desc;
             });
           }
-          detailBlocks.push(contentService.blockText(`**Parameters**`));
+          detailBlocks.push(contentService.blockText('**Parameters**'));
           detailBlocks.push(
             contentService.blockList(
               params.map(param => [
@@ -280,8 +280,8 @@ export class TemplateService {
           );
         }
         // options
-        if (!!cmdOptions.length) {
-          detailBlocks.push(contentService.blockText(`**Options**`));
+        if (cmdOptions.length) {
+          detailBlocks.push(contentService.blockText('**Options**'));
           detailBlocks.push(
             contentService.blockList(
               cmdOptions.map(([v1, v2]) => [`\`${v1}\``, v2])

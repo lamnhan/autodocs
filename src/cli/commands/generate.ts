@@ -1,4 +1,4 @@
-import { AyedocsModule, BuiltinTemplate } from '../../public-api';
+import {AyedocsModule, BuiltinTemplate} from '../../public-api';
 
 export interface GenerateCommandOptions {
   config?: string;
@@ -10,9 +10,9 @@ export class GenerateCommand {
   constructor(private ayedocsModule: AyedocsModule) {}
 
   run(path?: string, options: GenerateCommandOptions = {}) {
-    const { config, package: packagePath, template = 'mini' } = options;
+    const {config, package: packagePath, template = 'mini'} = options;
     // path + template
-    if (!!path) {
+    if (path) {
       this.ayedocsModule.output(path, template);
     } else {
       // get instance

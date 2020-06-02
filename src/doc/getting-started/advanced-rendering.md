@@ -5,7 +5,7 @@ Advanced rendering allows you to defined more sections with specific config.
 ```ts
 {
   section1: ['Options'],
-  section2: ['Main', 'FULL']
+  section2: ['Lib', 'FULL']
 }
 ```
 
@@ -49,7 +49,7 @@ Provide the file path:
 ```ts
 {
   section1: [ 'Options', 'SELF' ],
-  section2: [ 'Main', 'FULL', { /* options */ } ]
+  section2: [ 'Lib', 'FULL', { /* options */ } ]
   section3: [ 'Class1', customConvert ]
 }
 ```
@@ -63,7 +63,7 @@ A [[DeclarationRender]] has of 3 parts:
 For the WHAT part, use this format to target a source code element:
 
 - Direct element: provide its name, ex. `Options`, 'function1', ...
-- Indirect element: its parent name and its name with `.` in between, ex. `Main.method1`, ...
+- Indirect element: its parent name and its name with `.` in between, ex. `Lib.method1`, ...
 - Custom source: list of path, ex. `[path1.ts,path2.ts]`
 
 ## Multiple blocks

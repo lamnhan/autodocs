@@ -242,22 +242,15 @@
               specific config.
             </p>
             <pre><code class="language-ts">{
-  section1: [<span class="hljs-string">'Options'</span>],
-  section2: [<span class="hljs-string">'Main'</span>, <span class="hljs-string">'FULL'</span>]
+  section1: [&#39;Options&#39;],
+  section2: [&#39;Lib&#39;, &#39;FULL&#39;]
 }</code></pre>
-
-            <a
-              href="#builtin-sections"
-              id="builtin-sections"
-              style="color: inherit; text-decoration: none;"
-            >
-              <h2>Builtin sections</h2>
-            </a>
+            <h2 id="builtin-sections">Builtin sections</h2>
             <p>
               Use builtin sections with the format <code>[name]: true</code>:
             </p>
             <pre><code class="language-ts">{
-  head: <span class="hljs-literal">true</span>,
+  head: true,
 }</code></pre>
             <p>List of builtin sections:</p>
             <ul>
@@ -265,42 +258,21 @@
               <li><code>toc</code>/<code>tocx</code>: Table of content</li>
               <li><code>license</code>: License information</li>
             </ul>
-
-            <a
-              href="#content-from-a-file"
-              id="content-from-a-file"
-              style="color: inherit; text-decoration: none;"
-            >
-              <h2>Content from a file</h2>
-            </a>
+            <h2 id="content-from-a-file">Content from a file</h2>
             <p>Provide the file path:</p>
             <pre><code class="language-ts">{
-  section1: <span class="hljs-string">"@docs/file1.md"</span>;
+  section1: &quot;@docs/file1.md&quot;;
 }</code></pre>
-
-            <a
-              href="#using-template"
-              id="using-template"
-              style="color: inherit; text-decoration: none;"
-            >
-              <h2>Using template</h2>
-            </a>
+            <h2 id="using-template">Using template</h2>
             <pre><code class="language-ts">{
-  section1: <span class="hljs-string">'basic'</span>, <span class="hljs-comment">// built-in</span>
-  section2: customTemplate, <span class="hljs-comment">// custom</span>
+  section1: &#39;basic&#39;, // built-in
+  section2: customTemplate, // custom
 }</code></pre>
-
-            <a
-              href="#declaration-rendering"
-              id="declaration-rendering"
-              style="color: inherit; text-decoration: none;"
-            >
-              <h2>Declaration rendering</h2>
-            </a>
+            <h2 id="declaration-rendering">Declaration rendering</h2>
             <pre><code class="language-ts">{
-  section1: [ <span class="hljs-string">'Options'</span>, <span class="hljs-string">'SELF'</span> ],
-  section2: [ <span class="hljs-string">'Main'</span>, <span class="hljs-string">'FULL'</span>, { <span class="hljs-comment">/* options */</span> } ]
-  section3: [ <span class="hljs-string">'Class1'</span>, customConvert ]
+  section1: [ &#39;Options&#39;, &#39;SELF&#39; ],
+  section2: [ &#39;Lib&#39;, &#39;FULL&#39;, { /* options */ } ]
+  section3: [ &#39;Class1&#39;, customConvert ]
 }</code></pre>
             <p>
               A
@@ -330,42 +302,30 @@
               </li>
               <li>
                 Indirect element: its parent name and its name with
-                <code>.</code> in between, ex. <code>Main.method1</code>, ...
+                <code>.</code> in between, ex. <code>Lib.method1</code>, ...
               </li>
               <li>
                 Custom source: list of path, ex.
                 <code>[path1.ts,path2.ts]</code>
               </li>
             </ul>
-
-            <a
-              href="#multiple-blocks"
-              id="multiple-blocks"
-              style="color: inherit; text-decoration: none;"
-            >
-              <h2>Multiple blocks</h2>
-            </a>
+            <h2 id="multiple-blocks">Multiple blocks</h2>
             <p>Multiple blocks for one section:</p>
             <pre><code class="language-ts">{
   section1: [
-    <span class="hljs-comment">// content block</span>
+    // content block
     {
-      <span class="hljs-keyword">type</span>: <span class="hljs-string">"text"</span>,
-      data: <span class="hljs-string">"Some text ..."</span>
+      type: &quot;text&quot;,
+      data: &quot;Some text ...&quot;,
     },
-    <span class="hljs-comment">//</span>
-    [<span class="hljs-string">"Options"</span>, <span class="hljs-string">"SELF"</span>],
-    [<span class="hljs-string">"Options"</span>, <span class="hljs-string">"SUMMARY_PROPERTIES"</span>]
+    //
+    [&quot;Options&quot;, &quot;SELF&quot;],
+    [&quot;Options&quot;, &quot;SUMMARY_PROPERTIES&quot;],
   ];
 }</code></pre>
-
-            <a
-              href="#template-or-file-with-options"
-              id="template-or-file-with-options"
-              style="color: inherit; text-decoration: none;"
-            >
-              <h2>Template or file with options</h2>
-            </a>
+            <h2 id="template-or-file-with-options">
+              Template or file with options
+            </h2>
             <p>
               See
               <a
@@ -377,12 +337,12 @@
             </p>
             <pre><code class="language-ts">{
   section1: {
-    <span class="hljs-comment">// input</span>
-    template: <span class="hljs-string">'...'</span>, <span class="hljs-comment">// or</span>
-    file: <span class="hljs-string">'...'</span>,
-    <span class="hljs-comment">// any options</span>
-    <span class="hljs-comment">// for certain type of input</span>
-    <span class="hljs-comment">// ...</span>
+    // input
+    template: &#39;...&#39;, // or
+    file: &#39;...&#39;,
+    // any options
+    // for certain type of input
+    // ...
   }
 }
 </code></pre>

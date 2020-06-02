@@ -1,4 +1,4 @@
-// tslint:disable: no-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Application,
   ReflectionKind,
@@ -9,9 +9,9 @@ import {
   TypeDocReader,
   TSConfigReader,
 } from 'typedoc';
-import { ReferenceType, ArrayType, UnionType } from 'typedoc/dist/lib/models';
+import {ReferenceType, ArrayType, UnionType} from 'typedoc/dist/lib/models';
 
-import { ProjectService } from './project';
+import {ProjectService} from './project';
 
 export type KindString = keyof typeof ReflectionKind;
 
@@ -76,7 +76,7 @@ export class TypedocService {
     typedocApp?: Application,
     typedocProject?: ProjectReflection
   ) {
-    const { srcPath } = this.projectService.OPTIONS;
+    const {srcPath} = this.projectService.OPTIONS;
     // init the default instance
     this.typedocApp = typedocApp || this.createApp();
     this.typedocProject =
@@ -110,7 +110,7 @@ export class TypedocService {
   ) {
     const kind = this.getKindByString(kindString);
     const parent = (container as ContainerReflection) || this.typedocProject;
-    return !!kind ? parent.getChildrenByKind(kind) : parent.children || [];
+    return kind ? parent.getChildrenByKind(kind) : parent.children || [];
   }
 
   getReflection(what?: string | string[]) {
@@ -143,7 +143,7 @@ export class TypedocService {
   }
 
   extractReflection(reflection: Reflection) {
-    const { name } = reflection;
+    const {name} = reflection;
     const link = this.getLink(reflection);
     const typeData = this.getType(reflection);
     const flagData = this.getFlags(reflection);
@@ -164,7 +164,7 @@ export class TypedocService {
   }
 
   private createApp(configs = {}) {
-    const { typedocConfigs: localConfigs } = this.projectService.OPTIONS;
+    const {typedocConfigs: localConfigs} = this.projectService.OPTIONS;
     // default configs
     const typedocOptions = {
       mode: 'file',
@@ -185,7 +185,7 @@ export class TypedocService {
     app.options.addReader(new TSConfigReader());
     // TypeDoc handles properties with the wrong type correctly, so this cast is safe.
     // It might be better to refactor in order to accept the same argument type as bootstrap does.
-    app.bootstrap({ ...typedocOptions, ...configs } as any);
+    app.bootstrap({...typedocOptions, ...configs} as any);
     return app;
   }
 
@@ -200,7 +200,7 @@ export class TypedocService {
 
   private getTypeLink(name: string, kind: ReflectionKind) {
     const {
-      typedocConfigs: { readme },
+      typedocConfigs: {readme},
     } = this.projectService.OPTIONS;
     const home = !!readme && readme === 'none' ? 'index' : 'globals';
     const id = name.toLowerCase();
@@ -224,7 +224,7 @@ export class TypedocService {
   }
 
   private getLink(reflection: Reflection) {
-    const { name, kind, parent } = reflection;
+    const {name, kind, parent} = reflection;
     const fragment = name.toLowerCase();
     // interface/class props
     if (
@@ -257,32 +257,32 @@ export class TypedocService {
   }
 
   private getType(reflection: Reflection) {
-    const { type } = reflection as DeclarationReflection;
+    const {type} = reflection as DeclarationReflection;
     // get type data
-    const typeData = { type: 'none', displayType: 'none' } as TypeData;
-    if (!!type) {
+    const typeData = {type: 'none', displayType: 'none'} as TypeData;
+    if (type) {
       // default type
       const typeString = type.toString();
       typeData.type = typeString;
       typeData.displayType = typeString;
       // ref
       if (type.type === 'reference' && !!(type as ReferenceType).reflection) {
-        const { reflection: typeReflection } = type as ReferenceType;
-        const { name, kind } = typeReflection as Reflection;
+        const {reflection: typeReflection} = type as ReferenceType;
+        const {name, kind} = typeReflection as Reflection;
         const link = this.getTypeLink(name, kind);
         typeData.displayType = `<a href="${link}" target="_blank">${name}</a>`;
       }
       // array
       else if (type.type === 'array') {
-        const { elementType } = type as ArrayType;
-        const { displayType } = this.getType({ type: elementType } as any);
+        const {elementType} = type as ArrayType;
+        const {displayType} = this.getType({type: elementType} as any);
         typeData.displayType = displayType + '[]';
       }
       // union
       else if (type.type === 'union') {
-        const { types } = type as UnionType;
+        const {types} = type as UnionType;
         const displayTypes = types.map(itemType => {
-          const { displayType } = this.getType({ type: itemType } as any);
+          const {displayType} = this.getType({type: itemType} as any);
           return displayType;
         });
         typeData.displayType = displayTypes.join(' | ');
@@ -293,10 +293,10 @@ export class TypedocService {
   }
 
   private getFlags(reflection: Reflection) {
-    const { flags, defaultValue } = reflection as DeclarationReflection;
+    const {flags, defaultValue} = reflection as DeclarationReflection;
     // get flag data
-    const flagData: FlagData = { isOptional: false };
-    if (!!flags) {
+    const flagData: FlagData = {isOptional: false};
+    if (flags) {
       flagData.isOptional = flags.isOptional || !!defaultValue;
     }
     // result
@@ -310,17 +310,17 @@ export class TypedocService {
       children = [],
     } = reflection as DeclarationReflection;
     // get default value data
-    const defaultValueData: DefaultValueData = { defaultValue: '' };
+    const defaultValueData: DefaultValueData = {defaultValue: ''};
     if (
       kind === ReflectionKind.Variable ||
       kind === ReflectionKind.Property ||
       kind === ReflectionKind.ObjectLiteral
     ) {
       // object literal
-      if (!!children.length) {
-        const value: { [name: string]: any } = {};
+      if (children.length) {
+        const value: {[name: string]: any} = {};
         children.forEach(childReflection => {
-          const { defaultValue } = this.getDefaultValue(childReflection);
+          const {defaultValue} = this.getDefaultValue(childReflection);
           value[childReflection.name] = defaultValue;
         });
         defaultValueData.defaultValue = value;
@@ -356,9 +356,9 @@ export class TypedocService {
     else {
       try {
         const valueJson = value
-          .replace(/\ .:/g, '"$&":') // wrap '"' around object props
+          .replace(/ .:/g, '"$&":') // wrap '"' around object props
           .replace(/(" )|(:")/g, '"') // cleanup object props wrapping
-          .replace(/\'/g, '"'); // replace string single quote with double quote
+          .replace(/'/g, '"'); // replace string single quote with double quote
         value = JSON.parse(valueJson);
       } catch (e) {
         /* invalid json, keep value as is */
@@ -369,11 +369,11 @@ export class TypedocService {
   }
 
   private getComment(reflection: Reflection) {
-    const { comment } = reflection as DeclarationReflection;
+    const {comment} = reflection as DeclarationReflection;
     // get comment data
     const commentData: CommentData = {};
-    if (!!comment) {
-      const { shortText = '', text = '', returns = '' } = comment;
+    if (comment) {
+      const {shortText = '', text = '', returns = ''} = comment;
       commentData.shortText = shortText.replace(/(?:\r\n|\r|\n)/g, '  ');
       commentData.text = text;
       commentData.returns = returns;
@@ -383,10 +383,10 @@ export class TypedocService {
   }
 
   private getSource(reflection: Reflection) {
-    const { sources } = reflection;
+    const {sources} = reflection;
     const sourceData: SourceData = {};
-    if (!!sources) {
-      const [{ fileName }] = sources;
+    if (sources) {
+      const [{fileName}] = sources;
       sourceData.fileName = fileName;
     }
     // result

@@ -1,6 +1,7 @@
-import { magenta, green } from 'chalk';
+import {magenta, green} from 'chalk';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const ttyTable = require('tty-table');
-import { ParseService } from '../../public-api';
+import {ParseService} from '../../public-api';
 
 export class ShowCommand {
   constructor(private parseService: ParseService) {}
@@ -32,9 +33,9 @@ export class ShowCommand {
     // build table
     const table = ttyTable(
       [
-        { value: 'Name', width: 100, align: 'left' },
-        { value: 'Key', width: 100, align: 'left' },
-        { value: 'Value', width: 500, align: 'left' },
+        {value: 'Name', width: 100, align: 'left'},
+        {value: 'Key', width: 100, align: 'left'},
+        {value: 'Value', width: 500, align: 'left'},
       ],
       []
     );
@@ -43,26 +44,26 @@ export class ShowCommand {
     table.push(['Type', magenta('TYPE'), green(TYPE)]);
     table.push(['Link', magenta('LINK'), green(LINK)]);
     table.push(['Source', magenta('FILE_NAME'), green(FILE_NAME)]);
-    if (!!SHORT_TEXT) {
+    if (SHORT_TEXT) {
       table.push(['Description', magenta('SHORT_TEXT'), green(SHORT_TEXT)]);
     }
-    if (!!TEXT) {
+    if (TEXT) {
       table.push(['Content', magenta('TEXT'), green(content)]);
     }
-    if (!!Object.keys(SECTIONS).length) {
+    if (Object.keys(SECTIONS).length) {
       table.push([
         'Sections',
         magenta('SECTIONS'),
         green(sections.join('\r\n')),
       ]);
     }
-    if (!!RETURNS) {
+    if (RETURNS) {
       table.push(['Returns', magenta('RETURNS'), green(RETURNS)]);
     }
-    if (!!PARAMETERS.length) {
+    if (PARAMETERS.length) {
       table.push(['Params', magenta('PARAMETERS'), green(params.join(', '))]);
     }
-    if (!!DEFAULT_VALUE) {
+    if (DEFAULT_VALUE) {
       table.push(['Value', magenta('DEFAULT_VALUE'), green(DEFAULT_VALUE)]);
     }
     // render

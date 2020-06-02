@@ -1,16 +1,16 @@
-import { resolve } from 'path';
+import {resolve} from 'path';
 
-import { OptionsInput, ProjectService } from './services/project';
-import { TypedocService } from './services/typedoc';
-import { ContentService } from './services/content';
-import { LoadService } from './services/load';
-import { ParseService } from './services/parse';
-import { ConvertService } from './services/convert';
-import { FileRender, RenderService } from './services/render';
-import { TemplateService } from './services/template';
-import { WebService } from './services/web';
+import {OptionsInput, ProjectService} from './services/project';
+import {TypedocService} from './services/typedoc';
+import {ContentService} from './services/content';
+import {LoadService} from './services/load';
+import {ParseService} from './services/parse';
+import {ConvertService} from './services/convert';
+import {FileRender, RenderService} from './services/render';
+import {TemplateService} from './services/template';
+import {WebService} from './services/web';
 
-export class Main {
+export class Lib {
   projectService: ProjectService;
   typedocService: TypedocService;
   contentService: ContentService;
@@ -53,7 +53,7 @@ export class Main {
    * @param options - Custom options
    */
   extend(optionsInput?: OptionsInput, packagePath?: string) {
-    return new Main(optionsInput, packagePath);
+    return new Lib(optionsInput, packagePath);
   }
 
   /**
@@ -73,12 +73,12 @@ export class Main {
    * Render content based on local configuration.
    */
   renderLocal() {
-    const { fileRender, webRender } = this.projectService.OPTIONS;
+    const {fileRender, webRender} = this.projectService.OPTIONS;
     const file = this.renderService.render(fileRender).getResultAll();
     const web = this.renderService
       .render(webRender.files, {}, true)
       .getResultAll();
-    return { file, web };
+    return {file, web};
   }
 
   /**
@@ -95,14 +95,14 @@ export class Main {
    * Render and save documents based on local configuration.
    */
   outputLocal() {
-    const { file, web } = this.renderLocal();
+    const {file, web} = this.renderLocal();
     // save files
     Object.keys(file).forEach(path =>
       this.contentService.writeFileSync(path, file[path])
     );
     // save web
     if (this.projectService.hasWebOutput()) {
-      const { webRender } = this.projectService.OPTIONS;
+      const {webRender} = this.projectService.OPTIONS;
       // files
       Object.keys(web).forEach(path =>
         this.contentService.writeFileSync(webRender.out + '/' + path, web[path])
@@ -118,7 +118,7 @@ export class Main {
    * The default folder is __/docs__. You can change the output folder by providing the `out` property of [[Options]].
    */
   generateRef() {
-    const { refGenerator, webRender } = this.projectService.OPTIONS;
+    const {refGenerator, webRender} = this.projectService.OPTIONS;
     // reference output, default to 'docs',
     const apiOut = this.projectService.hasWebOutput()
       ? resolve(webRender.out as string, 'reference')
@@ -133,6 +133,7 @@ export class Main {
     }
     // none
     else {
+      console.log('No ref.');
     }
   }
 }

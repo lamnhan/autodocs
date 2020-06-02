@@ -1,7 +1,7 @@
-import { DefaultValue } from './typedoc';
-import { ContentBlock, ContentService } from './content';
+import {DefaultValue} from './typedoc';
+import {ContentBlock, ContentService} from './content';
 
-import { DeclarationFilter, Declaration } from '../declaration';
+import {DeclarationFilter, Declaration} from '../declaration';
 
 export interface DeclarationOptions {
   id?: string;
@@ -32,7 +32,6 @@ export interface ConvertOptions
     ValueOptions,
     ConvertingOptions,
     FilterOptions {
-  // tslint:disable-next-line: no-any
   [key: string]: any;
 }
 
@@ -50,9 +49,9 @@ export class ConvertService {
     output: string | CustomConvert = 'SELF',
     options: ConvertOptions = {}
   ) {
-    const { id } = options;
+    const {id} = options;
     // override id
-    if (!!id) {
+    if (id) {
       declaration.setId(id);
     }
     // custom convert
@@ -170,7 +169,7 @@ export class ConvertService {
     declaration: Declaration,
     options: ConvertingOptions & HeadingOptions = {}
   ) {
-    const { level = 2, title: customTitle, link: customLink } = options;
+    const {level = 2, title: customTitle, link: customLink} = options;
     const blocks: ContentBlock[] = [];
     const kindText = (
       declaration.REFLECTION.kindString || 'Unknown'
@@ -187,7 +186,7 @@ export class ConvertService {
     } = declaration;
     // process content
     const offset = level - 2;
-    const content = !!offset
+    const content = offset
       ? this.contentService.modifyHeadings(TEXT, offset)
       : TEXT;
     // default blocks
@@ -197,7 +196,7 @@ export class ConvertService {
     ]);
     // function or method
     if (declaration.isKind('CallSignature')) {
-      const params = PARAMETERS.map(({ name, isOptional }) =>
+      const params = PARAMETERS.map(({name, isOptional}) =>
         isOptional ? name + '?' : name
       ).join(', ');
       const title = customTitle || `\`${NAME}(${params})\``;
@@ -207,9 +206,9 @@ export class ConvertService {
         body
       );
       // params
-      if (!!PARAMETERS.length) {
+      if (PARAMETERS.length) {
         const parameterRows = PARAMETERS.map(parameter => {
-          const { name, isOptional, displayType, text } = parameter;
+          const {name, isOptional, displayType, text} = parameter;
           return [
             !isOptional ? `**${name}**` : name,
             `<code>${displayType}</code>`,
@@ -217,7 +216,7 @@ export class ConvertService {
           ];
         });
         blocks.push(
-          this.contentService.blockText(`**Parameters**`),
+          this.contentService.blockText('**Parameters**'),
           this.contentService.blockTable(
             ['Param', 'Type', 'Description'],
             parameterRows
@@ -227,7 +226,7 @@ export class ConvertService {
       // returns
       blocks.push(
         this.contentService.blockText([
-          `**Returns**`,
+          '**Returns**',
           `${DISPLAY_TYPE}${!RETURNS ? '' : ' - ' + RETURNS}`,
         ])
       );
@@ -263,11 +262,11 @@ export class ConvertService {
     sectionId: string,
     options: ConvertingOptions = {}
   ) {
-    const { level = 2 } = options;
+    const {level = 2} = options;
     const offset = level - 2;
-    const { [sectionId]: sectionContent = '' } = declaration.SECTIONS;
+    const {[sectionId]: sectionContent = ''} = declaration.SECTIONS;
     const content = this.contentService.blockText(
-      !!offset
+      offset
         ? this.contentService.modifyHeadings(sectionContent, offset)
         : sectionContent
     );
@@ -278,10 +277,10 @@ export class ConvertService {
     declaration: Declaration,
     options: ConvertingOptions = {}
   ) {
-    const { level = 2 } = options;
+    const {level = 2} = options;
     const offset = level - 3;
     const content = this.contentService.blockText(
-      !!offset
+      offset
         ? this.contentService.modifyHeadings(declaration.TEXT, offset)
         : declaration.TEXT
     );
@@ -289,8 +288,8 @@ export class ConvertService {
   }
 
   private getValue(declaration: Declaration, options: ValueOptions = {}) {
-    const { raw: rawObject } = options;
-    const { DEFAULT_VALUE } = declaration;
+    const {raw: rawObject} = options;
+    const {DEFAULT_VALUE} = declaration;
     // converter
     const convertValue = (value: DefaultValue) => {
       if (value instanceof Array) {
@@ -306,13 +305,13 @@ export class ConvertService {
       } else if (value instanceof Object) {
         if (rawObject) {
           return this.contentService.renderText([
-            `\`\`\`json`,
+            '```json',
             JSON.stringify(value, null, 2),
-            `\`\`\``,
+            '```',
           ]);
         } else {
           const items: string[] = [];
-          const valueObj = value as { [key: string]: DefaultValue };
+          const valueObj = value as {[key: string]: DefaultValue};
           Object.keys(valueObj).forEach(key => {
             const item = valueObj[key];
             const valueText = convertValue(item);
@@ -347,7 +346,7 @@ export class ConvertService {
     mode: 'summary' | 'detail' | 'full',
     options: ConvertingOptions & FilterOptions = {}
   ) {
-    const { level = 2, heading, local, filter } = options;
+    const {level = 2, heading, local, filter} = options;
     const withHeading =
       heading === undefined && mode === 'full' ? true : heading;
     const localLinking = local === undefined && mode === 'full' ? true : local;
@@ -358,7 +357,7 @@ export class ConvertService {
     const children = declaration.getVariablesOrProperties(filter);
     // build blocks
     const result: ContentBlock[] = [];
-    if (!!children.length) {
+    if (children.length) {
       // heading
       if (withHeading) {
         const headingTitle = declaration.isRoot()
@@ -403,13 +402,13 @@ export class ConvertService {
         // detail / full
         if (mode === 'detail' || mode === 'full') {
           detailBlocks.push(
-            ...this.getSelf(child, { level: childLevel }),
+            ...this.getSelf(child, {level: childLevel}),
             this.contentService.blockText('---')
           );
         }
       });
       // summary table
-      if (!!summaryRows.length) {
+      if (summaryRows.length) {
         result.push(
           this.contentService.blockTable(
             ['Name', 'Type', 'Description'],
@@ -418,7 +417,7 @@ export class ConvertService {
         );
       }
       // detail
-      if (!!detailBlocks.length) {
+      if (detailBlocks.length) {
         result.push(...detailBlocks);
       }
     }
@@ -431,7 +430,7 @@ export class ConvertService {
     mode: 'summary' | 'detail' | 'full',
     options: ConvertingOptions & FilterOptions = {}
   ) {
-    const { level = 2, heading, local, filter } = options;
+    const {level = 2, heading, local, filter} = options;
     const withHeading =
       heading === undefined && mode === 'full' ? true : heading;
     const localLinking = local === undefined && mode === 'full' ? true : local;
@@ -442,7 +441,7 @@ export class ConvertService {
     const children = declaration.getFunctionsOrMethods(filter);
     // build blocks
     const result: ContentBlock[] = [];
-    if (!!children.length) {
+    if (children.length) {
       // heading
       if (withHeading) {
         const headingTitle = declaration.isRoot()
@@ -460,8 +459,8 @@ export class ConvertService {
       const summaryRows: string[][] = [];
       const detailBlocks: ContentBlock[] = [];
       children.forEach(child => {
-        const { ID, NAME, LINK, DISPLAY_TYPE, SHORT_TEXT, PARAMETERS } = child;
-        const params = PARAMETERS.map(({ name, isOptional }) =>
+        const {ID, NAME, LINK, DISPLAY_TYPE, SHORT_TEXT, PARAMETERS} = child;
+        const params = PARAMETERS.map(({name, isOptional}) =>
           isOptional ? name + '?' : name
         ).join(', ');
         const displayName = `${NAME}(${params})`;
@@ -477,13 +476,13 @@ export class ConvertService {
         // detail / full
         if (mode === 'detail' || mode === 'full') {
           detailBlocks.push(
-            ...this.getSelf(child, { level: childLevel }),
+            ...this.getSelf(child, {level: childLevel}),
             this.contentService.blockText('---')
           );
         }
       });
       // summary
-      if (!!summaryRows.length) {
+      if (summaryRows.length) {
         result.push(
           this.contentService.blockTable(
             ['Function', 'Returns type', 'Description'],
@@ -492,7 +491,7 @@ export class ConvertService {
         );
       }
       // detail
-      if (!!detailBlocks.length) {
+      if (detailBlocks.length) {
         result.push(...detailBlocks);
       }
     }
@@ -505,7 +504,7 @@ export class ConvertService {
     mode: 'summary' | 'detail' | 'full',
     options: ConvertingOptions & FilterOptions = {}
   ) {
-    const { level = 2, heading, local, filter } = options;
+    const {level = 2, heading, local, filter} = options;
     const withHeading =
       heading === undefined && mode === 'full' ? true : heading;
     const localLinking = local === undefined && mode === 'full' ? true : local;
@@ -516,7 +515,7 @@ export class ConvertService {
     const children = declaration.getInterfaces(filter);
     // build blocks
     const result: ContentBlock[] = [];
-    if (!!children.length) {
+    if (children.length) {
       // heading
       if (withHeading) {
         const headingTitle = declaration.isRoot()
@@ -533,7 +532,7 @@ export class ConvertService {
       const summaryRows: string[][] = [];
       const detailBlocks: ContentBlock[] = [];
       children.forEach(child => {
-        const { ID, NAME, LINK, SHORT_TEXT } = child;
+        const {ID, NAME, LINK, SHORT_TEXT} = child;
         const ref = localLinking ? '#' + ID : LINK;
         // summary / full
         if (mode === 'summary' || mode === 'full') {
@@ -541,11 +540,11 @@ export class ConvertService {
         }
         // detail / full
         if (mode === 'detail' || mode === 'full') {
-          detailBlocks.push(...this.getFull(child, { level: childLevel }));
+          detailBlocks.push(...this.getFull(child, {level: childLevel}));
         }
       });
       // summary
-      if (!!summaryRows.length) {
+      if (summaryRows.length) {
         result.push(
           this.contentService.blockTable(
             ['Interface', 'Description'],
@@ -554,7 +553,7 @@ export class ConvertService {
         );
       }
       // detail
-      if (!!detailBlocks.length) {
+      if (detailBlocks.length) {
         result.push(...detailBlocks);
       }
     }
@@ -567,7 +566,7 @@ export class ConvertService {
     mode: 'summary' | 'detail' | 'full',
     options: ConvertingOptions & FilterOptions = {}
   ) {
-    const { level = 2, heading, local, filter } = options;
+    const {level = 2, heading, local, filter} = options;
     const withHeading =
       heading === undefined && mode === 'full' ? true : heading;
     const localLinking = local === undefined && mode === 'full' ? true : local;
@@ -578,7 +577,7 @@ export class ConvertService {
     const children = declaration.getClasses(filter);
     // build blocks
     const result: ContentBlock[] = [];
-    if (!!children.length) {
+    if (children.length) {
       // heading
       if (withHeading) {
         const headingTitle = declaration.isRoot()
@@ -595,7 +594,7 @@ export class ConvertService {
       const summaryRows: string[][] = [];
       const detailBlocks: ContentBlock[] = [];
       children.forEach(child => {
-        const { ID, NAME, LINK, SHORT_TEXT } = child;
+        const {ID, NAME, LINK, SHORT_TEXT} = child;
         const ref = localLinking ? '#' + ID : LINK;
         // summary / full
         if (mode === 'summary' || mode === 'full') {
@@ -603,17 +602,17 @@ export class ConvertService {
         }
         // summary / full
         if (mode === 'detail' || mode === 'full') {
-          detailBlocks.push(...this.getFull(child, { level: childLevel }));
+          detailBlocks.push(...this.getFull(child, {level: childLevel}));
         }
       });
       // summary
-      if (!!summaryRows.length) {
+      if (summaryRows.length) {
         result.push(
           this.contentService.blockTable(['Class', 'Description'], summaryRows)
         );
       }
       // detail
-      if (!!detailBlocks.length) {
+      if (detailBlocks.length) {
         result.push(...detailBlocks);
       }
     }

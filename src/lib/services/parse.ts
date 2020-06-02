@@ -1,16 +1,16 @@
-import { DeclarationReflection } from 'typedoc';
+import {DeclarationReflection} from 'typedoc';
 
-import { ProjectService } from './project';
-import { TypedocService } from './typedoc';
-import { ContentService } from './content';
+import {ProjectService} from './project';
+import {TypedocService} from './typedoc';
+import {ContentService} from './content';
 
-import { Declaration } from '../declaration';
+import {Declaration} from '../declaration';
 
 /**
  * The `Parser` turns source code into [[Declaration]]
  */
 export class ParseService {
-  private cache: { [input: string]: Declaration } = {};
+  private cache: {[input: string]: Declaration} = {};
 
   constructor(
     private projectService: ProjectService,
@@ -28,24 +28,24 @@ export class ParseService {
     let declaration = this.cache[input];
     // no cached
     if (!declaration) {
-      const { what, child } = this.extractInput(input);
+      const {what, child} = this.extractInput(input);
       // any container
       let reflection = this.typedocService.getReflection(what);
       // call signature
       const callSignature = ((reflection as DeclarationReflection).signatures ||
         [])[0];
-      if (!!callSignature) {
+      if (callSignature) {
         reflection = callSignature;
       }
       // accessor
       else {
         const getSignature = (reflection as DeclarationReflection).getSignature;
-        if (!!getSignature) {
+        if (getSignature) {
           (reflection as DeclarationReflection).type = getSignature.type;
         }
       }
       // or a child
-      if (!!child) {
+      if (child) {
         reflection = this.typedocService.getChildReflection(reflection, child);
       }
       // parse result
@@ -71,17 +71,12 @@ export class ParseService {
       what = input
         .substring(1, input.length - 1)
         .split(',')
-        .map(x =>
-          x
-            .trim()
-            .replace(/\@/g, 'src/')
-            .replace(/'|"/g, '')
-        );
+        .map(x => x.trim().replace(/@/g, 'src/').replace(/'|"/g, ''));
     } else {
       const inputSplit = input.split('.');
       what = inputSplit[0];
       child = inputSplit[1];
     }
-    return { what, child };
+    return {what, child};
   }
 }

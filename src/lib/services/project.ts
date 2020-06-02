@@ -1,7 +1,7 @@
-import { resolve } from 'path';
-import { pathExistsSync, readJsonSync } from 'fs-extra';
+import {resolve} from 'path';
+import {pathExistsSync, readJsonSync} from 'fs-extra';
 
-import { Options, WebRender } from '../types';
+import {Options, WebRender} from '../types';
 
 export type OptionsInput = string | Options;
 
@@ -17,7 +17,7 @@ interface PackageJson {
     url: string;
   };
   // options
-  '@lamnhan/ayedocs': Options;
+  ayedocsrc: Options;
 }
 
 type ProjectOptions = {
@@ -25,7 +25,7 @@ type ProjectOptions = {
 };
 
 export class ProjectService {
-  private defaultConfigPath = 'ayedocs.config.js';
+  private defaultConfigPath = '.ayedocsrc.js';
   private defaultPackagePath = 'package.json';
 
   private package: PackageJson;
@@ -33,11 +33,11 @@ export class ProjectService {
 
   constructor(optionsInput?: OptionsInput, packagePath?: string) {
     // set package
-    this.package = !!packagePath
+    this.package = packagePath
       ? this.getPackage(packagePath)
       : this.getLocalPackage();
     // set options
-    this.options = !!optionsInput
+    this.options = optionsInput
       ? this.getOptions(optionsInput)
       : this.getLocalOptions();
   }
@@ -51,12 +51,12 @@ export class ProjectService {
   }
 
   get REF_URL() {
-    const { url } = this.options;
+    const {url} = this.options;
     return url + (this.hasWebOutput() ? '/reference' : '');
   }
 
   hasWebOutput() {
-    const { webRender } = this.options;
+    const {webRender} = this.options;
     return !!Object.keys(webRender.files).length;
   }
 
@@ -68,7 +68,7 @@ export class ProjectService {
     return this.getOptions(
       pathExistsSync(this.defaultConfigPath)
         ? this.defaultConfigPath
-        : this.package['@lamnhan/ayedocs'] || {}
+        : this.package['ayedocsrc'] || {}
     );
   }
 
@@ -86,7 +86,7 @@ export class ProjectService {
     let url = options.url;
     if (!url) {
       const {
-        repository: { url: repoUrl },
+        repository: {url: repoUrl},
       } = this.package;
       const [, org, repo] = repoUrl
         .replace('https://', '')
@@ -101,9 +101,9 @@ export class ProjectService {
       ...(options.webRender || {}),
     };
     // typedoc
-    // tslint:disable-next-line: no-any
-    const typedocConfigs: { [key: string]: any } = {};
-    if (!!Object.keys(webRender.files).length) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const typedocConfigs: {[key: string]: any} = {};
+    if (Object.keys(webRender.files).length) {
       typedocConfigs['readme'] = 'none';
     }
     // options

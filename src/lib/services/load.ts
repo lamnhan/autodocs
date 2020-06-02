@@ -1,13 +1,13 @@
-import { resolve } from 'path';
-import { pathExistsSync } from 'fs-extra';
+import {resolve} from 'path';
+import {pathExistsSync} from 'fs-extra';
 
-import { ContentBySections, ContentService } from './content';
+import {ContentBySections, ContentService} from './content';
 
 export class LoadService {
   constructor(private contentService: ContentService) {}
 
   batchLoad(paths: string[]) {
-    const batchContent: { [path: string]: ContentBySections } = {};
+    const batchContent: {[path: string]: ContentBySections} = {};
     paths.forEach(path => (batchContent[path] = this.load(path)));
     return batchContent;
   }
@@ -15,7 +15,7 @@ export class LoadService {
   load(path: string) {
     let contentBySections: ContentBySections = {};
     const filePath = resolve(path);
-    if (!!pathExistsSync(filePath)) {
+    if (pathExistsSync(filePath)) {
       const content = this.contentService.readFileSync(filePath);
       contentBySections = this.contentService.extractSections(content);
     }

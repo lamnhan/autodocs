@@ -11,7 +11,7 @@ To render one or more standalone files, great for markdown files such as `README
 Put your config under the `fileRender` key of the [[Options]].
 
 ```js
-// ayedocs.config.js
+// .ayedocsrc.js
 module.exports = {
   fileRender: {
     'README.md': 'basic'
@@ -26,7 +26,7 @@ To render all files as a website, great for the `docs` site for Github pages.
 Put rendering config under the `webRender` key.
 
 ```js
-// ayedocs.config.js
+// .ayedocsrc.js
 module.exports = {
   webRender: {
     files: {
@@ -83,7 +83,7 @@ To render an advanced rendering (custom sections):
 ```ts
 {
   'TEST.md': {
-    section1: ['Main', 'SELF']
+    section1: ['Lib', 'SELF']
     // more sections here
   },
 }

@@ -43,13 +43,13 @@ import { AyedocsModule } from "@lamnhan/ayedocs";
 const generator = new AyedocsModule(/* Options */);
 
 // parsing
-const parsing = generator.parse("Main");
+const parsing = generator.parse("Lib");
 
 // rendering
 const rendering = generator.render({
   section1: ["Options"],
-  section2: ["Main"]
+  section2: ["Lib"]
 });
 ```
 
-See [[Main]] for service detail and [[Options]] for more options.
+See [[Lib]] for service detail and [[Options]] for more options.

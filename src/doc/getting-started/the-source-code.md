@@ -39,13 +39,13 @@ export interface Options {
 }
 
 /**
- * This is a Class element named `Main`
+ * This is a Class element named `Lib`
  *
- * And this is the `Main` element detail.
+ * And this is the `Lib` element detail.
  *
  * Supports Markdown content.
  */
-export class Main {
+export class Lib {
   property = "a property";
   constructor() {}
   /**

@@ -1,6 +1,5 @@
-// tslint:disable: no-any
-import { TypedocConfigs, TypedocService } from './services/typedoc';
-import { BatchRender } from './services/render';
+import {TypedocConfigs, TypedocService} from './services/typedoc';
+import {BatchRender} from './services/render';
 
 export interface Options {
   /**

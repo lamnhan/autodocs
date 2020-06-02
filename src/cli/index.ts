@@ -1,14 +1,13 @@
-import { red } from 'chalk';
-import * as commander from 'commander';
-import { AyedocsModule } from '../public-api';
+import {red} from 'chalk';
+import {Command} from 'commander';
+import {AyedocsModule} from '../public-api';
 
-import { GenerateCommand } from './commands/generate';
-import { ShowCommand } from './commands/show';
-import { PreviewCommand } from './commands/preview';
+import {GenerateCommand} from './commands/generate';
+import {ShowCommand} from './commands/show';
+import {PreviewCommand} from './commands/preview';
 
 export class Cli {
   private ayedocsModule: AyedocsModule;
-
   generateCommand: GenerateCommand;
   showCommand: ShowCommand;
   previewCommand: PreviewCommand;
@@ -27,7 +26,7 @@ export class Cli {
    */
   previewCommandDef: CommandDef = [
     'preview [input] [output] [params...]',
-    'Preview a rendering.'
+    'Preview a rendering.',
   ];
 
   /**
@@ -38,7 +37,7 @@ export class Cli {
     'Generate the documentation.',
     ['-c, --config [value]', 'Path to custom config file.'],
     ['-p, --package [value]', 'Path to custom package file.'],
-    ['-t, --template [value]', 'Use this template for the [path] param.']
+    ['-t, --template [value]', 'Use this template for the [path] param.'],
   ];
 
   constructor() {
@@ -53,10 +52,14 @@ export class Cli {
   }
 
   getApp() {
+    const commander = new Command();
+
+    // general
     const [command, description] = this.commander;
     commander
       .version(require('../../package.json').version, '-v, --version')
-      .usage(`${command} [options] [command]`)
+      .name(`${command}`)
+      .usage('[options] [command]')
       .description(description);
 
     // show
@@ -107,7 +110,7 @@ export class Cli {
     commander
       .command('*')
       .description('Any other command is not supported.')
-      .action((cmd: string) => console.error(red(`Unknown command '${cmd}'`)));
+      .action(cmd => console.error(red(`Unknown command '${cmd.args[0]}'`)));
 
     return commander;
   }

@@ -1,8 +1,8 @@
-import { readFileSync, outputFileSync } from 'fs-extra';
-import { format as prettierFormater } from 'prettier';
+import {readFileSync, outputFileSync} from 'fs-extra';
+import {format as prettierFormater} from 'prettier';
 import * as marked from 'marked';
 
-import { ProjectService } from './project';
+import {ProjectService} from './project';
 
 export interface ContentBySections {
   [section: string]: string;
@@ -59,10 +59,10 @@ export class ContentService {
       .toLowerCase()
       .replace(/[^\w\- ]+/g, ' ')
       .replace(/\s+/g, '-')
-      .replace(/\-+$/, '');
+      .replace(/-+$/, '');
   }
 
-  sectionOpening(id: string, attrs: { [attr: string]: string } = {}) {
+  sectionOpening(id: string, attrs: {[attr: string]: string} = {}) {
     let attrsStr = '';
     Object.keys(attrs).forEach(key => (attrsStr += ` ${key}="${attrs[key]}"`));
     return `<section id="${id}"${attrsStr}>`;
@@ -77,7 +77,7 @@ export class ContentService {
     (content.match(/<section[^>]*>([\s\S]*?)<\/section>/g) || []).forEach(
       item => {
         const id = (/<section id="(.*?)"/.exec(item) || []).pop();
-        if (!!id) {
+        if (id) {
           sections[id] = this.formatMd(
             item.replace(/<section [^\n]*/g, '').replace('</section>', '')
           );
@@ -100,7 +100,7 @@ export class ContentService {
           const title = (
             (/<h[^>]*>([\s\S]*?)<\/h[^>]*>/.exec(heading) || []).pop() || ''
           ).replace(/(<([^>]+)>)/gi, '');
-          if (!!title) {
+          if (title) {
             const id =
               ((/<a[^>]* name="(.*?)">/.exec(heading) || []).pop() || '')
                 .split('"')
@@ -135,8 +135,8 @@ export class ContentService {
     }> = [];
     // prepare
     this.extractHeadings(content).forEach(block => {
-      const { data: heading } = block;
-      const { level, title } = heading;
+      const {data: heading} = block;
+      const {level, title} = heading;
       const newLevel = level + offset;
       if (newLevel > 0 && newLevel < 7) {
         // md heading
@@ -144,16 +144,16 @@ export class ContentService {
         const mdNew = '#'.repeat(newLevel) + ' ' + title;
         // html heading
         const htmlOriginal = this.renderHeading(heading);
-        const htmlNew = this.renderHeading({ ...heading, level: newLevel });
+        const htmlNew = this.renderHeading({...heading, level: newLevel});
         // save replacement
-        replacement.push({ mdOriginal, mdNew, htmlOriginal, htmlNew });
+        replacement.push({mdOriginal, mdNew, htmlOriginal, htmlNew});
       } else {
         throw new Error('Heading level is out of range for modification.');
       }
     });
     // modification
     replacement.forEach(
-      ({ mdOriginal, mdNew, htmlOriginal, htmlNew }) =>
+      ({mdOriginal, mdNew, htmlOriginal, htmlNew}) =>
         (content = content
           .replace(mdOriginal, mdNew)
           .replace(htmlOriginal, htmlNew))
@@ -163,7 +163,7 @@ export class ContentService {
   }
 
   md2Html(mdContent: string, markedOptions: marked.MarkedOptions = {}) {
-    const { url } = this.projectService.OPTIONS;
+    const {url} = this.projectService.OPTIONS;
     return marked(mdContent, {
       baseUrl: url,
       ...markedOptions,
@@ -171,39 +171,39 @@ export class ContentService {
   }
 
   formatMd(mdContent: string) {
-    return prettierFormater(mdContent, { parser: 'markdown' });
+    return prettierFormater(mdContent, {parser: 'markdown'});
   }
 
   formatHtml(htmlContent: string) {
-    return prettierFormater(htmlContent, { parser: 'html' });
+    return prettierFormater(htmlContent, {parser: 'html'});
   }
 
   blockHeading(title: string, level: number, id?: string, link?: string) {
-    const heading = { title, level, id, link };
-    return { type: 'heading', data: heading } as HeadingBlock;
+    const heading = {title, level, id, link};
+    return {type: 'heading', data: heading} as HeadingBlock;
   }
 
   blockText(text: ContentText) {
-    return { type: 'text', data: text } as TextBlock;
+    return {type: 'text', data: text} as TextBlock;
   }
 
   blockList(list: ContentList) {
-    return { type: 'list', data: list } as ListBlock;
+    return {type: 'list', data: list} as ListBlock;
   }
 
   blockTable(headers: string[], rows: string[][]) {
     const table = [headers, ...rows];
-    return { type: 'table', data: table } as TableBlock;
+    return {type: 'table', data: table} as TableBlock;
   }
 
   renderTOC(blocks: ContentBlock[], offset = 2) {
     const rows: string[] = [];
-    blocks.forEach(({ type, data }) => {
+    blocks.forEach(({type, data}) => {
       if (type === 'heading') {
-        const { title, level, id, link } = data as ContentHeading;
+        const {title, level, id, link} = data as ContentHeading;
         const spaces = '    '.repeat(level - offset);
         const displayTitle =
-          !id && !link ? title : `[${title}](${!!id ? '#' + id : link})`;
+          !id && !link ? title : `[${title}](${id ? '#' + id : link})`;
         rows.push(`${spaces}- ${displayTitle}`);
       }
     });
@@ -215,7 +215,7 @@ export class ContentService {
     return this.formatMd(result.join(this.EOL2X));
   }
 
-  renderBlock({ type, data }: ContentBlock) {
+  renderBlock({type, data}: ContentBlock) {
     let content = '';
     switch (type) {
       case 'heading':
@@ -235,9 +235,9 @@ export class ContentService {
     return content;
   }
 
-  renderHeading({ id, title, level, link }: ContentHeading) {
+  renderHeading({id, title, level, link}: ContentHeading) {
     const h = 'h' + level;
-    const a = `a name="${id}"` + (!!link ? ` href="${link}"` : ``);
+    const a = `a name="${id}"` + (link ? ` href="${link}"` : '');
     return this.formatMd(`<${h}><${a}>${this.md2Html(title)}</a></${h}>`);
   }
 
@@ -289,22 +289,22 @@ export class ContentService {
       )
       .replace(/\[\[([^\]]*)\]\]/g, '<a data-sref="$1"><code>$1</code></a>')
       .replace(
-        /\{\@link ([^\}]*)[ ]*\|[ ]*([^\}]*)\}/g,
+        /\{@link ([^}]*)[ ]*\|[ ]*([^}]*)\}/g,
         '<a data-sref="' +
           formatSrefValue('$1') +
           '">' +
           this.md2Html('$2') +
           '</a>'
       )
-      .replace(/\{\@link ([^\}]*)\}/g, '<a data-sref="$1"><code>$1</code></a>');
+      .replace(/\{@link ([^}]*)\}/g, '<a data-sref="$1"><code>$1</code></a>');
     // render link tag
     (content.match(/<a data-sref=".*">.*<\/a>/g) || []).forEach(item => {
       const id = ((/<a data-sref="(.*?)">/.exec(item) || []).pop() || '')
         .split('"')
         .shift();
-      if (!!id) {
+      if (id) {
         const href = buildLink(id);
-        if (!!href) {
+        if (href) {
           content = content.replace(
             new RegExp(`<a data-sref="${id}">`, 'g'),
             `<a data-sref="${id}" href="${href}">`

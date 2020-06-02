@@ -1,8 +1,8 @@
-import { ProjectService } from './services/project';
-import { HeadingBlock, ContentService } from './services/content';
-import { ParseService } from './services/parse';
-import { FileRenderWithOptions } from './services/render';
-import { WebService } from './services/web';
+import {ProjectService} from './services/project';
+import {HeadingBlock, ContentService} from './services/content';
+import {ParseService} from './services/parse';
+import {FileRenderWithOptions} from './services/render';
+import {WebService} from './services/web';
 
 export interface RendererData {
   [path: string]: RendererFileData;
@@ -16,9 +16,9 @@ export interface RendererFileData {
 
 export class Renderer {
   private webOutput: boolean;
-  private heading: { [path: string]: HeadingBlock[] } = {};
-  private content: { [path: string]: string } = {};
-  private option: { [path: string]: FileRenderWithOptions } = {};
+  private heading: {[path: string]: HeadingBlock[]} = {};
+  private content: {[path: string]: string} = {};
+  private option: {[path: string]: FileRenderWithOptions} = {};
 
   constructor(
     private projectService: ProjectService,
@@ -32,7 +32,7 @@ export class Renderer {
     this.webOutput = webOutput;
     // save data by path
     Object.keys(data).forEach(path => {
-      const { headings, content, options } = data[path];
+      const {headings, content, options} = data[path];
       this.heading[path] = headings;
       this.content[path] = content;
       this.option[path] = options;
@@ -40,7 +40,7 @@ export class Renderer {
   }
 
   getResult(path: string) {
-    const { pageTitle, webData = {} } = this.option[path] || {};
+    const {pageTitle, webData = {}} = this.option[path] || {};
     // finalize content
     const content = this.renderLinks(path, this.content[path]);
     // for stanalone file
@@ -55,7 +55,7 @@ export class Renderer {
   }
 
   getResultAll() {
-    const result: { [path: string]: string } = {};
+    const result: {[path: string]: string} = {};
     const paths: string[] = [];
     // pages
     Object.keys(this.content).forEach(path => {
@@ -71,7 +71,7 @@ export class Renderer {
   }
 
   private fileUrl(path: string) {
-    const { url } = this.projectService.OPTIONS;
+    const {url} = this.projectService.OPTIONS;
     return url + '/' + path;
   }
 
@@ -82,7 +82,7 @@ export class Renderer {
     const activeLink = this.fileUrl(path);
     return this.contentService
       .md2Html(this.contentService.renderTOC(menuHeadings, 1))
-      .replace(new RegExp(`href="${activeLink}"`), `class="active" $&`);
+      .replace(new RegExp(`href="${activeLink}"`), 'class="active" $&');
   }
 
   private getWebMenuHeadings(currentPath: string) {
@@ -92,10 +92,10 @@ export class Renderer {
       const [category] =
         path.indexOf('/') !== -1 ? path.split('/') : [undefined, path];
       // build heading
-      const { pageTitle, deepMenu } = this.option[path] || {};
+      const {pageTitle, deepMenu} = this.option[path] || {};
       const headingBlock = this.contentService.blockHeading(
         pageTitle || path,
-        !!category ? 2 : 1,
+        category ? 2 : 1,
         undefined,
         this.fileUrl(path)
       );
@@ -103,7 +103,7 @@ export class Renderer {
       if (!!category && activeCategory !== category) {
         activeCategory = category;
         const {
-          webRender: { categories: websiteCategories = {} },
+          webRender: {categories: websiteCategories = {}},
         } = this.projectService.OPTIONS;
         const categoryBlock = this.contentService.blockHeading(
           websiteCategories[category] || category,
@@ -118,7 +118,7 @@ export class Renderer {
         this.heading[path].forEach(block => {
           if (block.data.level === 2) {
             // down level if has category
-            if (!!category) {
+            if (category) {
               ++block.data.level;
             }
             // modify deep links
@@ -137,8 +137,8 @@ export class Renderer {
   }
 
   private renderLinks(currentPath: string, content: string) {
-    const localHeadings: { [id: string]: true } = {};
-    const peerHeadings: { [id: string]: string } = {};
+    const localHeadings: {[id: string]: true} = {};
+    const peerHeadings: {[id: string]: string} = {};
     // build heading list
     Object.keys(this.heading).forEach(path => {
       // local
@@ -157,11 +157,11 @@ export class Renderer {
     const getAvailableHeadingLink = (id: string) => {
       let link: undefined | string;
       // local
-      if (!!localHeadings[id]) {
+      if (localHeadings[id]) {
         link = '#' + id;
       }
       // peer
-      else if (!!peerHeadings[id]) {
+      else if (peerHeadings[id]) {
         link = this.fileUrl(peerHeadings[id]) + '#' + id;
       }
       return link;
@@ -169,11 +169,11 @@ export class Renderer {
     // render
     return this.contentService.convertLinks(content, input => {
       const headingLink = getAvailableHeadingLink(input);
-      if (!!headingLink) {
+      if (headingLink) {
         return headingLink;
       } else {
         try {
-          const { ID, LINK } = this.parseService.parse(input);
+          const {ID, LINK} = this.parseService.parse(input);
           return getAvailableHeadingLink(ID) || LINK;
         } catch (error) {
           return undefined;

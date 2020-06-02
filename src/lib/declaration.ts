@@ -1,12 +1,8 @@
-import { Reflection, SignatureReflection, ReflectionKind } from 'typedoc';
+import {Reflection, SignatureReflection, ReflectionKind} from 'typedoc';
 
-import { ProjectService } from './services/project';
-import {
-  ReflectionData,
-  DefaultValue,
-  TypedocService,
-} from './services/typedoc';
-import { ContentBySections, ContentService } from './services/content';
+import {ProjectService} from './services/project';
+import {ReflectionData, DefaultValue, TypedocService} from './services/typedoc';
+import {ContentBySections, ContentService} from './services/content';
 
 export type DeclarationFilter = (declaration: Declaration) => boolean;
 
@@ -140,7 +136,7 @@ export class Declaration {
   }
 
   isRoot() {
-    const { name: pkgName } = this.projectService.PACKAGE;
+    const {name: pkgName} = this.projectService.PACKAGE;
     return this.isCollection() && this.name === pkgName;
   }
 
@@ -230,7 +226,7 @@ export class Declaration {
               this.projectService,
               this.typedocService,
               this.contentService,
-              // tslint:disable-next-line: no-any
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               signature as any
             ).setId(this.getChildId(signature.name) + '-' + i)
           )

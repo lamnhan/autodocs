@@ -1,24 +1,24 @@
-import { pathExistsSync } from 'fs-extra';
+import {pathExistsSync} from 'fs-extra';
 
-import { ProjectService } from './project';
+import {ProjectService} from './project';
 import {
   ContentBySections,
   ContentBlock,
   ContentService,
   HeadingBlock,
 } from './content';
-import { LoadService } from './load';
-import { ParseService } from './parse';
-import { ConvertOptions, CustomConvert, ConvertService } from './convert';
+import {LoadService} from './load';
+import {ParseService} from './parse';
+import {ConvertOptions, CustomConvert, ConvertService} from './convert';
 import {
   BuiltinTemplate,
   CustomTemplate,
   TemplateOptions,
   TemplateService,
 } from './template';
-import { WebData, WebService } from './web';
+import {WebData, WebService} from './web';
 
-import { RendererData, RendererFileData, Renderer } from '../renderer';
+import {RendererData, RendererFileData, Renderer} from '../renderer';
 
 export interface AdvancedRendering {
   [section: string]: SectionRender;
@@ -145,7 +145,7 @@ export class RenderService {
 
   render(
     batchRender: BatchRender,
-    batchCurrentContent: { [path: string]: ContentBySections } = {},
+    batchCurrentContent: {[path: string]: ContentBySections} = {},
     webOutput = false
   ) {
     const rendererData: RendererData = {};
@@ -169,21 +169,21 @@ export class RenderService {
     renderInput: FileRender,
     currentContent: ContentBySections = {}
   ) {
-    const { cleanOutput: globalCleanOutput } = this.projectService.OPTIONS;
+    const {cleanOutput: globalCleanOutput} = this.projectService.OPTIONS;
     // process input
-    const { rendering, renderOptions } = this.processRenderInput(
+    const {rendering, renderOptions} = this.processRenderInput(
       renderInput,
       path
     );
     // get data by rendering
     const renderingData = this.getRenderingData(rendering);
     // merge data
-    const { cleanOutput: localCleanOutput } = renderOptions;
+    const {cleanOutput: localCleanOutput} = renderOptions;
     const data: {
       [section: string]: string | RenderResult;
     } = {
       // auto toc for file
-      ...(renderOptions.autoTOC ? { toc: { src: 'true', value: [] } } : {}),
+      ...(renderOptions.autoTOC ? {toc: {src: 'true', value: []}} : {}),
       // current content from file
       ...(!!localCleanOutput || // local = true
       (!!globalCleanOutput && // global = true
@@ -202,7 +202,7 @@ export class RenderService {
       const sectionData = data[sectionName];
       // process section data
       let sectionContent: string;
-      const sectionAttrs: { [attr: string]: string } = {};
+      const sectionAttrs: {[attr: string]: string} = {};
       let sectionHeadings: string | HeadingBlock[] = [];
       // current content
       if (typeof sectionData === 'string') {
@@ -210,7 +210,7 @@ export class RenderService {
       }
       // auto content
       else {
-        const { value } = sectionData;
+        const {value} = sectionData;
         // attrs
         sectionAttrs['data-note'] =
           'AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!';
@@ -245,7 +245,7 @@ export class RenderService {
     // add the toc
     if (!!data.toc || !!data.tocx) {
       const tocContent = this.contentService.renderContent(
-        !!data.tocx ? this.getDataTOCX(headings) : this.getDataTOC(headings)
+        data.tocx ? this.getDataTOCX(headings) : this.getDataTOC(headings)
       );
       content = content.replace(this.tocPlaceholder, tocContent);
     }
@@ -261,7 +261,7 @@ export class RenderService {
   }
 
   getRenderingData(rendering: AdvancedRendering) {
-    const result: { [section: string]: RenderResult } = {};
+    const result: {[section: string]: RenderResult} = {};
     // get data for every section
     Object.keys(rendering).forEach(sectionName => {
       let sectionResult: RenderResult;
@@ -274,7 +274,7 @@ export class RenderService {
         !(renderValue instanceof Function) &&
         !(renderValue instanceof Array)
       ) {
-        renderOptions = { ...renderValue };
+        renderOptions = {...renderValue};
         renderValue = renderValue.template || renderValue.file;
       }
       // invalid
@@ -297,7 +297,7 @@ export class RenderService {
           sectionBlocks = [];
         }
         // builtin section result
-        sectionResult = { src: 'true', value: sectionBlocks };
+        sectionResult = {src: 'true', value: sectionBlocks};
       }
       // file
       else if (
@@ -311,8 +311,8 @@ export class RenderService {
           // render inline
           content = this.renderInline(content);
           // modifications
-          const { headingOffset } = renderOptions;
-          if (!!headingOffset) {
+          const {headingOffset} = renderOptions;
+          if (headingOffset) {
             content = this.contentService.modifyHeadings(
               content,
               headingOffset
@@ -337,8 +337,8 @@ export class RenderService {
           .map(section => contentBySections[section].value)
           .join(this.contentService.EOL2X);
         // modifications
-        const { headingOffset } = renderOptions;
-        if (!!headingOffset) {
+        const {headingOffset} = renderOptions;
+        if (headingOffset) {
           content = this.contentService.modifyHeadings(content, headingOffset);
         }
         sectionResult = {
@@ -393,11 +393,11 @@ export class RenderService {
   private renderInline(content: string) {
     [
       ...(content.match(/\[\[\[[^\]]*\]\]\]/g) || []),
-      ...(content.match(/\{\@render .*\}/g) || []),
+      ...(content.match(/\{@render .*\}/g) || []),
     ].forEach(item => {
       const matched1Item =
         (/\[\[\[([^\]]*)\]\]\]/.exec(item) || []).pop() || '';
-      const matched2Item = (/\{\@render (.*)\}/.exec(item) || []).pop() || '';
+      const matched2Item = (/\{@render (.*)\}/.exec(item) || []).pop() || '';
       const [input, output = 'SELF', optionsStr] = (
         matched1Item || matched2Item
       )
@@ -407,7 +407,7 @@ export class RenderService {
       const blocks = this.convertService.convert(
         declaration,
         output,
-        !!optionsStr ? JSON.parse(optionsStr) : {}
+        optionsStr ? JSON.parse(optionsStr) : {}
       );
       const renderContent = this.contentService.renderContent(blocks);
       // replace
@@ -422,14 +422,14 @@ export class RenderService {
     // default file
     const defaultFile = '@doc' + '/' + path.replace('.html', '.md');
     if (renderInput === true) {
-      rendering = { content: defaultFile };
+      rendering = {content: defaultFile};
     }
     // file input
     else if (
       typeof renderInput === 'string' &&
       renderInput.indexOf('.') !== -1 // a file
     ) {
-      rendering = { content: renderInput };
+      rendering = {content: renderInput};
     }
     // template
     else if (
@@ -450,13 +450,13 @@ export class RenderService {
     }
     // with options
     else {
-      rendering = !!renderInput.template
+      rendering = renderInput.template
         ? // template
           this.templateService.getTemplate(
             renderInput.template as BuiltinTemplate | CustomTemplate,
             renderInput as RenderTemplateOptions
           )
-        : !!renderInput.file
+        : renderInput.file
         ? // file
           {
             content: renderInput.file === true ? defaultFile : renderInput.file,
@@ -466,11 +466,11 @@ export class RenderService {
       // set options
       renderOptions = renderInput;
     }
-    return { rendering, renderOptions };
+    return {rendering, renderOptions};
   }
 
   private getDataHead() {
-    const { name, description } = this.projectService.PACKAGE;
+    const {name, description} = this.projectService.PACKAGE;
     return [this.contentService.blockText([`# ${name}`, `**${description}**`])];
   }
 
@@ -478,7 +478,7 @@ export class RenderService {
     const {
       name,
       license,
-      repository: { url: repoUrl },
+      repository: {url: repoUrl},
     } = this.projectService.PACKAGE;
     const licenseUrl = repoUrl.replace('.git', '') + '/blob/master/LICENSE';
     return [

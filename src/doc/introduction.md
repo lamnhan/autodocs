@@ -38,7 +38,7 @@ You can listing methods of a class by providing a config:
 
 ```ts
 {
-  main: ['Main', 'DETAIL_METHODS']
+  main: ['Lib', 'DETAIL_METHODS']
 }
 ```
 
@@ -74,5 +74,5 @@ Use the `angular` template to listing all modules, services, components, pipes o
 Adding **ayedocs** to any project in 3 simple steps:
 
 1. (Optional) Documenting the source code with [TSdoc](https://github.com/microsoft/tsdoc)
-2. Add **configuration** to `package.json` or `ayedocs.config.js`
+2. Add **configuration** to `package.json` or `.ayedocsrc.js`
 3. Run `ayedocs generate` to generate content
