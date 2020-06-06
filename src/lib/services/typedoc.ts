@@ -355,10 +355,27 @@ export class TypedocService {
     // array, ...
     else {
       try {
-        const valueJson = value
+        let valueJson: string = value
           .replace(/ .:/g, '"$&":') // wrap '"' around object props
           .replace(/(" )|(:")/g, '"') // cleanup object props wrapping
           .replace(/'/g, '"'); // replace string single quote with double quote
+        // remove trailing comma, single line
+        valueJson =
+          valueJson.substr(-2) === ',]'
+            ? valueJson.substr(0, valueJson.length - 1) + ']'
+            : valueJson;
+        // removing trailing comma, multiple lines
+        const valueSplits = valueJson.split('\n');
+        if (
+          valueSplits[valueSplits.length - 1].substr(-1) === ']' &&
+          valueSplits[valueSplits.length - 2].substr(-1) === ','
+        ) {
+          let subItem = valueSplits[valueSplits.length - 2];
+          subItem = subItem.substr(0, subItem.length - 1);
+          valueSplits[valueSplits.length - 2] = subItem;
+        }
+        valueJson = valueSplits.join('\n');
+        // parse object or array
         value = JSON.parse(valueJson);
       } catch (e) {
         /* invalid json, keep value as is */
