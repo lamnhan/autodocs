@@ -367,6 +367,7 @@ export class TypedocService {
         // removing trailing comma, multiple lines
         const valueSplits = valueJson.split('\n');
         if (
+          valueSplits.length > 1 &&
           valueSplits[valueSplits.length - 1].substr(-1) === ']' &&
           valueSplits[valueSplits.length - 2].substr(-1) === ','
         ) {

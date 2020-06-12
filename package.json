@@ -1,6 +1,6 @@
 {
   "name": "@lamnhan/ayedocs",
-  "version": "1.0.0-beta3",
+  "version": "1.0.0-beta4",
   "description": "A Docs-o-matic document generator for Typescript projects.",
   "author": "Lam Nhan",
   "homepage": "https://lamnhan.com",
@@ -23,10 +23,7 @@
     "coverage": "nyc --cache false report --reporter=text-lcov | coveralls",
     "check": "gts check",
     "fix": "gts fix",
-    "clean": "gts clean",
-    "prepare": "npm.cmd run compile",
-    "pretest": "npm.cmd run compile",
-    "posttest": "npm.cmd run check"
+    "clean": "gts clean"
   },
   "keywords": [
     "docs",
