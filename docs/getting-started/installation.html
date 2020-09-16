@@ -228,7 +228,14 @@
               from the command-line interface or manually parsing, converting or
               rendering content in a Node application.
             </p>
-            <h2 id="the-cli">The CLI</h2>
+
+            <a
+              href="#the-cli"
+              id="the-cli"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2>The CLI</h2>
+            </a>
             <p>Install globally by running:</p>
             <pre><code class="language-sh">npm install -g @lamnhan/ayedocs</code></pre>
             <p>
@@ -245,26 +252,33 @@
               <code>npm run docs</code> every build.
             </p>
             <pre><code class="language-json">{
-  &quot;scripts&quot;: {
-    &quot;docs&quot;: &quot;ayedocs generate&quot;
+  <span class="hljs-attr">&quot;scripts&quot;</span>: {
+    <span class="hljs-attr">&quot;docs&quot;</span>: <span class="hljs-string">&quot;ayedocs generate&quot;</span>
   }
 }</code></pre>
-            <h2 id="the-library">The library</h2>
+
+            <a
+              href="#the-library"
+              id="the-library"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2>The library</h2>
+            </a>
             <p>Install as dev dependency:</p>
             <pre><code class="language-sh">npm install --save-dev @lamnhan/ayedocs</code></pre>
             <p>Use the library:</p>
-            <pre><code class="language-ts">import { AyedocsModule } from &quot;@lamnhan/ayedocs&quot;;
+            <pre><code class="language-ts"><span class="hljs-keyword">import</span> { AyedocsModule } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@lamnhan/ayedocs&quot;</span>;
 
-// init an instance
-const generator = new AyedocsModule(/* Options */);
+<span class="hljs-comment">// init an instance</span>
+<span class="hljs-keyword">const</span> generator = <span class="hljs-keyword">new</span> AyedocsModule(<span class="hljs-comment">/* Options */</span>);
 
-// parsing
-const parsing = generator.parse(&quot;Lib&quot;);
+<span class="hljs-comment">// parsing</span>
+<span class="hljs-keyword">const</span> parsing = generator.parse(<span class="hljs-string">&quot;Lib&quot;</span>);
 
-// rendering
-const rendering = generator.render({
-  section1: [&quot;Options&quot;],
-  section2: [&quot;Lib&quot;],
+<span class="hljs-comment">// rendering</span>
+<span class="hljs-keyword">const</span> rendering = generator.render({
+  section1: [<span class="hljs-string">&quot;Options&quot;</span>],
+  section2: [<span class="hljs-string">&quot;Lib&quot;</span>],
 });</code></pre>
             <p>
               See

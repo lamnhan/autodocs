@@ -245,12 +245,26 @@
               Now is the time to generate some content with
               <strong>the ayedocs CLI</strong>.
             </p>
-            <h2 id="output-modes">Output modes</h2>
+
+            <a
+              href="#output-modes"
+              id="output-modes"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2>Output modes</h2>
+            </a>
             <p>
               There are 2 kinds output: as standalone files or as a website. You
               can use one or both of them in one configuration file.
             </p>
-            <h3 id="to-standalone-files">To standalone files</h3>
+
+            <a
+              href="#to-standalone-files"
+              id="to-standalone-files"
+              style="color: inherit; text-decoration: none"
+            >
+              <h3>To standalone files</h3>
+            </a>
             <p>
               To render one or more standalone files, great for markdown files
               such as <code>README.md</code>, ...
@@ -263,31 +277,45 @@
                 ><code>Options</code></a
               >.
             </p>
-            <pre><code class="language-js">// .ayedocsrc.js
-module.exports = {
-  fileRender: {
-    &quot;README.md&quot;: &quot;basic&quot;,
+            <pre><code class="language-js"><span class="hljs-comment">// .ayedocsrc.js</span>
+<span class="hljs-built_in">module</span>.exports = {
+  <span class="hljs-attr">fileRender</span>: {
+    <span class="hljs-string">&quot;README.md&quot;</span>: <span class="hljs-string">&quot;basic&quot;</span>,
   },
 };</code></pre>
-            <h3 id="to-website">To website</h3>
+
+            <a
+              href="#to-website"
+              id="to-website"
+              style="color: inherit; text-decoration: none"
+            >
+              <h3>To website</h3>
+            </a>
             <p>
               To render all files as a website, great for the
               <code>docs</code> site for Github pages.
             </p>
             <p>Put rendering config under the <code>webRender</code> key.</p>
-            <pre><code class="language-js">// .ayedocsrc.js
-module.exports = {
-  webRender: {
-    files: {
-      &quot;file1.html&quot;: &quot;@doc/file1.md&quot;,
-      &quot;file2.html&quot;: {
-        section1: [&quot;CLass1&quot;, &quot;SELF&quot;],
-        section2: [&quot;CLass2&quot;, &quot;FULL&quot;],
+            <pre><code class="language-js"><span class="hljs-comment">// .ayedocsrc.js</span>
+<span class="hljs-built_in">module</span>.exports = {
+  <span class="hljs-attr">webRender</span>: {
+    <span class="hljs-attr">files</span>: {
+      <span class="hljs-string">&quot;file1.html&quot;</span>: <span class="hljs-string">&quot;@doc/file1.md&quot;</span>,
+      <span class="hljs-string">&quot;file2.html&quot;</span>: {
+        <span class="hljs-attr">section1</span>: [<span class="hljs-string">&quot;CLass1&quot;</span>, <span class="hljs-string">&quot;SELF&quot;</span>],
+        <span class="hljs-attr">section2</span>: [<span class="hljs-string">&quot;CLass2&quot;</span>, <span class="hljs-string">&quot;FULL&quot;</span>],
       },
     },
   },
 };</code></pre>
-            <h2 id="render-input">Render input</h2>
+
+            <a
+              href="#render-input"
+              id="render-input"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2>Render input</h2>
+            </a>
             <p>
               A render input is what appears after the file name, for above
               configs, those are <code>basic</code>, <code>@doc/file1.md</code>,
@@ -297,7 +325,14 @@ module.exports = {
               These render inputs provide instructions for the renderer to build
               the final content for the file.
             </p>
-            <h3 id="direct-files">Direct files</h3>
+
+            <a
+              href="#direct-files"
+              id="direct-files"
+              style="color: inherit; text-decoration: none"
+            >
+              <h3>Direct files</h3>
+            </a>
             <p>
               You can input a markdown file by its path path,
               <code>@</code> will be replaced with <code>src/</code>.
@@ -307,13 +342,20 @@ module.exports = {
               <strong>level 2</strong>.
             </p>
             <pre><code class="language-ts">{
-  &#39;file1.md&#39;: &#39;src/doc/test.md&#39;,
-  // or
-  &#39;file2.md&#39;: &#39;@doc/test.md&#39;,
-  // or default path
-  &#39;file3.html&#39;: true, // src/doc/file3.md
+  <span class="hljs-string">&#x27;file1.md&#x27;</span>: <span class="hljs-string">&#x27;src/doc/test.md&#x27;</span>,
+  <span class="hljs-comment">// or</span>
+  <span class="hljs-string">&#x27;file2.md&#x27;</span>: <span class="hljs-string">&#x27;@doc/test.md&#x27;</span>,
+  <span class="hljs-comment">// or default path</span>
+  <span class="hljs-string">&#x27;file3.html&#x27;</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// src/doc/file3.md</span>
 }</code></pre>
-            <h3 id="using-template">Using template</h3>
+
+            <a
+              href="#using-template"
+              id="using-template"
+              style="color: inherit; text-decoration: none"
+            >
+              <h3>Using template</h3>
+            </a>
             <p>
               Template is the most easy way to generate content, but you must
               name source elements or structure projects with certain
@@ -324,19 +366,33 @@ module.exports = {
             </p>
             <p>To render using a template, just provide the template name:</p>
             <pre><code class="language-ts">{
-  &#39;TEST.md&#39;: &#39;basic&#39;,
-  // custom template
-  &#39;TEST2.md&#39;: customTemplate,
+  <span class="hljs-string">&#x27;TEST.md&#x27;</span>: <span class="hljs-string">&#x27;basic&#x27;</span>,
+  <span class="hljs-comment">// custom template</span>
+  <span class="hljs-string">&#x27;TEST2.md&#x27;</span>: customTemplate,
 }</code></pre>
-            <h3 id="advanced-rendering">Advanced rendering</h3>
+
+            <a
+              href="#advanced-rendering"
+              id="advanced-rendering"
+              style="color: inherit; text-decoration: none"
+            >
+              <h3>Advanced rendering</h3>
+            </a>
             <p>To render an advanced rendering (custom sections):</p>
             <pre><code class="language-ts">{
-  &#39;TEST.md&#39;: {
-    section1: [&#39;Lib&#39;, &#39;SELF&#39;]
-    // more sections here
+  <span class="hljs-string">&#x27;TEST.md&#x27;</span>: {
+    section1: [<span class="hljs-string">&#x27;Lib&#x27;</span>, <span class="hljs-string">&#x27;SELF&#x27;</span>]
+    <span class="hljs-comment">// more sections here</span>
   },
 }</code></pre>
-            <h3 id="with-rendering-options">With rendering options</h3>
+
+            <a
+              href="#with-rendering-options"
+              id="with-rendering-options"
+              style="color: inherit; text-decoration: none"
+            >
+              <h3>With rendering options</h3>
+            </a>
             <p>
               See
               <a
@@ -347,13 +403,13 @@ module.exports = {
               for further customize render.
             </p>
             <pre><code class="language-ts">{
-  // input
-  template: &#39;...&#39;, // or
-  file: &#39;...&#39;, // or
+  <span class="hljs-comment">// input</span>
+  template: <span class="hljs-string">&#x27;...&#x27;</span>, <span class="hljs-comment">// or</span>
+  file: <span class="hljs-string">&#x27;...&#x27;</span>, <span class="hljs-comment">// or</span>
   rendering: {},
-  // any options
-  // for certain type of rendering input
-  // ...
+  <span class="hljs-comment">// any options</span>
+  <span class="hljs-comment">// for certain type of rendering input</span>
+  <span class="hljs-comment">// ...</span>
 }</code></pre>
           </section>
         </article>
