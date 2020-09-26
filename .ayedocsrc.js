@@ -81,7 +81,7 @@ module.exports = {
         pageTitle: 'The library',
         rendering: {
           toc: true,
-          main: ['Lib', 'FULL'],
+          lib: ['Lib', 'FULL'],
         }
       },
       'advanced/render-options.html': {

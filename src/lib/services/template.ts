@@ -107,7 +107,7 @@ export class TemplateService {
     const {convertings = {}} = options;
     const sections: AdvancedRendering = {
       options: ['Options', 'FULL', convertings['options'] || {}],
-      main: ['Lib', 'FULL', convertings['main'] || {}],
+      lib: ['Lib', 'FULL', convertings['lib'] || {}],
     };
     return this.createRendering(sections, extra);
   }

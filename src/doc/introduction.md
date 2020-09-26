@@ -38,7 +38,7 @@ You can listing methods of a class by providing a config:
 
 ```ts
 {
-  main: ['Lib', 'DETAIL_METHODS']
+  lib: ['Lib', 'DETAIL_METHODS']
 }
 ```
 
