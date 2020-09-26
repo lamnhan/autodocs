@@ -1,8 +1,12 @@
 import {Reflection, SignatureReflection, ReflectionKind} from 'typedoc';
 
-import {ProjectService} from './services/project';
-import {ReflectionData, DefaultValue, TypedocService} from './services/typedoc';
-import {ContentBySections, ContentService} from './services/content';
+import {ProjectService} from './services/project.service';
+import {
+  ReflectionData,
+  DefaultValue,
+  TypedocService,
+} from './services/typedoc.service';
+import {ContentBySections, ContentService} from './services/content.service';
 
 export type DeclarationFilter = (declaration: Declaration) => boolean;
 

@@ -1,8 +1,8 @@
-import {ProjectService} from './services/project';
-import {HeadingBlock, ContentService} from './services/content';
-import {ParseService} from './services/parse';
-import {FileRenderWithOptions} from './services/render';
-import {WebService} from './services/web';
+import {ProjectService} from './services/project.service';
+import {HeadingBlock, ContentService} from './services/content.service';
+import {ParseService} from './services/parse.service';
+import {FileRenderWithOptions} from './services/render.service';
+import {WebService} from './services/web.service';
 
 export interface RendererData {
   [path: string]: RendererFileData;

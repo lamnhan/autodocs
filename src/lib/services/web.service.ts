@@ -3,8 +3,8 @@ import {pathExistsSync, copySync} from 'fs-extra';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const APP_ROOT = require('app-root-path');
 
-import {ProjectService} from './project';
-import {ContentService} from './content';
+import {ProjectService} from './project.service';
+import {ContentService} from './content.service';
 
 export interface WebData {
   siteName?: string;

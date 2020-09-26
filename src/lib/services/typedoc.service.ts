@@ -11,7 +11,7 @@ import {
 } from 'typedoc';
 import {ReferenceType, ArrayType, UnionType} from 'typedoc/dist/lib/models';
 
-import {ProjectService} from './project';
+import {ProjectService} from './project.service';
 
 export type KindString = keyof typeof ReflectionKind;
 

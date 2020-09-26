@@ -1,14 +1,14 @@
 import {resolve} from 'path';
 
-import {OptionsInput, ProjectService} from './services/project';
-import {TypedocService} from './services/typedoc';
-import {ContentService} from './services/content';
-import {LoadService} from './services/load';
-import {ParseService} from './services/parse';
-import {ConvertService} from './services/convert';
-import {FileRender, RenderService} from './services/render';
-import {TemplateService} from './services/template';
-import {WebService} from './services/web';
+import {OptionsInput, ProjectService} from './services/project.service';
+import {TypedocService} from './services/typedoc.service';
+import {ContentService} from './services/content.service';
+import {LoadService} from './services/load.service';
+import {ParseService} from './services/parse.service';
+import {ConvertService} from './services/convert.service';
+import {FileRender, RenderService} from './services/render.service';
+import {TemplateService} from './services/template.service';
+import {WebService} from './services/web.service';
 
 export class Lib {
   projectService: ProjectService;

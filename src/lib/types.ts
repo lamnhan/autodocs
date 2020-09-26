@@ -1,5 +1,5 @@
-import {TypedocConfigs, TypedocService} from './services/typedoc';
-import {BatchRender} from './services/render';
+import {TypedocConfigs, TypedocService} from './services/typedoc.service';
+import {BatchRender} from './services/render.service';
 
 export interface Options {
   /**

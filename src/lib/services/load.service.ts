@@ -1,7 +1,7 @@
 import {resolve} from 'path';
 import {pathExistsSync} from 'fs-extra';
 
-import {ContentBySections, ContentService} from './content';
+import {ContentBySections, ContentService} from './content.service';
 
 export class LoadService {
   constructor(private contentService: ContentService) {}

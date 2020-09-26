@@ -1,22 +1,22 @@
 import {pathExistsSync} from 'fs-extra';
 
-import {ProjectService} from './project';
+import {ProjectService} from './project.service';
 import {
   ContentBySections,
   ContentBlock,
   ContentService,
   HeadingBlock,
-} from './content';
-import {LoadService} from './load';
-import {ParseService} from './parse';
-import {ConvertOptions, CustomConvert, ConvertService} from './convert';
+} from './content.service';
+import {LoadService} from './load.service';
+import {ParseService} from './parse.service';
+import {ConvertOptions, CustomConvert, ConvertService} from './convert.service';
 import {
   BuiltinTemplate,
   CustomTemplate,
   TemplateOptions,
   TemplateService,
-} from './template';
-import {WebData, WebService} from './web';
+} from './template.service';
+import {WebData, WebService} from './web.service';
 
 import {RendererData, RendererFileData, Renderer} from '../renderer';
 

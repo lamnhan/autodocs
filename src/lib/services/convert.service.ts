@@ -1,5 +1,5 @@
-import {DefaultValue} from './typedoc';
-import {ContentBlock, ContentService} from './content';
+import {DefaultValue} from './typedoc.service';
+import {ContentBlock, ContentService} from './content.service';
 
 import {DeclarationFilter, Declaration} from '../declaration';
 
@@ -32,6 +32,7 @@ export interface ConvertOptions
     ValueOptions,
     ConvertingOptions,
     FilterOptions {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 

@@ -1,8 +1,8 @@
 import {DeclarationReflection} from 'typedoc';
 
-import {ProjectService} from './project';
-import {TypedocService} from './typedoc';
-import {ContentService} from './content';
+import {ProjectService} from './project.service';
+import {TypedocService} from './typedoc.service';
+import {ContentService} from './content.service';
 
 import {Declaration} from '../declaration';
 

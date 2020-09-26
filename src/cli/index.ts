@@ -2,9 +2,9 @@ import {red} from 'chalk';
 import {Command} from 'commander';
 import {AyedocsModule} from '../public-api';
 
-import {GenerateCommand} from './commands/generate';
-import {ShowCommand} from './commands/show';
-import {PreviewCommand} from './commands/preview';
+import {GenerateCommand} from './commands/generate.command';
+import {ShowCommand} from './commands/show.command';
+import {PreviewCommand} from './commands/preview.command';
 
 export class Cli {
   private ayedocsModule: AyedocsModule;

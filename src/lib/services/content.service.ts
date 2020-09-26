@@ -2,7 +2,7 @@ import {readFileSync, outputFileSync} from 'fs-extra';
 import {format as prettierFormater} from 'prettier';
 import * as marked from 'marked';
 
-import {ProjectService} from './project';
+import {ProjectService} from './project.service';
 
 export interface ContentBySections {
   [section: string]: string;

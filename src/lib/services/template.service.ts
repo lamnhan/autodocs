@@ -1,7 +1,7 @@
-import {ProjectService} from './project';
-import {CustomConvert, ConvertOptions} from './convert';
-import {AdvancedRendering} from './render';
-import {ContentBlock, ContentService} from './content';
+import {ProjectService} from './project.service';
+import {CustomConvert, ConvertOptions} from './convert.service';
+import {AdvancedRendering} from './render.service';
+import {ContentBlock, ContentService} from './content.service';
 
 import {Declaration} from '../declaration';
 
