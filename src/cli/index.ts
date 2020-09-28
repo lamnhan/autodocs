@@ -1,6 +1,6 @@
 import {red} from 'chalk';
 import {Command} from 'commander';
-import {AyedocsModule} from '../public-api';
+import {Lib as AyedocsModule} from '../lib/index';
 
 import {GenerateCommand} from './commands/generate.command';
 import {ShowCommand} from './commands/show.command';

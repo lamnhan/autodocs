@@ -1,7 +1,8 @@
 import {magenta, green} from 'chalk';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const ttyTable = require('tty-table');
-import {ParseService} from '../../public-api';
+
+import {ParseService} from '../../lib/services/parse.service';
 
 export class ShowCommand {
   constructor(private parseService: ParseService) {}

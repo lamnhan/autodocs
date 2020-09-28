@@ -1,6 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {yellow, green} from 'chalk';
-import {ParseService, ConvertService, ContentService} from '../../public-api';
+
+import {ContentService} from '../../lib/services/content.service';
+import {ConvertService} from '../../lib/services/convert.service';
+import {ParseService} from '../../lib/services/parse.service';
 
 export class PreviewCommand {
   constructor(

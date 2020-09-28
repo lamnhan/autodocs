@@ -101,7 +101,6 @@ export class ProjectService {
       ...(options.webRender || {}),
     };
     // typedoc
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const typedocConfigs: {[key: string]: any} = {};
     if (Object.keys(webRender.files).length) {
       typedocConfigs['readme'] = 'none';

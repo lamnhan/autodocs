@@ -1,4 +1,5 @@
-import {AyedocsModule, BuiltinTemplate} from '../../public-api';
+import {Lib as AyedocsModule} from '../../lib/index';
+import {BuiltinTemplate} from '../../lib/services/template.service';
 
 export interface GenerateCommandOptions {
   config?: string;

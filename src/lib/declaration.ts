@@ -224,17 +224,18 @@ export class Declaration {
     this.typedocService
       .getReflections('FunctionOrMethod', this.reflection)
       .forEach(item =>
-        item.getAllSignatures().forEach((signature, i) =>
-          result.push(
-            new Declaration(
-              this.projectService,
-              this.typedocService,
-              this.contentService,
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              signature as any
-            ).setId(this.getChildId(signature.name) + '-' + i)
+        item
+          .getAllSignatures()
+          .forEach((signature, i) =>
+            result.push(
+              new Declaration(
+                this.projectService,
+                this.typedocService,
+                this.contentService,
+                signature as any
+              ).setId(this.getChildId(signature.name) + '-' + i)
+            )
           )
-        )
       );
     // result
     return result.filter(item => (!filter ? true : filter(item)));
