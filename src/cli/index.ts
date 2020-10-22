@@ -17,7 +17,10 @@ export class Cli {
   /**
    * @param [input] - The rendering input
    */
-  showCommandDef: CommandDef = ['show [input]', 'Show Declaration info.'];
+  showCommandDef: CommandDef = [
+    ['show [input]', 's'],
+    'Show Declaration info.',
+  ];
 
   /**
    * @param [input] - The rendering input
@@ -25,7 +28,7 @@ export class Cli {
    * @param [params...] - The convert options
    */
   previewCommandDef: CommandDef = [
-    'preview [input] [output] [params...]',
+    ['preview [input] [output] [params...]', 'p'],
     'Preview a rendering.',
   ];
 
@@ -33,7 +36,7 @@ export class Cli {
    * @param [path] - Path to the output file
    */
   generateCommandDef: CommandDef = [
-    'generate [path]',
+    ['generate [path]', 'g'],
     'Generate the documentation.',
     ['-c, --config [value]', 'Path to custom config file.'],
     ['-p, --package [value]', 'Path to custom package file.'],
@@ -64,18 +67,20 @@ export class Cli {
 
     // show
     (() => {
-      const [command, description] = this.showCommandDef;
+      const [[command, ...aliases], description] = this.showCommandDef;
       commander
         .command(command)
+        .aliases(aliases)
         .description(description)
         .action(input => this.showCommand.run(input));
     })();
 
     // preview
     (() => {
-      const [command, description] = this.previewCommandDef;
+      const [[command, ...aliases], description] = this.previewCommandDef;
       commander
         .command(command)
+        .aliases(aliases)
         .description(description)
         .action((input, output, params) =>
           this.previewCommand.run(input, output, params)
@@ -85,7 +90,7 @@ export class Cli {
     // generate
     (() => {
       const [
-        command,
+        [command, ...aliases],
         description,
         configOpt,
         packageOpt,
@@ -93,10 +98,11 @@ export class Cli {
       ] = this.generateCommandDef;
       commander
         .command(command)
+        .aliases(aliases)
         .description(description)
-        .option(...configOpt) // -c, --config
-        .option(...packageOpt) // -c, --package
-        .option(...templateOpt) // -t, --template
+        .option(...configOpt)
+        .option(...packageOpt)
+        .option(...templateOpt)
         .action((path, options) => this.generateCommand.run(path, options));
     })();
 
@@ -116,4 +122,4 @@ export class Cli {
   }
 }
 
-type CommandDef = [string, string, ...Array<[string, string]>];
+type CommandDef = [string | string[], string, ...Array<[string, string]>];

@@ -233,33 +233,94 @@ export class TemplateService {
       const summaryArr: string[] = [];
       const detailBlocks: ContentBlock[] = [];
       commands.forEach(decl => {
-        const [command, description, ...cmdOptions] = decl.DEFAULT_VALUE as [
-          string,
+        const [commandVal, description, ...cmdOptions] = decl.DEFAULT_VALUE as [
+          string | string[],
           string,
           ...Array<[string, string]>
         ];
-        const [cmd, ...params] = command.split(' ');
+        // process command value
+        const {
+          cmd,
+          params,
+          cmdWithParams,
+          aliases,
+          parentCmd,
+          subCmd,
+          isProxy,
+        } = (() => {
+          let cmdWithParams: string;
+          let aliases: string[];
+          if (typeof commandVal === 'string') {
+            cmdWithParams = commandVal;
+            aliases = [];
+          } else {
+            cmdWithParams = commandVal.shift() as string;
+            aliases = [...commandVal];
+          }
+          const [cmd, ...params] = cmdWithParams.split(' ');
+          // a sub-command
+          const [parentCmd, subCmd] =
+            cmd.indexOf('-') !== -1 ? cmd.split('-') : [];
+          return {
+            cmd,
+            params,
+            cmdWithParams,
+            aliases,
+            parentCmd,
+            subCmd,
+            isProxy: !!parentCmd && !!subCmd,
+          };
+        })();
+        // sum-up values
         const commandId = 'command-' + cmd;
+        const proxyText = !isProxy
+          ? ''
+          : `Proxy to: [\`${parentCmd} ${subCmd}\`](#command-${parentCmd})`;
         const strOpts = cmdOptions
           .map(([opt]) =>
             opt.indexOf(', ') !== -1 ? opt.split(', ').pop() : opt
           )
           .join(' ');
+        const cmdAndAliases =
+          cmd + (!aliases.length ? '' : '|' + aliases.join('|'));
+        const cmdAndAliasesWithParams =
+          cmdAndAliases + (!params.length ? '' : ' ' + params.join(' '));
         const fullCommand = (
           commanderCmd +
           ' ' +
-          command +
+          cmdWithParams +
+          ' ' +
+          strOpts
+        ).trim();
+        const fullCommandWithAliases = (
+          commanderCmd +
+          ' ' +
+          cmdAndAliasesWithParams +
           ' ' +
           strOpts
         ).trim();
         // summary
-        summaryArr.push(`- [\`${fullCommand}\`](#${commandId})`);
-        // detail
+        summaryArr.push(`- [\`${fullCommandWithAliases}\`](#${commandId})`);
+        // detail heading
         detailBlocks.push(
           contentService.blockHeading(`\`${cmd}\``, 3, commandId)
         );
-        detailBlocks.push(contentService.blockText(description));
-        // parameters
+        // detail description
+        detailBlocks.push(
+          contentService.blockText(description + ' ' + proxyText)
+        );
+        // detail full command
+        detailBlocks.push(
+          contentService.blockText('**Usage**: ' + `\`${fullCommand}\``)
+        );
+        // detail aliases
+        if (aliases.length) {
+          const aliasList = aliases.map(alias => `\`${alias}\``).join(', ');
+          detailBlocks.push(
+            contentService.blockText('**Aliases**: ' + aliasList)
+          );
+        }
+        // detail parameters
         if (params.length) {
           // extract param descriptions
           const paramTags: {[key: string]: string} = {};
@@ -279,7 +340,7 @@ export class TemplateService {
             )
           );
         }
-        // options
+        // detail options
         if (cmdOptions.length) {
           detailBlocks.push(contentService.blockText('**Options**'));
           detailBlocks.push(
