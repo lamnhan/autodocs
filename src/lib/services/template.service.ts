@@ -224,23 +224,45 @@ export class TemplateService {
       const commands = declaration.getVariablesOrProperties(decl =>
         decl.NAME.endsWith('CommandDef')
       );
-      // add mocked help command def if not exists
-      let isHelpCommandDef = false;
-      commands.forEach(decl => {
+      // temp remove help/unknown command def if not exists
+      const getCmd = (decl: DeclarationObject) => {
         const commandVal = decl.DEFAULT_VALUE[0];
-        const cmd =
-          typeof commandVal === 'string'
-            ? commandVal
-            : ((commandVal[0] as string).split(' ').shift() as string);
+        return typeof commandVal === 'string'
+          ? commandVal
+          : ((commandVal[0] as string).split(' ').shift() as string);
+      };
+      let helpCommandDefIndex: undefined | number;
+      let unknownCommandDefIndex: undefined | number;
+      commands.forEach((decl, i) => {
+        const cmd = getCmd(decl);
         if (cmd === 'help') {
-          isHelpCommandDef = true;
+          helpCommandDefIndex = i;
+        } else if (cmd === '*') {
+          unknownCommandDefIndex = i;
         }
       });
-      if (!isHelpCommandDef) {
-        commands.push({
-          DEFAULT_VALUE: ['help', 'Display help.'],
-        } as DeclarationObject);
-      }
+      const helpCommandDef =
+        helpCommandDefIndex !== undefined
+          ? (commands.splice(helpCommandDefIndex, 1).pop() as DeclarationObject)
+          : ({
+              DEFAULT_VALUE: ['help', 'Display help.'],
+            } as DeclarationObject);
+      const unknownCommandDef =
+        unknownCommandDefIndex !== undefined
+          ? (commands
+              .splice(unknownCommandDefIndex - 1, 1)
+              .pop() as DeclarationObject)
+          : ({
+              DEFAULT_VALUE: ['*', 'Any other command is not suppoted.'],
+            } as DeclarationObject);
+      // sort & add help/unknown
+      commands
+        .sort((decl1, decl2) => {
+          const cmd1 = getCmd(decl1);
+          const cmd2 = getCmd(decl2);
+          return cmd1 > cmd2 ? 1 : cmd1 === cmd2 ? 0 : -1;
+        })
+        .push(helpCommandDef, unknownCommandDef);
       // build blocks
       const result: ContentBlock[] = [];
       const summaryArr: string[] = [];
