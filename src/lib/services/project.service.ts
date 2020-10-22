@@ -1,7 +1,7 @@
 import {resolve} from 'path';
 import {pathExistsSync, readJsonSync} from 'fs-extra';
 
-import {Options, WebRender} from '../types';
+import {Options, WebRender} from '../types/ayedocs.type';
 
 export type OptionsInput = string | Options;
 

@@ -1,7 +1,7 @@
 export {Lib as AyedocsModule} from './lib/index';
 export {Cli as AyedocsCliModule} from './cli/index';
 
-export * from './lib/types';
+export * from './lib/types/ayedocs.type';
 export * from './lib/declaration';
 export * from './lib/renderer';
 
