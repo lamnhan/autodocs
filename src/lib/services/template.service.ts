@@ -300,7 +300,9 @@ export class TemplateService {
           strOpts
         ).trim();
         // summary
-        summaryArr.push(`- [\`${fullCommandWithAliases}\`](#${commandId})`);
+        if (!isProxy) {
+          summaryArr.push(`- [\`${fullCommandWithAliases}\`](#${commandId})`);
+        }
         // detail heading
         detailBlocks.push(
           contentService.blockHeading(`\`${cmd}\``, 3, commandId)
