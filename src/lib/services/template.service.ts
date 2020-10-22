@@ -325,10 +325,18 @@ export class TemplateService {
           // extract param descriptions
           const paramTags: {[key: string]: string} = {};
           if (decl.REFLECTION.comment) {
-            (decl.REFLECTION.comment.tags || []).forEach(({text}) => {
-              const [k, desc] = text.split('-').map(x => x.trim());
-              paramTags[k] = desc;
-            });
+            (decl.REFLECTION.comment.tags || []).forEach(
+              ({tagName, paramName, text}) => {
+                if (tagName === 'param') {
+                  const isOptional = paramName.substr(-1) === '?';
+                  const k = !isOptional
+                    ? `<${paramName}>`
+                    : `[${paramName.replace('?', '')}]`;
+                  const desc = text.replace('\\n', '');
+                  paramTags[k] = desc;
+                }
+              }
+            );
           }
           detailBlocks.push(contentService.blockText('**Parameters**'));
           detailBlocks.push(
