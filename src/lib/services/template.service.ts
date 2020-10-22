@@ -224,10 +224,23 @@ export class TemplateService {
       const commands = declaration.getVariablesOrProperties(decl =>
         decl.NAME.endsWith('CommandDef')
       );
-      // add mocked help command def
-      commands.push({
-        DEFAULT_VALUE: ['help', 'Display help.'],
-      } as DeclarationObject);
+      // add mocked help command def if not exists
+      let isHelpCommandDef = false;
+      commands.forEach(decl => {
+        const commandVal = decl.DEFAULT_VALUE[0];
+        const cmd =
+          typeof commandVal === 'string'
+            ? commandVal
+            : ((commandVal[0] as string).split(' ').shift() as string);
+        if (cmd === 'help') {
+          isHelpCommandDef = true;
+        }
+      });
+      if (!isHelpCommandDef) {
+        commands.push({
+          DEFAULT_VALUE: ['help', 'Display help.'],
+        } as DeclarationObject);
+      }
       // build blocks
       const result: ContentBlock[] = [];
       const summaryArr: string[] = [];
