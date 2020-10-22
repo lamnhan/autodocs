@@ -1,19 +1,19 @@
 import {Reflection, SignatureReflection, ReflectionKind} from 'typedoc';
 
-import {ProjectService} from './services/project.service';
+import {ProjectService} from '../services/project.service';
 import {
   ReflectionData,
   DefaultValue,
   TypedocService,
-} from './services/typedoc.service';
-import {ContentBySections, ContentService} from './services/content.service';
+} from '../services/typedoc.service';
+import {ContentBySections, ContentService} from '../services/content.service';
 
-export type DeclarationFilter = (declaration: Declaration) => boolean;
+export type DeclarationFilter = (declaration: DeclarationObject) => boolean;
 
 /**
- * A Declaration is an unit that holds the information of a source code element.
+ * A DeclarationObject is an unit that holds the information of a source code element.
  */
-export class Declaration {
+export class DeclarationObject {
   private id: string;
   // reflection
   private name: string;
@@ -179,7 +179,7 @@ export class Declaration {
       this.reflection,
       name
     );
-    return new Declaration(
+    return new DeclarationObject(
       this.projectService,
       this.typedocService,
       this.contentService,
@@ -205,7 +205,7 @@ export class Declaration {
       });
     return [...variablesOrProperties, ...accessors]
       .map(item =>
-        new Declaration(
+        new DeclarationObject(
           this.projectService,
           this.typedocService,
           this.contentService,
@@ -219,7 +219,7 @@ export class Declaration {
     if (!this.hasFunctionsOrMethods()) {
       throw new Error('No functions or methods.');
     }
-    const result: Declaration[] = [];
+    const result: DeclarationObject[] = [];
     // get all signatures
     this.typedocService
       .getReflections('FunctionOrMethod', this.reflection)
@@ -228,7 +228,7 @@ export class Declaration {
           .getAllSignatures()
           .forEach((signature, i) =>
             result.push(
-              new Declaration(
+              new DeclarationObject(
                 this.projectService,
                 this.typedocService,
                 this.contentService,
@@ -249,7 +249,7 @@ export class Declaration {
       .getReflections('Interface', this.reflection)
       .map(
         item =>
-          new Declaration(
+          new DeclarationObject(
             this.projectService,
             this.typedocService,
             this.contentService,
@@ -267,7 +267,7 @@ export class Declaration {
       .getReflections('Class', this.reflection)
       .map(
         item =>
-          new Declaration(
+          new DeclarationObject(
             this.projectService,
             this.typedocService,
             this.contentService,

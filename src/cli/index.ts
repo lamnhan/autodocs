@@ -15,14 +15,14 @@ export class Cli {
   commander = ['ayedocs', 'Document generator for Typescript projects.'];
 
   /**
-   * @params [input] - The rendering input
+   * @param [input] - The rendering input
    */
   showCommandDef: CommandDef = ['show [input]', 'Show Declaration info.'];
 
   /**
-   * @params [input] - The rendering input
-   * @params [output] - The converting output
-   * @params [params...] - The convert options
+   * @param [input] - The rendering input
+   * @param [output] - The converting output
+   * @param [params...] - The convert options
    */
   previewCommandDef: CommandDef = [
     'preview [input] [output] [params...]',
@@ -30,7 +30,7 @@ export class Cli {
   ];
 
   /**
-   * @params [path] - Path to the output file
+   * @param [path] - Path to the output file
    */
   generateCommandDef: CommandDef = [
     'generate [path]',

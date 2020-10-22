@@ -3,7 +3,7 @@ import {CustomConvert, ConvertOptions} from './convert.service';
 import {AdvancedRendering} from './render.service';
 import {ContentBlock, ContentService} from './content.service';
 
-import {Declaration} from '../declaration';
+import {DeclarationObject} from '../objects/declaration.object';
 
 export type BuiltinTemplate =
   | 'basic'
@@ -227,7 +227,7 @@ export class TemplateService {
       // add mocked help command def
       commands.push({
         DEFAULT_VALUE: ['help', 'Display help.'],
-      } as Declaration);
+      } as DeclarationObject);
       // build blocks
       const result: ContentBlock[] = [];
       const summaryArr: string[] = [];

@@ -57,7 +57,7 @@ export class Lib {
 }
 ```
 
-To get information, we turn any element of the source code into a [[Declaration]] (a source code unit). There are 2 types of [[Declaration]]:
+To get information, we turn any element of the source code into a [[DeclarationObject]] (a source code unit). There are 2 types of [[DeclarationObject]]:
 
 - **Direct**: for top level elements, such as: `Variable`, `Function`, `Interface`, `Class` and a `Collection` of any top level elements.
 - **Indirect**: for child elements of a top level element, such as: `Property` and `Method`.

@@ -4,13 +4,13 @@ import {ProjectService} from './project.service';
 import {TypedocService} from './typedoc.service';
 import {ContentService} from './content.service';
 
-import {Declaration} from '../declaration';
+import {DeclarationObject} from '../objects/declaration.object';
 
 /**
- * The `Parser` turns source code into [[Declaration]]
+ * The `Parser` turns source code into [[DeclarationObject]]
  */
 export class ParseService {
-  private cache: {[input: string]: Declaration} = {};
+  private cache: {[input: string]: DeclarationObject} = {};
 
   constructor(
     private projectService: ProjectService,
@@ -19,7 +19,7 @@ export class ParseService {
   ) {}
 
   /**
-   * Turn the source code into a [[Declaration]].
+   * Turn the source code into a [[DeclarationObject]].
    * @param input - Parsing input
    */
   parse(input?: string) {
@@ -49,7 +49,7 @@ export class ParseService {
         reflection = this.typedocService.getChildReflection(reflection, child);
       }
       // parse result
-      declaration = new Declaration(
+      declaration = new DeclarationObject(
         this.projectService,
         this.typedocService,
         this.contentService,

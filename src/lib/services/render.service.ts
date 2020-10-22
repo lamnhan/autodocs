@@ -18,7 +18,11 @@ import {
 } from './template.service';
 import {WebData, WebService} from './web.service';
 
-import {RendererData, RendererFileData, Renderer} from '../renderer';
+import {
+  RendererData,
+  RendererFileData,
+  RendererObject,
+} from '../objects/renderer.object';
 
 export interface AdvancedRendering {
   [section: string]: SectionRender;
@@ -154,7 +158,7 @@ export class RenderService {
       const currentContent = batchCurrentContent[path] || {};
       rendererData[path] = this.getData(path, renderInput, currentContent);
     });
-    return new Renderer(
+    return new RendererObject(
       this.projectService,
       this.contentService,
       this.parseService,

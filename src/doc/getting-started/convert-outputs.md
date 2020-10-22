@@ -1,4 +1,4 @@
-A [[Declaration]] supports certain convert output depended on its kind. You can also provide your custom converts output, use the `converts` field of [[Options]]. 
+A [[DeclarationObject]] supports certain convert output depended on its kind. You can also provide your custom converts output, use the `converts` field of [[Options]]. 
 
 ## Default outputs
 
@@ -32,7 +32,7 @@ Here the list of default output:
 
 Provide options with the third item of a rendering input:
 
-- Custom [[Declaration]] id: `{ id }`
+- Custom [[DeclarationObject]] id: `{ id }`
 - **SELF** output heading: `{ title, link }`
 - Raw object for default value: `{ raw: true }`
 - Change base level: `{ level }`
@@ -47,7 +47,7 @@ You can also provide your custom convert function, see [[CustomConvert]].
 
 A custom convert function recieves these params:
 
-- [[Declaration]]: the declaration
+- [[DeclarationObject]]: the declaration
 - [[ConvertOptions]]: any convert options
 - [[ContentService]]: a content service instance
 

@@ -1,7 +1,10 @@
 import {DefaultValue} from './typedoc.service';
 import {ContentBlock, ContentService} from './content.service';
 
-import {DeclarationFilter, Declaration} from '../declaration';
+import {
+  DeclarationFilter,
+  DeclarationObject,
+} from '../objects/declaration.object';
 
 export interface DeclarationOptions {
   id?: string;
@@ -36,7 +39,7 @@ export interface ConvertOptions
 }
 
 export type CustomConvert = (
-  declaration: Declaration,
+  declaration: DeclarationObject,
   options: ConvertOptions,
   contentService: ContentService
 ) => string | ContentBlock[];
@@ -45,7 +48,7 @@ export class ConvertService {
   constructor(private contentService: ContentService) {}
 
   convert(
-    declaration: Declaration,
+    declaration: DeclarationObject,
     output: string | CustomConvert = 'SELF',
     options: ConvertOptions = {}
   ) {
@@ -124,7 +127,7 @@ export class ConvertService {
   }
 
   private getFull(
-    declaration: Declaration,
+    declaration: DeclarationObject,
     options: ConvertingOptions & HeadingOptions = {}
   ) {
     const result: ContentBlock[] = [];
@@ -166,7 +169,7 @@ export class ConvertService {
   }
 
   private getSelf(
-    declaration: Declaration,
+    declaration: DeclarationObject,
     options: ConvertingOptions & HeadingOptions = {}
   ) {
     const {level = 2, title: customTitle, link: customLink} = options;
@@ -258,7 +261,7 @@ export class ConvertService {
   }
 
   private getSection(
-    declaration: Declaration,
+    declaration: DeclarationObject,
     sectionId: string,
     options: ConvertingOptions = {}
   ) {
@@ -274,7 +277,7 @@ export class ConvertService {
   }
 
   private getContent(
-    declaration: Declaration,
+    declaration: DeclarationObject,
     options: ConvertingOptions = {}
   ) {
     const {level = 2} = options;
@@ -287,7 +290,7 @@ export class ConvertService {
     return [content] as ContentBlock[];
   }
 
-  private getValue(declaration: Declaration, options: ValueOptions = {}) {
+  private getValue(declaration: DeclarationObject, options: ValueOptions = {}) {
     const {raw: rawObject} = options;
     const {DEFAULT_VALUE} = declaration;
     // converter
@@ -342,7 +345,7 @@ export class ConvertService {
   }
 
   private getVariablesOrProperties(
-    declaration: Declaration,
+    declaration: DeclarationObject,
     mode: 'summary' | 'detail' | 'full',
     options: ConvertingOptions & FilterOptions = {}
   ) {
@@ -426,7 +429,7 @@ export class ConvertService {
   }
 
   private getFunctionsOrMethods(
-    declaration: Declaration,
+    declaration: DeclarationObject,
     mode: 'summary' | 'detail' | 'full',
     options: ConvertingOptions & FilterOptions = {}
   ) {
@@ -500,7 +503,7 @@ export class ConvertService {
   }
 
   private getInterfaces(
-    declaration: Declaration,
+    declaration: DeclarationObject,
     mode: 'summary' | 'detail' | 'full',
     options: ConvertingOptions & FilterOptions = {}
   ) {
@@ -562,7 +565,7 @@ export class ConvertService {
   }
 
   private getClasses(
-    declaration: Declaration,
+    declaration: DeclarationObject,
     mode: 'summary' | 'detail' | 'full',
     options: ConvertingOptions & FilterOptions = {}
   ) {

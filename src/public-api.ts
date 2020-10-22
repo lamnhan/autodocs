@@ -2,8 +2,9 @@ export {Lib as AyedocsModule} from './lib/index';
 export {Cli as AyedocsCliModule} from './cli/index';
 
 export * from './lib/types/ayedocs.type';
-export * from './lib/declaration';
-export * from './lib/renderer';
+
+export * from './lib/objects/declaration.object';
+export * from './lib/objects/renderer.object';
 
 export * from './lib/services/content.service';
 export * from './lib/services/convert.service';

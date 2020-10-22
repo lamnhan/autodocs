@@ -1,8 +1,8 @@
-import {ProjectService} from './services/project.service';
-import {HeadingBlock, ContentService} from './services/content.service';
-import {ParseService} from './services/parse.service';
-import {FileRenderWithOptions} from './services/render.service';
-import {WebService} from './services/web.service';
+import {ProjectService} from '../services/project.service';
+import {HeadingBlock, ContentService} from '../services/content.service';
+import {ParseService} from '../services/parse.service';
+import {FileRenderWithOptions} from '../services/render.service';
+import {WebService} from '../services/web.service';
 
 export interface RendererData {
   [path: string]: RendererFileData;
@@ -14,7 +14,7 @@ export interface RendererFileData {
   options: FileRenderWithOptions;
 }
 
-export class Renderer {
+export class RendererObject {
   private webOutput: boolean;
   private heading: {[path: string]: HeadingBlock[]} = {};
   private content: {[path: string]: string} = {};
