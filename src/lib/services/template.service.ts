@@ -234,8 +234,9 @@ export class TemplateService {
           cmdWithParams = commandVal;
           aliases = [];
         } else {
-          cmdWithParams = commandVal[0];
-          aliases = [...commandVal];
+          const [a, ...b] = commandVal;
+          cmdWithParams = a;
+          aliases = b;
         }
         const [cmd, ...params] = cmdWithParams.split(' ');
         // a sub-command
@@ -273,28 +274,38 @@ export class TemplateService {
         } = commandValData;
         // sum-up values
         const commandId = 'command-' + cmd;
-        const subCommandId = !isProxy
-          ? ''
-          : `command-${parentCmd}-subcommand-${subCmd}`;
-        const proxyText = !isProxy
-          ? ''
-          : `Proxy for: [\`${parentCmd} ${subCmd}\`](#command-${parentCmd})`;
+        const subCommandId = !isProxy ? '' : `command-${parentCmd}-${subCmd}`;
+        // string options
         const strOpts = cmdOptions
           .map(([opt]) =>
             opt.indexOf(', ') !== -1 ? opt.split(', ').pop() : opt
           )
           .join(' ');
+        // command and aliases
         const cmdAndAliases =
           cmd + (!aliases.length ? '' : '|' + aliases.join('|'));
+        // command and aliases with params
         const cmdAndAliasesWithParams =
           cmdAndAliases + (!params.length ? '' : ' ' + params.join(' '));
+        // full command
         const fullCommand = (
           commanderCmd +
           ' ' +
-          cmdWithParams +
+          (cmd !== '*' ? cmdWithParams : '<cmd>') +
           ' ' +
           strOpts
         ).trim();
+        // all full commands
+        const fullCommands = aliases.map(alias =>
+          (
+            commanderCmd +
+            ' ' +
+            cmdWithParams.replace(cmd, alias) +
+            ' ' +
+            strOpts
+          ).trim()
+        );
+        fullCommands.unshift(fullCommand);
         const fullCommandWithAliases = (
           commanderCmd +
           ' ' +
@@ -302,6 +313,7 @@ export class TemplateService {
           ' ' +
           strOpts
         ).trim();
+        // alias string list
         const aliasList = aliases.map(alias => `\`${alias}\``).join(', ');
         // params
         const paramList = !params.length
@@ -331,31 +343,124 @@ export class TemplateService {
         const optionList = !cmdOptions.length
           ? []
           : cmdOptions.map(([k, v]) => [`\`${k}\``, v]);
+        // usage
+        const usageTextArr = ['```sh'];
+        fullCommands.forEach(fc => usageTextArr.push(fc));
+        usageTextArr.push('```');
+        const usageText = usageTextArr.join('\n');
         // result
         return {
           ...commandValData,
           description,
           commandId,
           subCommandId,
-          proxyText,
           fullCommand,
           fullCommandWithAliases,
           aliasList,
           paramList: paramList as Array<[string, string]>,
           optionList: optionList as Array<[string, string]>,
+          usageText,
         };
+      };
+      type DataByParent = Record<
+        string,
+        {
+          subCmds: string[];
+          subCommands: DeclarationObject[];
+        }
+      >;
+      const processDataForSubCommand = (
+        parentCmd: string,
+        dataByParent: DataByParent
+      ) => {
+        // get sub command aliases
+        const aliasesBySubCmd = (() => {
+          const subCmds = dataByParent[parentCmd].subCmds || [];
+          // get case values
+          let cmdCaseValues = [] as string[];
+          const p1 = `./src/cli/commands/${parentCmd}.command.ts`;
+          const p2 = `./src/cli/commands/${parentCmd}/${parentCmd}.command.ts`;
+          const filePath = pathExistsSync(p1)
+            ? p1
+            : pathExistsSync(p2)
+            ? p2
+            : null;
+          if (filePath) {
+            const fileContent = readFileSync(filePath, {
+              encoding: 'utf8',
+            }).replace(/\\n/g, '');
+            cmdCaseValues = (
+              fileContent.match(/case '(.*?)':/g) || []
+            ).map(match => match.replace("case '", '').replace("':", ''));
+          }
+          // get indexes
+          const indexes = subCmds.map(subCmd => cmdCaseValues.indexOf(subCmd));
+          const sortedIndexes = [...indexes].sort();
+          // group by index
+          const cmdGroups = [] as string[][];
+          for (let i = 0; i < sortedIndexes.length; i++) {
+            const index = sortedIndexes[i];
+            cmdGroups.push(
+              [...cmdCaseValues].splice(
+                index,
+                (sortedIndexes[i + 1] || cmdCaseValues.length) - index
+              )
+            );
+          }
+          // get items
+          const aliasesBySubCmd = {} as Record<string, string[]>;
+          subCmds.forEach(subCmd => {
+            for (let i = 0; i < cmdGroups.length; i++) {
+              const [_subCmd, ...als] = cmdGroups[i];
+              if (subCmd === _subCmd) {
+                aliasesBySubCmd[subCmd] = als;
+                break;
+              }
+            }
+          });
+          // result aliases by sub-commands
+          return aliasesBySubCmd;
+        })();
+        // result
+        return (dataByParent[parentCmd].subCommands || []).map(subDecl => {
+          const subCommandData = extractCommandDeclaration(subDecl);
+          const {cmd, parentCmd, subCmd, fullCommand} = subCommandData;
+          // sub aliases
+          const subAliases = aliasesBySubCmd[subCmd] || [];
+          // full command
+          const subFullCommand = fullCommand.replace(
+            cmd,
+            `${parentCmd} ${subCmd}`
+          );
+          // all full commands
+          const subFullCommands = subAliases.map(alias =>
+            fullCommand.replace(cmd, `${parentCmd} ${alias}`)
+          );
+          subFullCommands.unshift(subFullCommand);
+          const subAliasList = subAliases
+            .map(alias => `\`${alias}\``)
+            .join(', ');
+          // usage
+          const subUsageTextArr = ['```sh'];
+          subFullCommands.forEach(sfc => subUsageTextArr.push(sfc));
+          subUsageTextArr.push('```');
+          const subUsageText = subUsageTextArr.join('\n');
+          // result
+          return {
+            ...subCommandData,
+            subAliases,
+            subFullCommand,
+            subFullCommands,
+            subAliasList,
+            subUsageText,
+          };
+        });
       };
       // extract special data
       const {dataByParent, helpCommandDef, unknownCommandDef} = (() => {
         let helpCommandDefIndex: undefined | number;
         let unknownCommandDefIndex: undefined | number;
-        const dataByParent = {} as Record<
-          string,
-          {
-            subCmds: string[];
-            subCommands: DeclarationObject[];
-          }
-        >;
+        const dataByParent = {} as DataByParent;
         commands.forEach((decl, i) => {
           const {cmd, parentCmd, subCmd} = parseCommandVal(
             decl.DEFAULT_VALUE[0]
@@ -417,141 +522,64 @@ export class TemplateService {
           cmd,
           description,
           commandId,
-          fullCommand,
           fullCommandWithAliases,
           isProxy,
-          proxyText,
           isGrouping,
-          aliasList,
+          usageText,
           paramList,
           optionList,
         } = extractCommandDeclaration(decl);
-        // summary
         if (!isProxy) {
+          // summary
           summaryArr.push(`- [\`${fullCommandWithAliases}\`](#${commandId})`);
-        }
-        // detail
-        detailBlocks.push(
-          contentService.blockHeading(`\`${cmd}\``, 3, commandId)
-        );
-        detailBlocks.push(
-          contentService.blockText(description + ' ' + proxyText)
-        );
-        detailBlocks.push(
-          contentService.blockText('**Usage**: ' + `\`${fullCommand}\``)
-        );
-        if (aliasList) {
+          // detail
           detailBlocks.push(
-            contentService.blockText('**Aliases**: ' + aliasList)
+            contentService.blockHeading(`\`${cmd}\``, 3, commandId)
           );
-        }
-        // detail has sub-commands
-        if (isGrouping) {
-          detailBlocks.push(contentService.blockText('**Sub-commands**: '));
-          // get sub command aliases
-          const {aliasesBySubCmd} = (() => {
-            const subCmds = dataByParent[cmd].subCmds || [];
-            // get case values
-            let cmdCaseValues = [] as string[];
-            const p1 = `./src/cli/commands/${cmd}.command.ts`;
-            const p2 = `./src/cli/commands/${cmd}/${cmd}.command.ts`;
-            const filePath = pathExistsSync(p1)
-              ? p1
-              : pathExistsSync(p2)
-              ? p2
-              : null;
-            if (filePath) {
-              const fileContent = readFileSync(filePath, {
-                encoding: 'utf8',
-              }).replace(/\\n/g, '');
-              cmdCaseValues = (
-                fileContent.match(/case '(.*?)':/g) || []
-              ).map(match => match.replace("case '", '').replace("':", ''));
-            }
-            // get indexes
-            const indexes = subCmds.map(subCmd =>
-              cmdCaseValues.indexOf(subCmd)
-            );
-            const sortedIndexes = [...indexes].sort();
-            // group by index
-            const cmdGroups = [] as string[][];
-            for (let i = 0; i < sortedIndexes.length; i++) {
-              const index = sortedIndexes[i];
-              cmdGroups.push(
-                [...cmdCaseValues].splice(
-                  index,
-                  (sortedIndexes[i + 1] || cmdCaseValues.length) - index
-                )
+          detailBlocks.push(contentService.blockText(description));
+          detailBlocks.push(
+            contentService.blockText(['**Usage:**', usageText])
+          );
+          // detail has sub-commands
+          if (isGrouping) {
+            const subCommandItems = processDataForSubCommand(cmd, dataByParent);
+            detailBlocks.push(contentService.blockText('**Sub-commands:**'));
+            subCommandItems.forEach(item => {
+              const {
+                subCmd,
+                subCommandId,
+                description: subDescription,
+                paramList: subParamList,
+                optionList: subOptionList,
+                subUsageText,
+              } = item;
+              detailBlocks.push(
+                contentService.blockHeading(`\`${subCmd}\``, 4, subCommandId)
               );
-            }
-            // get items
-            const aliasesBySubCmd = {} as Record<string, string[]>;
-            subCmds.forEach(subCmd => {
-              for (let i = 0; i < cmdGroups.length; i++) {
-                const [_subCmd, ...als] = cmdGroups[i];
-                if (subCmd === _subCmd) {
-                  aliasesBySubCmd[subCmd] = als;
-                  break;
-                }
+              detailBlocks.push(contentService.blockText(subDescription));
+              detailBlocks.push(
+                contentService.blockText(['**Usage:**', subUsageText])
+              );
+              if (subParamList.length) {
+                detailBlocks.push(contentService.blockText('**Parameters:**'));
+                detailBlocks.push(contentService.blockList(subParamList));
+              }
+              if (subOptionList.length) {
+                detailBlocks.push(contentService.blockText('**Options:**'));
+                detailBlocks.push(contentService.blockList(subOptionList));
               }
             });
-            // result
-            return {aliasesBySubCmd};
-          })();
-          // list of sub-commands
-          (dataByParent[cmd].subCommands || []).forEach(subDecl => {
-            const {
-              cmd: _cmd,
-              commandId: _commandId,
-              description: _description,
-              parentCmd: _parentCmd,
-              subCmd: _subCmd,
-              subCommandId: _subCommandId,
-              fullCommand: _fullCommand,
-              paramList: _paramList,
-              optionList: _optionList,
-            } = extractCommandDeclaration(subDecl);
-            const proxiedText = `Proxied by: [\`${_cmd}\`](#${_commandId})`;
-            const subFullCommand = _fullCommand.replace(
-              _cmd,
-              `${_parentCmd} ${_subCmd}`
-            );
-            const _aliasList = (aliasesBySubCmd[_subCmd] || [])
-              .map(alias => `\`${alias}\``)
-              .join(', ');
-            detailBlocks.push(
-              contentService.blockHeading(`\`${_subCmd}\``, 4, _subCommandId)
-            );
-            detailBlocks.push(
-              contentService.blockText(_description + ' ' + proxiedText)
-            );
-            detailBlocks.push(
-              contentService.blockText('**Usage**: ' + `\`${subFullCommand}\``)
-            );
-            if (_aliasList) {
-              detailBlocks.push(
-                contentService.blockText('**Aliases**: ' + _aliasList)
-              );
-            }
-            if (_paramList.length) {
-              detailBlocks.push(contentService.blockText('**Parameters**'));
-              detailBlocks.push(contentService.blockList(_paramList));
-            }
-            if (_optionList.length) {
-              detailBlocks.push(contentService.blockText('**Options**'));
-              detailBlocks.push(contentService.blockList(_optionList));
-            }
-          });
-        }
-        // detail no sub-commands
-        else {
-          if (paramList.length) {
-            detailBlocks.push(contentService.blockText('**Parameters**'));
-            detailBlocks.push(contentService.blockList(paramList));
           }
-          if (optionList.length) {
-            detailBlocks.push(contentService.blockText('**Options**'));
-            detailBlocks.push(contentService.blockList(optionList));
+          // detail no sub-commands
+          else {
+            if (paramList.length) {
+              detailBlocks.push(contentService.blockText('**Parameters:**'));
+              detailBlocks.push(contentService.blockList(paramList));
+            }
+            if (optionList.length) {
+              detailBlocks.push(contentService.blockText('**Options:**'));
+              detailBlocks.push(contentService.blockList(optionList));
+            }
           }
         }
       });
