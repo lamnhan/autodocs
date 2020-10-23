@@ -270,13 +270,13 @@
             <pre><code class="language-ts"><span class="hljs-keyword">import</span> { AyedocsModule } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@lamnhan/ayedocs&quot;</span>;
 
 <span class="hljs-comment">// init an instance</span>
-<span class="hljs-keyword">const</span> generator = <span class="hljs-keyword">new</span> AyedocsModule(<span class="hljs-comment">/* Options */</span>);
+<span class="hljs-keyword">const</span> ayedocsModule = <span class="hljs-keyword">new</span> AyedocsModule(<span class="hljs-comment">/* Options */</span>);
 
 <span class="hljs-comment">// parsing</span>
-<span class="hljs-keyword">const</span> parsing = generator.parse(<span class="hljs-string">&quot;Lib&quot;</span>);
+<span class="hljs-keyword">const</span> parsing = ayedocsModule.parseService.parse(<span class="hljs-string">&quot;Lib&quot;</span>);
 
 <span class="hljs-comment">// rendering</span>
-<span class="hljs-keyword">const</span> rendering = generator.render({
+<span class="hljs-keyword">const</span> rendering = ayedocsModule.renderService.render({
   section1: [<span class="hljs-string">&quot;Options&quot;</span>],
   section2: [<span class="hljs-string">&quot;Lib&quot;</span>],
 });</code></pre>
