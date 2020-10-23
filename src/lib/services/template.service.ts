@@ -1,3 +1,5 @@
+import {readFile} from 'fs-extra';
+
 import {ProjectService} from './project.service';
 import {CustomConvert, ConvertOptions} from './convert.service';
 import {AdvancedRendering} from './render.service';
@@ -224,56 +226,42 @@ export class TemplateService {
       const commands = declaration.getVariablesOrProperties(decl =>
         decl.NAME.endsWith('CommandDef')
       );
-      // temp remove help/unknown command def if not exists
-      const getCmd = (decl: DeclarationObject) => {
-        const commandVal = decl.DEFAULT_VALUE[0];
-        return typeof commandVal === 'string'
-          ? commandVal
-          : ((commandVal[0] as string).split(' ').shift() as string);
-      };
-      let helpCommandDefIndex: undefined | number;
-      let unknownCommandDefIndex: undefined | number;
-      commands.forEach((decl, i) => {
-        const cmd = getCmd(decl);
-        if (cmd === 'help') {
-          helpCommandDefIndex = i;
-        } else if (cmd === '*') {
-          unknownCommandDefIndex = i;
+      // helper functions
+      const parseCommandVal = (commandVal: string | string[]) => {
+        let cmdWithParams: string;
+        let aliases: string[];
+        if (typeof commandVal === 'string') {
+          cmdWithParams = commandVal;
+          aliases = [];
+        } else {
+          cmdWithParams = commandVal[0];
+          aliases = [...commandVal];
         }
-      });
-      const helpCommandDef =
-        helpCommandDefIndex !== undefined
-          ? (commands.splice(helpCommandDefIndex, 1).pop() as DeclarationObject)
-          : ({
-              DEFAULT_VALUE: ['help', 'Display help.'],
-            } as DeclarationObject);
-      const unknownCommandDef =
-        unknownCommandDefIndex !== undefined
-          ? (commands
-              .splice(unknownCommandDefIndex - 1, 1)
-              .pop() as DeclarationObject)
-          : ({
-              DEFAULT_VALUE: ['*', 'Any other command is not suppoted.'],
-            } as DeclarationObject);
-      // sort & add help/unknown
-      commands
-        .sort((decl1, decl2) => {
-          const cmd1 = getCmd(decl1);
-          const cmd2 = getCmd(decl2);
-          return cmd1 > cmd2 ? 1 : cmd1 === cmd2 ? 0 : -1;
-        })
-        .push(helpCommandDef, unknownCommandDef);
-      // build blocks
-      const result: ContentBlock[] = [];
-      const summaryArr: string[] = [];
-      const detailBlocks: ContentBlock[] = [];
-      commands.forEach(decl => {
+        const [cmd, ...params] = cmdWithParams.split(' ');
+        // a sub-command
+        const [parentCmd, subCmd] =
+          cmd.indexOf('-') !== -1 ? cmd.split('-') : [];
+        // a parent command
+        const isGrouping = params[0] === '[subCommand]';
+        return {
+          cmd,
+          params,
+          cmdWithParams,
+          aliases,
+          parentCmd,
+          subCmd,
+          isProxy: !!parentCmd && !!subCmd,
+          isGrouping,
+        };
+      };
+      const extractCommandDeclaration = (decl: DeclarationObject) => {
         const [commandVal, description, ...cmdOptions] = decl.DEFAULT_VALUE as [
           string | string[],
           string,
           ...Array<[string, string]>
         ];
         // process command value
+        const commandValData = parseCommandVal(commandVal);
         const {
           cmd,
           params,
@@ -282,32 +270,12 @@ export class TemplateService {
           parentCmd,
           subCmd,
           isProxy,
-        } = (() => {
-          let cmdWithParams: string;
-          let aliases: string[];
-          if (typeof commandVal === 'string') {
-            cmdWithParams = commandVal;
-            aliases = [];
-          } else {
-            cmdWithParams = commandVal.shift() as string;
-            aliases = [...commandVal];
-          }
-          const [cmd, ...params] = cmdWithParams.split(' ');
-          // a sub-command
-          const [parentCmd, subCmd] =
-            cmd.indexOf('-') !== -1 ? cmd.split('-') : [];
-          return {
-            cmd,
-            params,
-            cmdWithParams,
-            aliases,
-            parentCmd,
-            subCmd,
-            isProxy: !!parentCmd && !!subCmd,
-          };
-        })();
+        } = commandValData;
         // sum-up values
         const commandId = 'command-' + cmd;
+        const subCommandId = !isProxy
+          ? ''
+          : `command-${parentCmd}-subcommand-${subCmd}`;
         const proxyText = !isProxy
           ? ''
           : `Proxy to: [\`${parentCmd} ${subCmd}\`](#command-${parentCmd})`;
@@ -334,6 +302,118 @@ export class TemplateService {
           ' ' +
           strOpts
         ).trim();
+        const aliasList = aliases.map(alias => `\`${alias}\``).join(', ');
+        // params
+        const paramList = !params.length
+          ? []
+          : (() => {
+              const paramTags: {[key: string]: string} = {};
+              if (decl.REFLECTION.comment) {
+                (decl.REFLECTION.comment.tags || []).forEach(
+                  ({tagName, paramName, text}) => {
+                    if (tagName === 'param') {
+                      const isOptional = paramName.substr(-1) === '?';
+                      const k = !isOptional
+                        ? `<${paramName}>`
+                        : `[${paramName.replace('?', '')}]`;
+                      const desc = text.replace('\\n', '');
+                      paramTags[k] = desc;
+                    }
+                  }
+                );
+              }
+              return params.map(param => [
+                `\`${param}\``,
+                paramTags[param] || `The \`${param}\` parameter.`,
+              ]);
+            })();
+        // options
+        const optionList = !cmdOptions.length
+          ? []
+          : cmdOptions.map(([k, v]) => [`\`${k}\``, v]);
+        // result
+        return {
+          ...commandValData,
+          description,
+          commandId,
+          subCommandId,
+          proxyText,
+          fullCommand,
+          fullCommandWithAliases,
+          aliasList,
+          paramList: paramList as Array<[string, string]>,
+          optionList: optionList as Array<[string, string]>,
+        };
+      };
+      // extract special data
+      const {subCommandsByParent, helpCommandDef, unknownCommandDef} = (() => {
+        let helpCommandDefIndex: undefined | number;
+        let unknownCommandDefIndex: undefined | number;
+        const subCommandsByParent = {} as Record<string, DeclarationObject[]>;
+        commands.forEach((decl, i) => {
+          const {cmd, parentCmd} = parseCommandVal(decl.DEFAULT_VALUE[0]);
+          // temp remove help/unknown command def if not exists
+          if (cmd === 'help') {
+            helpCommandDefIndex = i;
+          } else if (cmd === '*') {
+            unknownCommandDefIndex = i;
+          }
+          // sub-command
+          if (parentCmd) {
+            if (!subCommandsByParent[parentCmd]) {
+              subCommandsByParent[parentCmd] = [];
+            }
+            subCommandsByParent[parentCmd].push(decl);
+          }
+        });
+        const helpCommandDef =
+          helpCommandDefIndex !== undefined
+            ? (commands
+                .splice(helpCommandDefIndex, 1)
+                .pop() as DeclarationObject)
+            : ({
+                DEFAULT_VALUE: ['help', 'Display help.'],
+              } as DeclarationObject);
+        const unknownCommandDef =
+          unknownCommandDefIndex !== undefined
+            ? (commands
+                .splice(unknownCommandDefIndex - 1, 1)
+                .pop() as DeclarationObject)
+            : ({
+                DEFAULT_VALUE: ['*', 'Any other command is not suppoted.'],
+              } as DeclarationObject);
+        return {
+          subCommandsByParent,
+          helpCommandDef,
+          unknownCommandDef,
+        };
+      })();
+      // sort & add help/unknown
+      commands
+        .sort((decl1, decl2) => {
+          const {cmd: cmd1} = parseCommandVal(decl1.DEFAULT_VALUE[0]);
+          const {cmd: cmd2} = parseCommandVal(decl2.DEFAULT_VALUE[0]);
+          return cmd1 > cmd2 ? 1 : cmd1 === cmd2 ? 0 : -1;
+        })
+        .push(helpCommandDef, unknownCommandDef);
+      // build blocks
+      const result: ContentBlock[] = [];
+      const summaryArr: string[] = [];
+      const detailBlocks: ContentBlock[] = [];
+      commands.forEach(decl => {
+        const {
+          cmd,
+          description,
+          commandId,
+          fullCommand,
+          fullCommandWithAliases,
+          isProxy,
+          proxyText,
+          isGrouping,
+          aliasList,
+          paramList,
+          optionList,
+        } = extractCommandDeclaration(decl);
         // summary
         if (!isProxy) {
           summaryArr.push(`- [\`${fullCommandWithAliases}\`](#${commandId})`);
@@ -351,60 +431,57 @@ export class TemplateService {
           contentService.blockText('**Usage**: ' + `\`${fullCommand}\``)
         );
         // detail aliases
-        if (aliases.length) {
-          const aliasList = aliases.map(alias => `\`${alias}\``).join(', ');
+        if (aliasList) {
           detailBlocks.push(
             contentService.blockText('**Aliases**: ' + aliasList)
           );
         }
-        // detail parameters
-        if (params.length) {
-          // extract param descriptions
-          const paramTags: {[key: string]: string} = {};
-          if (decl.REFLECTION.comment) {
-            (decl.REFLECTION.comment.tags || []).forEach(
-              ({tagName, paramName, text}) => {
-                if (tagName === 'param') {
-                  const isOptional = paramName.substr(-1) === '?';
-                  const k = !isOptional
-                    ? `<${paramName}>`
-                    : `[${paramName.replace('?', '')}]`;
-                  const desc = text.replace('\\n', '');
-                  paramTags[k] = desc;
-                }
-              }
-            );
-          }
-          detailBlocks.push(contentService.blockText('**Parameters**'));
+        // detail has sub-commands
+        if (isGrouping) {
           detailBlocks.push(
-            contentService.blockList(
-              params.map(param => [
-                `\`${param}\``,
-                paramTags[param] || `The \`${param}\` parameter.`,
-              ])
+            contentService.blockHeading(
+              'Sub-commands',
+              4,
+              `${commandId}-subcommands`
             )
           );
+          // list of sub-commands
+          (subCommandsByParent[cmd] || []).forEach(subDecl => {
+            // TODO: display list of sub-commands
+          });
         }
-        // detail options
-        if (cmdOptions.length) {
-          detailBlocks.push(contentService.blockText('**Options**'));
-          detailBlocks.push(
-            contentService.blockList(
-              cmdOptions.map(([v1, v2]) => [`\`${v1}\``, v2])
-            )
-          );
+        // detail no sub-commands
+        else {
+          // detail parameters
+          if (paramList.length) {
+            detailBlocks.push(contentService.blockText('**Parameters**'));
+            detailBlocks.push(contentService.blockList(paramList));
+          }
+          // detail options
+          if (optionList.length) {
+            detailBlocks.push(contentService.blockText('**Options**'));
+            detailBlocks.push(contentService.blockList(optionList));
+          }
         }
       });
       // push blocks
       result.push(
-        contentService.blockHeading('Command overview', 2, 'command-overview')
+        contentService.blockHeading(
+          'Command overview',
+          2,
+          'cli-command-overview'
+        )
       );
       result.push(contentService.blockText(commanderDescription));
       result.push(
         contentService.blockText(summaryArr.join(contentService.EOL))
       );
       result.push(
-        contentService.blockHeading('Command reference', 2, 'command-reference')
+        contentService.blockHeading(
+          'Command reference',
+          2,
+          'cli-command-reference'
+        )
       );
       result.push(...detailBlocks);
       // result
