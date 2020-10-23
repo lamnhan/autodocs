@@ -1,4 +1,4 @@
-import {readFile} from 'fs-extra';
+import {pathExistsSync, readFileSync} from 'fs-extra';
 
 import {ProjectService} from './project.service';
 import {CustomConvert, ConvertOptions} from './convert.service';
@@ -278,7 +278,7 @@ export class TemplateService {
           : `command-${parentCmd}-subcommand-${subCmd}`;
         const proxyText = !isProxy
           ? ''
-          : `Proxy to: [\`${parentCmd} ${subCmd}\`](#command-${parentCmd})`;
+          : `Proxy for: [\`${parentCmd} ${subCmd}\`](#command-${parentCmd})`;
         const strOpts = cmdOptions
           .map(([opt]) =>
             opt.indexOf(', ') !== -1 ? opt.split(', ').pop() : opt
@@ -346,12 +346,20 @@ export class TemplateService {
         };
       };
       // extract special data
-      const {subCommandsByParent, helpCommandDef, unknownCommandDef} = (() => {
+      const {dataByParent, helpCommandDef, unknownCommandDef} = (() => {
         let helpCommandDefIndex: undefined | number;
         let unknownCommandDefIndex: undefined | number;
-        const subCommandsByParent = {} as Record<string, DeclarationObject[]>;
+        const dataByParent = {} as Record<
+          string,
+          {
+            subCmds: string[];
+            subCommands: DeclarationObject[];
+          }
+        >;
         commands.forEach((decl, i) => {
-          const {cmd, parentCmd} = parseCommandVal(decl.DEFAULT_VALUE[0]);
+          const {cmd, parentCmd, subCmd} = parseCommandVal(
+            decl.DEFAULT_VALUE[0]
+          );
           // temp remove help/unknown command def if not exists
           if (cmd === 'help') {
             helpCommandDefIndex = i;
@@ -360,10 +368,14 @@ export class TemplateService {
           }
           // sub-command
           if (parentCmd) {
-            if (!subCommandsByParent[parentCmd]) {
-              subCommandsByParent[parentCmd] = [];
+            if (!dataByParent[parentCmd]) {
+              dataByParent[parentCmd] = {
+                subCmds: [],
+                subCommands: [],
+              };
             }
-            subCommandsByParent[parentCmd].push(decl);
+            dataByParent[parentCmd].subCmds.push(subCmd);
+            dataByParent[parentCmd].subCommands.push(decl);
           }
         });
         const helpCommandDef =
@@ -383,7 +395,7 @@ export class TemplateService {
                 DEFAULT_VALUE: ['*', 'Any other command is not suppoted.'],
               } as DeclarationObject);
         return {
-          subCommandsByParent,
+          dataByParent,
           helpCommandDef,
           unknownCommandDef,
         };
@@ -418,19 +430,16 @@ export class TemplateService {
         if (!isProxy) {
           summaryArr.push(`- [\`${fullCommandWithAliases}\`](#${commandId})`);
         }
-        // detail heading
+        // detail
         detailBlocks.push(
           contentService.blockHeading(`\`${cmd}\``, 3, commandId)
         );
-        // detail description
         detailBlocks.push(
           contentService.blockText(description + ' ' + proxyText)
         );
-        // detail full command
         detailBlocks.push(
           contentService.blockText('**Usage**: ' + `\`${fullCommand}\``)
         );
-        // detail aliases
         if (aliasList) {
           detailBlocks.push(
             contentService.blockText('**Aliases**: ' + aliasList)
@@ -438,26 +447,108 @@ export class TemplateService {
         }
         // detail has sub-commands
         if (isGrouping) {
-          detailBlocks.push(
-            contentService.blockHeading(
-              'Sub-commands',
-              4,
-              `${commandId}-subcommands`
-            )
-          );
+          detailBlocks.push(contentService.blockText('**Sub-commands**: '));
+          // get sub command aliases
+          const {aliasesBySubCmd} = (() => {
+            const subCmds = dataByParent[cmd].subCmds || [];
+            // get case values
+            let cmdCaseValues = [] as string[];
+            const p1 = `./src/cli/commands/${cmd}.command.ts`;
+            const p2 = `./src/cli/commands/${cmd}/${cmd}.command.ts`;
+            const filePath = pathExistsSync(p1)
+              ? p1
+              : pathExistsSync(p2)
+              ? p2
+              : null;
+            if (filePath) {
+              const fileContent = readFileSync(filePath, {
+                encoding: 'utf8',
+              }).replace(/\\n/g, '');
+              cmdCaseValues = (
+                fileContent.match(/case '(.*?)':/g) || []
+              ).map(match => match.replace("case '", '').replace("':", ''));
+            }
+            // get indexes
+            const indexes = subCmds.map(subCmd =>
+              cmdCaseValues.indexOf(subCmd)
+            );
+            const sortedIndexes = [...indexes].sort();
+            // group by index
+            const cmdGroups = [] as string[][];
+            for (let i = 0; i < sortedIndexes.length; i++) {
+              const index = sortedIndexes[i];
+              cmdGroups.push(
+                [...cmdCaseValues].splice(
+                  index,
+                  (sortedIndexes[i + 1] || cmdCaseValues.length) - index
+                )
+              );
+            }
+            // get items
+            const aliasesBySubCmd = {} as Record<string, string[]>;
+            subCmds.forEach(subCmd => {
+              for (let i = 0; i < cmdGroups.length; i++) {
+                const [_subCmd, ...als] = cmdGroups[i];
+                if (subCmd === _subCmd) {
+                  aliasesBySubCmd[subCmd] = als;
+                  break;
+                }
+              }
+            });
+            // result
+            return {aliasesBySubCmd};
+          })();
           // list of sub-commands
-          (subCommandsByParent[cmd] || []).forEach(subDecl => {
-            // TODO: display list of sub-commands
+          (dataByParent[cmd].subCommands || []).forEach(subDecl => {
+            const {
+              cmd: _cmd,
+              commandId: _commandId,
+              description: _description,
+              parentCmd: _parentCmd,
+              subCmd: _subCmd,
+              subCommandId: _subCommandId,
+              fullCommand: _fullCommand,
+              paramList: _paramList,
+              optionList: _optionList,
+            } = extractCommandDeclaration(subDecl);
+            const proxiedText = `Proxied by: [\`${_cmd}\`](#${_commandId})`;
+            const subFullCommand = _fullCommand.replace(
+              _cmd,
+              `${_parentCmd} ${_subCmd}`
+            );
+            const _aliasList = (aliasesBySubCmd[_subCmd] || [])
+              .map(alias => `\`${alias}\``)
+              .join(', ');
+            detailBlocks.push(
+              contentService.blockHeading(`\`${_subCmd}\``, 4, _subCommandId)
+            );
+            detailBlocks.push(
+              contentService.blockText(_description + ' ' + proxiedText)
+            );
+            detailBlocks.push(
+              contentService.blockText('**Usage**: ' + `\`${subFullCommand}\``)
+            );
+            if (_aliasList) {
+              detailBlocks.push(
+                contentService.blockText('**Aliases**: ' + _aliasList)
+              );
+            }
+            if (_paramList.length) {
+              detailBlocks.push(contentService.blockText('**Parameters**'));
+              detailBlocks.push(contentService.blockList(_paramList));
+            }
+            if (_optionList.length) {
+              detailBlocks.push(contentService.blockText('**Options**'));
+              detailBlocks.push(contentService.blockList(_optionList));
+            }
           });
         }
         // detail no sub-commands
         else {
-          // detail parameters
           if (paramList.length) {
             detailBlocks.push(contentService.blockText('**Parameters**'));
             detailBlocks.push(contentService.blockList(paramList));
           }
-          // detail options
           if (optionList.length) {
             detailBlocks.push(contentService.blockText('**Options**'));
             detailBlocks.push(contentService.blockList(optionList));
