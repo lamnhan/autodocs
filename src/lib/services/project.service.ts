@@ -1,5 +1,5 @@
 import {resolve} from 'path';
-import {pathExistsSync, readJsonSync} from 'fs-extra';
+import {pathExistsSync, readJsonSync, outputJsonSync} from 'fs-extra';
 
 import {Options, WebRender} from '../types/ayedocs.type';
 
@@ -16,6 +16,7 @@ interface PackageJson {
     type: string;
     url: string;
   };
+  scripts?: Record<string, string>;
   // options
   ayedocsrc: Options;
 }
@@ -40,6 +41,14 @@ export class ProjectService {
     this.options = optionsInput
       ? this.getOptions(optionsInput)
       : this.getLocalOptions();
+  }
+
+  get DEFAULT_CONFIG_PATH() {
+    return this.defaultConfigPath;
+  }
+
+  get DEFAULT_PACKAGE_PATH() {
+    return this.defaultPackagePath;
   }
 
   get PACKAGE() {
@@ -73,6 +82,19 @@ export class ProjectService {
   }
 
   private getPackage(path: string) {
+    if (!pathExistsSync(path)) {
+      outputJsonSync(
+        path,
+        {
+          name: '',
+          version: '0.0.0',
+          scripts: {},
+        },
+        {
+          spaces: 2,
+        }
+      );
+    }
     return readJsonSync(resolve(path)) as PackageJson;
   }
 
@@ -86,7 +108,9 @@ export class ProjectService {
     let url = options.url;
     if (!url) {
       const {
-        repository: {url: repoUrl},
+        repository: {url: repoUrl} = {
+          url: 'https://github.com/lamnhan/ayedocs.git',
+        },
       } = this.package;
       const [, org, repo] = repoUrl
         .replace('https://', '')

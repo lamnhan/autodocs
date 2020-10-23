@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Renderer | @lamnhan/ayedocs</title>
+	<title>InitCommand | @lamnhan/ayedocs</title>
 	<meta name="description" content="Documentation for @lamnhan/ayedocs">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../index.html">Globals</a>
 				</li>
 				<li>
-					<a href="renderer.html">Renderer</a>
+					<a href="initcommand.html">InitCommand</a>
 				</li>
 			</ul>
-			<h1>Class Renderer</h1>
+			<h1>Class InitCommand</h1>
 		</div>
 	</div>
 </header>
@@ -68,7 +68,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Renderer</span>
+						<span class="target">InitCommand</span>
 					</li>
 				</ul>
 			</section>
@@ -79,14 +79,13 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="renderer.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="initcommand.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="renderer.html#getresult" class="tsd-kind-icon">get<wbr>Result</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="renderer.html#getresultall" class="tsd-kind-icon">get<wbr>Result<wbr>All</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="initcommand.html#run" class="tsd-kind-icon">run</a></li>
 							</ul>
 						</section>
 					</div>
@@ -98,37 +97,16 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Renderer<span class="tsd-signature-symbol">(</span>projectService<span class="tsd-signature-symbol">: </span><a href="projectservice.html" class="tsd-signature-type">ProjectService</a>, contentService<span class="tsd-signature-symbol">: </span><a href="contentservice.html" class="tsd-signature-type">ContentService</a>, parseService<span class="tsd-signature-symbol">: </span><a href="parseservice.html" class="tsd-signature-type">ParseService</a>, webService<span class="tsd-signature-symbol">: </span><a href="webservice.html" class="tsd-signature-type">WebService</a>, data<span class="tsd-signature-symbol">: </span><a href="../interfaces/rendererdata.html" class="tsd-signature-type">RendererData</a>, webOutput<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="renderer.html" class="tsd-signature-type">Renderer</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Init<wbr>Command<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="initcommand.html" class="tsd-signature-type">InitCommand</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/52e1860/src/lib/renderer.ts#L21">lib/renderer.ts:21</a></li>
+									<li>Defined in cli/commands/init.command.ts:7</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>projectService: <a href="projectservice.html" class="tsd-signature-type">ProjectService</a></h5>
-								</li>
-								<li>
-									<h5>contentService: <a href="contentservice.html" class="tsd-signature-type">ContentService</a></h5>
-								</li>
-								<li>
-									<h5>parseService: <a href="parseservice.html" class="tsd-signature-type">ParseService</a></h5>
-								</li>
-								<li>
-									<h5>webService: <a href="webservice.html" class="tsd-signature-type">WebService</a></h5>
-								</li>
-								<li>
-									<h5>data: <a href="../interfaces/rendererdata.html" class="tsd-signature-type">RendererData</a></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> webOutput: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="renderer.html" class="tsd-signature-type">Renderer</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="initcommand.html" class="tsd-signature-type">InitCommand</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -136,47 +114,25 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getresult" class="tsd-anchor"></a>
-					<h3>get<wbr>Result</h3>
+					<a name="run" class="tsd-anchor"></a>
+					<h3>run</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Result<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span>commandOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/initcommandoptions.html" class="tsd-signature-type">InitCommandOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/52e1860/src/lib/renderer.ts#L42">lib/renderer.ts:42</a></li>
+									<li>Defined in cli/commands/init.command.ts:10</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>path: <span class="tsd-signature-type">string</span></h5>
+									<h5>commandOptions: <a href="../interfaces/initcommandoptions.html" class="tsd-signature-type">InitCommandOptions</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getresultall" class="tsd-anchor"></a>
-					<h3>get<wbr>Result<wbr>All</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Result<wbr>All<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/52e1860/src/lib/renderer.ts#L57">lib/renderer.ts:57</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{}</span></h4>
-							<ul class="tsd-parameters">
-								<li class="tsd-parameter-index-signature">
-									<h5><span class="tsd-signature-symbol">[</span>path: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -195,16 +151,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="renderer.html" class="tsd-kind-icon">Renderer</a>
+						<a href="initcommand.html" class="tsd-kind-icon">Init<wbr>Command</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="renderer.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="initcommand.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="renderer.html#getresult" class="tsd-kind-icon">get<wbr>Result</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="renderer.html#getresultall" class="tsd-kind-icon">get<wbr>Result<wbr>All</a>
+								<a href="initcommand.html#run" class="tsd-kind-icon">run</a>
 							</li>
 						</ul>
 					</li>

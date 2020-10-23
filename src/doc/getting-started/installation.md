@@ -40,13 +40,13 @@ Use the library:
 import { AyedocsModule } from "@lamnhan/ayedocs";
 
 // init an instance
-const generator = new AyedocsModule(/* Options */);
+const ayedocsModule = new AyedocsModule(/* Options */);
 
 // parsing
-const parsing = generator.parse("Lib");
+const parsing = ayedocsModule.parseService.parse("Lib");
 
 // rendering
-const rendering = generator.render({
+const rendering = ayedocsModule.renderService.render({
   section1: ["Options"],
   section2: ["Lib"]
 });

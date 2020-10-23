@@ -62,6 +62,10 @@ Use the `angular` template to listing all modules, services, components, pipes o
 }
 ```
 
+### Show whatever you want
+
+You can write your own plugins to generate whatever you want.
+
 ## What the benefits?
 
 - Easy to use CLI & API
@@ -74,5 +78,5 @@ Use the `angular` template to listing all modules, services, components, pipes o
 Adding **ayedocs** to any project in 3 simple steps:
 
 1. (Optional) Documenting the source code with [TSdoc](https://github.com/microsoft/tsdoc)
-2. Add **configuration** to `package.json` or `.ayedocsrc.js`
+2. Add **configuration** to `package.json` or `.ayedocsrc.js`. Or run `$ ayedocs init`.
 3. Run `ayedocs generate` to generate content

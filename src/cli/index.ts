@@ -5,17 +5,19 @@ import {Lib as AyedocsModule} from '../lib/index';
 import {GenerateCommand} from './commands/generate.command';
 import {ShowCommand} from './commands/show.command';
 import {PreviewCommand} from './commands/preview.command';
+import {InitCommand} from './commands/init.command';
 
 export class Cli {
   private ayedocsModule: AyedocsModule;
   generateCommand: GenerateCommand;
   showCommand: ShowCommand;
   previewCommand: PreviewCommand;
+  initCommand: InitCommand;
 
   commander = ['ayedocs', 'Document generator for Typescript projects.'];
 
   /**
-   * @param [input] - The rendering input
+   * @param input? - The rendering input
    */
   showCommandDef: CommandDef = [
     ['show [input]', 's'],
@@ -23,9 +25,9 @@ export class Cli {
   ];
 
   /**
-   * @param [input] - The rendering input
-   * @param [output] - The converting output
-   * @param [params...] - The convert options
+   * @param input? - The rendering input
+   * @param output? - The converting output
+   * @param params...? - The convert options
    */
   previewCommandDef: CommandDef = [
     ['preview [input] [output] [params...]', 'p'],
@@ -33,7 +35,7 @@ export class Cli {
   ];
 
   /**
-   * @param [path] - Path to the output file
+   * @param path? - Path to the output file
    */
   generateCommandDef: CommandDef = [
     ['generate [path]', 'g'],
@@ -41,6 +43,12 @@ export class Cli {
     ['-c, --config [value]', 'Path to custom config file.'],
     ['-p, --package [value]', 'Path to custom package file.'],
     ['-t, --template [value]', 'Use this template for the [path] param.'],
+  ];
+
+  initCommandDef: CommandDef = [
+    ['init', 'i'],
+    'Init Ayedocs for a project.',
+    ['-o, --override', 'Override existing configuration file.'],
   ];
 
   constructor() {
@@ -52,6 +60,7 @@ export class Cli {
       this.ayedocsModule.convertService,
       this.ayedocsModule.parseService
     );
+    this.initCommand = new InitCommand(this.ayedocsModule.projectService);
   }
 
   getApp() {
@@ -104,6 +113,21 @@ export class Cli {
         .option(...packageOpt)
         .option(...templateOpt)
         .action((path, options) => this.generateCommand.run(path, options));
+    })();
+
+    // init
+    (() => {
+      const [
+        [command, ...aliases],
+        description,
+        overrideOpt,
+      ] = this.initCommandDef;
+      commander
+        .command(command)
+        .aliases(aliases)
+        .description(description)
+        .option(...overrideOpt)
+        .action(options => this.initCommand.run(options));
     })();
 
     // help

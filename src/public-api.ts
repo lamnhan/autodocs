@@ -16,6 +16,7 @@ export * from './lib/services/template.service';
 export * from './lib/services/typedoc.service';
 export * from './lib/services/web.service';
 
+export * from './cli/commands/init.command';
 export * from './cli/commands/generate.command';
 export * from './cli/commands/preview.command';
 export * from './cli/commands/show.command';

@@ -88,6 +88,8 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="cli.html#commander" class="tsd-kind-icon">commander</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="cli.html#generatecommand" class="tsd-kind-icon">generate<wbr>Command</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="cli.html#generatecommanddef" class="tsd-kind-icon">generate<wbr>Command<wbr>Def</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="cli.html#initcommand" class="tsd-kind-icon">init<wbr>Command</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="cli.html#initcommanddef" class="tsd-kind-icon">init<wbr>Command<wbr>Def</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="cli.html#previewcommand" class="tsd-kind-icon">preview<wbr>Command</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="cli.html#previewcommanddef" class="tsd-kind-icon">preview<wbr>Command<wbr>Def</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="cli.html#showcommand" class="tsd-kind-icon">show<wbr>Command</a></li>
@@ -115,7 +117,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/52e1860/src/cli/index.ts#L41">cli/index.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/bf35bf5/src/cli/index.ts#L52">cli/index.ts:52</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="cli.html" class="tsd-signature-type">Cli</a></h4>
@@ -131,7 +133,7 @@
 					<div class="tsd-signature tsd-kind-icon">commander<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [&#x27;ayedocs&#x27;, &#x27;Document generator for Typescript projects.&#x27;]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/52e1860/src/cli/index.ts#L15">cli/index.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/bf35bf5/src/cli/index.ts#L17">cli/index.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -141,26 +143,46 @@
 					<div class="tsd-signature tsd-kind-icon">generate<wbr>Command<span class="tsd-signature-symbol">:</span> <a href="generatecommand.html" class="tsd-signature-type">GenerateCommand</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/52e1860/src/cli/index.ts#L11">cli/index.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/bf35bf5/src/cli/index.ts#L12">cli/index.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="generatecommanddef" class="tsd-anchor"></a>
 					<h3>generate<wbr>Command<wbr>Def</h3>
-					<div class="tsd-signature tsd-kind-icon">generate<wbr>Command<wbr>Def<span class="tsd-signature-symbol">:</span> <a href="../index.html#commanddef" class="tsd-signature-type">CommandDef</a><span class="tsd-signature-symbol"> = [&#x27;generate [path]&#x27;,&#x27;Generate the documentation.&#x27;,[&#x27;-c, --config [value]&#x27;, &#x27;Path to custom config file.&#x27;],[&#x27;-p, --package [value]&#x27;, &#x27;Path to custom package file.&#x27;],[&#x27;-t, --template [value]&#x27;, &#x27;Use this template for the [path] param.&#x27;],]</span></div>
+					<div class="tsd-signature tsd-kind-icon">generate<wbr>Command<wbr>Def<span class="tsd-signature-symbol">:</span> <a href="../index.html#commanddef" class="tsd-signature-type">CommandDef</a><span class="tsd-signature-symbol"> = [[&#x27;generate [path]&#x27;, &#x27;g&#x27;],&#x27;Generate the documentation.&#x27;,[&#x27;-c, --config [value]&#x27;, &#x27;Path to custom config file.&#x27;],[&#x27;-p, --package [value]&#x27;, &#x27;Path to custom package file.&#x27;],[&#x27;-t, --template [value]&#x27;, &#x27;Use this template for the [path] param.&#x27;],]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/52e1860/src/cli/index.ts#L35">cli/index.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/bf35bf5/src/cli/index.ts#L40">cli/index.ts:40</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
-							<dt>params</dt>
-							<dd><p>[path] - Path to the output file</p>
+							<dt>param</dt>
+							<dd><p>Path to the output file</p>
 							</dd>
 						</dl>
 					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="initcommand" class="tsd-anchor"></a>
+					<h3>init<wbr>Command</h3>
+					<div class="tsd-signature tsd-kind-icon">init<wbr>Command<span class="tsd-signature-symbol">:</span> <a href="initcommand.html" class="tsd-signature-type">InitCommand</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/bf35bf5/src/cli/index.ts#L15">cli/index.ts:15</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="initcommanddef" class="tsd-anchor"></a>
+					<h3>init<wbr>Command<wbr>Def</h3>
+					<div class="tsd-signature tsd-kind-icon">init<wbr>Command<wbr>Def<span class="tsd-signature-symbol">:</span> <a href="../index.html#commanddef" class="tsd-signature-type">CommandDef</a><span class="tsd-signature-symbol"> = [[&#x27;init&#x27;, &#x27;i&#x27;],&#x27;Init Ayedocs for a project.&#x27;,[&#x27;-o, --override&#x27;, &#x27;Override existing configuration file.&#x27;],]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/bf35bf5/src/cli/index.ts#L48">cli/index.ts:48</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="previewcommand" class="tsd-anchor"></a>
@@ -168,29 +190,29 @@
 					<div class="tsd-signature tsd-kind-icon">preview<wbr>Command<span class="tsd-signature-symbol">:</span> <a href="previewcommand.html" class="tsd-signature-type">PreviewCommand</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/52e1860/src/cli/index.ts#L13">cli/index.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/bf35bf5/src/cli/index.ts#L14">cli/index.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="previewcommanddef" class="tsd-anchor"></a>
 					<h3>preview<wbr>Command<wbr>Def</h3>
-					<div class="tsd-signature tsd-kind-icon">preview<wbr>Command<wbr>Def<span class="tsd-signature-symbol">:</span> <a href="../index.html#commanddef" class="tsd-signature-type">CommandDef</a><span class="tsd-signature-symbol"> = [&#x27;preview [input] [output] [params...]&#x27;,&#x27;Preview a rendering.&#x27;,]</span></div>
+					<div class="tsd-signature tsd-kind-icon">preview<wbr>Command<wbr>Def<span class="tsd-signature-symbol">:</span> <a href="../index.html#commanddef" class="tsd-signature-type">CommandDef</a><span class="tsd-signature-symbol"> = [[&#x27;preview [input] [output] [params...]&#x27;, &#x27;p&#x27;],&#x27;Preview a rendering.&#x27;,]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/52e1860/src/cli/index.ts#L27">cli/index.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/bf35bf5/src/cli/index.ts#L32">cli/index.ts:32</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
-							<dt>params</dt>
-							<dd><p>[input] - The rendering input</p>
+							<dt>param</dt>
+							<dd><p>The rendering input</p>
 							</dd>
-							<dt>params</dt>
-							<dd><p>[output] - The converting output</p>
+							<dt>param</dt>
+							<dd><p>The converting output</p>
 							</dd>
-							<dt>params</dt>
-							<dd><p>[params...] - The convert options</p>
+							<dt>param</dt>
+							<dd><p>The convert options</p>
 							</dd>
 						</dl>
 					</div>
@@ -201,23 +223,23 @@
 					<div class="tsd-signature tsd-kind-icon">show<wbr>Command<span class="tsd-signature-symbol">:</span> <a href="showcommand.html" class="tsd-signature-type">ShowCommand</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/52e1860/src/cli/index.ts#L12">cli/index.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/bf35bf5/src/cli/index.ts#L13">cli/index.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="showcommanddef" class="tsd-anchor"></a>
 					<h3>show<wbr>Command<wbr>Def</h3>
-					<div class="tsd-signature tsd-kind-icon">show<wbr>Command<wbr>Def<span class="tsd-signature-symbol">:</span> <a href="../index.html#commanddef" class="tsd-signature-type">CommandDef</a><span class="tsd-signature-symbol"> = [&#x27;show [input]&#x27;, &#x27;Show Declaration info.&#x27;]</span></div>
+					<div class="tsd-signature tsd-kind-icon">show<wbr>Command<wbr>Def<span class="tsd-signature-symbol">:</span> <a href="../index.html#commanddef" class="tsd-signature-type">CommandDef</a><span class="tsd-signature-symbol"> = [[&#x27;show [input]&#x27;, &#x27;s&#x27;],&#x27;Show Declaration info.&#x27;,]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/52e1860/src/cli/index.ts#L20">cli/index.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/bf35bf5/src/cli/index.ts#L22">cli/index.ts:22</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<dl class="tsd-comment-tags">
-							<dt>params</dt>
-							<dd><p>[input] - The rendering input</p>
+							<dt>param</dt>
+							<dd><p>The rendering input</p>
 							</dd>
 						</dl>
 					</div>
@@ -235,7 +257,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/52e1860/src/cli/index.ts#L54">cli/index.ts:54</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/ayedocs/blob/bf35bf5/src/cli/index.ts#L66">cli/index.ts:66</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Command</span></h4>
@@ -270,6 +292,12 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="cli.html#generatecommanddef" class="tsd-kind-icon">generate<wbr>Command<wbr>Def</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="cli.html#initcommand" class="tsd-kind-icon">init<wbr>Command</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="cli.html#initcommanddef" class="tsd-kind-icon">init<wbr>Command<wbr>Def</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="cli.html#previewcommand" class="tsd-kind-icon">preview<wbr>Command</a>
