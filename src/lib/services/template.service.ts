@@ -239,20 +239,25 @@ export class TemplateService {
           aliases = b;
         }
         const [cmd, ...params] = cmdWithParams.split(' ');
+        // a parent command
+        const isGrouping = params[0] === '[subCommand]';
         // a sub-command
         const [parentCmd, subCmd] =
           cmd.indexOf('-') !== -1 ? cmd.split('-') : [];
-        // a parent command
-        const isGrouping = params[0] === '[subCommand]';
+        // is proxy
+        const isProxy = !!parentCmd && !!subCmd;
+        // proxy cmd
+        const proxyCmd = !isProxy ? '' : `${parentCmd}-${subCmd}`;
         return {
           cmd,
           params,
           cmdWithParams,
           aliases,
+          isGrouping,
           parentCmd,
           subCmd,
-          isProxy: !!parentCmd && !!subCmd,
-          isGrouping,
+          isProxy,
+          proxyCmd,
         };
       };
       const extractCommandDeclaration = (decl: DeclarationObject) => {
@@ -268,13 +273,12 @@ export class TemplateService {
           params,
           cmdWithParams,
           aliases,
-          parentCmd,
-          subCmd,
+          proxyCmd,
           isProxy,
         } = commandValData;
         // sum-up values
         const commandId = 'command-' + cmd;
-        const subCommandId = !isProxy ? '' : `command-${parentCmd}-${subCmd}`;
+        const subCommandId = !isProxy ? '' : `command-${proxyCmd}`;
         // string options
         const strOpts = cmdOptions
           .map(([opt]) =>
@@ -355,6 +359,7 @@ export class TemplateService {
           commandId,
           subCommandId,
           fullCommand,
+          fullCommands,
           fullCommandWithAliases,
           aliasList,
           paramList: paramList as Array<[string, string]>,
@@ -369,9 +374,11 @@ export class TemplateService {
           subCommands: DeclarationObject[];
         }
       >;
+      type RecordCommands = Record<string, DeclarationObject>;
       const processDataForSubCommand = (
         parentCmd: string,
-        dataByParent: DataByParent
+        dataByParent: DataByParent,
+        recordCommands: RecordCommands
       ) => {
         // get sub command aliases
         const aliasesBySubCmd = (() => {
@@ -424,7 +431,13 @@ export class TemplateService {
         // result
         return (dataByParent[parentCmd].subCommands || []).map(subDecl => {
           const subCommandData = extractCommandDeclaration(subDecl);
-          const {cmd, parentCmd, subCmd, fullCommand} = subCommandData;
+          const {
+            cmd,
+            parentCmd,
+            subCmd,
+            proxyCmd,
+            fullCommand,
+          } = subCommandData;
           // sub aliases
           const subAliases = aliasesBySubCmd[subCmd] || [];
           // full command
@@ -445,6 +458,11 @@ export class TemplateService {
           subFullCommands.forEach(sfc => subUsageTextArr.push(sfc));
           subUsageTextArr.push('```');
           const subUsageText = subUsageTextArr.join('\n');
+          // proxy
+          const {
+            fullCommands: proxyFullCommands,
+            usageText: proxyUsageText,
+          } = extractCommandDeclaration(recordCommands[proxyCmd]);
           // result
           return {
             ...subCommandData,
@@ -453,13 +471,21 @@ export class TemplateService {
             subFullCommands,
             subAliasList,
             subUsageText,
+            proxyFullCommands,
+            proxyUsageText,
           };
         });
       };
       // extract special data
-      const {dataByParent, helpCommandDef, unknownCommandDef} = (() => {
+      const {
+        dataByParent,
+        recordCommands,
+        helpCommandDef,
+        unknownCommandDef,
+      } = (() => {
         let helpCommandDefIndex: undefined | number;
         let unknownCommandDefIndex: undefined | number;
+        const recordCommands = {} as RecordCommands;
         const dataByParent = {} as DataByParent;
         commands.forEach((decl, i) => {
           const {cmd, parentCmd, subCmd} = parseCommandVal(
@@ -471,6 +497,8 @@ export class TemplateService {
           } else if (cmd === '*') {
             unknownCommandDefIndex = i;
           }
+          // save record commands
+          recordCommands[cmd] = decl;
           // sub-command
           if (parentCmd) {
             if (!dataByParent[parentCmd]) {
@@ -501,6 +529,7 @@ export class TemplateService {
               } as DeclarationObject);
         return {
           dataByParent,
+          recordCommands,
           helpCommandDef,
           unknownCommandDef,
         };
@@ -542,7 +571,11 @@ export class TemplateService {
           );
           // detail has sub-commands
           if (isGrouping) {
-            const subCommandItems = processDataForSubCommand(cmd, dataByParent);
+            const subCommandItems = processDataForSubCommand(
+              cmd,
+              dataByParent,
+              recordCommands
+            );
             detailBlocks.push(contentService.blockText('**Sub-commands:**'));
             subCommandItems.forEach(item => {
               const {
@@ -552,6 +585,7 @@ export class TemplateService {
                 paramList: subParamList,
                 optionList: subOptionList,
                 subUsageText,
+                proxyUsageText,
               } = item;
               detailBlocks.push(
                 contentService.blockHeading(`\`${subCmd}\``, 4, subCommandId)
@@ -559,6 +593,9 @@ export class TemplateService {
               detailBlocks.push(contentService.blockText(subDescription));
               detailBlocks.push(
                 contentService.blockText(['**Usage:**', subUsageText])
+              );
+              detailBlocks.push(
+                contentService.blockText(['**Proxy use:**', proxyUsageText])
               );
               if (subParamList.length) {
                 detailBlocks.push(contentService.blockText('**Parameters:**'));
