@@ -16,7 +16,7 @@ export class InitCommand {
       PACKAGE,
     } = this.projectService;
     if ((await pathExists(DEFAULT_CONFIG_PATH)) && !commandOptions.override) {
-      console.log('Error: .ayedocsrc.js exists.');
+      console.log(`Error: ${DEFAULT_CONFIG_PATH} exists.`);
     } else {
       // output file
       await outputFile(
@@ -37,8 +37,8 @@ export class InitCommand {
       packageContent.scripts.docs = 'ayedocs generate';
       await outputJson(DEFAULT_PACKAGE_PATH, packageContent, {spaces: 2});
       // result
-      console.log('Create: .ayedocsrc.js');
-      console.log('Update: package scripts.docs');
+      console.log(`Create: ${DEFAULT_CONFIG_PATH}`);
+      console.log('Update: scripts.docs');
     }
   }
 }
