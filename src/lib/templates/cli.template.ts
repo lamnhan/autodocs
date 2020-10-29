@@ -7,6 +7,16 @@ import {TemplateService, TemplateOptions} from '../services/template.service';
 
 import {DeclarationObject} from '../objects/declaration.object';
 
+type DataByParent = Record<
+  string,
+  {
+    subCmds: string[];
+    subCommands: DeclarationObject[];
+  }
+>;
+
+type RecordCommands = Record<string, DeclarationObject>;
+
 export class CliTemplate {
   constructor(private templateService: TemplateService) {}
 
@@ -45,6 +55,8 @@ export class CliTemplate {
         const isProxy = !!parentCmd && !!subCmd;
         // proxy cmd
         const proxyCmd = !isProxy ? '' : `${parentCmd}-${subCmd}`;
+        // parent sub cmd
+        const parentSubCmd = !isProxy ? '' : `${parentCmd} ${subCmd}`;
         return {
           cmd,
           params,
@@ -55,6 +67,7 @@ export class CliTemplate {
           subCmd,
           isProxy,
           proxyCmd,
+          parentSubCmd,
         };
       };
       const extractCommandDeclaration = (decl: DeclarationObject) => {
@@ -65,19 +78,11 @@ export class CliTemplate {
         ];
         // process command value
         const commandValData = parseCommandVal(commandVal);
-        const {
-          cmd,
-          params,
-          cmdWithParams,
-          aliases,
-          proxyCmd,
-          isProxy,
-        } = commandValData;
+        const {cmd, params, cmdWithParams, aliases} = commandValData;
         // sum-up values
         const commandId = 'command-' + cmd;
-        const subCommandId = !isProxy ? '' : `command-${proxyCmd}`;
         // string options
-        const strOpts = cmdOptions
+        const strOptions = cmdOptions
           .map(([opt]) =>
             opt.indexOf(', ') !== -1 ? opt.split(', ').pop() : opt
           )
@@ -94,7 +99,7 @@ export class CliTemplate {
           ' ' +
           (cmd !== '*' ? cmdWithParams : '<cmd>') +
           ' ' +
-          strOpts
+          strOptions
         ).trim();
         // all full commands
         const fullCommands = aliases.map(alias =>
@@ -103,16 +108,17 @@ export class CliTemplate {
             ' ' +
             cmdWithParams.replace(cmd, alias) +
             ' ' +
-            strOpts
+            strOptions
           ).trim()
         );
         fullCommands.unshift(fullCommand);
+        // full command with aliases
         const fullCommandWithAliases = (
           commanderCmd +
           ' ' +
           cmdAndAliasesWithParams +
           ' ' +
-          strOpts
+          strOptions
         ).trim();
         // alias string list
         const aliasList = aliases.map(alias => `\`${alias}\``).join(', ');
@@ -153,8 +159,10 @@ export class CliTemplate {
         return {
           ...commandValData,
           description,
+          strOptions,
           commandId,
-          subCommandId,
+          cmdAndAliases,
+          cmdAndAliasesWithParams,
           fullCommand,
           fullCommands,
           fullCommandWithAliases,
@@ -164,14 +172,6 @@ export class CliTemplate {
           usageText,
         };
       };
-      type DataByParent = Record<
-        string,
-        {
-          subCmds: string[];
-          subCommands: DeclarationObject[];
-        }
-      >;
-      type RecordCommands = Record<string, DeclarationObject>;
       const processDataForSubCommand = (
         parentCmd: string,
         dataByParent: DataByParent,
@@ -233,20 +233,38 @@ export class CliTemplate {
             parentCmd,
             subCmd,
             proxyCmd,
+            parentSubCmd,
+            params,
             fullCommand,
+            strOptions,
           } = subCommandData;
           // sub aliases
           const subAliases = aliasesBySubCmd[subCmd] || [];
-          // full command
-          const subFullCommand = fullCommand.replace(
-            cmd,
-            `${parentCmd} ${subCmd}`
-          );
+          // id
+          const subCommandId = `command-${proxyCmd}`;
+          // sub command and aliases
+          const subCmdAndAliases =
+            parentSubCmd +
+            (!subAliases.length ? '' : '|' + subAliases.join('|'));
+          // sub command and aliases with params
+          const subCmdAndAliasesWithParams =
+            subCmdAndAliases + (!params.length ? '' : ' ' + params.join(' '));
+          // sub full command
+          const subFullCommand = fullCommand.replace(cmd, parentSubCmd);
           // all full commands
           const subFullCommands = subAliases.map(alias =>
             fullCommand.replace(cmd, `${parentCmd} ${alias}`)
           );
           subFullCommands.unshift(subFullCommand);
+          // sub full command with aliases
+          const subFullCommandWithAliases = (
+            commanderCmd +
+            ' ' +
+            subCmdAndAliasesWithParams +
+            ' ' +
+            strOptions
+          ).trim();
+          // sub aliases
           const subAliasList = subAliases
             .map(alias => `\`${alias}\``)
             .join(', ');
@@ -264,8 +282,12 @@ export class CliTemplate {
           return {
             ...subCommandData,
             subAliases,
+            subCommandId,
+            subCmdAndAliases,
+            subCmdAndAliasesWithParams,
             subFullCommand,
             subFullCommands,
+            subFullCommandWithAliases,
             subAliasList,
             subUsageText,
             proxyFullCommands,
@@ -355,9 +377,21 @@ export class CliTemplate {
           paramList,
           optionList,
         } = extractCommandDeclaration(decl);
+        const subCommandItems = !isGrouping
+          ? []
+          : processDataForSubCommand(cmd, dataByParent, recordCommands);
+        // render
         if (!isProxy) {
           // summary
           summaryArr.push(`- [\`${fullCommandWithAliases}\`](#${commandId})`);
+          if (isGrouping) {
+            subCommandItems.forEach(item => {
+              const {subFullCommandWithAliases, subCommandId} = item;
+              summaryArr.push(
+                `  - [\`${subFullCommandWithAliases}\`](#${subCommandId})`
+              );
+            });
+          }
           // detail
           detailBlocks.push(
             contentService.blockHeading(`\`${cmd}\``, 3, commandId)
@@ -368,11 +402,6 @@ export class CliTemplate {
           );
           // detail has sub-commands
           if (isGrouping) {
-            const subCommandItems = processDataForSubCommand(
-              cmd,
-              dataByParent,
-              recordCommands
-            );
             detailBlocks.push(contentService.blockText('**Sub-commands:**'));
             subCommandItems.forEach(item => {
               const {

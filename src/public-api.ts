@@ -6,6 +6,11 @@ export * from './lib/types/ayedocs.type';
 export * from './lib/objects/declaration.object';
 export * from './lib/objects/renderer.object';
 
+export * from './lib/templates/basic.template';
+export * from './lib/templates/full.template';
+export * from './lib/templates/angular.template';
+export * from './lib/templates/cli.template';
+
 export * from './lib/services/content.service';
 export * from './lib/services/convert.service';
 export * from './lib/services/load.service';
