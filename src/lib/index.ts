@@ -110,6 +110,7 @@ export class Lib {
       // copy assets
       this.webService.copyThemeAssets();
     }
+    // save api
   }
 
   /**
@@ -119,21 +120,26 @@ export class Lib {
    */
   generateRef() {
     const {refGenerator, webRender} = this.projectService.OPTIONS;
-    // reference output, default to 'docs',
-    const apiOut = this.projectService.hasWebOutput()
-      ? resolve(webRender.out as string, 'reference')
-      : resolve('docs');
+    const refOut = resolve(webRender.out as string, 'reference');
     // custom
     if (refGenerator instanceof Function) {
-      refGenerator(this.typedocService, apiOut);
+      refGenerator(this.typedocService, refOut);
     }
     // typedoc
     else if (refGenerator === 'typedoc') {
-      this.typedocService.generateDocs(apiOut);
+      this.typedocService.generateDocs(refOut);
     }
     // none
     else {
-      console.log('No ref.');
+      console.log('No reference generated.');
+    }
+    // save redirect if no web output
+    if (!this.projectService.hasWebOutput()) {
+      const indexHtmlContent = this.webService.getIndex('reference/index.html');
+      this.contentService.writeFileSync(
+        webRender.out + '/' + 'index.html',
+        indexHtmlContent
+      );
     }
   }
 }
