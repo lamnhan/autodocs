@@ -1,3 +1,5 @@
+import {capitalCase} from 'change-case';
+
 import {ProjectService} from '../services/project.service';
 import {HeadingBlock, ContentService} from '../services/content.service';
 import {ParseService} from '../services/parse.service';
@@ -12,6 +14,14 @@ export interface RendererFileData {
   headings: HeadingBlock[];
   content: string;
   options: FileRenderWithOptions;
+}
+
+export interface RenderArticle {
+  title: string;
+  src: string;
+  originalSrc: string;
+  type: 'file' | 'web';
+  content: string;
 }
 
 export class RendererObject {
@@ -70,9 +80,106 @@ export class RendererObject {
     return result;
   }
 
+  getArticle(path: string) {
+    const {url} = this.projectService.OPTIONS;
+    const renderContent = this.renderLinks(path, this.content[path]);
+    // result
+    let title: string;
+    let src: string;
+    let originalSrc: string;
+    let type: string;
+    let content: string;
+    // file
+    if (!this.webOutput) {
+      title = this.fileTitle(path);
+      src = url + '/api/articles/' + path;
+      originalSrc = '';
+      type = 'file';
+      content = renderContent;
+    }
+    // web
+    else {
+      const pageTitle = (this.option[path] || {}).pageTitle;
+      title = pageTitle ? pageTitle : this.fileTitle(path);
+      src = url + '/api/articles/' + path;
+      originalSrc = url + '/' + path;
+      type = 'web';
+      content = this.webService.buildContent(renderContent);
+    }
+    return {
+      title,
+      src,
+      originalSrc,
+      type,
+      content,
+    } as RenderArticle;
+  }
+
+  getArticleAll() {
+    const result: Record<string, RenderArticle> = {};
+    // pages
+    Object.keys(this.content).forEach(path => {
+      result[path] = this.getArticle(path);
+    });
+    // result
+    return result;
+  }
+
+  getArticleMenu() {
+    if (!this.webOutput) {
+      const fileHeadings = [] as HeadingBlock[];
+      Object.keys(this.heading).forEach(path => {
+        const selfHeading = this.contentService.blockHeading(
+          this.fileTitle(path),
+          1,
+          undefined,
+          path
+        );
+        const childHeadings = this.heading[path].map(heading => {
+          heading.data.link = selfHeading.data.link + '#' + (heading.data.id || '');
+          return heading;
+        });
+        fileHeadings.push(selfHeading, ...childHeadings);
+      });
+      return fileHeadings.map(({data}) => {
+        const {title, level, link} = data;
+        if ((link as string).indexOf('#') === -1) {
+          return {title, level, articleId: link, type: 'file'};
+        } else {
+          const [articleId, anchor = ''] = (link as string).split('#');
+          return {title, level, articleId, anchor, type: 'file'};
+        }
+      });
+    } else {
+      const webHeadings = this.getWebMenuHeadings();
+      return webHeadings.map(({data}) => {
+        const {title, level, link} = data;
+        const path = this.filePath(link || '');
+        if (path.indexOf('#') === -1) {
+          return {title, level, articleId: path, type: 'web'};
+        } else {
+          const [articleId, anchor = ''] = path.split('#');
+          return {title, level, articleId, anchor, type: 'web'};
+        }
+      });
+    }
+  }
+
   private fileUrl(path: string) {
     const {url} = this.projectService.OPTIONS;
     return url + '/' + path;
+  }
+
+  private filePath(link: string) {
+    const {url} = this.projectService.OPTIONS;
+    return link.replace(url + '/', '');
+  }
+
+  private fileTitle(path: string) {
+    const fileName = (path.split('.').shift() as string)
+      .split('/')
+      .pop() as string;
+    return capitalCase(fileName);
   }
 
   private getWebMenu(path: string) {
@@ -85,7 +192,7 @@ export class RendererObject {
       .replace(new RegExp(`href="${activeLink}"`), 'class="active" $&');
   }
 
-  private getWebMenuHeadings(currentPath: string) {
+  private getWebMenuHeadings(currentPath?: string) {
     const result: HeadingBlock[] = [];
     let activeCategory: undefined | string;
     Object.keys(this.heading).forEach(path => {
@@ -115,15 +222,20 @@ export class RendererObject {
       result.push(headingBlock);
       // child menu
       if (deepMenu) {
-        this.heading[path].forEach(block => {
+        this.heading[path].forEach(blk => {
+          const block = {
+            type: blk.type,
+            data: {...blk.data},
+          };
           if (block.data.level === 2) {
             // down level if has category
             if (category) {
               ++block.data.level;
             }
             // modify deep links
-            if (path !== currentPath) {
-              block.data.link = this.fileUrl(path) + '#' + block.data.id;
+            if (!currentPath || path !== currentPath) {
+              const id = block.data.id || '';
+              block.data.link = this.fileUrl(path) + '#' + id;
               block.data.id = undefined;
             }
             // add block

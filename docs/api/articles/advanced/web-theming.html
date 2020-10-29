@@ -1,0 +1,28 @@
+<section id="content" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+
+<p>You can provide custom theme for render website.</p>
+<pre><code class="language-ts">{
+  webRender: {
+    theme: <span class="hljs-string">&#x27;path/to/html&#x27;</span>,
+  }
+}</code></pre>
+<p>For shorter path, use:</p>
+<ul>
+<li><code>@</code>: equals <strong>src/</strong></li>
+<li><code>~</code>: equals <strong>node_modules/</strong></li>
+</ul>
+<p>A <strong>ayedocs</strong> theme may contains:</p>
+<ul>
+<li><code>.html</code>: the main template file</li>
+<li><code>assets</code> (optional): custom assets folder</li>
+</ul>
+<p>The CLI load content the main template file, and replace placeholder text with the rendered content.</p>
+<p>Placeholder text in the format <code>{{ name }}</code>, these are the data available to the theme:</p>
+<ul>
+<li><code>title</code>: the <code>pageTitle</code></li>
+<li><code>menu</code>: the web menu</li>
+<li><code>content</code>: the main content</li>
+<li>Any <code>webData</code> key-value pairs.</li>
+</ul>
+<p>If there is the <code>assets</code> folder in the same place to the main file, the folder will be copied to the web output folder.</p>
+</section>

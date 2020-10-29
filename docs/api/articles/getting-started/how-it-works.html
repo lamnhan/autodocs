@@ -1,0 +1,45 @@
+<section id="content" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+
+<p><strong>ayedocs</strong> recieve the render input and returns the content, simple that is.</p>
+<p>A render input can be <strong>a path to a .md file</strong> (<code>file</code>), <strong>a template name</strong> (<code>template</code>), <strong>a custom rendering</strong> (<code>rendering</code>).</p>
+<p>The CLI load configuration from <code>package.json</code> or <code>.ayedocsrc.js</code>. See <a data-sref="Options" href="https://lamnhan.com/ayedocs/reference/interfaces/options.html"><code>Options</code></a> section for detail. Using the API, config can be provided directly when init the module.</p>
+<p>For example, my project has the <code>package.json</code> like this:</p>
+<pre><code class="language-json">{
+  <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;my-package&quot;</span>,
+  <span class="hljs-attr">&quot;description&quot;</span>: <span class="hljs-string">&quot;My package description.&quot;</span>,
+  <span class="hljs-attr">&quot;ayedocsrc&quot;</span>: {
+    <span class="hljs-attr">&quot;url&quot;</span>: <span class="hljs-string">&quot;https://docs.example.com&quot;</span>,
+    <span class="hljs-attr">&quot;fileRender&quot;</span>: {
+      <span class="hljs-attr">&quot;TEST.md&quot;</span>: {
+        <span class="hljs-attr">&quot;head&quot;</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">&quot;section1&quot;</span>: [<span class="hljs-string">&quot;Lib&quot;</span>, <span class="hljs-string">&quot;SELF&quot;</span>]
+      }
+    }
+  }
+}</code></pre>
+<p>With the configuration above (inside the <code>ayedocsrc</code> key), you tell the CLI to create a file named <code>TEST.md</code> with two sections:</p>
+<ul>
+<li>The <code>head</code> section: a <a href="#renderer">built-in</a> section that display the package name and description.</li>
+<li>The <code>section1</code> section: a <a href="#rendering-input">rendering</a> section that display the source code element title and description.</li>
+</ul>
+<p>The <code>TEST.md</code> content would be:</p>
+<pre><code class="language-md"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">\section</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;head&quot;</span>&gt;</span></span>
+
+\# my-package
+
+<span class="hljs-strong">**My package description.**</span>
+
+<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span>&gt;</span></span>
+
+<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;section1&quot;</span>&gt;</span></span>
+
+\## The <span class="hljs-code">`Lib`</span> class
+
+<span class="hljs-strong">**This is a Class element named `Lib`**</span>
+
+And this is the <span class="hljs-code">`Lib`</span> element detail.
+
+Supports Markdown content.
+
+<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span>&gt;</span></span></code></pre>
+</section>

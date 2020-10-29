@@ -74,11 +74,24 @@ export class Lib {
    */
   renderLocal() {
     const {fileRender, webRender} = this.projectService.OPTIONS;
-    const file = this.renderService.render(fileRender).getResultAll();
-    const web = this.renderService
-      .render(webRender.files, {}, true)
-      .getResultAll();
-    return {file, web};
+    // file
+    const fileRenderer = this.renderService.render(fileRender);
+    const file = fileRenderer.getResultAll();
+    const fileArticle = fileRenderer.getArticleAll();
+    const fileArticleMenu = fileRenderer.getArticleMenu();
+    // web
+    const webRenderer = this.renderService.render(webRender.files, {}, true);
+    const web = webRenderer.getResultAll();
+    const webArticle = webRenderer.getArticleAll();
+    const webArticleMenu = webRenderer.getArticleMenu();
+    return {
+      file,
+      fileArticle,
+      fileArticleMenu,
+      web,
+      webArticle,
+      webArticleMenu,
+    };
   }
 
   /**
@@ -95,22 +108,56 @@ export class Lib {
    * Render and save documents based on local configuration.
    */
   outputLocal() {
-    const {file, web} = this.renderLocal();
-    // save files
+    const {url, webRender} = this.projectService.OPTIONS;
+    const {
+      file,
+      fileArticle,
+      fileArticleMenu,
+      web,
+      webArticle,
+      webArticleMenu,
+    } = this.renderLocal();
+    // save main render
+    const docsPath = webRender.out + '/';
+    // file
     Object.keys(file).forEach(path =>
       this.contentService.writeFileSync(path, file[path])
     );
-    // save web
+    // web
     if (this.projectService.hasWebOutput()) {
-      const {webRender} = this.projectService.OPTIONS;
-      // files
       Object.keys(web).forEach(path =>
-        this.contentService.writeFileSync(webRender.out + '/' + path, web[path])
+        this.contentService.writeFileSync(docsPath + path, web[path])
       );
       // copy assets
       this.webService.copyThemeAssets();
     }
-    // save api
+    // api menu
+    const apiMenu = [...fileArticleMenu, ...webArticleMenu];
+    // api articles
+    const apiPath = docsPath + 'api/';
+    const apiArticlesPath = apiPath + 'articles/';
+    const apiRecordArticles = {} as Record<string, Record<string, unknown>>;
+    const apiFullRecordArticles = {} as Record<string, Record<string, unknown>>;
+    const articles = {...fileArticle, ...webArticle};
+    Object.keys(articles).forEach(path => {
+      const {title, originalSrc, src, type, content} = articles[path];
+      // output file
+      this.contentService.writeFileSync(apiArticlesPath + path, content);
+      // add article
+      apiRecordArticles[path] = {title, originalSrc, src, type};
+      apiFullRecordArticles[path] = {title, originalSrc, src, type, content};
+    });
+    // jsons
+    this.contentService.writeJsonSync(apiPath + 'articles.json', {
+      originalUrl: url,
+      menu: apiMenu,
+      recordArticles: apiRecordArticles,
+    });
+    this.contentService.writeJsonSync(apiPath + 'full-articles.json', {
+      originalUrl: url,
+      menu: apiMenu,
+      recordArticles: apiFullRecordArticles,
+    });
   }
 
   /**

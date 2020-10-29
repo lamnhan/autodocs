@@ -1,0 +1,104 @@
+<section id="toc" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+
+<ul>
+<li><a href="#options-list">Options list</a></li>
+<li><a href="#web-options">Web options</a></li>
+</ul>
+</section>
+
+<section id="content" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+
+<p>Options can be provided in 3 ways:</p>
+<ul>
+<li>Under the <strong>@lamnhan/ayedocs</strong> property of <code>package.json</code> file</li>
+<li>The <code>.ayedocsrc.js</code> file for more advanced config</li>
+<li>By the <code>options</code> param when init new <a data-sref="Lib "><p><code>AyedocsModule</code></p>
+</a> instance.</li>
+</ul>
+
+<a href="#options-list" id="options-list" style="color: inherit; text-decoration: none;">
+  <h2>Options list</h2>
+</a>
+<table class="table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#cleanoutput">cleanOutput?</a></td>
+<td><code>undefined | false | true</code></td>
+<td>Global clean output, can be overridden per file</td>
+</tr>
+<tr>
+<td><a href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#filerender">fileRender?</a></td>
+<td><code><a href="https://lamnhan.com/ayedocs/reference/interfaces/batchrender.html" target="_blank">BatchRender</a></code></td>
+<td>Output as standalone file</td>
+</tr>
+<tr>
+<td><a href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#refgenerator">refGenerator?</a></td>
+<td><code>"none" | "typedoc" | <a href="https://lamnhan.com/ayedocs/reference/index.html#customreferencegenerator" target="_blank">CustomReferenceGenerator</a></code></td>
+<td>Detail reference generator, default to &#39;typedoc&#39;</td>
+</tr>
+<tr>
+<td><a href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#srcpath">srcPath?</a></td>
+<td><code>undefined | string</code></td>
+<td>Path to the source code, default to <code>src</code></td>
+</tr>
+<tr>
+<td><a href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#typedocconfigs">typedocConfigs?</a></td>
+<td><code><a href="https://lamnhan.com/ayedocs/reference/interfaces/typedocconfigs.html" target="_blank">TypedocConfigs</a></code></td>
+<td>Custom <a href="https://typedoc.org">Typedoc</a> configs</td>
+</tr>
+<tr>
+<td><a href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#url">url?</a></td>
+<td><code>undefined | string</code></td>
+<td>Docs homepage url, default to the Github Pages repo url</td>
+</tr>
+<tr>
+<td><a href="https://lamnhan.com/ayedocs/reference/interfaces/options.html#webrender">webRender?</a></td>
+<td><code><a href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html" target="_blank">WebRender</a></code></td>
+<td>Output as a website</td>
+</tr>
+</tbody></table>
+
+<a href="#web-options" id="web-options" style="color: inherit; text-decoration: none;">
+  <h2>Web options</h2>
+</a>
+<table class="table">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html#categories">categories?</a></td>
+<td><code>undefined | object</code></td>
+<td>Website article grouping</td>
+</tr>
+<tr>
+<td><a href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html#files"><strong>files</strong></a></td>
+<td><code><a href="https://lamnhan.com/ayedocs/reference/interfaces/batchrender.html" target="_blank">BatchRender</a></code></td>
+<td>List of files</td>
+</tr>
+<tr>
+<td><a href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html#index">index?</a></td>
+<td><code>undefined | string</code></td>
+<td>Custom website index.html, default to a page that redirects to the first article</td>
+</tr>
+<tr>
+<td><a href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html#out">out?</a></td>
+<td><code>undefined | string</code></td>
+<td>Website output dir</td>
+</tr>
+<tr>
+<td><a href="https://lamnhan.com/ayedocs/reference/interfaces/webrender.html#theme">theme?</a></td>
+<td><code>undefined | string</code></td>
+<td>Name of or path to a website theme, built-in themes: default</td>
+</tr>
+</tbody></table>
+</section>

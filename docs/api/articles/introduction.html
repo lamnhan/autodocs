@@ -1,0 +1,92 @@
+<section id="toc" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+
+<ul>
+<li><a href="#use-cases">Use cases</a><ul>
+<li><a href="#listing-options">Listing options</a></li>
+<li><a href="#listing-methods">Listing methods</a></li>
+<li><a href="#listing-commands-for-cli-apps">Listing commands for CLI apps</a></li>
+<li><a href="#listing-modules-services-components-pipes-for-angular-libraries">Listing modules, services, components, pipes for Angular libraries</a></li>
+<li><a href="#show-whatever-you-want">Show whatever you want</a></li>
+</ul>
+</li>
+<li><a href="#what-the-benefits">What the benefits?</a></li>
+<li><a href="#the-workflow">The workflow</a></li>
+</ul>
+</section>
+
+<section id="content" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+
+<p>Documentation is a crucial part of every great open-source projects. But making docs is such a Pain-In-The-Brain process.</p>
+<p>Since <a href="https://www.typescriptlang.org">Typescript</a> is an self documenting language, we can leverage its power to extract the source code information. This library is based on <a href="https://typedoc.org">Typedoc</a>, one of the best tool for generating Typescript documentation.</p>
+<p><strong>ayedocs</strong> is a tool for generating documentation directly from the source code. It can be used to generate standalone markdown files or a full documentation website.</p>
+
+<a href="#use-cases" id="use-cases" style="color: inherit; text-decoration: none;">
+  <h2>Use cases</h2>
+</a>
+<p>We can always manually create files with content. But for some situations, using <strong>ayedocs</strong> can be very helpful.</p>
+
+<a href="#listing-options" id="listing-options" style="color: inherit; text-decoration: none;">
+  <h3>Listing options</h3>
+</a>
+<p>Options usually defined by an interface, example:</p>
+<pre><code class="language-ts"><span class="hljs-keyword">interface</span> Options {
+  option1: <span class="hljs-built_in">string</span>;
+  option2?: <span class="hljs-built_in">boolean</span>;
+  <span class="hljs-comment">// ...</span>
+}</code></pre>
+<p>You may document it by copy the source code, because it is Typescript so any developer can understand what you mean.</p>
+<p>Or, using <strong>ayedocs</strong> you can output a listing table of the options with a simple config:</p>
+<pre><code class="language-ts">{
+  options: [<span class="hljs-string">&#x27;Options&#x27;</span>, <span class="hljs-string">&#x27;SUMMARY_PROPERTIES&#x27;</span>],
+}</code></pre>
+
+<a href="#listing-methods" id="listing-methods" style="color: inherit; text-decoration: none;">
+  <h3>Listing methods</h3>
+</a>
+<p>Just like showing the options, instead of manually copy and paste every method od a class with it <strong>type</strong>, <strong>parameters</strong>, ...</p>
+<p>You can listing methods of a class by providing a config:</p>
+<pre><code class="language-ts">{
+  lib: [<span class="hljs-string">&quot;Lib&quot;</span>, <span class="hljs-string">&quot;DETAIL_METHODS&quot;</span>];
+}</code></pre>
+
+<a href="#listing-commands-for-cli-apps" id="listing-commands-for-cli-apps" style="color: inherit; text-decoration: none;">
+  <h3>Listing commands for CLI apps</h3>
+</a>
+<p>Using our recommended structure for CLI apps, you can extract the list of commands easily with the <code>cli</code> template:</p>
+<pre><code class="language-ts">{
+  template: <span class="hljs-string">&#x27;cli&#x27;</span>,
+}</code></pre>
+
+<a href="#listing-modules-services-components-pipes-for-angular-libraries" id="listing-modules-services-components-pipes-for-angular-libraries" style="color: inherit; text-decoration: none;">
+  <h3>Listing modules, services, components, pipes for Angular libraries</h3>
+</a>
+<p>Use the <code>angular</code> template to listing all modules, services, components, pipes of an Angular lib:</p>
+<pre><code class="language-ts">{
+  template: <span class="hljs-string">&#x27;angular&#x27;</span>,
+}</code></pre>
+
+<a href="#show-whatever-you-want" id="show-whatever-you-want" style="color: inherit; text-decoration: none;">
+  <h3>Show whatever you want</h3>
+</a>
+<p>You can write your own plugins to generate whatever you want.</p>
+
+<a href="#what-the-benefits" id="what-the-benefits" style="color: inherit; text-decoration: none;">
+  <h2>What the benefits?</h2>
+</a>
+<ul>
+<li>Easy to use CLI &amp; API</li>
+<li>Avoid reference mistakes and code duplications</li>
+<li>Improve source code quality with <a href="https://github.com/microsoft/tsdoc">TSdoc</a></li>
+<li>Save time and avoid brain damage</li>
+</ul>
+
+<a href="#the-workflow" id="the-workflow" style="color: inherit; text-decoration: none;">
+  <h2>The workflow</h2>
+</a>
+<p>Adding <strong>ayedocs</strong> to any project in 3 simple steps:</p>
+<ol>
+<li>(Optional) Documenting the source code with <a href="https://github.com/microsoft/tsdoc">TSdoc</a></li>
+<li>Add <strong>configuration</strong> to <code>package.json</code> or <code>.ayedocsrc.js</code>. Or run <code>$ ayedocs init</code>.</li>
+<li>Run <code>ayedocs generate</code> to generate content</li>
+</ol>
+</section>

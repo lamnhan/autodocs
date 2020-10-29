@@ -1,0 +1,98 @@
+<section id="toc" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+
+<ul>
+<li><a href="#cli-command-overview">Command overview</a></li>
+<li><a href="#cli-command-reference">Command reference</a><ul>
+<li><a href="#command-generate"><code>generate</code></a></li>
+<li><a href="#command-init"><code>init</code></a></li>
+<li><a href="#command-preview"><code>preview</code></a></li>
+<li><a href="#command-show"><code>show</code></a></li>
+<li><a href="#command-help"><code>help</code></a></li>
+<li><a href="#command-*"><code>*</code></a></li>
+</ul>
+</li>
+</ul>
+</section>
+
+<section id="cli" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+
+<h2><a name="cli-command-overview"><p>Command overview</p>
+</a></h2>
+
+<p>Document generator for Typescript projects.</p>
+<ul>
+<li><a href="#command-generate"><code>ayedocs generate|g [path] --config [value] --package [value] --template [value]</code></a></li>
+<li><a href="#command-init"><code>ayedocs init|i --override</code></a></li>
+<li><a href="#command-preview"><code>ayedocs preview|p [input] [output] [params...]</code></a></li>
+<li><a href="#command-show"><code>ayedocs show|s [input]</code></a></li>
+<li><a href="#command-help"><code>ayedocs help</code></a></li>
+<li><a href="#command-*"><code>ayedocs *</code></a></li>
+</ul>
+<h2><a name="cli-command-reference"><p>Command reference</p>
+</a></h2>
+
+<h3><a name="command-generate"><p><code>generate</code></p>
+</a></h3>
+
+<p>Generate the documentation.</p>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-sh">ayedocs generate [path] --config [value] --package [value] --template [value]
+ayedocs g [path] --config [value] --package [value] --template [value]</code></pre>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>[path]</code>: Path to the output file</li>
+</ul>
+<p><strong>Options:</strong></p>
+<ul>
+<li><code>-c, --config [value]</code>: Path to custom config file.</li>
+<li><code>-p, --package [value]</code>: Path to custom package file.</li>
+<li><code>-t, --template [value]</code>: Use this template for the [path] param.</li>
+</ul>
+<h3><a name="command-init"><p><code>init</code></p>
+</a></h3>
+
+<p>Init Ayedocs for a project.</p>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-sh">ayedocs init --override
+ayedocs i --override</code></pre>
+<p><strong>Options:</strong></p>
+<ul>
+<li><code>-o, --override</code>: Override existing configuration file.</li>
+</ul>
+<h3><a name="command-preview"><p><code>preview</code></p>
+</a></h3>
+
+<p>Preview a rendering.</p>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-sh">ayedocs preview [input] [output] [params...]
+ayedocs p [input] [output] [params...]</code></pre>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>[input]</code>: The rendering input</li>
+<li><code>[output]</code>: The converting output</li>
+<li><code>[params...]</code>: The convert options</li>
+</ul>
+<h3><a name="command-show"><p><code>show</code></p>
+</a></h3>
+
+<p>Show Declaration info.</p>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-sh">ayedocs show [input]
+ayedocs s [input]</code></pre>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>[input]</code>: The rendering input</li>
+</ul>
+<h3><a name="command-help"><p><code>help</code></p>
+</a></h3>
+
+<p>Display help.</p>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-sh">ayedocs <span class="hljs-built_in">help</span></code></pre>
+<h3><a name="command-*"><p><code>*</code></p>
+</a></h3>
+
+<p>Any other command is not suppoted.</p>
+<p><strong>Usage:</strong></p>
+<pre><code class="language-sh">ayedocs &lt;cmd&gt;</code></pre>
+</section>

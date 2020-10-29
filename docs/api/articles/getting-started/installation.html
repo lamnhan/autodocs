@@ -1,0 +1,48 @@
+<section id="toc" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+
+<ul>
+<li><a href="#the-cli">The CLI</a></li>
+<li><a href="#the-library">The library</a></li>
+</ul>
+</section>
+
+<section id="content" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+
+<p>You can use <strong>ayedocs</strong> to generate documentation from the command-line interface or manually parsing, converting or rendering content in a Node application.</p>
+
+<a href="#the-cli" id="the-cli" style="color: inherit; text-decoration: none;">
+  <h2>The CLI</h2>
+</a>
+<p>Install globally by running:</p>
+<pre><code class="language-sh">npm install -g @lamnhan/ayedocs</code></pre>
+<p>A command now available from the terminal, you can run: <code>ayedocs</code>.</p>
+<p>If you wish to run the CLI locally, install the package with <code>--save-dev</code> flag:</p>
+<pre><code class="language-sh">npm install --save-dev @lamnhan/ayedocs</code></pre>
+<p>Then put a script in the <code>package.json</code>, so you can do <code>npm run docs</code> every build.</p>
+<pre><code class="language-json">{
+  <span class="hljs-attr">&quot;scripts&quot;</span>: {
+    <span class="hljs-attr">&quot;docs&quot;</span>: <span class="hljs-string">&quot;ayedocs generate&quot;</span>
+  }
+}</code></pre>
+
+<a href="#the-library" id="the-library" style="color: inherit; text-decoration: none;">
+  <h2>The library</h2>
+</a>
+<p>Install as dev dependency:</p>
+<pre><code class="language-sh">npm install --save-dev @lamnhan/ayedocs</code></pre>
+<p>Use the library:</p>
+<pre><code class="language-ts"><span class="hljs-keyword">import</span> { AyedocsModule } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@lamnhan/ayedocs&quot;</span>;
+
+<span class="hljs-comment">// init an instance</span>
+<span class="hljs-keyword">const</span> ayedocsModule = <span class="hljs-keyword">new</span> AyedocsModule(<span class="hljs-comment">/* Options */</span>);
+
+<span class="hljs-comment">// parsing</span>
+<span class="hljs-keyword">const</span> parsing = ayedocsModule.parseService.parse(<span class="hljs-string">&quot;Lib&quot;</span>);
+
+<span class="hljs-comment">// rendering</span>
+<span class="hljs-keyword">const</span> rendering = ayedocsModule.renderService.render({
+  section1: [<span class="hljs-string">&quot;Options&quot;</span>],
+  section2: [<span class="hljs-string">&quot;Lib&quot;</span>],
+});</code></pre>
+<p>See <a data-sref="Lib" href="https://lamnhan.com/ayedocs/advanced/the-library.html#lib"><code>Lib</code></a> for service detail and <a data-sref="Options"><code>Options</code></a> for more options.</p>
+</section>

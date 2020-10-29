@@ -37,6 +37,16 @@ export class WebService {
     );
   }
 
+  buildContent(content: string, title?: string) {
+    if (title) {
+      content =
+        `<div class="title"><h1>${title}</h1></div>` +
+        this.contentService.EOL2X +
+        content;
+    }
+    return content.replace(/<table>/g, '<table class="table">');
+  }
+
   buildPage(
     content: string,
     menu: string,
@@ -49,7 +59,7 @@ export class WebService {
     let result = theme
       .replace('{{ title }}', title)
       .replace('{{ menu }}', menu)
-      .replace('{{ content }}', this.modifyHtml(title, content));
+      .replace('{{ content }}', this.buildContent(content, title));
     // extra data
     data = {...this.getVendorData(), ...data};
     Object.keys(data).forEach(
@@ -67,14 +77,6 @@ export class WebService {
     if (pathExistsSync(assetsPath)) {
       copySync(assetsPath, outPath);
     }
-  }
-
-  private modifyHtml(title: string, content: string) {
-    content =
-      `<div class="title"><h1>${title}</h1></div>` +
-      this.contentService.EOL2X +
-      content;
-    return content.replace(/<table>/g, '<table class="table">');
   }
 
   private getTheme() {

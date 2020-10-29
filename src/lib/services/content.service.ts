@@ -1,4 +1,4 @@
-import {readFileSync, outputFileSync} from 'fs-extra';
+import {readFileSync, outputFileSync, readJsonSync, outputJsonSync} from 'fs-extra';
 import {format as prettierFormater} from 'prettier';
 import * as marked from 'marked';
 
@@ -51,6 +51,18 @@ export class ContentService {
 
   writeFileSync(path: string, content: string) {
     return outputFileSync(path, content);
+  }
+
+  readJsonSync(path: string) {
+    return readJsonSync(path);
+  }
+
+  writeJsonSync(
+    path: string,
+    data: string | Record<string, unknown>,
+    spaces = 0
+  ) {
+    return outputJsonSync(path, data, !spaces ? {} : {spaces});
   }
 
   buildId(title: string) {

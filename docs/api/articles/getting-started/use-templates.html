@@ -1,0 +1,38 @@
+<section id="toc" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+
+<ul>
+<li><a href="#built-in-templates">Built-in templates</a></li>
+<li><a href="#custom-template">Custom template</a></li>
+</ul>
+</section>
+
+<section id="content" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+
+<p>Using template is the easiest way to generate a file.</p>
+<p>You can generate a file using the CLI command, for example:</p>
+<pre><code class="language-sh">ayedocs generate TEST.md -t basicx</code></pre>
+
+<a href="#built-in-templates" id="built-in-templates" style="color: inherit; text-decoration: none;">
+  <h2>Built-in templates</h2>
+</a>
+<p>List of built-in templates, add the <code>x</code> suffix for extra builtin sections (<code>head</code>, <code>tocx</code>, <code>license</code>):</p>
+<ul>
+<li><code>basic</code>/<code>basicx</code>: Show <code>Options</code> &amp; <code>Lib</code> for a <strong>seminjecto</strong> library.</li>
+<li><code>full</code>/<code>fullx</code>: Show all <code>functions</code>, <code>interfaces</code>, <code>classes</code>.</li>
+<li><code>angular</code>/<code>angularx</code>: Listing modules, services, components, pipes for an Angular lib.</li>
+<li><code>cli</code>/<code>clix</code>: Listing commands for a <strong>seminjecto</strong> CLI app.</li>
+</ul>
+
+<a href="#custom-template" id="custom-template" style="color: inherit; text-decoration: none;">
+  <h2>Custom template</h2>
+</a>
+<p>You can also provide your custom template, see <a data-sref="CustomTemplate" href="https://lamnhan.com/ayedocs/reference/index.html#customtemplate"><code>CustomTemplate</code></a>:</p>
+<p>A custom template function recieves these params:</p>
+<ul>
+<li><a data-sref="TemplateOptions" href="https://lamnhan.com/ayedocs/reference/interfaces/templateoptions.html"><code>TemplateOptions</code></a>: any options</li>
+<li><a data-sref="TemplateService" href="https://lamnhan.com/ayedocs/reference/classes/templateservice.html"><code>TemplateService</code></a>: a template service instance</li>
+<li><a data-sref="ContentService" href="https://lamnhan.com/ayedocs/reference/classes/contentservice.html"><code>ContentService</code></a>: a content service instance</li>
+<li><a data-sref="ProjectService" href="https://lamnhan.com/ayedocs/reference/classes/projectservice.html"><code>ProjectService</code></a>: a project service instance</li>
+</ul>
+<p>The result is an <a data-sref="AdvancedRendering" href="https://lamnhan.com/ayedocs/reference/interfaces/advancedrendering.html"><code>AdvancedRendering</code></a>.</p>
+</section>
