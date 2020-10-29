@@ -1,4 +1,9 @@
-import {readFileSync, outputFileSync, readJsonSync, outputJsonSync} from 'fs-extra';
+import {
+  readFileSync,
+  outputFileSync,
+  readJsonSync,
+  outputJsonSync,
+} from 'fs-extra';
 import {format as prettierFormater} from 'prettier';
 import * as marked from 'marked';
 

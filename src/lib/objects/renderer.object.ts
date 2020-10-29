@@ -136,7 +136,8 @@ export class RendererObject {
           path
         );
         const childHeadings = this.heading[path].map(heading => {
-          heading.data.link = selfHeading.data.link + '#' + (heading.data.id || '');
+          heading.data.link =
+            selfHeading.data.link + '#' + (heading.data.id || '');
           return heading;
         });
         fileHeadings.push(selfHeading, ...childHeadings);

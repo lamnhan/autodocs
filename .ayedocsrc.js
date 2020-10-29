@@ -134,6 +134,10 @@ module.exports = {
         file: true,
         pageTitle: 'Web categories'
       },
+      'advanced/docs-api.html': {
+        file: true,
+        pageTitle: 'Docs API'
+      },
     }
   }
 };
