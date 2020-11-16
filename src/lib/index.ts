@@ -132,7 +132,7 @@ export class Lib {
       this.webService.copyThemeAssets();
     }
     // api menu
-    const apiMenu = [...fileArticleMenu, ...webArticleMenu];
+    const apiRecordMenu = {...fileArticleMenu, ...webArticleMenu};
     // api articles
     const apiPath = docsPath + 'api/';
     const apiArticlesPath = apiPath + 'articles/';
@@ -140,22 +140,32 @@ export class Lib {
     const apiFullRecordArticles = {} as Record<string, Record<string, unknown>>;
     const articles = {...fileArticle, ...webArticle};
     Object.keys(articles).forEach(path => {
-      const {title, originalSrc, src, type, content} = articles[path];
+      const {title, originalSrc, src, type, ext, slug, content} = articles[
+        path
+      ];
       // output file
       this.contentService.writeFileSync(apiArticlesPath + path, content);
       // add article
-      apiRecordArticles[path] = {title, originalSrc, src, type};
-      apiFullRecordArticles[path] = {title, originalSrc, src, type, content};
+      apiRecordArticles[path] = {title, originalSrc, src, type, ext, slug};
+      apiFullRecordArticles[path] = {
+        title,
+        originalSrc,
+        src,
+        type,
+        ext,
+        slug,
+        content,
+      };
     });
     // jsons
     this.contentService.writeJsonSync(apiPath + 'articles.json', {
       originalUrl: url,
-      menu: apiMenu,
+      recordMenu: apiRecordMenu,
       recordArticles: apiRecordArticles,
     });
     this.contentService.writeJsonSync(apiPath + 'full-articles.json', {
       originalUrl: url,
-      menu: apiMenu,
+      recordMenu: apiRecordMenu,
       recordArticles: apiFullRecordArticles,
     });
   }

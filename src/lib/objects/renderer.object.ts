@@ -21,6 +21,8 @@ export interface RenderArticle {
   src: string;
   originalSrc: string;
   type: 'file' | 'web';
+  ext: string;
+  slug: string;
   content: string;
 }
 
@@ -88,6 +90,8 @@ export class RendererObject {
     let src: string;
     let originalSrc: string;
     let type: string;
+    let ext: string;
+    let slug: string;
     let content: string;
     // file
     if (!this.webOutput) {
@@ -95,6 +99,8 @@ export class RendererObject {
       src = url + '/api/articles/' + path;
       originalSrc = '';
       type = 'file';
+      ext = path.split('.').pop() as string;
+      slug = path.replace('.' + ext, '');
       content = renderContent;
     }
     // web
@@ -104,6 +110,8 @@ export class RendererObject {
       src = url + '/api/articles/' + path;
       originalSrc = url + '/' + path;
       type = 'web';
+      ext = path.split('.').pop() as string;
+      slug = path.replace('.' + ext, '');
       content = this.webService.buildContent(renderContent);
     }
     return {
@@ -111,6 +119,8 @@ export class RendererObject {
       src,
       originalSrc,
       type,
+      ext,
+      slug,
       content,
     } as RenderArticle;
   }
@@ -142,27 +152,73 @@ export class RendererObject {
         });
         fileHeadings.push(selfHeading, ...childHeadings);
       });
-      return fileHeadings.map(({data}) => {
+      // build the menu
+      const recordMenu = {} as Record<string, unknown>;
+      fileHeadings.forEach(({data}) => {
         const {title, level, link} = data;
         if ((link as string).indexOf('#') === -1) {
-          return {title, level, articleId: link, type: 'file'};
+          const articleId = link as string;
+          const ext = articleId.split('.').pop() as string;
+          const slug = articleId.replace('.' + ext, '');
+          recordMenu[articleId] = {
+            title,
+            level,
+            articleId,
+            type: 'file',
+            ext,
+            slug,
+          };
         } else {
           const [articleId, anchor = ''] = (link as string).split('#');
-          return {title, level, articleId, anchor, type: 'file'};
+          const ext = articleId.split('.').pop() as string;
+          const slug = articleId.replace('.' + ext, '');
+          recordMenu[articleId + '#' + anchor] = {
+            title,
+            level,
+            articleId,
+            anchor,
+            type: 'file',
+            ext,
+            slug,
+          };
         }
       });
+      return recordMenu;
     } else {
       const webHeadings = this.getWebMenuHeadings();
-      return webHeadings.map(({data}) => {
+      // build the menu
+      const recordMenu = {} as Record<string, unknown>;
+      webHeadings.forEach(({data}) => {
         const {title, level, link} = data;
         const path = this.filePath(link || '');
         if (path.indexOf('#') === -1) {
-          return {title, level, articleId: path, type: 'web'};
+          const articleId = path;
+          const ext = articleId.split('.').pop() as string;
+          const slug = articleId.replace('.' + ext, '');
+          recordMenu[articleId] = {
+            title,
+            level,
+            articleId,
+            type: 'web',
+            ext,
+            slug,
+          };
         } else {
           const [articleId, anchor = ''] = path.split('#');
-          return {title, level, articleId, anchor, type: 'web'};
+          const ext = articleId.split('.').pop() as string;
+          const slug = articleId.replace('.' + ext, '');
+          recordMenu[articleId + '#' + anchor] = {
+            title,
+            level,
+            articleId,
+            anchor,
+            type: 'web',
+            ext,
+            slug,
+          };
         }
       });
+      return recordMenu;
     }
   }
 
