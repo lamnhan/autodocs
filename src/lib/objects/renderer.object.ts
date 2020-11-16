@@ -16,14 +16,26 @@ export interface RendererFileData {
   options: FileRenderWithOptions;
 }
 
+export type RenderTypes = 'file' | 'web';
+
 export interface RenderArticle {
   title: string;
   src: string;
   originalSrc: string;
-  type: 'file' | 'web';
-  ext: string;
+  type: RenderTypes;
   slug: string;
+  ext: string;
   content: string;
+}
+
+export interface RenderMenuItem {
+  title: string;
+  level: number;
+  type: RenderTypes;
+  slug: string;
+  ext?: string;
+  fragment?: string;
+  articleId?: string;
 }
 
 export class RendererObject {
@@ -153,7 +165,7 @@ export class RendererObject {
         fileHeadings.push(selfHeading, ...childHeadings);
       });
       // build the menu
-      const recordMenu = {} as Record<string, unknown>;
+      const recordMenu = {} as Record<string, RenderMenuItem>;
       fileHeadings.forEach(({data}) => {
         const {title, level, link} = data;
         if ((link as string).indexOf('#') === -1) {
@@ -169,14 +181,14 @@ export class RendererObject {
             slug,
           };
         } else {
-          const [articleId, anchor = ''] = (link as string).split('#');
+          const [articleId, fragment = ''] = (link as string).split('#');
           const ext = articleId.split('.').pop() as string;
           const slug = articleId.replace('.' + ext, '');
-          recordMenu[articleId + '#' + anchor] = {
+          recordMenu[articleId + '#' + fragment] = {
             title,
             level,
             articleId,
-            anchor,
+            fragment,
             type: 'file',
             ext,
             slug,
@@ -187,7 +199,7 @@ export class RendererObject {
     } else {
       const webHeadings = this.getWebMenuHeadings();
       // build the menu
-      const recordMenu = {} as Record<string, unknown>;
+      const recordMenu = {} as Record<string, RenderMenuItem>;
       webHeadings.forEach(({data}) => {
         const {title, level, link, meta: {webCategoryId} = {}} = data;
         const path = this.filePath(link || '');
@@ -207,14 +219,14 @@ export class RendererObject {
             slug,
           };
         } else {
-          const [articleId, anchor = ''] = path.split('#');
+          const [articleId, fragment = ''] = path.split('#');
           const ext = articleId.split('.').pop() as string;
           const slug = articleId.replace('.' + ext, '');
-          recordMenu[articleId + '#' + anchor] = {
+          recordMenu[articleId + '#' + fragment] = {
             title,
             level,
             articleId,
-            anchor,
+            fragment,
             type: 'web',
             ext,
             slug,
