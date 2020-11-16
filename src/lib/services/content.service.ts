@@ -20,6 +20,7 @@ export interface ContentHeading {
   level: number;
   id?: string;
   link?: string;
+  meta?: Record<string, unknown>;
 }
 export interface HeadingBlock {
   type: 'heading';
@@ -195,8 +196,14 @@ export class ContentService {
     return prettierFormater(htmlContent, {parser: 'html'});
   }
 
-  blockHeading(title: string, level: number, id?: string, link?: string) {
-    const heading = {title, level, id, link};
+  blockHeading(
+    title: string,
+    level: number,
+    id?: string,
+    link?: string,
+    meta?: Record<string, unknown>
+  ) {
+    const heading = {title, level, id, link, meta} as ContentHeading;
     return {type: 'heading', data: heading} as HeadingBlock;
   }
 

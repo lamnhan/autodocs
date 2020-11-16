@@ -189,13 +189,16 @@ export class RendererObject {
       // build the menu
       const recordMenu = {} as Record<string, unknown>;
       webHeadings.forEach(({data}) => {
-        const {title, level, link} = data;
+        const {title, level, link, meta: {webCategoryId} = {}} = data;
         const path = this.filePath(link || '');
         if (path.indexOf('#') === -1) {
+          const categoryId = webCategoryId as string;
           const articleId = path;
           const ext = articleId.split('.').pop() as string;
-          const slug = articleId.replace('.' + ext, '');
-          recordMenu[articleId] = {
+          const slug = categoryId
+            ? categoryId
+            : articleId.replace('.' + ext, '');
+          recordMenu[categoryId || articleId] = {
             title,
             level,
             articleId,
@@ -271,7 +274,12 @@ export class RendererObject {
         } = this.projectService.OPTIONS;
         const categoryBlock = this.contentService.blockHeading(
           websiteCategories[category] || category,
-          1
+          1,
+          undefined,
+          undefined,
+          {
+            webCategoryId: category,
+          }
         );
         result.push(categoryBlock);
       }
