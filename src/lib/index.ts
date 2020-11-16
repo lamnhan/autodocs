@@ -159,12 +159,12 @@ export class Lib {
     });
     // jsons
     this.contentService.writeJsonSync(apiPath + 'articles.json', {
-      originalUrl: url,
+      docsUrl: url,
       recordMenu: apiRecordMenu,
       recordArticles: apiRecordArticles,
     });
     this.contentService.writeJsonSync(apiPath + 'full-articles.json', {
-      originalUrl: url,
+      docsUrl: url,
       recordMenu: apiRecordMenu,
       recordArticles: apiFullRecordArticles,
     });
