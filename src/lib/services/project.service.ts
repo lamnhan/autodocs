@@ -69,6 +69,19 @@ export class ProjectService {
     return !!Object.keys(webRender.files).length;
   }
 
+  getGithubInfo() {
+    const {
+      repository: {url: repoUrl} = {
+        url: 'https://github.com/lamnhan/ayedocs.git',
+      },
+    } = this.package;
+    const [, org, repo] = repoUrl
+      .replace('https://', '')
+      .replace('.git', '')
+      .split('/');
+    return {org, repo};
+  }
+
   private getLocalPackage() {
     return this.getPackage(this.defaultPackagePath);
   }
@@ -107,15 +120,7 @@ export class ProjectService {
     // url
     let url = options.url;
     if (!url) {
-      const {
-        repository: {url: repoUrl} = {
-          url: 'https://github.com/lamnhan/ayedocs.git',
-        },
-      } = this.package;
-      const [, org, repo] = repoUrl
-        .replace('https://', '')
-        .replace('.git', '')
-        .split('/');
+      const {org, repo} = this.getGithubInfo();
       url = `https://${org}.github.io/${repo}`;
     }
     // web render
@@ -125,7 +130,7 @@ export class ProjectService {
       ...(options.webRender || {}),
     };
     // typedoc
-    const typedocConfigs: {[key: string]: any} = {};
+    const typedocConfigs: {[key: string]: unknown} = {};
     if (Object.keys(webRender.files).length) {
       typedocConfigs['readme'] = 'none';
     }

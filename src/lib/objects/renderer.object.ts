@@ -95,8 +95,14 @@ export class RendererObject {
   }
 
   getArticle(path: string) {
-    const {url} = this.projectService.OPTIONS;
+    const {
+      url,
+      webRender: {out: webOut},
+    } = this.projectService.OPTIONS;
+    const {org: ghOrg, repo: ghRepo} = this.projectService.getGithubInfo();
     const renderContent = this.renderLinks(path, this.content[path]);
+    const ghBlobUrl = `https://github.com/${ghOrg}/${ghRepo}/blob/master`;
+    const ghRawUrl = `https://raw.githubusercontent.com/${ghOrg}/${ghRepo}/master/${webOut}`;
     // result
     let title: string;
     let src: string;
@@ -108,8 +114,8 @@ export class RendererObject {
     // file
     if (!this.webOutput) {
       title = this.fileTitle(path);
-      src = url + '/api/articles/' + path;
-      originalSrc = '';
+      src = ghRawUrl + '/api/articles/' + path;
+      originalSrc = ghBlobUrl + '/' + path;
       type = 'file';
       ext = path.split('.').pop() as string;
       slug = path.replace('.' + ext, '');
@@ -119,7 +125,7 @@ export class RendererObject {
     else {
       const pageTitle = (this.option[path] || {}).pageTitle;
       title = pageTitle ? pageTitle : this.fileTitle(path);
-      src = url + '/api/articles/' + path;
+      src = ghRawUrl + '/api/articles/' + path;
       originalSrc = url + '/' + path;
       type = 'web';
       ext = path.split('.').pop() as string;
