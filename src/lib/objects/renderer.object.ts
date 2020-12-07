@@ -146,7 +146,7 @@ export class RendererObject {
         title,
         level,
         id,
-        link,
+        link: !id ? link : undefined,
       })
     );
     //result
