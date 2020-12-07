@@ -26,6 +26,7 @@ export interface RenderArticle {
   slug: string;
   ext: string;
   content: string;
+  toc: TOCItem[];
 }
 
 export interface RenderMenuItem {
@@ -36,6 +37,13 @@ export interface RenderMenuItem {
   ext?: string;
   fragment?: string;
   articleId?: string;
+}
+
+export interface TOCItem {
+  title: string;
+  level: number;
+  id?: string;
+  link?: string;
 }
 
 export class RendererObject {
@@ -132,6 +140,16 @@ export class RendererObject {
       slug = path.replace('.' + ext, '');
       content = this.webService.buildContent(renderContent);
     }
+    // toc
+    const toc: TOCItem[] = (this.heading[path] || []).map(
+      ({data: {title, level, id, link}}) => ({
+        title,
+        level,
+        id,
+        link,
+      })
+    );
+    //result
     return {
       title,
       src,
@@ -140,6 +158,7 @@ export class RendererObject {
       ext,
       slug,
       content,
+      toc,
     } as RenderArticle;
   }
 

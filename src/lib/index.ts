@@ -140,13 +140,13 @@ export class Lib {
     const apiFullRecordArticles = {} as Record<string, Record<string, unknown>>;
     const articles = {...fileArticle, ...webArticle};
     Object.keys(articles).forEach(path => {
-      const {title, originalSrc, src, type, ext, slug, content} = articles[
+      const {title, originalSrc, src, type, ext, slug, content, toc} = articles[
         path
       ];
       // output file
       this.contentService.writeFileSync(apiArticlesPath + path, content);
       // add article
-      apiRecordArticles[path] = {title, originalSrc, src, type, ext, slug};
+      apiRecordArticles[path] = {title, originalSrc, src, type, ext, slug, toc};
       apiFullRecordArticles[path] = {
         title,
         originalSrc,
@@ -155,6 +155,7 @@ export class Lib {
         ext,
         slug,
         content,
+        toc,
       };
     });
     // jsons
