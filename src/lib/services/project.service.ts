@@ -69,17 +69,24 @@ export class ProjectService {
     return !!Object.keys(webRender.files).length;
   }
 
-  getGithubInfo() {
+  getRepoUrl() {
     const {
       repository: {url: repoUrl} = {
         url: 'https://github.com/lamnhan/ayedocs.git',
       },
     } = this.package;
-    const [, org, repo] = repoUrl
-      .replace('https://', '')
-      .replace('.git', '')
-      .split('/');
-    return {org, repo};
+    return repoUrl;
+  }
+
+  getGithubInfo() {
+    const repoUrl = this.getRepoUrl();
+    const [, org, repo] =
+      repoUrl.indexOf('github.com') !== -1
+        ? repoUrl.replace('https://', '').replace('.git', '').split('/')
+        : ['', 'lamnhan', 'ayedocs'];
+    const url = `https://github.com/${org}/${repo}`;
+    const ioUrl = `https://${org}.github.io/${repo}`;
+    return {org, repo, url, ioUrl};
   }
 
   private getLocalPackage() {
@@ -120,8 +127,8 @@ export class ProjectService {
     // url
     let url = options.url;
     if (!url) {
-      const {org, repo} = this.getGithubInfo();
-      url = `https://${org}.github.io/${repo}`;
+      const {ioUrl: githubIOUrl} = this.getGithubInfo();
+      url = githubIOUrl;
     }
     // web render
     const webRender: WebRender = {

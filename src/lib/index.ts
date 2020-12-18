@@ -108,7 +108,8 @@ export class Lib {
    * Render and save documents based on local configuration.
    */
   outputLocal() {
-    const {url, webRender} = this.projectService.OPTIONS;
+    const {url: docsUrl, webRender} = this.projectService.OPTIONS;
+    const repoUrl = this.projectService.getRepoUrl();
     const {
       file,
       fileArticle,
@@ -160,12 +161,14 @@ export class Lib {
     });
     // jsons
     this.contentService.writeJsonSync(apiPath + 'articles.json', {
-      docsUrl: url,
+      docsUrl,
+      repoUrl,
       recordMenu: apiRecordMenu,
       recordArticles: apiRecordArticles,
     });
     this.contentService.writeJsonSync(apiPath + 'full-articles.json', {
-      docsUrl: url,
+      docsUrl,
+      repoUrl,
       recordMenu: apiRecordMenu,
       recordArticles: apiFullRecordArticles,
     });
