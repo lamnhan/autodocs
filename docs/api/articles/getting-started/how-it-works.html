@@ -2,7 +2,7 @@
 
 <p><strong>ayedocs</strong> recieve the render input and returns the content, simple that is.</p>
 <p>A render input can be <strong>a path to a .md file</strong> (<code>file</code>), <strong>a template name</strong> (<code>template</code>), <strong>a custom rendering</strong> (<code>rendering</code>).</p>
-<p>The CLI load configuration from <code>package.json</code> or <code>.ayedocsrc.js</code>. See <a data-sref="Options" href="https://lamnhan.com/ayedocs/reference/interfaces/options.html"><code>Options</code></a> section for detail. Using the API, config can be provided directly when init the module.</p>
+<p>The CLI load configuration from <code>package.json</code> or <code>.ayedocsrc.js</code>. See <a data-sref="Options" href="https://ayedocs.lamnhan.com/reference/interfaces/options.html"><code>Options</code></a> section for detail. Using the API, config can be provided directly when init the module.</p>
 <p>For example, my project has the <code>package.json</code> like this:</p>
 <pre><code class="language-json">{
   <span class="hljs-attr">&quot;name&quot;</span>: <span class="hljs-string">&quot;my-package&quot;</span>,
@@ -23,15 +23,15 @@
 <li>The <code>section1</code> section: a <a href="#rendering-input">rendering</a> section that display the source code element title and description.</li>
 </ul>
 <p>The <code>TEST.md</code> content would be:</p>
-<pre><code class="language-md"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">\section</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;head&quot;</span>&gt;</span></span>
+<pre><code class="language-md">&lt;\section id=&quot;head&quot;&gt;
 
 \# my-package
 
 <span class="hljs-strong">**My package description.**</span>
 
-<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span>&gt;</span></span>
+&lt;/\section&gt;
 
-<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;section1&quot;</span>&gt;</span></span>
+&lt;/\section id=&quot;section1&quot;&gt;
 
 \## The <span class="hljs-code">`Lib`</span> class
 
@@ -41,5 +41,5 @@ And this is the <span class="hljs-code">`Lib`</span> element detail.
 
 Supports Markdown content.
 
-<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span>&gt;</span></span></code></pre>
+&lt;/\section&gt;</code></pre>
 </section>

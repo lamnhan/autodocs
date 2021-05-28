@@ -15,8 +15,8 @@
 <p>If you wish more control over rendering, you can use the advanced rendering format.</p>
 <p>Advanced rendering allows you to defined more sections with specific config.</p>
 <pre><code class="language-ts">{
-  section1: [<span class="hljs-string">&#x27;Options&#x27;</span>],
-  section2: [<span class="hljs-string">&#x27;Lib&#x27;</span>, <span class="hljs-string">&#x27;FULL&#x27;</span>]
+  <span class="hljs-attr">section1</span>: [<span class="hljs-string">&#x27;Options&#x27;</span>],
+  <span class="hljs-attr">section2</span>: [<span class="hljs-string">&#x27;Lib&#x27;</span>, <span class="hljs-string">&#x27;FULL&#x27;</span>]
 }</code></pre>
 
 <a href="#builtin-sections" id="builtin-sections" style="color: inherit; text-decoration: none;">
@@ -24,7 +24,7 @@
 </a>
 <p>Use builtin sections with the format <code>[name]: true</code>:</p>
 <pre><code class="language-ts">{
-  head: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">head</span>: <span class="hljs-literal">true</span>,
 }</code></pre>
 <p>List of builtin sections:</p>
 <ul>
@@ -38,26 +38,26 @@
 </a>
 <p>Provide the file path:</p>
 <pre><code class="language-ts">{
-  section1: <span class="hljs-string">&quot;@docs/file1.md&quot;</span>;
+  <span class="hljs-attr">section1</span>: <span class="hljs-string">&quot;@docs/file1.md&quot;</span>;
 }</code></pre>
 
 <a href="#using-template" id="using-template" style="color: inherit; text-decoration: none;">
   <h2>Using template</h2>
 </a>
 <pre><code class="language-ts">{
-  section1: <span class="hljs-string">&#x27;basic&#x27;</span>, <span class="hljs-comment">// built-in</span>
-  section2: customTemplate, <span class="hljs-comment">// custom</span>
+  <span class="hljs-attr">section1</span>: <span class="hljs-string">&#x27;basic&#x27;</span>, <span class="hljs-comment">// built-in</span>
+  <span class="hljs-attr">section2</span>: customTemplate, <span class="hljs-comment">// custom</span>
 }</code></pre>
 
 <a href="#declaration-rendering" id="declaration-rendering" style="color: inherit; text-decoration: none;">
   <h2>Declaration rendering</h2>
 </a>
 <pre><code class="language-ts">{
-  section1: [ <span class="hljs-string">&#x27;Options&#x27;</span>, <span class="hljs-string">&#x27;SELF&#x27;</span> ],
-  section2: [ <span class="hljs-string">&#x27;Lib&#x27;</span>, <span class="hljs-string">&#x27;FULL&#x27;</span>, { <span class="hljs-comment">/* options */</span> } ]
-  section3: [ <span class="hljs-string">&#x27;Class1&#x27;</span>, customConvert ]
+  <span class="hljs-attr">section1</span>: [ <span class="hljs-string">&#x27;Options&#x27;</span>, <span class="hljs-string">&#x27;SELF&#x27;</span> ],
+  <span class="hljs-attr">section2</span>: [ <span class="hljs-string">&#x27;Lib&#x27;</span>, <span class="hljs-string">&#x27;FULL&#x27;</span>, { <span class="hljs-comment">/* options */</span> } ]
+  <span class="hljs-attr">section3</span>: [ <span class="hljs-string">&#x27;Class1&#x27;</span>, customConvert ]
 }</code></pre>
-<p>A <a data-sref="DeclarationRender" href="https://lamnhan.com/ayedocs/reference/index.html#declarationrender"><code>DeclarationRender</code></a> has of 3 parts:</p>
+<p>A <a data-sref="DeclarationRender" href="https://ayedocs.lamnhan.com/reference/index.html#declarationrender"><code>DeclarationRender</code></a> has of 3 parts:</p>
 <ul>
 <li>The <strong>WHAT</strong>: what the target?</li>
 <li>The <strong>HOW</strong> (optional): how to output the WHAT, default to <code>SELF</code>.</li>
@@ -75,11 +75,11 @@
 </a>
 <p>Multiple blocks for one section:</p>
 <pre><code class="language-ts">{
-  section1: [
+  <span class="hljs-attr">section1</span>: [
     <span class="hljs-comment">// content block</span>
     {
-      <span class="hljs-keyword">type</span>: <span class="hljs-string">&quot;text&quot;</span>,
-      data: <span class="hljs-string">&quot;Some text ...&quot;</span>,
+      <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;text&quot;</span>,
+      <span class="hljs-attr">data</span>: <span class="hljs-string">&quot;Some text ...&quot;</span>,
     },
     <span class="hljs-comment">//</span>
     [<span class="hljs-string">&quot;Options&quot;</span>, <span class="hljs-string">&quot;SELF&quot;</span>],
@@ -90,12 +90,12 @@
 <a href="#template-or-file-with-options" id="template-or-file-with-options" style="color: inherit; text-decoration: none;">
   <h2>Template or file with options</h2>
 </a>
-<p>See <a data-sref="SectionRenderWithOptions" href="https://lamnhan.com/ayedocs/reference/interfaces/sectionrenderwithoptions.html"><code>SectionRenderWithOptions</code></a> for template or file with options:</p>
+<p>See <a data-sref="SectionRenderWithOptions" href="https://ayedocs.lamnhan.com/reference/interfaces/sectionrenderwithoptions.html"><code>SectionRenderWithOptions</code></a> for template or file with options:</p>
 <pre><code class="language-ts">{
-  section1: {
+  <span class="hljs-attr">section1</span>: {
     <span class="hljs-comment">// input</span>
-    template: <span class="hljs-string">&#x27;...&#x27;</span>, <span class="hljs-comment">// or</span>
-    file: <span class="hljs-string">&#x27;...&#x27;</span>,
+    <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;...&#x27;</span>, <span class="hljs-comment">// or</span>
+    <span class="hljs-attr">file</span>: <span class="hljs-string">&#x27;...&#x27;</span>,
     <span class="hljs-comment">// any options</span>
     <span class="hljs-comment">// for certain type of input</span>
     <span class="hljs-comment">// ...</span>

@@ -1,13 +1,13 @@
 <section id="content" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
 
 <p>You can add any custom sections to a document file (for standalone markdown files). <a href="#the-cli">The CLI</a> will replace any section exists in the configuration with generated content and keep others as is.</p>
-<p>These section called <strong>global section</strong>, and will be ignore if <code>cleanOuput</code> is set in <a data-sref="Options" href="https://lamnhan.com/ayedocs/reference/interfaces/options.html"><code>Options</code></a>.</p>
+<p>These section called <strong>global section</strong>, and will be ignore if <code>cleanOuput</code> is set in <a data-sref="Options" href="https://ayedocs.lamnhan.com/reference/interfaces/options.html"><code>Options</code></a>.</p>
 <p>You must wrap content inside the HTML <code>section</code> tag with a <strong>unique id</strong>.</p>
-<pre><code class="language-md"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">\section</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;xxx&quot;</span>&gt;</span></span>
+<pre><code class="language-md">&lt;\section id=&quot;xxx&quot;&gt;
 
 Any markdown content goes here!
 
-<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">\section</span>&gt;</span></span></code></pre>
+&lt;/\section&gt;</code></pre>
 <p>Section can also be put in the source file, called <strong>local section</strong>.</p>
 <p><strong>IMPORTANT</strong>: If the content has these structures, you must escape them to avoid conflicts:</p>
 <ul>

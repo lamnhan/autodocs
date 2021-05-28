@@ -29,7 +29,7 @@
   <h3>To standalone files</h3>
 </a>
 <p>To render one or more standalone files, great for markdown files such as <code>README.md</code>, ...</p>
-<p>Put your config under the <code>fileRender</code> key of the <a data-sref="Options" href="https://lamnhan.com/ayedocs/reference/interfaces/options.html"><code>Options</code></a>.</p>
+<p>Put your config under the <code>fileRender</code> key of the <a data-sref="Options" href="https://ayedocs.lamnhan.com/reference/interfaces/options.html"><code>Options</code></a>.</p>
 <pre><code class="language-js"><span class="hljs-comment">// .ayedocsrc.js</span>
 <span class="hljs-built_in">module</span>.exports = {
   <span class="hljs-attr">fileRender</span>: {
@@ -91,7 +91,7 @@
 <p>To render an advanced rendering (custom sections):</p>
 <pre><code class="language-ts">{
   <span class="hljs-string">&#x27;TEST.md&#x27;</span>: {
-    section1: [<span class="hljs-string">&#x27;Lib&#x27;</span>, <span class="hljs-string">&#x27;SELF&#x27;</span>]
+    <span class="hljs-attr">section1</span>: [<span class="hljs-string">&#x27;Lib&#x27;</span>, <span class="hljs-string">&#x27;SELF&#x27;</span>]
     <span class="hljs-comment">// more sections here</span>
   },
 }</code></pre>
@@ -99,12 +99,12 @@
 <a href="#with-rendering-options" id="with-rendering-options" style="color: inherit; text-decoration: none;">
   <h3>With rendering options</h3>
 </a>
-<p>See <a data-sref="FileRenderWithOptions" href="https://lamnhan.com/ayedocs/reference/interfaces/filerenderwithoptions.html"><code>FileRenderWithOptions</code></a> for further customize render.</p>
+<p>See <a data-sref="FileRenderWithOptions" href="https://ayedocs.lamnhan.com/reference/interfaces/filerenderwithoptions.html"><code>FileRenderWithOptions</code></a> for further customize render.</p>
 <pre><code class="language-ts">{
   <span class="hljs-comment">// input</span>
-  template: <span class="hljs-string">&#x27;...&#x27;</span>, <span class="hljs-comment">// or</span>
-  file: <span class="hljs-string">&#x27;...&#x27;</span>, <span class="hljs-comment">// or</span>
-  rendering: {},
+  <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;...&#x27;</span>, <span class="hljs-comment">// or</span>
+  <span class="hljs-attr">file</span>: <span class="hljs-string">&#x27;...&#x27;</span>, <span class="hljs-comment">// or</span>
+  <span class="hljs-attr">rendering</span>: {},
   <span class="hljs-comment">// any options</span>
   <span class="hljs-comment">// for certain type of rendering input</span>
   <span class="hljs-comment">// ...</span>

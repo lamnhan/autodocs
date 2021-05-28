@@ -30,14 +30,14 @@
 </a>
 <p>Options usually defined by an interface, example:</p>
 <pre><code class="language-ts"><span class="hljs-keyword">interface</span> Options {
-  option1: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">option1</span>: <span class="hljs-built_in">string</span>;
   option2?: <span class="hljs-built_in">boolean</span>;
   <span class="hljs-comment">// ...</span>
 }</code></pre>
 <p>You may document it by copy the source code, because it is Typescript so any developer can understand what you mean.</p>
 <p>Or, using <strong>ayedocs</strong> you can output a listing table of the options with a simple config:</p>
 <pre><code class="language-ts">{
-  options: [<span class="hljs-string">&#x27;Options&#x27;</span>, <span class="hljs-string">&#x27;SUMMARY_PROPERTIES&#x27;</span>],
+  <span class="hljs-attr">options</span>: [<span class="hljs-string">&#x27;Options&#x27;</span>, <span class="hljs-string">&#x27;SUMMARY_PROPERTIES&#x27;</span>],
 }</code></pre>
 
 <a href="#listing-methods" id="listing-methods" style="color: inherit; text-decoration: none;">
@@ -46,7 +46,7 @@
 <p>Just like showing the options, instead of manually copy and paste every method od a class with it <strong>type</strong>, <strong>parameters</strong>, ...</p>
 <p>You can listing methods of a class by providing a config:</p>
 <pre><code class="language-ts">{
-  lib: [<span class="hljs-string">&quot;Lib&quot;</span>, <span class="hljs-string">&quot;DETAIL_METHODS&quot;</span>];
+  <span class="hljs-attr">lib</span>: [<span class="hljs-string">&quot;Lib&quot;</span>, <span class="hljs-string">&quot;DETAIL_METHODS&quot;</span>];
 }</code></pre>
 
 <a href="#listing-commands-for-cli-apps" id="listing-commands-for-cli-apps" style="color: inherit; text-decoration: none;">
@@ -54,7 +54,7 @@
 </a>
 <p>Using our recommended structure for CLI apps, you can extract the list of commands easily with the <code>cli</code> template:</p>
 <pre><code class="language-ts">{
-  template: <span class="hljs-string">&#x27;cli&#x27;</span>,
+  <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;cli&#x27;</span>,
 }</code></pre>
 
 <a href="#listing-modules-services-components-pipes-for-angular-libraries" id="listing-modules-services-components-pipes-for-angular-libraries" style="color: inherit; text-decoration: none;">
@@ -62,7 +62,7 @@
 </a>
 <p>Use the <code>angular</code> template to listing all modules, services, components, pipes of an Angular lib:</p>
 <pre><code class="language-ts">{
-  template: <span class="hljs-string">&#x27;angular&#x27;</span>,
+  <span class="hljs-attr">template</span>: <span class="hljs-string">&#x27;angular&#x27;</span>,
 }</code></pre>
 
 <a href="#show-whatever-you-want" id="show-whatever-you-want" style="color: inherit; text-decoration: none;">

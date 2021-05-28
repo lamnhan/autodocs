@@ -1,5 +1,5 @@
 module.exports = {
-  url: 'https://lamnhan.com/ayedocs',
+  url: 'https://ayedocs.lamnhan.com',
   cleanOutput: true,
   fileRender: {
     'README.md': {
