@@ -41,7 +41,7 @@
     "chalk": "^4.1.0",
     "change-case": "^4.1.1",
     "commander": "^6.1.0",
-    "fs-extra": "^9.0.1",
+    "fs-extra": "^10.0.0",
     "marked": "^1.2.0",
     "prettier": "^2.1.2",
     "tty-table": "^4.1.3",
